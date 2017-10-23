@@ -1,0 +1,27 @@
+<mockup version="1.0" skin="wireframe" fontFace="Balsamiq Sans" measuredW="422" measuredH="611" mockupW="402" mockupH="562">
+  <controls>
+    <control controlID="62" controlTypeID="com.balsamiq.mockups::HSplitter" x="318" y="84" w="-1" h="527" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="-1"/>
+    <control controlID="63" controlTypeID="__group__" x="20" y="84" w="300" h="527" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Tree" x="0" y="0" w="300" h="527" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="63">
+          <controlProperties>
+            <text>f%20Project%20ZZ</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="64" controlTypeID="com.balsamiq.mockups::SearchBox" x="20" y="49" w="298" h="-1" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="-1"/>
+    <control controlID="66" controlTypeID="__group__" x="358" y="84" w="64" h="64" measuredW="0" measuredH="0" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <href>fg_ProjectAddBlank%26bm%3Bfg_ProjectAddBlank.bmml%26bm%3Bfg_ProjectAddBlank.bmml%26bm%3Bfg_ProjectAddBlank.bmml</href>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Component" x="0" y="0" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="66">
+          <controlProperties>
+            <src>./assets/Project%20Symbols.bmml#fgAddProject</src>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+  </controls>
+</mockup>

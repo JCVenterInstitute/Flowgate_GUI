@@ -1,0 +1,140 @@
+<mockup version="1.0" skin="wireframe" fontFace="Balsamiq Sans" measuredW="1220" measuredH="611" mockupW="1200" mockupH="579">
+  <controls>
+    <control controlID="25" controlTypeID="com.balsamiq.mockups::HSplitter" x="318" y="84" w="-1" h="527" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="-1"/>
+    <control controlID="26" controlTypeID="com.balsamiq.mockups::TextArea" x="344" y="32" w="876" h="34" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>center</align>
+        <bold>true</bold>
+        <size>16</size>
+        <text>Experiment%20Title</text>
+        <textColor>10066329</textColor>
+      </controlProperties>
+    </control>
+    <control controlID="38" controlTypeID="__group__" x="20" y="84" w="300" h="527" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Tree" x="0" y="0" w="300" h="527" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="38">
+          <controlProperties>
+            <text>F%20Project%20XYZ-1%0A%20%0A%20F%20Experiment%20Title%0A%20%0Af%20Project%20ZZ</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="__group__" x="15" y="28" w="19" h="63" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="38">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="__group__" x="0" y="0" w="19" h="63" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="1">
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="__group__" x="0" y="0" w="19" h="63" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+                  <groupChildrenDescriptors>
+                    <control controlID="1" controlTypeID="com.balsamiq.mockups::VRule" x="0" y="0" w="-1" h="63" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0"/>
+                    <control controlID="2" controlTypeID="com.balsamiq.mockups::HRule" x="4" y="25" w="15" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0"/>
+                  </groupChildrenDescriptors>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="44" controlTypeID="com.balsamiq.mockups::SearchBox" x="20" y="49" w="298" h="-1" measuredW="0" measuredH="0" zOrder="3" locked="false" isInGroup="-1"/>
+    <control controlID="56" controlTypeID="__group__" x="344" y="84" w="875" h="123" measuredW="0" measuredH="0" zOrder="4" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="__group__" x="0" y="0" w="875" h="123" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="56">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="__group__" x="0" y="0" w="875" h="123" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="__group__" x="0" y="0" w="875" h="123" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+                  <groupChildrenDescriptors>
+                    <control controlID="0" controlTypeID="__group__" x="0" y="0" w="875" h="123" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+                      <groupChildrenDescriptors>
+                        <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="875" h="123" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+                          <controlProperties>
+                            <align>left</align>
+                            <shape>roundRect</shape>
+                            <size>14</size>
+                            <text/>
+                          </controlProperties>
+                        </control>
+                        <control controlID="1" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="875" h="33" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0">
+                          <controlProperties>
+                            <align>left</align>
+                            <color>14540253</color>
+                            <shape>roundRect</shape>
+                            <size>14</size>
+                            <text>Experiment%20design/description</text>
+                          </controlProperties>
+                        </control>
+                        <control controlID="2" controlTypeID="__group__" x="842" y="3" w="29" h="27" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="0">
+                          <controlProperties>
+                            <controlName>BtnTaskBarMenu</controlName>
+                          </controlProperties>
+                          <groupChildrenDescriptors>
+                            <control controlID="3" controlTypeID="__group__" x="0" y="0" w="29" h="27" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="2">
+                              <controlProperties>
+                                <controlName>BtnTBarMenu</controlName>
+                              </controlProperties>
+                              <groupChildrenDescriptors>
+                                <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="29" h="27" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="3">
+                                  <controlProperties>
+                                    <color>14540253</color>
+                                    <shape>roundRect</shape>
+                                  </controlProperties>
+                                </control>
+                                <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="6" y="5" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="3">
+                                  <controlProperties>
+                                    <borderStyle>none</borderStyle>
+                                    <icon>ellipsis-v%7Cxsmall</icon>
+                                  </controlProperties>
+                                </control>
+                              </groupChildrenDescriptors>
+                            </control>
+                          </groupChildrenDescriptors>
+                        </control>
+                        <control controlID="5" controlTypeID="__group__" x="806" y="3" w="29" h="27" measuredW="0" measuredH="0" zOrder="3" locked="false" isInGroup="0">
+                          <controlProperties>
+                            <controlName>BtnTaskBarMenu</controlName>
+                          </controlProperties>
+                          <groupChildrenDescriptors>
+                            <control controlID="3" controlTypeID="__group__" x="0" y="0" w="29" h="27" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="5">
+                              <controlProperties>
+                                <controlName>BtnTBarMenu</controlName>
+                              </controlProperties>
+                              <groupChildrenDescriptors>
+                                <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="29" h="27" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="3">
+                                  <controlProperties>
+                                    <color>14540253</color>
+                                    <shape>roundRect</shape>
+                                  </controlProperties>
+                                </control>
+                                <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="6" y="5" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="3">
+                                  <controlProperties>
+                                    <borderStyle>none</borderStyle>
+                                    <icon>caret-up%7Cxsmall</icon>
+                                  </controlProperties>
+                                </control>
+                              </groupChildrenDescriptors>
+                            </control>
+                          </groupChildrenDescriptors>
+                        </control>
+                        <control controlID="6" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="81" w="875" h="-1" measuredW="0" measuredH="0" zOrder="4" locked="false" isInGroup="0"/>
+                        <control controlID="7" controlTypeID="com.balsamiq.mockups::Icon" x="8" y="91" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="5" locked="false" isInGroup="0">
+                          <controlProperties>
+                            <icon>info-circle%7Csmall</icon>
+                          </controlProperties>
+                        </control>
+                      </groupChildrenDescriptors>
+                    </control>
+                  </groupChildrenDescriptors>
+                </control>
+                <control controlID="3" controlTypeID="com.balsamiq.mockups::Label" x="10" y="42" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0">
+                  <controlProperties>
+                    <color>10066329</color>
+                    <href>fg_ExperimentAddedRunMode%26bm%3Bfg_ExperimentAddedRunMode.bmml%26bm%3Bfg_ExperimentAddedRunMode.bmml%26bm%3Bfg_ExperimentAddedRunMode.bmml</href>
+                    <text>Add%20a%20Experiment%20design/description%20here...</text>
+                  </controlProperties>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+  </controls>
+</mockup>

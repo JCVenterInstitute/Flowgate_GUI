@@ -1,0 +1,944 @@
+<mockup version="1.0" skin="wireframe" fontFace="Balsamiq Sans" measuredW="1394" measuredH="1100" mockupW="1393" mockupH="1097">
+  <controls>
+    <control controlID="12" controlTypeID="__group__" x="28" y="433" w="1280" h="224" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>Exp.1TaskAtomic</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="4" controlTypeID="__group__" x="1078" y="96" w="149" h="32" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="12">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="0" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="4">
+              <controlProperties>
+                <icon>plus%7Cmedium</icon>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="38" y="3" w="111" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="4">
+              <controlProperties>
+                <size>18</size>
+                <text>Internal%20Task</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="183" w="1280" h="-1" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="12"/>
+        <control controlID="7" controlTypeID="com.balsamiq.mockups::BlockOfText" x="712" y="55" w="341" h="112" measuredW="0" measuredH="0" zOrder="3" locked="false" isInGroup="12"/>
+        <control controlID="10" controlTypeID="__group__" x="0" y="0" w="1280" h="224" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="12">
+          <controlProperties>
+            <controlName>Experiment%201%20Task%20atomic</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="__group__" x="0" y="0" w="1280" h="224" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="10">
+              <controlProperties>
+                <controlName>Experiment%20</controlName>
+              </controlProperties>
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="__group__" x="0" y="0" w="1280" h="224" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+                  <groupChildrenDescriptors>
+                    <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="1280" h="224" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+                      <controlProperties>
+                        <align>left</align>
+                        <shape>roundRect</shape>
+                        <size>14</size>
+                        <text/>
+                      </controlProperties>
+                    </control>
+                    <control controlID="1" controlTypeID="com.balsamiq.mockups::TextArea" x="702" y="49" w="360" h="124" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0"/>
+                  </groupChildrenDescriptors>
+                </control>
+                <control controlID="1" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="1280" h="41" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0">
+                  <controlProperties>
+                    <align>left</align>
+                    <color>14540253</color>
+                    <shape>roundRect</shape>
+                    <size>14</size>
+                    <text>My%20Experiment%20Tasks</text>
+                  </controlProperties>
+                </control>
+                <control controlID="2" controlTypeID="com.balsamiq.mockups::Icon" x="1242" y="4" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="0">
+                  <controlProperties>
+                    <borderStyle>square</borderStyle>
+                    <icon>ellipsis-v%7Cmedium</icon>
+                  </controlProperties>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+            <control controlID="1" controlTypeID="__group__" x="64" y="90" w="622" h="45" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="10">
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="com.balsamiq.mockups::CheckBox" x="0" y="0" w="622" h="45" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="1">
+                  <controlProperties>
+                    <bold>true</bold>
+                    <size>18</size>
+                    <text/>
+                  </controlProperties>
+                </control>
+                <control controlID="1" controlTypeID="__group__" x="16" y="7" w="606" h="37" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="1">
+                  <groupChildrenDescriptors>
+                    <control controlID="0" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="27" w="606" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="1"/>
+                    <control controlID="1" controlTypeID="com.balsamiq.mockups::LineOfText" x="0" y="0" w="606" h="27" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="1"/>
+                  </groupChildrenDescriptors>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="13" controlTypeID="__group__" x="812" y="976" w="360" h="124" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>TextAreaFilledLg</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="2" controlTypeID="__group__" x="0" y="0" w="360" h="124" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="13">
+          <controlProperties>
+            <controlName>Text%20Area%20Filled%20Lg</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::TextArea" x="0" y="0" w="360" h="124" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="2"/>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::BlockOfText" x="10" y="6" w="341" h="112" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="2"/>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="14" controlTypeID="__group__" x="28" y="197" w="1280" h="220" measuredW="0" measuredH="0" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>Exp.TaskEmptyPanel</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="__group__" x="0" y="0" w="1280" h="220" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="14">
+          <controlProperties>
+            <controlName>Experiment%20Task%20Empty%20Panel%20</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="1280" h="220" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+              <controlProperties>
+                <align>left</align>
+                <shape>roundRect</shape>
+                <size>14</size>
+                <text/>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="1280" h="41" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0">
+              <controlProperties>
+                <align>left</align>
+                <color>14540253</color>
+                <shape>roundRect</shape>
+                <size>14</size>
+                <text>My%20Experiment%20Tasks</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="176" w="1280" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="14"/>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="16" controlTypeID="__group__" x="28" y="673" w="1366" h="283" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>Exp.2TaskAtomic</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="1329" y="4" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="16">
+          <controlProperties>
+            <borderStyle>square</borderStyle>
+            <icon>ellipsis-v%7Cmedium</icon>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="__group__" x="0" y="0" w="1366" h="283" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="16">
+          <controlProperties>
+            <controlName>Exp.2TaskAtomic</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="__group__" x="0" y="0" w="1366" h="283" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="3">
+              <controlProperties>
+                <controlName>Experiment%20Tasks%202%20atomic</controlName>
+              </controlProperties>
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="__group__" x="0" y="0" w="1366" h="283" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+                  <groupChildrenDescriptors>
+                    <control controlID="0" controlTypeID="__group__" x="0" y="0" w="1366" h="283" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+                      <groupChildrenDescriptors>
+                        <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="1366" h="283" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+                          <controlProperties>
+                            <align>left</align>
+                            <shape>roundRect</shape>
+                            <size>14</size>
+                            <text/>
+                          </controlProperties>
+                        </control>
+                        <control controlID="1" controlTypeID="__group__" x="53" y="90" w="500" h="45" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0">
+                          <groupChildrenDescriptors>
+                            <control controlID="0" controlTypeID="com.balsamiq.mockups::CheckBox" x="0" y="0" w="499" h="45" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="1">
+                              <controlProperties>
+                                <bold>true</bold>
+                                <size>18</size>
+                                <text/>
+                              </controlProperties>
+                            </control>
+                            <control controlID="1" controlTypeID="__group__" x="24" y="7" w="476" h="37" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="1">
+                              <groupChildrenDescriptors>
+                                <control controlID="0" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="27" w="476" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="1"/>
+                                <control controlID="1" controlTypeID="com.balsamiq.mockups::LineOfText" x="0" y="0" w="476" h="27" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="1"/>
+                              </groupChildrenDescriptors>
+                            </control>
+                          </groupChildrenDescriptors>
+                        </control>
+                        <control controlID="2" controlTypeID="com.balsamiq.mockups::BlockOfText" x="576" y="84" w="400" h="52" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="0"/>
+                        <control controlID="3" controlTypeID="com.balsamiq.mockups::BlockOfText" x="576" y="151" w="727" h="52" measuredW="0" measuredH="0" zOrder="3" locked="false" isInGroup="0"/>
+                        <control controlID="4" controlTypeID="com.balsamiq.mockups::BlockOfText" x="992" y="86" w="311" h="52" measuredW="0" measuredH="0" zOrder="4" locked="false" isInGroup="0"/>
+                        <control controlID="5" controlTypeID="com.balsamiq.mockups::Label" x="576" y="63" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="5" locked="false" isInGroup="0">
+                          <controlProperties>
+                            <text>Instructions</text>
+                          </controlProperties>
+                        </control>
+                        <control controlID="6" controlTypeID="com.balsamiq.mockups::Label" x="992" y="63" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="6" locked="false" isInGroup="0">
+                          <controlProperties>
+                            <text>Notes</text>
+                          </controlProperties>
+                        </control>
+                        <control controlID="7" controlTypeID="__group__" x="53" y="155" w="500" h="45" measuredW="0" measuredH="0" zOrder="7" locked="false" isInGroup="0">
+                          <groupChildrenDescriptors>
+                            <control controlID="0" controlTypeID="com.balsamiq.mockups::CheckBox" x="0" y="0" w="499" h="45" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="7">
+                              <controlProperties>
+                                <bold>true</bold>
+                                <size>18</size>
+                                <text/>
+                              </controlProperties>
+                            </control>
+                            <control controlID="1" controlTypeID="__group__" x="24" y="7" w="476" h="37" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="7">
+                              <groupChildrenDescriptors>
+                                <control controlID="0" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="27" w="476" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="1"/>
+                                <control controlID="1" controlTypeID="com.balsamiq.mockups::LineOfText" x="0" y="0" w="476" h="27" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="1"/>
+                              </groupChildrenDescriptors>
+                            </control>
+                          </groupChildrenDescriptors>
+                        </control>
+                        <control controlID="8" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="1366" h="41" measuredW="0" measuredH="0" zOrder="8" locked="false" isInGroup="0">
+                          <controlProperties>
+                            <align>left</align>
+                            <color>14540253</color>
+                            <shape>roundRect</shape>
+                            <size>14</size>
+                            <text>My%20Experiment%20Tasks</text>
+                          </controlProperties>
+                        </control>
+                      </groupChildrenDescriptors>
+                    </control>
+                  </groupChildrenDescriptors>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="238" w="1365" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="3"/>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="17" controlTypeID="__group__" x="28" y="976" w="406" h="60" measuredW="0" measuredH="0" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>TextAreaFilledSm</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="2" controlTypeID="__group__" x="0" y="0" w="406" h="60" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="17">
+          <controlProperties>
+            <controlName>Text%20Area%20Filled</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::TextArea" x="0" y="0" w="406" h="60" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="2"/>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::BlockOfText" x="11" y="3" w="385" h="55" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="2"/>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="26" controlTypeID="__group__" x="39" y="39" w="84" h="11" measuredW="0" measuredH="0" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>ProgrSlider1</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="__group__" x="0" y="0" w="84" h="11" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="26">
+          <controlProperties>
+            <controlName>ProgrSliderElement</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="0" w="74" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0"/>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="10" h="11" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0"/>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::RoundButton" x="74" y="0" w="10" h="11" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="0"/>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="27" controlTypeID="__group__" x="40" y="117" w="322" h="11" measuredW="0" measuredH="0" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>ProgrSlider2</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="0" w="312" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="27">
+          <controlProperties>
+            <color>6710886</color>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::RoundButton" x="74" y="0" w="10" h="11" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="27"/>
+        <control controlID="6" controlTypeID="com.balsamiq.mockups::RoundButton" x="153" y="0" w="10" h="11" measuredW="0" measuredH="0" zOrder="3" locked="false" isInGroup="27"/>
+        <control controlID="7" controlTypeID="com.balsamiq.mockups::RoundButton" x="232" y="0" w="10" h="11" measuredW="0" measuredH="0" zOrder="6" locked="false" isInGroup="27"/>
+        <control controlID="8" controlTypeID="com.balsamiq.mockups::RoundButton" x="312" y="0" w="10" h="11" measuredW="0" measuredH="0" zOrder="4" locked="false" isInGroup="27"/>
+        <control controlID="9" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="10" h="11" measuredW="0" measuredH="0" zOrder="5" locked="false" isInGroup="27">
+          <controlProperties>
+            <color>0</color>
+          </controlProperties>
+        </control>
+        <control controlID="10" controlTypeID="com.balsamiq.mockups::Arrow" x="11" y="5" w="105" h="1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="27">
+          <controlProperties>
+            <curvature>0</curvature>
+            <direction>top</direction>
+            <leftArrow>false</leftArrow>
+            <p0>0%2C0</p0>
+            <p1>0.5%2C0</p1>
+            <p2>104%2C0</p2>
+            <rightArrow>false</rightArrow>
+            <shape>line</shape>
+            <text/>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="28" controlTypeID="__group__" x="330" y="30" w="32" h="32" measuredW="0" measuredH="0" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnExpand</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="__group__" x="0" y="0" w="32" h="32" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="28">
+          <controlProperties>
+            <controlName>Expand%20Btn</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+              <controlProperties>
+                <color>14540253</color>
+                <shape>roundRect</shape>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="4" y="4" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0">
+              <controlProperties>
+                <icon>angle-down%7Csmall</icon>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="30" controlTypeID="__group__" x="378" y="30" w="32" h="32" measuredW="0" measuredH="0" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnCollabse</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="__group__" x="0" y="0" w="32" h="32" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="30">
+          <controlProperties>
+            <controlName>Expand%20Btn</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="3" controlTypeID="__group__" x="0" y="0" w="32" h="32" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+              <controlProperties>
+                <controlName>Collapse%20Btn</controlName>
+              </controlProperties>
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="3">
+                  <controlProperties>
+                    <color>14540253</color>
+                    <shape>roundRect</shape>
+                  </controlProperties>
+                </control>
+                <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="4" y="4" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="3">
+                  <controlProperties>
+                    <icon>angle-up%7Csmall</icon>
+                  </controlProperties>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="31" controlTypeID="__group__" x="495" y="30" w="128" h="38" measuredW="0" measuredH="0" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnTaskAdd</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="__group__" x="0" y="0" w="128" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="31">
+          <controlProperties>
+            <controlName>Add%20Task%20Btn</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="128" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+              <controlProperties>
+                <color>15658734</color>
+                <shape>roundRect</shape>
+                <text/>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="__group__" x="6" y="5" w="122" h="32" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0">
+              <controlProperties>
+                <controlName>Add%20Task%20Btn</controlName>
+              </controlProperties>
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="0" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="1">
+                  <controlProperties>
+                    <icon>plus%7Cmedium</icon>
+                  </controlProperties>
+                </control>
+                <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="39" y="3" w="83" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="1">
+                  <controlProperties>
+                    <size>18</size>
+                    <text>Task</text>
+                  </controlProperties>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="32" controlTypeID="__group__" x="639" y="30" w="158" h="38" measuredW="0" measuredH="0" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnProtocolAdd</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="__group__" x="0" y="0" w="158" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="32">
+          <controlProperties>
+            <controlName>AddProtocolBtn</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="158" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+              <controlProperties>
+                <color>15658734</color>
+                <shape>roundRect</shape>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="__group__" x="9" y="3" w="144" h="32" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0">
+              <controlProperties>
+                <controlName>Add%20Protocol%20Btn</controlName>
+              </controlProperties>
+              <groupChildrenDescriptors>
+                <control controlID="2" controlTypeID="__group__" x="0" y="0" w="144" h="32" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="1">
+                  <controlProperties>
+                    <controlName>Add%20Protocol%20Btn</controlName>
+                  </controlProperties>
+                  <groupChildrenDescriptors>
+                    <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="0" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="2">
+                      <controlProperties>
+                        <icon>calendar-plus-o%7Cmedium</icon>
+                      </controlProperties>
+                    </control>
+                    <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="34" y="3" w="110" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="2">
+                      <controlProperties>
+                        <size>18</size>
+                        <text>Add%20Protocol</text>
+                      </controlProperties>
+                    </control>
+                  </groupChildrenDescriptors>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="33" controlTypeID="__group__" x="812" y="30" w="193" h="38" measuredW="0" measuredH="0" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnTaskAddInternal1</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="__group__" x="0" y="0" w="193" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="33">
+          <controlProperties>
+            <controlName>AddInternalTask1Btn</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="193" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+              <controlProperties>
+                <color>15658734</color>
+                <shape>roundRect</shape>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="__group__" x="5" y="5" w="182" h="32" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0">
+              <controlProperties>
+                <controlName>Add%20Internal%20Task%20Btn</controlName>
+              </controlProperties>
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="0" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="1">
+                  <controlProperties>
+                    <icon>plus%7Cmedium</icon>
+                  </controlProperties>
+                </control>
+                <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="37" y="3" w="145" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="1">
+                  <controlProperties>
+                    <size>18</size>
+                    <text>Add%20Internal%20Task</text>
+                  </controlProperties>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="34" controlTypeID="__group__" x="1015" y="30" w="163" h="38" measuredW="0" measuredH="0" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnTaskAddInternal2</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="__group__" x="0" y="0" w="163" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="34">
+          <controlProperties>
+            <controlName>AddInternalTask2Btn</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="163" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+              <controlProperties>
+                <color>15658734</color>
+                <shape>roundRect</shape>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="__group__" x="4" y="5" w="150" h="32" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0">
+              <controlProperties>
+                <controlName>Add%20Internal%20Task%20Btn</controlName>
+              </controlProperties>
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="0" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="1">
+                  <controlProperties>
+                    <icon>plus%7Cmedium</icon>
+                  </controlProperties>
+                </control>
+                <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="36" y="1" w="114" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="1">
+                  <controlProperties>
+                    <size>18</size>
+                    <text>Internal%20Task</text>
+                  </controlProperties>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="35" controlTypeID="__group__" x="1188" y="30" w="193" h="38" measuredW="0" measuredH="0" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnManageAccess</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="__group__" x="0" y="0" w="193" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="35">
+          <controlProperties>
+            <controlName>ManageAccessBtn</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="__group__" x="0" y="0" w="193" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="193" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+                  <controlProperties>
+                    <color>15658734</color>
+                    <shape>roundRect</shape>
+                  </controlProperties>
+                </control>
+                <control controlID="1" controlTypeID="__group__" x="10" y="5" w="175" h="32" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0">
+                  <controlProperties>
+                    <controlName>Manage%20Access%20Btn</controlName>
+                  </controlProperties>
+                  <groupChildrenDescriptors>
+                    <control controlID="2" controlTypeID="__group__" x="0" y="0" w="175" h="32" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="1">
+                      <controlProperties>
+                        <controlName>Manage%20Access%20Btn</controlName>
+                      </controlProperties>
+                      <groupChildrenDescriptors>
+                        <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="0" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="2">
+                          <controlProperties>
+                            <icon>lock%7Cmedium</icon>
+                          </controlProperties>
+                        </control>
+                        <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="38" y="3" w="137" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="2">
+                          <controlProperties>
+                            <size>18</size>
+                            <text>Manage%20Access</text>
+                          </controlProperties>
+                        </control>
+                      </groupChildrenDescriptors>
+                    </control>
+                  </groupChildrenDescriptors>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="36" controlTypeID="__group__" x="495" y="81" w="128" h="38" measuredW="0" measuredH="0" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnTaskEdit</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="__group__" x="0" y="0" w="128" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="36">
+          <controlProperties>
+            <controlName>Edit%20Task%20Btn</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="128" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+              <controlProperties>
+                <color>15658734</color>
+                <shape>roundRect</shape>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="__group__" x="7" y="6" w="121" h="32" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0">
+              <controlProperties>
+                <controlName>Edit%20Task%20Btn</controlName>
+              </controlProperties>
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="0" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="1">
+                  <controlProperties>
+                    <icon>pencil-square-o%7Cmedium</icon>
+                  </controlProperties>
+                </control>
+                <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="38" y="3" w="83" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="1">
+                  <controlProperties>
+                    <size>18</size>
+                    <text>Edit%20Task</text>
+                  </controlProperties>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="37" controlTypeID="__group__" x="282" y="30" w="32" h="32" measuredW="0" measuredH="0" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnTaskBarMenu</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="3" controlTypeID="__group__" x="0" y="0" w="32" h="32" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="37">
+          <controlProperties>
+            <controlName>BtnTBarMenu</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="3">
+              <controlProperties>
+                <color>14540253</color>
+                <shape>roundRect</shape>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="0" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="3">
+              <controlProperties>
+                <borderStyle>none</borderStyle>
+                <icon>ellipsis-v%7Cmedium</icon>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="41" controlTypeID="__group__" x="490" y="132" w="44" h="49" measuredW="0" measuredH="0" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnNotes</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="3" controlTypeID="__group__" x="0" y="0" w="44" h="49" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="41">
+          <controlProperties>
+            <controlName>Notes%20Button</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="44" h="49" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="3">
+              <controlProperties>
+                <color>14540253</color>
+                <shape>rectangle</shape>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="5" y="12" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="3">
+              <controlProperties>
+                <icon>newspaper-o%7Cmedium</icon>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Icon" x="11" y="1" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="3">
+              <controlProperties>
+                <icon>pencil%7Cmedium</icon>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="42" controlTypeID="__group__" x="550" y="132" w="44" h="49" measuredW="0" measuredH="0" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnNotesDissable</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="1" controlTypeID="__group__" x="0" y="0" w="44" h="49" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="42">
+          <controlProperties>
+            <controlName>Notes%20Button%20Dissabled</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="3" controlTypeID="__group__" x="0" y="0" w="44" h="49" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="1">
+              <controlProperties>
+                <controlName>Notes%20Button</controlName>
+              </controlProperties>
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="44" h="49" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="3">
+                  <controlProperties>
+                    <borderColor>14540253</borderColor>
+                    <color>16777215</color>
+                    <shape>rectangle</shape>
+                  </controlProperties>
+                </control>
+                <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="5" y="12" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="3">
+                  <controlProperties>
+                    <color>13421772</color>
+                    <icon>newspaper-o%7Cmedium</icon>
+                  </controlProperties>
+                </control>
+                <control controlID="2" controlTypeID="com.balsamiq.mockups::Icon" x="11" y="1" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="3">
+                  <controlProperties>
+                    <color>13421772</color>
+                    <icon>pencil%7Cmedium</icon>
+                  </controlProperties>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="43" controlTypeID="__group__" x="630" y="132" w="35" h="36" measuredW="0" measuredH="0" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnNotesSm</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="__group__" x="0" y="0" w="35" h="36" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="43">
+          <controlProperties>
+            <controlName>Notes%20Button%20Sm</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="7" controlTypeID="__group__" x="0" y="0" w="35" h="36" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+              <controlProperties>
+                <controlName>BtnNotesSm</controlName>
+              </controlProperties>
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="35" h="36" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="7">
+                  <controlProperties>
+                    <color>14540253</color>
+                    <shape>roundRect</shape>
+                  </controlProperties>
+                </control>
+                <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="5" y="12" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="7">
+                  <controlProperties>
+                    <icon>newspaper-o%7Csmall</icon>
+                  </controlProperties>
+                </control>
+                <control controlID="2" controlTypeID="com.balsamiq.mockups::Icon" x="11" y="1" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="7">
+                  <controlProperties>
+                    <icon>pencil%7Csmall</icon>
+                  </controlProperties>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="44" controlTypeID="__group__" x="678" y="132" w="35" h="36" measuredW="0" measuredH="0" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnNotesSmDissable</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="6" controlTypeID="__group__" x="0" y="0" w="35" h="36" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="44">
+          <controlProperties>
+            <controlName>Notes%20Button%20Sm%20Dissabled</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="3" controlTypeID="__group__" x="0" y="0" w="35" h="36" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="6">
+              <controlProperties>
+                <controlName>Button%20Notes%20Sm%20Dissabled</controlName>
+              </controlProperties>
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="35" h="36" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="3">
+                  <controlProperties>
+                    <borderColor>10066329</borderColor>
+                    <color>15658734</color>
+                    <shape>roundRect</shape>
+                  </controlProperties>
+                </control>
+                <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="5" y="12" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="3">
+                  <controlProperties>
+                    <color>10066329</color>
+                    <icon>newspaper-o%7Csmall</icon>
+                  </controlProperties>
+                </control>
+                <control controlID="2" controlTypeID="com.balsamiq.mockups::Icon" x="11" y="1" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="3">
+                  <controlProperties>
+                    <color>10066329</color>
+                    <icon>pencil%7Csmall</icon>
+                  </controlProperties>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="45" controlTypeID="__group__" x="639" y="81" w="161" h="38" measuredW="0" measuredH="0" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnUploadPicture</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="10" y="3" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="45">
+          <controlProperties>
+            <icon>camera%7Cmedium</icon>
+          </controlProperties>
+        </control>
+        <control controlID="4" controlTypeID="__group__" x="0" y="0" w="161" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="45">
+          <controlProperties>
+            <controlName>Upload%20Picture%20Button</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="__group__" x="0" y="0" w="161" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="4">
+              <groupChildrenDescriptors>
+                <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="161" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+                  <controlProperties>
+                    <color>15658734</color>
+                    <shape>roundRect</shape>
+                    <text/>
+                  </controlProperties>
+                </control>
+                <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="48" y="9" w="110" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0">
+                  <controlProperties>
+                    <size>16</size>
+                    <text>Upload%20Picture</text>
+                  </controlProperties>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="47" controlTypeID="__group__" x="812" y="81" w="193" h="38" measuredW="0" measuredH="0" zOrder="21" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnSaveAsProtocol</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="5" controlTypeID="__group__" x="0" y="0" w="193" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="47">
+          <controlProperties>
+            <controlName>Button%20Save%20as%20Protocol</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="__group__" x="0" y="0" w="193" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="5">
+              <groupChildrenDescriptors>
+                <control controlID="2" controlTypeID="__group__" x="0" y="0" w="193" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+                  <groupChildrenDescriptors>
+                    <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="193" h="38" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="2">
+                      <controlProperties>
+                        <color>15658734</color>
+                        <shape>roundRect</shape>
+                      </controlProperties>
+                    </control>
+                    <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="44" y="9" w="145" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="2">
+                      <controlProperties>
+                        <size>18</size>
+                        <text>Save%20As%20Protocol</text>
+                      </controlProperties>
+                    </control>
+                  </groupChildrenDescriptors>
+                </control>
+              </groupChildrenDescriptors>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="6" y="3" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="5">
+              <controlProperties>
+                <icon>floppy-o%7Cmedium</icon>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="48" controlTypeID="__group__" x="729" y="119" w="116" h="89" measuredW="0" measuredH="0" zOrder="22" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnBack</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="3" controlTypeID="__group__" x="0" y="0" w="116" h="89" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="48">
+          <controlProperties>
+            <controlName>Button%20Back</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="116" h="89" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="3">
+              <controlProperties>
+                <color>14540253</color>
+                <shape>roundRect</shape>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="12" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="3">
+              <controlProperties>
+                <icon>arrow-left%7Cxlarge</icon>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Label" x="64" y="34" w="46" h="-1" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="3">
+              <controlProperties>
+                <bold>true</bold>
+                <size>18</size>
+                <text>Back</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="49" controlTypeID="__group__" x="861" y="119" w="116" h="89" measuredW="0" measuredH="0" zOrder="23" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>BtnNext</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="3" controlTypeID="__group__" x="0" y="0" w="116" h="89" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="49">
+          <controlProperties>
+            <controlName>Button%20Next</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="116" h="89" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="3">
+              <controlProperties>
+                <color>14540253</color>
+                <shape>roundRect</shape>
+                <text/>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="52" y="12" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="3">
+              <controlProperties>
+                <icon>arrow-right%7Cxlarge</icon>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Label" x="9" y="31" w="43" h="-1" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="3">
+              <controlProperties>
+                <bold>true</bold>
+                <size>18</size>
+                <text>Next</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="50" controlTypeID="__group__" x="1" y="3" w="26" h="17" measuredW="0" measuredH="0" zOrder="24" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>AcsPlaceholder</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="__group__" x="0" y="0" w="26" h="17" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="50">
+          <controlProperties>
+            <controlName>acs</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="0" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="0">
+              <controlProperties>
+                <icon>at%7Cxsmall</icon>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="16" y="0" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="0">
+              <controlProperties>
+                <size>9</size>
+                <text>cs</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+  </controls>
+</mockup>

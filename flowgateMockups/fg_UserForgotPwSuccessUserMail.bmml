@@ -1,0 +1,39 @@
+<mockup version="1.0" skin="wireframe" fontFace="Balsamiq Sans" measuredW="748" measuredH="426" mockupW="645" mockupH="306">
+  <controls>
+    <control controlID="36" controlTypeID="com.balsamiq.mockups::Canvas" x="135" y="158" w="613" h="268" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="-1"/>
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::Label" x="271" y="168" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>16</size>
+        <text>Flowgate%20New%20User%20Account</text>
+      </controlProperties>
+    </control>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::Label" x="175" y="246" w="406" h="-1" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Your%20account%20registration%20email%20was%20sent%20-%20please%20check%20your%20mail%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="39" controlTypeID="com.balsamiq.mockups::Icon" x="103" y="120" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>envelope%7Clarge</icon>
+      </controlProperties>
+    </control>
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::TextArea" x="167" y="200" w="559" h="195" measuredW="0" measuredH="0" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Hi%20NewuserX%2C%0A%20%0AYou%20%28or%20someone%20pretending%20to%20be%20you%29%20created%20a%20flowgate%20account%20with%20this%20email%20address.%0AIf%20you%20made%20the%20request%2C%20please%20click%20%5Bhere%5D%20to%20finish%20the%20registration.</text>
+        <underline>false</underline>
+      </controlProperties>
+    </control>
+    <control controlID="41" controlTypeID="com.balsamiq.mockups::TextArea" x="167" y="200" w="559" h="195" measuredW="0" measuredH="0" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Hi%20DummyUser%2C%0A%20%0AYou%20%28or%20someone%20pretending%20to%20be%20you%29%20requested%20that%20your%20password%20be%20reset.%0AIf%20you%20did%20not%20make%20this%20request%20then%20ignore%20the%20email%3B%20no%20changes%20have%20been%20made.%0AIf%20you%20did%20make%20the%20request%2C%20then%20please%20click%20%5Bhere%5D%28fg_UserResetPassword%29%20to%20reset%20your%20password.</text>
+        <underline>false</underline>
+      </controlProperties>
+    </control>
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::Label" x="159" y="132" w="110" h="-1" measuredW="0" measuredH="0" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%28sent%20to%20new%20user%29</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

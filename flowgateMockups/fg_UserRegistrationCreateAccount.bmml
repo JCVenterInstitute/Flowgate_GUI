@@ -1,0 +1,81 @@
+<mockup version="1.0" skin="wireframe" fontFace="Balsamiq Sans" measuredW="744" measuredH="579" mockupW="694" mockupH="529">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="50" y="50" w="694" h="529" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>A%20Web%20Page%0Ahttp%3A//flowgate/register</text>
+      </controlProperties>
+    </control>
+    <control controlID="35" controlTypeID="__group__" x="52" y="122" w="691" h="23" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>fgNavbarNeutral</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="690" h="23" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="35">
+          <controlProperties>
+            <align>left</align>
+            <color>14540253</color>
+            <shape>rectangle</shape>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::SubTitle" x="7" y="5" w="64" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="35">
+          <controlProperties>
+            <color>0</color>
+            <size>14</size>
+            <text>Flowgate</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::Button" x="561" y="0" w="130" h="23" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="35">
+          <controlProperties>
+            <menuIcon>false</menuIcon>
+            <size>14</size>
+            <state>up</state>
+            <text>%5BLogin%5D</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="43" controlTypeID="__group__" x="135" y="200" w="508" h="268" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="508" h="268" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="43"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Button" x="156" y="228" w="196" h="24" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="43">
+          <controlProperties>
+            <state>disabled</state>
+            <text>Create%20Account</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::TextInput" x="51" y="49" w="407" h="-1" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="43">
+          <controlProperties>
+            <text>Username</text>
+            <textColor>13421772</textColor>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::TextInput" x="51" y="129" w="407" h="-1" measuredW="0" measuredH="0" zOrder="3" locked="false" isInGroup="43">
+          <controlProperties>
+            <text>Password</text>
+            <textColor>13421772</textColor>
+          </controlProperties>
+        </control>
+        <control controlID="4" controlTypeID="com.balsamiq.mockups::Label" x="136" y="10" w="216" h="-1" measuredW="0" measuredH="0" zOrder="4" locked="false" isInGroup="43">
+          <controlProperties>
+            <bold>true</bold>
+            <size>16</size>
+            <text>Create%20A%20New%20User%20Account</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::TextInput" x="51" y="169" w="407" h="-1" measuredW="0" measuredH="0" zOrder="5" locked="false" isInGroup="43">
+          <controlProperties>
+            <text>Password%20%28again%29</text>
+            <textColor>13421772</textColor>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="com.balsamiq.mockups::TextInput" x="51" y="89" w="407" h="-1" measuredW="0" measuredH="0" zOrder="6" locked="false" isInGroup="43">
+          <controlProperties>
+            <text>E-Mail</text>
+            <textColor>13421772</textColor>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+  </controls>
+</mockup>

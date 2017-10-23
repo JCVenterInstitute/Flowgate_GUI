@@ -1,0 +1,66 @@
+<mockup version="1.0" skin="wireframe" fontFace="Balsamiq Sans" measuredW="744" measuredH="579" mockupW="725" mockupH="568">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="50" y="50" w="694" h="529" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>A%20Web%20Page%0Ahttp%3A//flowgate/register</text>
+      </controlProperties>
+    </control>
+    <control controlID="36" controlTypeID="__group__" x="135" y="200" w="487" h="222" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="487" h="222" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="36"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="171" y="9" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="36">
+          <controlProperties>
+            <bold>true</bold>
+            <size>16</size>
+            <text>Forgot%20Password</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::Label" x="41" y="62" w="405" h="-1" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="36">
+          <controlProperties>
+            <text>Your%20password%20reset%20e-mail%20was%20sent%20-%20Please%20check%20your%20inbox%21</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="37" controlTypeID="__group__" x="52" y="122" w="691" h="23" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>fgNavbarNeutral</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="690" h="23" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="37">
+          <controlProperties>
+            <align>left</align>
+            <color>14540253</color>
+            <shape>rectangle</shape>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::SubTitle" x="7" y="5" w="64" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="37">
+          <controlProperties>
+            <color>0</color>
+            <size>14</size>
+            <text>Flowgate</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::Button" x="561" y="0" w="130" h="23" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="37">
+          <controlProperties>
+            <menuIcon>false</menuIcon>
+            <size>14</size>
+            <state>up</state>
+            <text>Login</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::Icon" x="19" y="11" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>envelope%7Clarge</icon>
+      </controlProperties>
+    </control>
+    <control controlID="39" controlTypeID="com.balsamiq.mockups::Label" x="75" y="23" w="110" h="-1" measuredW="0" measuredH="0" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%28%5Bsent%20to%20new%20user%5D%28fg_UserForgotPwSuccessUserMail%29%29</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

@@ -1,0 +1,68 @@
+<mockup version="1.0" skin="wireframe" fontFace="Balsamiq Sans" measuredW="1101" measuredH="517" mockupW="1051" mockupH="510">
+  <controls>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::Canvas" x="50" y="50" w="1051" h="467" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>roundedSolid</borderStyle>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::Label" x="542" y="11" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>16</size>
+        <text>Projects</text>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Icon" x="1069" y="7" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <href>fg_Projects_CardView%26bm%3Bfg_Projects_CardView.bmml%26bm%3Bfg_Projects_CardView.bmml%26bm%3Bfg_Projects_CardView.bmml</href>
+        <icon>th%7Cmedium</icon>
+      </controlProperties>
+    </control>
+    <control controlID="24" controlTypeID="com.balsamiq.mockups::Component" x="50" y="116" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/Project%20Symbols.bmml#fgList_ProjLocked_lg</src>
+      </controlProperties>
+    </control>
+    <control controlID="25" controlTypeID="com.balsamiq.mockups::Component" x="50" y="246" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/Project%20Symbols.bmml#fgList_ProjLocked_lg</src>
+      </controlProperties>
+    </control>
+    <control controlID="28" controlTypeID="__group__" x="50" y="376" w="1051" h="130" measuredW="0" measuredH="0" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>fgList_ProjUnlocked_lg</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Component" x="0" y="0" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="0" locked="false" isInGroup="28">
+          <controlProperties>
+            <override controlID="3">
+              <text>Project%20XYZ-1</text>
+            </override>
+            <src>./assets/Project%20Symbols.bmml#fgList_ProjLocked_lg</src>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="1019" y="67" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="28">
+          <controlProperties>
+            <color>10066329</color>
+            <href>fg_ProjectExperimentsAddedCardViewExpanded%209%26bm%3Bfg_ProjectExperimentsAddedCardViewExpanded%209.bmml%26bm%3Bfg_ProjectExperimentsAddedCardViewExpanded%209.bmml%26bm%3Bfg_ProjectExperimentsAddedCardViewExpanded%209.bmml</href>
+            <icon>chevron-right%7Csmall</icon>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="30" controlTypeID="com.balsamiq.mockups::SearchBox" x="66" y="70" w="973" h="-1" measuredW="0" measuredH="0" zOrder="6" locked="false" isInGroup="-1"/>
+    <control controlID="31" controlTypeID="com.balsamiq.mockups::Button" x="1055" y="71" w="30" h="25" measuredW="0" measuredH="0" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>X</text>
+      </controlProperties>
+    </control>
+    <control controlID="32" controlTypeID="com.balsamiq.mockups::Icon" x="1037" y="7" w="-1" h="-1" measuredW="0" measuredH="0" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <href>fg_ProjectAddBlank%26bm%3Bfg_ProjectAddBlank.bmml%26bm%3Bfg_ProjectAddBlank.bmml%26bm%3Bfg_ProjectAddBlank.bmml</href>
+        <icon>plus%7Cmedium</icon>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
