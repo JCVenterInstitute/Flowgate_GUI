@@ -1,0 +1,6 @@
+response.status 401
+
+json {
+	message "Not Allowed / Unauthorized!"
+	error 401
+}

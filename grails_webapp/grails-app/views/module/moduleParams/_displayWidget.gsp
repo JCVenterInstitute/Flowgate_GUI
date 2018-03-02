@@ -1,0 +1,2 @@
+module moduleParams
+*${value}*

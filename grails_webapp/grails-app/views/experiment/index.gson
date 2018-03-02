@@ -1,0 +1,8 @@
+import flowgate.Experiment
+
+model {
+	Iterable<Experiment> experimentList
+}
+
+json tmpl.experiment(experimentList ?: [])
+

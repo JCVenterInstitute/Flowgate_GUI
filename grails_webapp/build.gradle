@@ -1,0 +1,178 @@
+buildscript {
+    ext {
+        grailsVersion = project.grailsVersion
+        bootstrapFramework = [
+            version             : "3.3.7",
+            cssPath             : "grails-app/assets/stylesheets",
+            jsPath              : "grails-app/assets/javascripts",
+        //    useIndividualJs     : false,
+            useLess             : true,
+        //    invalidVersionFails : false,
+            fontAwesome : [
+               install             : true,
+               version             : "4.7.0",
+               useLess             : true
+        //       invalidVersionFails : false
+            ]
+        ]
+    }
+    repositories {
+        jcenter()
+        mavenLocal()
+        maven {
+            url "https://repo.grails.org/grails/core"
+//            url "https://repo.grails.org/grails/repo"
+        }
+    }
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+        classpath "org.grails.plugins:hibernate5:6.1.0"
+//        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.8.1"
+        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.11.6"
+        classpath "org.grails.plugins:views-gradle:1.1.6"
+        classpath "com.siprell.plugins:bootstrap-framework:1.0.3"
+    }
+}
+
+version "1.0"
+group "flowgate"
+
+apply plugin:"eclipse"
+apply plugin:"idea"
+apply plugin:"war"
+apply plugin:"org.grails.grails-web"
+apply plugin:"org.grails.grails-gsp"
+apply plugin:"org.grails.plugins.views-json"
+apply plugin:"asset-pipeline"
+//apply plugin:"com.siprell.plugins.bootstrap-framework"
+
+
+war {
+    archiveName "${war.baseName}.war"
+}
+
+repositories {
+    mavenLocal()
+    maven { url "https://repo.grails.org/grails/core" }
+    mavenCentral()
+    /*
+    flatDir {
+        dirs './libs'
+    }
+    */
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.grails:grails-bom:$grailsVersion"
+    }
+    applyMavenExclusions false
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    assets "com.bertramlabs.plugins:less-asset-pipeline:$assetPipelineVersion"
+    compile "org.springframework.boot:spring-boot-starter-logging"
+    compile "org.springframework.boot:spring-boot-autoconfigure"
+    compile "org.grails:grails-core"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-tomcat"
+    compile "org.grails:grails-dependencies"
+    compile "org.grails:grails-web-boot"
+    compile "org.grails.plugins:cache"
+    compile "org.grails.plugins:scaffolding"
+    compile "org.grails.plugins:hibernate5"
+    compile 'org.grails.plugins:spring-security-core:3.1.2'
+//    compile 'org.grails.plugins:spring-security-core:3.2.0.M1'
+//    compile 'org.grails.plugins:spring-security-core:3.1.1'
+    compile 'org.grails.plugins:grails-spring-security-ui:3.1.0-BUILD-SNAPSHOT'
+//    compile 'org.grails.plugins:spring-security-ui:3.0.0.M2'
+//    compile 'org.grails.plugins:spring-security-ui:3.1.0-acs'
+    compile 'org.grails.plugins:spring-security-rest:2.0.0.M2'
+    compile 'org.grails.plugins:mail:2.0.0.RC6'
+    compile "org.hibernate:hibernate-core:5.1.2.Final"
+    compile "org.hibernate:hibernate-ehcache:5.1.2.Final"
+    compile "org.grails.plugins:views-json"
+    compile "org.grails.plugins:views-json-templates"
+    console "org.grails:grails-console"
+//    compile "org.grails.plugins:gsp"
+    profile "org.grails.profiles:web"
+    profile "org.grails.profiles:rest-api"
+//    assets "com.bertramlabs.plugins:asset-pipeline-grails:2.14.2"
+//    runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.14.2"
+    runtime "com.h2database:h2"
+//    compile 'org.grails:grails-datastore-rest-client:5.0.0.RC2'
+    compile 'org.grails:grails-datastore-rest-client'
+
+
+//    compile "org.grails:http-client:1.0.0.M1"
+//    compile "org.grails:http-client"
+//    compile "org.grails.plugins:async-http-builder:1.0.0.M1"
+//    compile "org.grails.plugins:async-http-builder"
+
+//    TODO probieren!!!
+    compile 'org.grails.plugins:http-builder-helper:1.1.0'
+//    compile 'org.grails.plugins:http-builder-helper:1.1.0'
+
+
+//    compile "com.budjb:http-requests:1.0.2"
+//    compile "com.budjb:http-requests-core:1.0.2"
+//    compile "com.budjb:http-requests-grails:1.0.2"
+//    compile "com.budjb:http-requests-httpcomponents-client:1.0.2"
+//    compile 'com.budjb:http-requests-grails:1.0.2'
+
+//    compile "org.grails.plugins:grails-http-builder-helper:1.1.0"
+
+//    compile "org.grails.plugins:async-http-builder:1.0.0-SNAPSHOT"
+
+/*
+
+//    String gormVersion = "5.0.4.RELEASE"
+//    compile "org.grails:grails-datastore-core:$gormVersion"
+    compile "org.grails:grails-datastore-core:5.0.4.RELEASE"
+	//compile "org.grails:grails-datastore-validation"
+    compile "org.grails:grails-datastore-gorm-support:5.0.4.RELEASE"
+//    compile "org.grails:grails-datastore-gorm:$gormVersion"
+    compile "org.grails:grails-datastore-gorm:5.0.4.RELEASE"
+    compile "org.grails:grails-datastore-simple:5.0.4.RELEASE"
+    compile "org.grails:grails-datastore-gorm-hibernate:5.0.4.RELEASE"
+    compile "org.grails:grails-datastore-gorm-hibernate-core:5.0.4.RELEASE"
+//
+*/
+
+//    compile 'org.grails.plugins:hibernate4:5.0.4'
+//    compile 'org.grails:grails-datastore-core:5.0.4.RELEASE'
+//    compile 'org.grails:grails-datastore-gorm-support:5.0.4.RELEASE'
+//    compile 'org.grails:grails-datastore-gorm:5.0.4.RELEASE'
+//    compile 'org.grails:grails-datastore-simple:5.0.4.RELEASE'
+//    compile 'org.grails:grails-datastore-gorm-hibernate4:5.0.4.RELEASE'
+//    compile 'org.grails:grails-datastore-gorm-hibernate-core:5.0.4.RELEASE'
+
+//    runtime "org.grails.plugins:asset-pipeline"
+
+    compile "com.nayidisha.grails.uploadr:grails3-uploadr:3.0"
+
+
+    testCompile "org.grails:grails-plugin-testing"
+    testCompile "org.grails.plugins:geb"
+    testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
+    testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+}
+
+bootRun {
+    jvmArgs = ['-Dspring.output.ansi.enabled=always']
+}
+
+assets {
+    minifyJs = true
+    minifyCss = true
+    excludes = ['**/*.less', '**/analysisExample/*', '**/font-awesome/*']
+    includes = ['application.less', 'fonts/*']
+    configOptions = [
+      less: [
+        compiler: 'less4j' // or standard
+      ]
+    ]
+}
+
+apply from: 'gradle/docker.gradle'

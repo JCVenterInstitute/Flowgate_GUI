@@ -1,0 +1,108 @@
+/*
+html, body {height: 100%; min-height: 100%}
+
+.vDividerBetween > [class*='col-']:before,
+.vDividerBetween > [class*='col-']:not(first-child):before,
+.vDividerBetween > [class*='col-']:not(last-child):before {
+  !*
+  background: #b2b2b2;
+  //bottom: 100%;
+  bottom: 0;
+  content: "";
+  position: absolute;
+  width: 1px;
+  top: 0;
+  margin: -20px;
+  //height: 100%;
+  *!
+  content: '';
+  width: 0;
+  height: 100%;
+  position: absolute;
+  border: 1px solid black;
+  top: 0;
+  left: 100px;
+}
+
+.vDividerBetween > [class*='col-']:first-child:before,
+.vDividerBetween > [class*='col-']:first-child:after,
+.vDividerBetween > [class*='col-']:last-child:after {
+  display: none;
+}
+
+@media ( min-width: 768px ) {
+  .grid-divider {
+    position: relative;
+    padding: 0;
+  }
+  .grid-divider>[class*='col-'] {
+    position: static;
+  }
+  .grid-divider>[class*='col-']:nth-child(n+2):before {
+    content: "";
+    border-left: 1px solid #DDD;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+  .col-padding {
+    padding: 0 15px;
+  }
+}
+
+
+.vertical-divider {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  height: 50%;
+  line-height: 0;
+  text-align:center;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+}
+
+.vertical-divider:before,
+.vertical-divider:after {
+  position: absolute;
+  left: 50%;
+  content: '';
+  z-index: 9;
+  border-left: 1px solid rgba(34,36,38,.15);
+  border-right: 1px solid rgba(255,255,255,.1);
+  width: 0;
+  height: calc(100% - 1rem);
+}
+
+.row-divided > .vertical-divider {
+  height: calc(50% - 1rem);
+}
+
+.vertical-divider:before {
+  top: -100%;
+}
+
+.vertical-divider:after {
+  top: auto;
+  bottom: 0;
+}
+
+.row-divided {
+  position:relative;
+}
+
+.row-divided > [class^="col-"],
+.row-divided > [class*=" col-"] {
+  padding-left: 30px;  !* gutter width (give a little extra room) 2x default *!
+  padding-right: 30px; !* gutter width (give a little extra room) 2x default *!
+}
+*/
+
+
+.jumbotron {
+  padding: 15px;
+}

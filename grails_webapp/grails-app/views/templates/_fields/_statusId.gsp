@@ -1,0 +1,1 @@
+<f:display bean="${bean}" property="${p == 1 ? 'init' : ''}" displayStyle="${displayStyle?:'table'}"/>

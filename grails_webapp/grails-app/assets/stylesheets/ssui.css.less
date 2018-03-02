@@ -1,0 +1,52 @@
+
+/*
+* This is a manifest file that'll be compiled into application.css, which will include all the files
+* listed below.
+*
+* Any CSS file within this directory can be referenced here using a relative path.
+*
+* You're free to add application-wide styles to this file and they'll appear at the top of the
+* compiled file, but it's generally better to create a new file per style scope.
+*
+*= require bootstrap
+*= require grails
+*= require common
+* = require main
+*= require mobile
+*= require_self
+*/
+@import "less-vars";
+
+.footer {
+    //background: #48802c;
+    //background: @themeMainColor;
+    background: @themeMainColor;
+    color: #000;
+    clear: both;
+    font-size: 0.8em;
+    margin-top: 1.5em;
+    padding: 1em;
+    min-height: 1em;
+}
+
+.footer a {
+    color: #4D8618;
+}
+
+.navbar {
+    //background-color: #00b3ee;
+    min-height: 30px;
+}
+
+.navbar-brand {
+    padding: 0 15px;
+    height: 35px;
+    line-height: 30px;
+}
+
+.navbar-toggle {
+    margin-top: 0;
+    padding: 0;
+}
+
+

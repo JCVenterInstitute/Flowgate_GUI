@@ -1,0 +1,7 @@
+import flowgate.Experiment
+
+model {
+	Experiment experiment
+}
+
+json tmpl.experiment(experiment)
