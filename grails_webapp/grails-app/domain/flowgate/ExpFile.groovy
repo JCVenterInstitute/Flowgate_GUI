@@ -10,6 +10,7 @@ class ExpFile {
     String title
     String fileName
     String filePath
+    String chkSum
     User createdBy
     Date dateCreated
     Boolean isActive = true

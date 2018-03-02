@@ -11,6 +11,7 @@ import grails.transaction.Transactional
 class ExpFileController {
 
     def fcsService
+    def chkSumService
     def utilsService
     def springSecurityService
 
@@ -208,42 +209,30 @@ class ExpFileController {
 //
 //        }
         String fcsStoragePath = grailsApplication.config.getProperty('fcsFileStoreLocation.path', String)
-        if(request.multiFileMap.get("actFcsFile").findAll { !it.empty }.size<1){
+        def ulFiles = request.multiFileMap.get("actFcsFile")
+        if(ulFiles.findAll { !it.empty }.size<1){
             flash.errMsg = 'E: no file selected!'
             redirect action: 'expFileCreate', eId: experiment.id
             return
 
         }
         else {
-            request.multiFileMap.get("actFcsFile").each {
-                println it.originalFilename
-//            def fcsFile = it.part.fileItem.tempFile
-//            TODO check gatstancap function
-                def fcsFile = it
-//            if(fcsFile.part.fileItem.tempFile.exists() && fcsFile.part.fileItem.tempFile.length>0){
+            ulFiles.each { fcsFile ->
+                println fcsFile.originalFilename
                 if (fcsFile.part.fileItem.tempFile.exists()) {
+                    def sha1 = chkSumService.getSha1sum(fcsFile.part.fileItem.tempFile)
+                    def md5 = chkSumService.getMD5sum(fcsFile.part.fileItem.tempFile)
+                    if(ExpFile.findAllByChkSum(sha1)){
+                        println "file with same checksum (${sha1}) already exists"
+                    }
                     fcsService.readFile(fcsFile.part.fileItem.tempFile, false)
-                    ExpFile expFile = new ExpFile(experiment: experiment, title: it.originalFilename, fileName: it.originalFilename, filePath: fcsStoragePath, createdBy: springSecurityService.currentUser).save()
-                    fcsFile.transferTo(new File("${fcsStoragePath}${it.originalFilename}"))
+                    ExpFile expFile = new ExpFile(experiment: experiment, chkSum: sha1, title: fcsFile.originalFilename, fileName: fcsFile.originalFilename, filePath: fcsStoragePath, createdBy: springSecurityService.currentUser).save()
+                    fcsFile.transferTo(new File("${fcsStoragePath}${fcsFile.originalFilename}"))
                     experiment.expFiles.add(expFile)
                 }
             }
-//        request.fileNames.each{ file ->
-//            File file= request.getFile(it)
-//        }
-
-//        File myFcsFile = partFile.part.fileItem.tempFile
-//        if(myFcsFile) {
-//            fcsService.readFile(myFcsFile, true)
-//        }
-
-//            redirect action: 'annotation', id: experiment.id   //, model: [expi: Experiment.get(1), expId2: Experiment.get(1)]
             redirect action: 'annotationTbl', id: experiment.id   //, model: [expi: Experiment.get(1), expId2: Experiment.get(1)]
         }
-    }
-
-    def uploadFcsFiles2(){
-        println params?.dump()
     }
 
     def toggleFilter(){

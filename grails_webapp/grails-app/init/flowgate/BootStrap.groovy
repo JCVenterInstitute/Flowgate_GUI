@@ -62,9 +62,9 @@ class BootStrap {
                     ExperimentUser.create(exp2, userUser, 'owner')
                     ExperimentUser.create(exp3, adminUser, 'owner')
                     ExperimentUser.create(exp3, userUser, 'member')
-                    def expFile1 = new ExpFile(experiment: exp2, title: 'test File', fileName: 'test.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: adminUser, isActive: true, reagentPanel: []).save(failOnError: true)
-                    def expFile2 = new ExpFile(experiment: exp2, title: 'fcsFile2.fcs', fileName: 'fcsFile2.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: userUser, reagentPanel: []).save(failOnError: true)
-                    def expFile3 = new ExpFile(experiment: exp2, title: 'fcsFile3.fcs', fileName: 'fcsFile3.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: adminUser, reagentPanel: []).save(failOnError: true)
+                    def expFile1 = new ExpFile(experiment: exp2, title: 'test File', chkSum: 'a41a0f25bcb0454ab43a4451ac59bd6b', fileName: 'test.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: adminUser, isActive: true, reagentPanel: []).save(failOnError: true)
+                    def expFile2 = new ExpFile(experiment: exp2, title: 'fcsFile2.fcs', chkSum: 'efb1fede93ca087a90693353d3cfb2e9276925fd', fileName: 'fcsFile2.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: userUser, reagentPanel: []).save(failOnError: true)
+                    def expFile3 = new ExpFile(experiment: exp2, title: 'fcsFile3.fcs', chkSum: 'ACS', fileName: 'fcsFile3.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: adminUser, reagentPanel: []).save(failOnError: true)
                     assert ExpFile.count() == 3
                     println 'expFile.count() == 3 ? passed!'
 //                    exp1.expFiles = [expFile1, expFile2]
