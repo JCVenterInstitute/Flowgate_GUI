@@ -1,0 +1,73 @@
+/* page wide styles */
+html { height: 100%; }
+body { padding-top: 35px; height: 100%; }
+
+/* population background color */
+.popul1 { background-color: red !important; }
+.popul2 { background-color: yellow; }
+.popul3 { background-color: #008000; }
+.popul4 { background-color: blue; }
+.popul5 { background-color: orange; }
+.popul6 { background-color: #8A2BE2; }
+.popul7 { background-color: #808000; }
+.popul8 { background-color: cyan; }
+.popul9 { background-color: magenta; }
+.popul10 { background-color: green; }
+.popul11 { background-color: #000080; }
+.popul12 { background-color: #F08080; }
+.popul13 { background-color: #800080; }
+.popul14 { background-color: #F0E68C; }
+.popul15 { background-color: #8FBC8F; }
+.popul16 { background-color: darkGray; }
+.popul17 { background-color: #008080; }
+.popul18 { background-color: #9932CC; }
+.popul19 { background-color: #FF7F50; }
+.popul20 { background-color: #FFD700; }
+.popul21 { background-color: #008B8B; }
+.popul22 { background-color: #800000; }
+.popul23 { background-color: #5F9EA0; }
+.popul24 { background-color: gray; }
+
+table.tablesorter thead tr .header {
+    background-image: url(./images/bg.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+}
+table.tablesorter tbody tr.odd td {
+    background-color:#F0F0F6;
+}
+table.tablesorter thead tr .headerSortUp {
+    background-image: url(./images/asc.gif);
+}
+table.tablesorter thead tr .headerSortDown {
+    background-image: url(./images/desc.gif);
+}
+
+
+.bgimg {
+    background-image: url(../images/login_bg.png);
+    /*background-repeat: no-repeat;*/
+    background-size: cover;
+}
+
+/*
+.arrow-right {
+	width: 0;
+	height: 0;
+	border-top: 25px solid transparent;
+	border-bottom: 25px solid transparent;
+	border-left: 35px solid #E7E7E7;
+}
+*/
+
+#imagebox {
+    height:100%;
+    /*overflow:hidden;*/
+    padding-left:0 !important;
+    background-image: url('../images/login_bg1.png');
+    /*background-image: url(${assetPath(src: 'images/login_bg1.png');*/
+    background-repeat: repeat;
+    background-position: center center;
+    background-attachment: fixed;
+}

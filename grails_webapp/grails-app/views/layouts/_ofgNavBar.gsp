@@ -14,27 +14,26 @@
             </a>
         </div>
         <div class="navbar-collapse collapse" aria-expanded="false" style="height: 0.8px;">
-            <ul class="nav navbar-nav navbar-right pull-right">
+            %{--<ul class="nav navbar-nav navbar-right pull-right">
                 <g:pageProperty name="page.nav" />
                 <div class="pull-right"  style="margin-right: 10px">
                     <sec:ifLoggedIn>
                         <li class="">
-                            %{--<li class="navbar-link">--}%
-                            <div class="nav-item" style="padding-top: 4px;" ><span class="glyphicon glyphicon-user"></span>&nbsp;<sec:username /></div>
+                            --}%%{--<li class="navbar-link">--}%%{--
+                            <div class="nav-item" style="padding-top: 4px;color: white" ><span class="glyphicon glyphicon-user"></span>&nbsp;<sec:username /></div>
                         </li>
                         <li class="navbar-link">
                             <g:link controller="logout">Logout</g:link>
-                            %{-- for old version only now E: tag does not exist! <g:remoteLink class="logout" controller="logout">${message(code: 'springSecurity.logout.link')}</g:remoteLink> --}%
+                            --}%%{-- for old version only now E: tag does not exist! <g:remoteLink class="logout" controller="logout">${message(code: 'springSecurity.logout.link')}</g:remoteLink> --}%%{--
                         </li>
                     </sec:ifLoggedIn>
                     <sec:ifNotLoggedIn>
                         <li class="navbar-link">
-                            %{--<g:link controller='login' action='auth'>Login</g:link>--}%
-                            <g:link controller="logout">Login</g:link>
+                            <g:link controller='login' action='auth'>Login</g:link>
                         </li>
                     </sec:ifNotLoggedIn>
                 </div>
-            </ul>
+            </ul>--}%
         </div>
     %{--</div>--}%
 </div>

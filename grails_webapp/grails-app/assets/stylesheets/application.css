@@ -7,21 +7,14 @@
 * You're free to add application-wide styles to this file and they'll appear at the top of the
 * compiled file, but it's generally better to create a new file per style scope.
 *
-*   = require bootstrap
-*   = require bootstrap-all
 *= require bootstrap-less
 *= require bootcards/bootcards-desktop
-* = require font-awesome-all
 *= require font-awesome-less
 *= require select2/select2.min
 *= require grails
 *= require common
 *= require main
 *= require mobile
-*   = require wTreeSideBar
-*   = require treeView
-*   = require ../fonts/css/font-awesome
-*   = require ../fonts/font-awesome
 *= require font-awesome/font-awesome
 *= require custom
 *= require_self

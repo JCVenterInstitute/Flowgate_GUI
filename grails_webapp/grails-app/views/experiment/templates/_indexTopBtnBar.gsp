@@ -18,7 +18,7 @@
 
             <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentUploadTemplate">
                 <div class="btn btn-primary" onclick="experimentUploadTemplateClick(${experiment?.id})" >
-                    <i class="fa fa-upload"></i>&nbsp;&nbsp;Upload FCS Template
+                    <i class="fa fa-upload" ></i>&nbsp;&nbsp;Upload FCS Template
                 </div>
             </g:isOwnerOrRoles>
 

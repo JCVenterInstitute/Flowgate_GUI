@@ -28,31 +28,33 @@ grails.plugin.springsecurity.rest.login.active  = true // otherwise no token
 
 grails.plugin.springsecurity.logout.postOnly = false
 //grails.plugin.springsecurity.logout.afterLogoutUrl = "/dashboard"
-grails.plugin.springsecurity.logout.afterLogoutUrl = "/project/list"
-grails.plugin.springsecurity.auth.loginFormUrl = '/login/auth'
+grails.plugin.springsecurity.logout.afterLogoutUrl = "/"
+grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/project/list'
+//grails.plugin.springsecurity.auth.loginFormUrl = '/login/auth'
+grails.plugin.springsecurity.auth.loginFormUrl = '/index'
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'flowgate.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'flowgate.UserRole'
 grails.plugin.springsecurity.authority.className = 'flowgate.Role'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 //	'/j_spring_security_switch_user': ['ROLE_ADMIN'],
 //'/j_spring_security_exit_user':   ['permitAll']
-	[pattern: '/login/impersonate', 	access: ['ROLE_Admin','ROLE_Administrator']],
 	[pattern: '/upload/**',				access: ['ROLE_ADMIN','ROLE_USER']],
 	[pattern: '/user/**', 				access: ['ROLE_Admin','ROLE_Administrator']],
 	[pattern: '/logout/impersonate', 	access: ['permitAll']],
 	[pattern: '/dashboard',             access: ['permitAll']],
+	[pattern: '/dashboard/index.gsp',   access: ['permitAll']],
 	[pattern: '/login/**',              access: ['permitAll']],
+	[pattern: '/login/impersonate', 	access: ['ROLE_Admin','ROLE_Administrator']],
 	[pattern: '/logout/**',             access: ['permitAll']],
-	[pattern: '/logoff/**',             access: ['permitAll']],
 	[pattern: '/logout/index',          access: ['permitAll']],
-	[pattern: '/logoff/index',          access: ['permitAll']],
 	[pattern: '/logout/index.gsp',      access: ['permitAll']],
+	[pattern: '/logoff/**',             access: ['permitAll']],
+	[pattern: '/logoff/index',          access: ['permitAll']],
 	[pattern: '/logoff/index.gsp',      access: ['permitAll']],
 	[pattern: '/error',          		access: ['permitAll']],
 	[pattern: '/**',          			access: ['permitAll']],
-	[pattern: '/project/list',		    access: ['permitAll']],
+//	[pattern: '/project/list',		    access: ['permitAll']],
 	[pattern: '/mgmnt/index.gsp',      	access: ['permitAll']],
-	[pattern: '/dashboard/index.gsp',   access: ['permitAll']],
 	[pattern: '/register/**',      		access: ['permitAll']],
 	[pattern: '/dbconsole/**',     		access: ['permitAll']],
 	[pattern: '/shutdown',       		access: ['permitAll']],
@@ -74,7 +76,7 @@ grails.plugin.springsecurity.filterChain.chainMap = [
 	[pattern: '/**/css/**',      filters: 'none'],
 	[pattern: '/**/images/**',   filters: 'none'],
 	[pattern: '/**/favicon.ico', filters: 'none'],
-	[pattern: '/project/list',	 filters: 'none'],
+//	[pattern: '/project/list',	 filters: 'none'],
 	[pattern: '/api/**', filters:'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter'],
 	[pattern: '/**', filters:'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter']
 

@@ -11,6 +11,10 @@ class BootStrap {
                     def newUserRole = Role.findOrSaveByAuthority('ROLE_NewUser')
                     def guestRole = Role.findOrSaveByAuthority('ROLE_Guest')
                     def editExperiment = Role.findOrSaveByAuthority('ROLE_ExperimentEdit')
+                    def clickExperiment = Role.findOrSaveByAuthority('ROLE_ExperimentClick')
+//                    def addFcs = Role.findOrSaveByAuthority('ROLE_AddFcs')
+                    assert Role.count() == 7
+                    println 'pass Role count'
 
                     def superadminUser = User.findOrSaveByUsernameAndPasswordAndEmail('super', 'super', 'super@flowgate.ui')
                     def adminUser = User.findOrSaveByUsernameAndPasswordAndEmail('admin', 'admin', 'admin@flowgate.ui')
@@ -21,13 +25,14 @@ class BootStrap {
                     UserRole.create(adminUser, adminRole)
                     UserRole.create(userUser, userRole)
                     UserRole.create(userUser, editExperiment)
+                    UserRole.create(userUser, clickExperiment)
                     UserRole.create(flowGateUser, userRole)
-                    UserRole.create(flowGateUser, editExperiment)
+//                    UserRole.create(flowGateUser, editExperiment)
+//                    UserRole.create(flowGateUser, clickExperiment)
                     UserRole.create(testUser, newUserRole)
                     assert User.count() == 5
                     println 'pass User count'
-                    assert Role.count() == 6
-                    println 'pass Role count'
+
                     println 'projects...'
                     def orphanProj = new Project(title: 'orphanProject', description: 'dummy project, experiments get assigned to this project on project erasing to keep experiment data ', isActive: false)
                     orphanProj.save(failOnError: true)
@@ -57,6 +62,7 @@ class BootStrap {
                     def exp3 = new Experiment(title: 'exp3', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
                             project: proj2, isActive: true).save(failOnError: true)
                     ExperimentUser.create(exp1, adminUser, 'owner')
+                    ExperimentUser.create(exp1, flowGateUser, 'owner')
                     ExperimentUser.create(exp1, userUser, 'member')
                     ExperimentUser.create(exp2, adminUser, 'owner')
                     ExperimentUser.create(exp2, userUser, 'owner')
@@ -73,7 +79,8 @@ class BootStrap {
                     exp2.save()
                     new UserSettings(user: adminUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
                     new UserSettings(user: userUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
-                    assert UserSettings.count() == 2
+                    new UserSettings(user: flowGateUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
+                    assert UserSettings.count() == 3
                     AnalysisServer as1 = new AnalysisServer(name: 'local', url: 'http://127.0.0.1:8080', userName: 'peterAcs')
                     as1.save()
                     AnalysisServer as2 = new AnalysisServer(name: 'SDSC', url: 'http://flowgate.sdsc.edu:8080', userName: 'flowGate', userPw: 'flowGate').save()

@@ -34,7 +34,8 @@
                     <div class="btn btn-info" onclick="expFileExpandAllClick(${experiment?.id})" >expand all</div>
                 %{--</g:link>--}%
                 %{--<g:if test="${experiment?.id == session.experimentEditModeId?.toLong()}">--}%
-                <sec:ifAnyGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_AddFcs">
+                %{--<sec:ifAnyGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_AddFcs">--}%
+                <sec:ifAnyGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_ExperimentEdit">
                     %{--<div class="pull-right btn btn-info" onclick="btnAddExpFileClick(${experiment?.id})"><i class="glyphicon glyphicon-plus"></i> Add/Upload File</div>--}%
                     <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'expFileCreate', params: [eId: experiment?.id] )}" >
                         <div class="pull-right btn btn-info" style="cursor: pointer" >
@@ -42,7 +43,8 @@
                         </div>
                     </a>
                 </sec:ifAnyGranted>
-                <sec:ifNotGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_AddFcs">
+                %{--<sec:ifNotGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_AddFcs">--}%
+                <sec:ifNotGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_ExperimentEdit">
                     <g:if test="${utilsService.isAffil('experiment', experiment?.id)}">
                         %{--<div class="pull-right btn btn-info" onclick="btnAddExpFileClick(${experiment?.id})"><i class="glyphicon glyphicon-plus"></i> Add/Upload File</div>--}%
                         <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'expFileCreate', params: [eId: experiment?.id] )}" >

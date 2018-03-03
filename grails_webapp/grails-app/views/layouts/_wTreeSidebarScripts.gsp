@@ -96,6 +96,11 @@
         });
     }
 
+    function experimentUploadTemplateClick(){
+        alert('not yet implemented!');
+    }
+
+
     function experimentCloneClick(experimentId) {
             $.ajax({
                 url: "${createLink(controller: 'experiment', action: 'axCloneExperimentClick')}?eId="+experimentId,

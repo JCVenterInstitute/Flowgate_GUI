@@ -1,21 +1,5 @@
 @import "less-vars";
-
-//.navbar {
-    //background-color: #00b3ee;
-    //min-height: 30px;
-    //height: 35px;
-//}
-
-/*.navbar-brand {
-    padding: 0 15px;
-    height: 35px;
-    //line-height: 30px;
-}*/
-
-/*.navbar-toggle {
-    margin-top: 0;
-    padding: 0;
-}*/
+@import "bootstrap/less/variables";
 
 .navbar-inner {
     min-height: 0;
@@ -26,4 +10,29 @@
     line-height: 30px;
     height: 30px;
     padding-top: 0;
+}
+
+.nav-item{
+    color: @navbar-items-color;
+}
+
+.navbar-link {
+    //color: @navbar-inverse-link-color;
+    color: lighten(@navbar-items-color,30%);
+    &:hover {
+        //color: @navbar-inverse-link-hover-color;
+        color: lighten(@navbar-items-color,50%);
+    }
+}
+
+
+.navbar-default, .navbar-static-top {
+    background-color: @themeMainColor;
+    border: 0px;
+}
+
+.navbar-default a {
+    //color: #ffffff !important;
+    font-size: 18px !important;
+    text-decoration: none;
 }
