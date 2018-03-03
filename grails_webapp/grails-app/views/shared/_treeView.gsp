@@ -3,7 +3,7 @@
     <h3 class="left">
         <div style="cursor: pointer;" onclick="window.location.href='${createLink(controller: 'project', action: 'list')}'">${'Projects'}</div>
     </h3>
-    <div class="input-group" style="padding-right: 10px;">
+    <div class="input-group" style="padding-right: 10px; max-width: 340px">
         <span class="input-group-addon">
             <i class="fa fa-search"></i>
         </span>

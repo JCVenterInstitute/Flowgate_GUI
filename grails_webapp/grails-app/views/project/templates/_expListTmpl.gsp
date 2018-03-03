@@ -6,7 +6,7 @@
 <div class="bootcards-list">
     <div class="panel panel-default">
         <div class="panel-body">
-        <g:isAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectClick,ROLE_ProjectSearch">
+        <g:isAffilOrRoles roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentClick,ROLE_ExperimentSearch">
             <form>
                 <div class="row" style="padding: 0;max-width: none;" >
                     <div class="col-xs-11">
@@ -23,14 +23,14 @@
                 </div>
             </form>
         </g:isAffilOrRoles>
-        <g:isNotAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_ProjectClick">
+        <g:isNotAffilOrRoles roles="ROLE_ExperimentClick,ROLE_ExperimentSearch">
             <br/>
         </g:isNotAffilOrRoles>
         </div>
         <div class="row" style="padding: 0;max-width: none;">
             <div class="list-group">
                 <g:each var="experiment" in="${experimentList}">
-                    <g:isAffilOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_ExperimentClick">
+                    <g:isAffilOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentClick,ROLE_ExperimentEdit">
                         %{--<a class="list-group-item" href="${createLink(controller: 'experiment', action: 'index', params:[eId: experiment?.id])}">--}%
                         <a class="list-group-item noLinkBlack" href="/flowgate/experiment/index?eId=${experiment?.id}" >
                             <i class="fa fa-3x fa-file-text-o img-rounded pull-left" style=""></i>
@@ -38,7 +38,7 @@
                             <p class="list-group-item-text">${experiment?.description}</p>
                         </a>
                     </g:isAffilOrRoles>
-                    <g:isNotAffilOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_ExperimentClick">
+                    <g:isNotAffilOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_ExperimentClick,ROLE_ExperimentEdit">
                         <div class="list-group-item">
                             <i class="fa fa-3x fa-file-text-o img-rounded pull-left" style=""></i>
                             <h4 class="list-group-item-heading">${experiment?.title}</h4>
