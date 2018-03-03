@@ -25,7 +25,7 @@
                 </div>
             </form>
             </g:isAffilOrRoles>
-            <g:isNotAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_ProjectClick">
+            <g:isNotAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectClick,ROLE_ProjectSearch">
                 <br/>
             </g:isNotAffilOrRoles>
         </div>
@@ -34,11 +34,13 @@
             <g:each var="project" in="${projectList}">
                 <g:isAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectClick,ROLE_ProjectSearch">
                     <div class="col-xs-6 col-sm-3">
+                        isAffilorRole
                         <g:render template="templates/projCardULockedTmpl" model="[project: project]" />
                     </div>
                 </g:isAffilOrRoles>
-                <g:isNotAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_ProjectClick">
+                <g:isNotAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectClick,ROLE_ProjectSearch">
                     <div class="col-xs-6 col-sm-3">
+                        not affilorrole
                         <g:render template="templates/projCardLockedTmpl" model="[project: project]" />
                     </div>
                 </g:isNotAffilOrRoles>

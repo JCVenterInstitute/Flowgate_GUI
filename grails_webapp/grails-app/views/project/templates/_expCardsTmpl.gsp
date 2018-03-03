@@ -6,7 +6,7 @@
 <div class="bootcards-summary">
     <div class="panel panel-default">
         <div class="panel-body">
-            <g:isAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectClick,ROLE_ProjectSearch">
+            <g:isAffilOrRoles roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentClick,ROLE_ExperimentSearch">
                 <form>
                     <div class="row" style="padding: 0;max-width: none;">
                     %{--<div class="row">--}%
@@ -24,19 +24,18 @@
                     </div>
                 </form>
             </g:isAffilOrRoles>
-            <g:isNotAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_ProjectClick">
+            <g:isNotAffilOrRoles roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentClick,ROLE_ExperimentSearch">
                 <br/>
             </g:isNotAffilOrRoles>
         </div>
         <div class="row" style="padding: 0;max-width: none;">
-        %{--<div class="row">--}%
             <div class="bootcards-cards">
                 <g:each var="experiment" in="${experimentList}">
                     <div class="col-xs-6 col-sm-3">
-                        <g:isAffilOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_ExperimentClick">
+                        <g:isAffilOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentClick,ROLE_ExperimentEdit">
                             <g:render template="templates/expCardULockedTmpl" model="[experiment: experiment]" />
                         </g:isAffilOrRoles>
-                        <g:isNotAffilOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_ExperimentClick">
+                        <g:isNotAffilOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentClick,ROLE_ExperimentEdit">
                             <g:render template="templates/expCardLockedTmpl" model="[experiment: experiment]" />
                         </g:isNotAffilOrRoles>
                     </div>

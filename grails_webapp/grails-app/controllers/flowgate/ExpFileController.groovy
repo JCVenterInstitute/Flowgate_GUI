@@ -73,6 +73,10 @@ class ExpFileController {
         Experiment experiment = Experiment.get(params?.eId?.toLong())
         if(experiment){
             ExpFile.findAllByExperimentAndIsActive(experiment, true).each {
+                if(!session.expFileOpenIds)
+                {
+                    session.expFileOpenIds = []
+                }
                 if(!session?.expFileOpenIds?.contains(it.id)) session?.expFileOpenIds?.push(it.id)
             }
             ArrayList<Project> projectList = Project.findAllByIsActive(true)
@@ -201,7 +205,7 @@ class ExpFileController {
     }
 
     def uploadFcsFiles(){
-//        TODO remove hardcoded experiment and change to params
+//        TODO remove hardcoded experiment and change to params!! for developing shortcut only!!!
         Experiment experiment = Experiment.get(1)
 //        def partFiles = request.getFiles("actFcsFile")
 //        partFiles.each{ file ->
@@ -313,6 +317,7 @@ class ExpFileController {
             }
             else{
                 println "remove ${eMetaVal.mdValue}"
+                params.checked = false
                 ExpFileMetadata efMetaData = expFile.metaDatas.find{it.mdKey==eMeta.mdKey}
                 expFile.metaDatas.remove (efMetaData)
                 efMetaData.save( flush: true)
@@ -381,6 +386,11 @@ class ExpFileController {
 //              changes = true
             }
         }
+    }
+
+    def doneAnnotation(Experiment experiment){
+        println "done annotation! "
+        redirect controller: 'experiment', action: 'index', id: experiment.id, params: [eId: experiment.id]
     }
 
     def annotationTbl(Experiment experiment){

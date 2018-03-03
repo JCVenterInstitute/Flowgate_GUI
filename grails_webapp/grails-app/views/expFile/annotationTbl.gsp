@@ -22,17 +22,15 @@
     </head>
     <body>
         <g:render template="/shared/nav" />
-
         <h2 class="text-center"><g:message code="annotation.table.label" default="Annotation Table" /></h2>
         <br/>
         <br/>
         <g:render template="annMasterTbl" />
         <br/>
         <br/>
-        %{--
         <div class="text-center">
-            <div class="btn btn-success" onclick="alert('not implemented yet!');" >Submit</div>
+            %{--<g:link controller="expFile" action="doneAnnotation" id="${experiment.id}"><div class="btn btn-success">Submit</div></g:link>--}%
+            <g:link controller="experiment" action="index" id="${experiment.id}" params="[eId: experiment.id]"><div class="btn btn-success">Submit</div></g:link>
         </div>
-        --}%
     </body>
 </html>

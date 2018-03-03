@@ -8,7 +8,7 @@
 <div class="bootcards-list">
     <div class="panel panel-default">
         <div class="panel-body">
-            <g:isAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectClick">
+            <g:isAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectClick,ROLE_ProjectSearch">
             <form>
                 <div class="row">
                     <div class="col-xs-11">
@@ -25,22 +25,21 @@
                 </div>
             </form>
             </g:isAffilOrRoles>
-            <g:isNotAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectClick">
+            <g:isNotAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectClick,ROLE_ProjectSearch">
                 <br/>
-                %{--<br/>--}%
             </g:isNotAffilOrRoles>
         </div>
         <div class="list-group">
             <g:each var="project" in="${projectList}">
-                <g:isAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_ProjectClick">
+                <g:isAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectClick,ROLE_ProjectSearch">
                     %{--<a class="list-group-item noLinkBlack" href="${createLink(controller: 'project', action: 'index', params:[pId: project?.id])}">--}%
                     <a class="list-group-item noLinkBlack ${session?.searchLst?.find {it == project?.id} != null ? 'findSel' : ''}" href="/flowgate/project/index?pId=${project?.id}">
                         <i class="fa fa-3x fa-file-text-o img-rounded pull-left" ></i>
                         <h4 class="list-group-item-heading">${project?.title}</h4>
-                        <p class="list-group-item-text">${project?.description}</p>
+                        <p class="list-group-item-text" style="padding-right: 20px">${project?.description}</p>
                     </a>
                 </g:isAffilOrRoles>
-                <g:isNotAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_ProjectClick">
+                <g:isNotAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectClick,ROLE_ProjectSearch">
                     <div class="list-group-item ${session?.searchLst?.find {it == project?.id} != null ? 'findSel' : ''}">
                         <i class="fa fa-3x fa-file-text-o img-rounded pull-left" style=""></i>
                         <h4 class="list-group-item-heading">${project?.title}</h4>
