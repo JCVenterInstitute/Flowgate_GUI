@@ -36,4 +36,5 @@ and locate your internet browser to: http://localhost:8585/flowgate/ after the a
 the app can be closed using the ctrl + c key combination
 
 to create a docker image:  (you must be located in the grails_webapp folder)
-execute command: ./gradlew assemble buildImage
+execute command: 
+./gradlew assemble buildImage
