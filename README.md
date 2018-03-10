@@ -6,6 +6,7 @@ runing the webapp directly or via docker image
 (terminal commands in italics)
 
 install grails 3.2.9 (follow instructions at visit http://www.grails.org/download.html and install version 3.2.9)
+documentation can be found at: http://docs.grails.org/3.2.9/guide/index.html
 check grails version by typing
 
 _grails -v_  (Terminal/Console[ix/ux] or Cmd[Wdos])
