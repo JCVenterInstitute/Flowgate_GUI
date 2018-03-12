@@ -2,6 +2,8 @@ package flowgate
 
 class ReagentPanel {
 
+//    static belongsTo = [ExpFile]
+
     String reagentPanelName
 
     static constraints = {

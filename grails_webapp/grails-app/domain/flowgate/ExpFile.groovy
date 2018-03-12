@@ -4,7 +4,7 @@ class ExpFile {
 
     static belongsTo = [Experiment]
     static hasMany = [metaDatas: ExpFileMetadata, expMetaData: ExperimentMetadata]
-    static hasOne = [ReagentPanel]
+//    static hasOne = [reagentPanel: ReagentPanel]
     Experiment experiment
     ReagentPanel reagentPanel
     String title
