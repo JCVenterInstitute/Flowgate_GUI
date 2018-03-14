@@ -1,9 +1,9 @@
 <%@ page import="flowgate.ExpFile; flowgate.Experiment" %>
-<div class="row" style="padding:0;position: absolute;height:102%;border-right: #000 solid 1px">
+<div class="row" style="padding:0;position: absolute;height:102%;border-right: #000 solid 1px;max-width:300px">
     <h3 class="left">
         <div style="cursor: pointer;" onclick="window.location.href='${createLink(controller: 'project', action: 'list')}'">${'Projects'}</div>
     </h3>
-    <div class="input-group" style="padding-right: 10px; max-width: 340px">
+    <div class="input-group" style="padding-right: 10px;">
         <span class="input-group-addon">
             <i class="fa fa-search"></i>
         </span>
@@ -44,4 +44,5 @@
             </g:if>
         </g:each>
     </ul>
+    %{--</div>--}%
 </div>
