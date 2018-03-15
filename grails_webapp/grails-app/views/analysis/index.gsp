@@ -132,7 +132,7 @@
                     <a class="noLinkBlack text-center" style="background-color: transparent" href="${g.createLink(controller: 'analysis', action: 'create', params: [eId: params?.eId] )}" >
                         <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbspNew Analysis</button>
                     </a>
-                    <sec:ifAnyGranted roles="ROLE_Tester,ROLE_Administrator">
+                    <sec:ifAnyGranted roles="ROLE_Tester,ROLE_Acs">
                     <a class="noLinkBlack text-center" style="background-color: transparent" href="${g.createLink(controller: 'analysis', action: 'heatM' )}" >
                         <button class="btn btn-default">GenePattern Heatmap</button>
                     </a>
