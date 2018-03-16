@@ -33,7 +33,11 @@
                             <g:link controller="logout">Login</g:link>
                         </li>
                     </sec:ifNotLoggedIn>
+                    <li class="navbar-link">
+                        <g:link uri="/about" ><g:message code="about.link.label" default="About" /></g:link>
+                    </li>
                 </div>
+
             </ul>
         </div>
     %{--</div>--}%
