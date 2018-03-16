@@ -9,7 +9,7 @@
         <g:render template="/shared/nav" />
         <div class="container" style="width:100%;height:98.4%;background-color:#f8f8f8;">
         <br/>
-            <div class="row" style="height:900px;">
+            <div class="row" style="height:900px;max-width: 100%">
                 %{--<div id="imagebox" class="col-sm-8">--}%
                     <!--<div style="width:100%;height:100%;">--}%
                         <img src="../../images/login_bg1.png" height="100%"/>
@@ -21,21 +21,44 @@
                             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                             <li data-target="#myCarousel" data-slide-to="1"></li>
                             <li data-target="#myCarousel" data-slide-to="2"></li>
+                            <li data-target="#myCarousel" data-slide-to="3"></li>
+                            <li data-target="#myCarousel" data-slide-to="4"></li>
+                            <li data-target="#myCarousel" data-slide-to="5"></li>
+                            <li data-target="#myCarousel" data-slide-to="6"></li>
+                            <li data-target="#myCarousel" data-slide-to="7"></li>
                         </ol>
 
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner">
                             <div class="item active">
-                                <img src="${assetPath(src: 'login_bg1.png')}" alt="Login Logo" style="width:100%;">
+                                <img src="${assetPath(src: 'landingPageCarousel/Figure1.png')}" alt="Figure 1" style="width:100%;">
                             </div>
 
                             <div class="item">
-                                <img src="${assetPath(src: 'apple-touch-icon.png')}" alt="Grails Logo" style="width:100%;">
+                                <img src="${assetPath(src: 'landingPageCarousel/Figure2.png')}" alt="Figure 2" style="width:100%;">
                             </div>
 
                             <div class="item">
-                                <img src="${assetPath(src: 'skin/exclamation.png')}" alt="Warning" style="width:100%;">
+                                <img src="${assetPath(src: 'landingPageCarousel/Figure3.png')}" alt="Figure 3" style="width:100%;">
                             </div>
+
+                            <div class="item">
+                                <img src="${assetPath(src: 'landingPageCarousel/Figure4.png')}" alt="Figure 4" style="width:100%;">
+                            </div>
+
+                            <div class="item">
+                                <img src="${assetPath(src: 'landingPageCarousel/Figure5.png')}" alt="Figure 5" style="width:100%;">
+                            </div>
+
+                            <div class="item">
+                                <img src="${assetPath(src: 'landingPageCarousel/Figure6.png')}" alt="Figure 6" style="width:100%;">
+                            </div>
+
+                            <div class="item">
+                                <img src="${assetPath(src: 'landingPageCarousel/Figure7.png')}" alt="Figure 7" style="width:100%;">
+                            </div>
+
+
                         </div>
 
                         <!-- Left and right controls -->
