@@ -16,7 +16,7 @@
                     FlowGate is designed for combined use with analytical workflow engines, which has been tested on multiple running environments, including virtual environments with multiple compute cores and shared memory and the Gordon parallel system at the San Diego Supercomputer Center. It can be deployed on XSEDE environment, a local cluster computer, a virtual machine in a Cloud, or even a desktop computer. It current works with two pipeline/workflow engines: the GenePattern analytical platform developed by the Broad Institute of MIT and Harvard and the bioKepler system developed at the University of California at San Diego. FlowGate currently supports FLOCK-like flow cytometry data analysis pipelines. We will soon expand it to support more workflow engines and other flow cytometry analytical pipelines and workflows.<br/><br/>
                     FlowGate has been developed by a group of immunological and computational scientists at the J. Craig Venter Institute and the San Diego Supercomputer Center.<br/><br/>
                     <sec:ifLoggedIn>
-                    Click <button class="btn btn-primary btn-xs" onclick="window.location='php/view/project.php'">here</button> to create or view your projects.
+                    Click <button class="btn btn-primary btn-xs" onclick='window.location="${createLink(controller: 'project', action: 'list')}"'>here</button> to create or view your projects.
                     </sec:ifLoggedIn>
                 </h4>
                 </div>
