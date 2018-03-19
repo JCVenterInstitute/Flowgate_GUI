@@ -7,10 +7,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/#">
-                <i class="fa grails-icon">
-                    %{--<asset:image src="grails-cupsonly-logo-white.svg"/>--}%
-                </i>%{--<g:if env="production">flowgate-prod</g:if><g:else>flowgate</g:else>--}%
+            <a class="navbar-brand" href="${createLink(uri: '/about')}">
+                <i class=""><asset:image src="flowgate2.png" height="50"/></i>
             </a>
         </div>
         <div class="navbar-collapse collapse" aria-expanded="false" style="height: 0.8px;">
