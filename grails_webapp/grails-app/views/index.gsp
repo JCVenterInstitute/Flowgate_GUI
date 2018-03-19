@@ -98,7 +98,7 @@
 
                                 <div style="margin-bottom: 25px" class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input type="password" name="${securityConfig.apf.passwordParameter}" id="password" class="input-sm" size="40"/>
+                                    <input type="password" name="${securityConfig.apf.passwordParameter}" id="password" placeholder="password" class="input-sm" size="40"/>
 
                                 </div>
 
