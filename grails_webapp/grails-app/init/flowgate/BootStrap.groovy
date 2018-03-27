@@ -77,6 +77,8 @@ class BootStrap {
 //                    exp1.save()
                     exp2.expFiles = [expFile1, expFile2]
                     exp2.save()
+                    def ds = new Dataset(experiment: exp2, expFiles: [expFile2,expFile3], name: '1st dataset', description: 'testDataset')
+                    ds.save()
                     new UserSettings(user: adminUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
                     new UserSettings(user: userUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
                     new UserSettings(user: flowGateUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
@@ -123,8 +125,11 @@ class BootStrap {
 
                     //name lsid urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:20:3
                     Module mod4 = new Module(server: as2, title: 'DAFi_Gating_Plotting_Streamlined', name: 'DAFi_Gating_Plotting_Streamlined', moduleParams: []).save(failOnSave: true)
+
 //                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "dir", pKey: 'Input.Dir', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/PreprocessedTest/').save()
-                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "dir", pKey: 'Input.Dir', defaultVal: '').save()
+//                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "dir", pKey: 'Input.Dir', defaultVal: '').save()
+                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds.id.toString()).save()
+
 //                    ModuleParam mParam19 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/CLL_new.config').save()
                     ModuleParam mParam19 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '').save()
 //                    ModuleParam mParam20 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/Empty.config').save()

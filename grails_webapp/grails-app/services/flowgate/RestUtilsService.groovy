@@ -82,7 +82,23 @@ class RestUtilsService {
         ArrayList paramVars = []
         module.moduleParams.each {
             switch(it.pType){
-                case ['dir']: def dir = request.getFiles("mp-${it.id}")
+//                case [ 'ds']: def dsId = params["mp-${it.id}-ds"]
+                case 'ds': def dsId = params["mp-${it.id}-ds"]
+                              println "get dataset with id ${dsId}"
+                              Dataset ds = Dataset.get(dsId.toLong())
+                              if(ds){
+                                  ds.expFiles.each{ expFile ->
+                                      println "dataset files for upload p:${expFile.fileName}, fn:${expFile.fileName}"
+                                      println "( ['name': ${it.pKey}, 'values': ${expFile.filePath} ])"
+//                                      paramVars.push ( ['name': it.pKey, 'values': expFile.filePath ])
+                                  }
+                              }
+                              else {
+                                  println "E: no Dataset!"
+                              }
+                    break
+
+                case 'dir': def dir = request.getFiles("mp-${it.id}")
                               dir.each{ dirFile ->
                                  if(!dirFile.filename.contains('/.')){
                                     String filename = dirFile.filename.replaceAll(/^.*\// , "" )
@@ -92,7 +108,7 @@ class RestUtilsService {
                              }
                     break
 
-                case ['file']: def partFile = request.getFile("mp-${it.id}")
+                case 'file': def partFile = request.getFile("mp-${it.id}")
                                if(!partFile.filename.startsWith('.')) {
                                    def fileLocation = uploadFileOrDirParams(module, partFile.part.fileItem.tempFile, partFile.filename)
                                    paramVars.push(['name': it.pKey, 'values': fileLocation])

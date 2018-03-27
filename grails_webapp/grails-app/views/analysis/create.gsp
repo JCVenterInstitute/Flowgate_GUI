@@ -124,59 +124,59 @@
 
                     <f:with bean="analysis">
 
-                <div class="panel with-nav-tabs panel-default" >
-                    <ul class="nav nav-tabs tabs-2" role="tablist" id="paramsTabs">
-                        <li class="nav-item active">
-                            <a class="nav-link" data-toggle="tab" href="#basic">Basic</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#advanced">Advanced</a>
-                        </li>
-                    </ul>
+                        <div class="panel with-nav-tabs panel-default" >
+                            <ul class="nav nav-tabs tabs-2" role="tablist" id="paramsTabs">
+                                <li class="nav-item active">
+                                    <a class="nav-link" data-toggle="tab" href="#basic">Basic</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#advanced">Advanced</a>
+                                </li>
+                            </ul>
 
-                    <div class="tab-content">
-                        %{--<div class="fieldcontain required" aria-required="true">--}%
-                        <div class="fieldcontain required" >
-                            <label for="module">Analysis Modul
-                                <span class="required-indicator">*</span>
-                            </label>
-                            <g:select id="module" required="" name="module.id" from="${Module.list()}" optionValue="title" optionKey="id" noSelection="${['':'select a module']}" onchange="moduleChange(this.value);" />
-                        </div>
-                        %{--TODO remove value, value is just for testing purpose!!!!--}%
-                        %{--<f:field property="analysisName" required="true" value="dafi-test1">--}%
-                        <f:field property="analysisName" required="true" value="">
-                            <g:textField name="${property}" value="${it.value}"  style="margin-left:2px;width:40%;" />
-                        </f:field>
-                        <f:field property="analysisDescription" required="false" widget="textarea" >
-                            <g:textArea name="${property}" rows="2" cols="290" maxlength="150" value="${it.value}" style="width:40%;" />
-                        </f:field>
-                        <div id="modParams" >
-                            <g:render template="templates/moduleParams" model="[module: module]"/>
-                        </div>
-                        <br/>
-                        <script>
-                            function moduleChange(moduleId){
-                                $.ajax({
-                                    url: "${createLink(controller: 'analysis', action: 'axModulChange')}",
-                                    dataType: "json",
-                                    type: "get",
-                                    data: {eId: ${params?.eId}, modId: moduleId},
-                                    success: function (data) {
-                                        $("#modParams").html(data.modParams);
-                                    },
-                                    error: function (request, status, error) {
-                                        console.log('E: ' + error);
-                                    },
-                                    complete: function () {
-                                        console.log('ajax completed');
+                            <div class="tab-content">
+                                %{--<div class="fieldcontain required" aria-required="true">--}%
+                                <div class="fieldcontain required" >
+                                    <label for="module">Analysis Modul
+                                        <span class="required-indicator">*</span>
+                                    </label>
+                                    <g:select id="module" required="" name="module.id" from="${Module.list()}" optionValue="title" optionKey="id" noSelection="${['':'select a module']}" onchange="moduleChange(this.value);" />
+                                </div>
+                                %{--TODO remove value, value is just for testing purpose!!!!--}%
+                                %{--<f:field property="analysisName" required="true" value="dafi-test1">--}%
+                                <f:field property="analysisName" required="true" value="">
+                                    <g:textField name="${property}" value="${it.value}"  style="margin-left:2px;width:40%;" />
+                                </f:field>
+                                <f:field property="analysisDescription" required="false" widget="textarea" >
+                                    <g:textArea name="${property}" rows="2" cols="290" maxlength="150" value="${it.value}" style="width:40%;" />
+                                </f:field>
+                                <div id="modParams" >
+                                    <g:render template="templates/moduleParams" model="[module: module, eId: params?.eId]" />
+                                </div>
+                                <br/>
+                                <script>
+                                    function moduleChange(moduleId){
+                                        $.ajax({
+                                            url: "${createLink(controller: 'analysis', action: 'axModulChange')}",
+                                            dataType: "json",
+                                            type: "get",
+                                            data: {eId: ${params?.eId}, modId: moduleId},
+                                            success: function (data) {
+                                                $("#modParams").html(data.modParams);
+                                            },
+                                            error: function (request, status, error) {
+                                                console.log('E: ' + error);
+                                            },
+                                            complete: function () {
+                                                console.log('ajax completed');
+                                            }
+                                        });
                                     }
-                                });
-                            }
-                        </script>
+                                </script>
 
 
-                    </div>
-                </div>
+                            </div>
+                        </div>
                     </f:with>
                     %{--<br />--}%
                     %{--<fieldset class="buttons">--}%
