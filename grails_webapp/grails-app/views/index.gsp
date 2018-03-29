@@ -1,133 +1,73 @@
 <!DOCTYPE html>
 <g:set var='securityConfig' value='${applicationContext.springSecurityService.securityConfig}'/>
 <html lang="en">
-    <head>
-        <meta name="layout" content="ofg"/>
-        <title><g:message code="landingPage.title.label" default="FlowGate" /></title>
-    </head>
-    <body>
-        <g:render template="/shared/nav" />
-        <div class="container" style="width:100%;height:98.4%;background-color:#f8f8f8;">
-        <br/>
-            <div class="row" style="height:900px;max-width: 100%">
-                %{--<div id="imagebox" class="col-sm-8">--}%
-                    <!--<div style="width:100%;height:100%;">--}%
-                        <img src="../../images/login_bg1.png" height="100%"/>
-                    </div>-->
-                <div id="carouselBox" class="col-sm-8">
-                    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                        <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                            <li data-target="#myCarousel" data-slide-to="1"></li>
-                            <li data-target="#myCarousel" data-slide-to="2"></li>
-                            <li data-target="#myCarousel" data-slide-to="3"></li>
-                            <li data-target="#myCarousel" data-slide-to="4"></li>
-                            <li data-target="#myCarousel" data-slide-to="5"></li>
-                            <li data-target="#myCarousel" data-slide-to="6"></li>
-                            <li data-target="#myCarousel" data-slide-to="7"></li>
-                        </ol>
+<head>
+  <meta name="layout" content="ofg"/>
+  <asset:link rel="icon" href="f.ico" type="image/x-ico" />
+  <title><g:message code="landingPage.title.label" default="FlowGate"/></title>
+  <asset:stylesheet src="signin.css"/>
+</head>
 
-                        <!-- Wrapper for slides -->
-                        <div class="carousel-inner">
-                            <div class="item active">
-                                <img src="${assetPath(src: 'landingPageCarousel/Figure1.png')}" alt="Figure 1" style="width:100%;">
-                            </div>
-
-                            <div class="item">
-                                <img src="${assetPath(src: 'landingPageCarousel/Figure2.png')}" alt="Figure 2" style="width:100%;">
-                            </div>
-
-                            <div class="item">
-                                <img src="${assetPath(src: 'landingPageCarousel/Figure3.png')}" alt="Figure 3" style="width:100%;">
-                            </div>
-
-                            <div class="item">
-                                <img src="${assetPath(src: 'landingPageCarousel/Figure4.png')}" alt="Figure 4" style="width:100%;">
-                            </div>
-
-                            <div class="item">
-                                <img src="${assetPath(src: 'landingPageCarousel/Figure5.png')}" alt="Figure 5" style="width:100%;">
-                            </div>
-
-                            <div class="item">
-                                <img src="${assetPath(src: 'landingPageCarousel/Figure6.png')}" alt="Figure 6" style="width:100%;">
-                            </div>
-
-                            <div class="item">
-                                <img src="${assetPath(src: 'landingPageCarousel/Figure7.png')}" alt="Figure 7" style="width:100%;">
-                            </div>
-
-
-                        </div>
-
-                        <!-- Left and right controls -->
-                        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                </div>
-               %{-- <script content="text/javascript" >
-                    $('.carousel').carousel({
-                        interval: 2000
-                    })
-                </script>--}%
-                <div id="loginbox" class="col-sm-4">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="alert alert-warning" style="margin-top: 5px;">
-                                The system is currently under testing and will be released in ...
-                            </div>
-                            <div id="loginAlert" style="margin-top: 5px;"></div>
-                            <div style="margin-bottom: 25px;">
-                                %{--<h3>Sign In</h3>--}%
-                                <h3><g:message code='spring.security.ui.login.signin'/></h3>
-                            </div>
-                            <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-                            <s2ui:form type='login' focus='username'>
-
-                                <div style="margin-bottom: 25px" class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input type="text" name="${securityConfig.apf.usernameParameter}" id="username" placeholder="email" class='input-sm' size="40"/>
-                                </div>
-
-                                <div style="margin-bottom: 25px" class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input type="password" name="${securityConfig.apf.passwordParameter}" id="password" placeholder="password" class="input-sm" size="40"/>
-
-                                </div>
-
-                                <div style="margin-top:10px" class="form-group">
-                                    <div class="col-sm-12 controls">
-                                        %{--<input type="hidden" name="j" value="u_l" />--}%
-                                        <input id="loginButton_submit" class=' btn-primary btn-lg' value="${g.message( code:'spring.security.ui.login.login' )}" type="submit" >
-                                    </div>
-                                </div>
-                                <br/>
-                                <div class="form-group" style="margin-top:35px;margin-bottom:40px;">
-                                    <div class="col-md-12 control">
-                                        <div style="border-top: 1px solid#888; padding-top:5px; font-size:1em;" >
-                                            <g:link controller="register" action="forgotPassword"><g:message code="spring.security.ui.login.forgotPw" default="Forgot Password?" /></g:link>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 control">
-                                        <div style="font-size:1em;" >
-                                            Don't have an account?
-                                            <s2ui:linkButton elementId='register' controller='register' messageCode='spring.security.ui.login.register'/>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </s2ui:form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8">
+      <div id="flowgateCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#flowgateCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#flowgateCarousel" data-slide-to="1"></li>
+          <li data-target="#flowgateCarousel" data-slide-to="2"></li>
+          <li data-target="#flowgateCarousel" data-slide-to="3"></li>
+          <li data-target="#flowgateCarousel" data-slide-to="4"></li>
+          <li data-target="#flowgateCarousel" data-slide-to="5"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="item active">
+            <img class="d-block w-100 img-fluid" src="${assetPath(src: 'landingPageCarousel2/NewFigure1.png')}">
+          </div>
+          <div class="item">
+            <img class="d-block w-100 img-fluid" src="${assetPath(src: 'landingPageCarousel2/NewFigure2.png')}">
+          </div>
+          <div class="item">
+            <img class="d-block w-100 img-fluid" src="${assetPath(src: 'landingPageCarousel2/NewFigure3.png')}">
+          </div>
+          <div class="item">
+            <img class="d-block w-100 img-fluid" src="${assetPath(src: 'landingPageCarousel2/NewFigure4.png')}">
+          </div>
+          <div class="item">
+            <img class="d-block w-100 img-fluid" src="${assetPath(src: 'landingPageCarousel2/NewFigure5.png')}">
+          </div>
+          <div class="item">
+            <img class="d-block w-100 img-fluid" src="${assetPath(src: 'landingPageCarousel2/NewFigure6.png')}">
+          </div>
         </div>
-    </body>
+        <a class="left carousel-control" href="#flowgateCarousel" role="button" data-slide="prev">
+          <i class="fa fa-chevron-left"></i>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#flowgateCarousel" role="button" data-slide="next">
+          <i class="fa fa-chevron-right"></i>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <s2ui:form type='login' focus='username' class="form-signin">
+        <img class="mb-4 img-fluid" src="${assetPath(src: 'logo-light.png')}" alt="Flow Gate" height="72">
+        <h1 class="h3 mb-3 font-weight-normal"><g:message code='spring.security.ui.login.signin'/></h1>
+        <label for="username" class="sr-only">Username</label>
+        <input type="text" name="${securityConfig.apf.usernameParameter}" id="username" placeholder="Username" class="form-control" required="" autofocus=""/>
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" name="${securityConfig.apf.passwordParameter}" id="password" placeholder="Password" class="form-control" required=""/>
+        <div class="mb-3"></div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">${g.message(code: 'spring.security.ui.login.login')}</button>
+        <div>
+          <s2ui:linkButton elementId='register' controller='register' messageCode='spring.security.ui.login.register'/> or <g:link controller="register" action="forgotPassword"><g:message code="spring.security.ui.login.forgotPw" default="Reset password"/></g:link>
+        </div>
+        <p class="mt-5 mb-3 text-muted">FlowGate &copy; 2018 | <g:link uri="/about" ><g:message code="about.link.label" default="About" /></g:link></p>
+      </s2ui:form>
+    </div>
+  </div>
+</div>
+</body>
 </html>

@@ -6,14 +6,12 @@
     <title><g:layoutTitle default="flowgate"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <asset:stylesheet src="application.css"/>
-    <asset:stylesheet href="ofg.css" />
+    %{--<asset:stylesheet href="ofg.css" />--}%
     <g:layoutHead/>
 </head>
-<body style="padding-top: 0">
-    <div class="content-wrapper">
-        <g:render template="/layouts/ofgNavBar" />
-        <g:layoutBody/>
-    </div>%{--wrapper--}%
+<body class="text-center">
+    %{--<g:render template="/layouts/ofgNavBar" />--}%
+    <g:layoutBody/>
     <g:if test="${flash.message}">
         <div id="msg" class="text-center message" role="status">${flash.message}</div>
     </g:if>
