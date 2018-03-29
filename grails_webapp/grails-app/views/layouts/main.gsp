@@ -15,6 +15,9 @@
 <body>
     <div class="content-wrapper">
         <g:render template="/layouts/navBar" />
+        <div class="col-sm-10" style="position: static">
+            <g:pageProperty name="page.topBtnBar" />
+        </div>
         <g:layoutBody/>
     </div>%{--wrapper--}%
     <g:if test="${flash.message}">

@@ -22,26 +22,41 @@
     </head>
     <body>
         <g:render template="/shared/nav" />
+        <content tag="topBtnBar">
+            <div class="row">
+                <div id="topBtnBar" >
+                    <g:render template="templates/indexTopBtnBar" model="[project: this.project]" />
+                </div>
+                <g:render template="/shared/errorsMsgs" model="[bean: this.project]" />
+            </div>
+        </content>
 
 
         %{--TODO remove after testing, just for testing purpose!!!!--}%
-        <sec:ifAnyGranted roles="ROLE_Acs">
-        <div class="nav" role="navigation">
-            <ul>
-                <li><g:link class="btn btn-default" controller="analysis" action="create" params="[eId: 1]" ><g:message code="create.analysis.label" default="Create Analysis" /></g:link></li>
-            </ul>
-            <ul>
-                <li><g:link class="btn btn-default" controller="analysis" action="index" params="[eId: 1]" ><g:message code="analysis.index.label" default="Analyses" /></g:link></li>
-            </ul>
-            %{--
-            <ul>
-                <li><g:link class="btn btn-default" controller="analysisPipeline" action="create" params="[eId: 1]" ><g:message code="create.analysis.label" default="Create A Pipeline" /></g:link></li>
-            </ul>
-            --}%
-            <ul>
-                <li><g:link class="btn btn-default" controller="expFile" action="expFileCreate" params="[eId: 1]" ><g:message code="create.expFile.label" default="Upload FCS" /></g:link></li>
-            </ul>
-        </div>
+        <sec:ifAnyGranted roles="ROLE_Admin">
+            <div class="row">
+                <div class="col-sm-12">
+                %{--<div class="nav" role="navigation">--}%
+                    %{--<ul>--}%
+                        %{--<li><g:link class="btn btn-default" controller="analysis" action="create" params="[eId: 1]" ><g:message code="create.analysis.label" default="Create Analysis" /></g:link></li>--}%
+                        <p><g:link class="btn btn-default" controller="analysis" action="create" params="[eId: 1]" ><g:message code="create.analysis.label" default="Create Analysis" /></g:link></p>
+                    %{--</ul>--}%
+                    %{--<ul>--}%
+                        %{--<li><g:link class="btn btn-default" controller="analysis" action="index" params="[eId: 1]" ><g:message code="analysis.index.label" default="Analyses" /></g:link></li>--}%
+                        <p><g:link class="btn btn-default" controller="analysis" action="index" params="[eId: 1]" ><g:message code="analysis.index.label" default="Analyses" /></g:link></p>
+                    %{--</ul>--}%
+                    %{--
+                    <ul>
+                        <li><g:link class="btn btn-default" controller="analysisPipeline" action="create" params="[eId: 1]" ><g:message code="create.analysis.label" default="Create A Pipeline" /></g:link></li>
+                    </ul>
+                    --}%
+                    %{--<ul>--}%
+                        %{--<li><g:link class="btn btn-default" controller="expFile" action="expFileCreate" params="[eId: 1]" ><g:message code="create.expFile.label" default="Upload FCS" /></g:link></li>--}%
+                        <p><g:link class="btn btn-default" controller="expFile" action="expFileCreate" params="[eId: 1]" ><g:message code="create.expFile.label" default="Upload FCS" /></g:link></p>
+                    %{--</ul>--}%
+                %{--</div>--}%
+                </div>
+            </div>
         </sec:ifAnyGranted>
 
 
