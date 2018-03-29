@@ -11,6 +11,6 @@ class ModuleParam {
 
     static constraints = {
         defaultVal nullable: true
-        pType nullable: true // , inList: ["file","url","val","none", null]
+        pType nullable: true // , inList: ["ds","dir","file","url","val","none", null]
     }
 }

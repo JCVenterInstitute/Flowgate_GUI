@@ -35,7 +35,7 @@
                                 <a class="navbar-item"><sec:username /></a>
                             </li>
                             <li class="navbar-link">
-                                <g:link controller="logout">Logout</g:link>
+                                <g:link class="nav-link" controller="logout">Logout</g:link>
                                 %{-- for old version only now E: tag does not exist! <g:remoteLink class="logout" controller="logout">${message(code: 'springSecurity.logout.link')}</g:remoteLink> --}%
                             </li>
                         </sec:ifLoggedIn>

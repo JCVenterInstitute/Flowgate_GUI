@@ -1,44 +1,22 @@
-<div id="create-experiment" class="content scaffold-create" role="main">
-%{--<h1><g:message code="default.create.label" args="[entityName]" /></h1>--}%
-    %{--
-    <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message}</div>
-    </g:if>
-    <g:hasErrors bean="${this.experiment}">
-        <ul class="errors" role="alert">
-            <g:eachError bean="${this.experiment}" var="error">
-                <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-            </g:eachError>
-        </ul>
-    </g:hasErrors>
-    --}%
-    <g:form action="save">
+<h1 class="page-header">Create Experiment</h1>
+<g:form action="save" class="col-xs-6 col-sm-3">
+  <g:hiddenField name="datasets" value="${null}"/>
+  <g:hiddenField name="experimentMeta" value=""/>
+  <g:hiddenField name="pId" value="${pId}"/>
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input type="text" class="form-control" id="title" name="title" placeholder="Title">
+  </div>
 
-    %{--
-    <fieldset class="form">
-        <f:all bean="experiment"/>
-    </fieldset>
-    --}%
+  <div class="form-group">
+    <label for="description">Description</label>
+    <input type="text" class="form-control" id="description" name="description" placeholder="Description">
+  </div>
 
-        %{--<g:hiddenField name="isOpen" value="false" />--}%
-        %{--<g:hiddenField name="inEditMode" value="false" />--}%
-        <g:hiddenField name="datasets" value="${null}" />
-        <g:hiddenField name="experimentMeta" value="" />
-        <g:hiddenField name="pId" value="${pId}" />
-        <fieldset class="form">
-            %{--<f:all bean="project"/>--}%
-            <f:with bean="experiment">
-                <f:field property="title"/>
-                <f:field property="description"/>
-                <f:field property="experimentHypothesis"/>
-            %{--<f:field property=""/>--}%
-            %{--<f:field property=""/>--}%
-            %{--<f:field property=""/>--}%
-            </f:with>
-        </fieldset>
-    %{--<fieldset class="buttons">--}%
-        <fieldset class="">
-            <g:submitButton name="create" class="save btn btn-success" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-        </fieldset>
-    </g:form>
-</div>
+  <div class="form-group">
+    <label for="experimentHypothesis">Experiment Hypothesis</label>
+    <input type="text" class="form-control" id="experimentHypothesis" name="experimentHypothesis" placeholder="Experiment Hypothesis">
+  </div>
+  <button type="submit" name="create" class="btn btn-primary">${message(code: 'default.button.create.label', default: 'Create')}</button>
+  <a href="/flowgate/project/index?pId=${pId}" type="submit" name="back" class="btn btn-warning">Back</a>
+</g:form>

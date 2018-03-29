@@ -24,13 +24,90 @@
         <g:render template="/shared/nav" />
         <h2 class="text-center"><g:message code="annotation.table.label" default="Annotation Table" /></h2>
         <br/>
-        <br/>
-        <g:render template="annMasterTbl" />
+        <div class="row" style="max-width: none">
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs">
+<<<<<<< HEAD
+                    <li class="active"><a href="#tabDemogr" role="tab" data-toggle="tab">Demographics </a></li>
+                    <li><a href="#tabSample" role="tab" data-toggle="tab">Sample Info</a></li>
+                    <li><a href="#tabInstrument" role="tab" data-toggle="tab">Instrument</a></li>
+                    <li><a href="#tabReagents" role="tab" data-toggle="tab">Reagents </a></li>
+=======
+                    <li class="active"><a href="#tabDemogr" role="tab" data-toggle="tab">Demographics</a></li>
+                    <li><a href="#tabVisit" role="tab" data-toggle="tab">Visit</a></li>
+                    <li><a href="#tabStimulation" role="tab" data-toggle="tab">Stimulation</a></li>
+                    <li><a href="#tabReagents" role="tab" data-toggle="tab">Reagents</a></li>
+>>>>>>> dev-int
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" role="tabpanel" id="tabDemogr">
+                        <g:render template="annMasterTbl" model="[category: 'Demographics']"/>
+                    </div>
+<<<<<<< HEAD
+                    <div class="tab-pane" role="tabpanel" id="tabSample" >
+                        <g:render template="annMasterTbl" model="[category: 'Sample Info']" />
+                    </div>
+                    <div class="tab-pane" role="tabpanel" id="tabInstrument">
+                        <g:render template="annMasterTbl" model="[category: '']" />
+=======
+                    <div class="tab-pane" role="tabpanel" id="tabVisit" >
+                        <g:render template="annMasterTbl" model="[category: 'Visit']" />
+                    </div>
+                    <div class="tab-pane" role="tabpanel" id="tabStimulation">
+                        <g:render template="annMasterTbl" model="[category: 'Stimulation']" />
+>>>>>>> dev-int
+                    </div>
+                    <div class="tab-pane" role="tabpanel" id="tabReagents">
+                        <g:render template="annMasterTbl" model="[category: 'Reagents']" />
+                    </div>
+                </div>
+            </div>
+        </div>
         <br/>
         <br/>
         <div class="text-center">
             %{--<g:link controller="expFile" action="doneAnnotation" id="${experiment.id}"><div class="btn btn-success">Submit</div></g:link>--}%
             <g:link controller="experiment" action="index" id="${experiment.id}" params="[eId: experiment.id]"><div class="btn btn-success">Submit</div></g:link>
         </div>
+        <script>
+            function eMetaClick(id,checked, mId){
+                var metaVal = document.getElementById("eMeta_"+mId+".mdVal").value;
+
+                $.ajax({
+                    url: "${g.createLink(controller: 'expFile', action: 'axMetaSelect')}",
+                    dataType: 'json',
+                    data: {id: id, checked: checked, mId: mId, metaVal: metaVal},
+                    success:  function (data, status, xhr){
+                        console.log('success');
+                        $("#tblCell_"+id.toString()+"_"+mId.toString()).html(data.cellTabl);
+                    },
+                    error: function(request, status, error){
+                        console.log('ajxError!');
+                    },
+                    complete: function(xhr, status){
+                        console.log('ajxComplete!');
+                    }
+                });
+
+            }
+
+            function eMetaValueChange(mId, valId){
+                $.ajax({
+                    url: "${g.createLink(controller: 'expFile', action: 'axMetaChange') }",
+                    dataType: 'json',
+                    data: {id: mId, valId: valId},
+                    success:  function (data, status, xhr){
+                        console.log('success');
+                        $("#fcsTbl").html(data.tablTabl);
+                    },
+                    error: function(request, status, error){
+                        console.log('ajxError!');
+                    },
+                    complete: function(xhr, status){
+                        console.log('ajxComplete!');
+                    }
+                });
+            }
+        </script>
     </body>
 </html>

@@ -22,11 +22,14 @@
             </a>
         </sec:ifAnyGranted>
 
+
+        <g:if test="${actionName=='index'}">
         <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_ProjectCreate">
             <div class="btn btn-primary" onclick="projectCloneClick(${project?.id})" >
                 <i class="fa fa-clone"></i>&nbsp;&nbsp;Clone Project
             </div>
         </sec:ifAnyGranted>
+        </g:if>
 
         <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_ProjectDelete">
             %{--
