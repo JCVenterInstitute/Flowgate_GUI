@@ -127,8 +127,8 @@ class BootStrap {
                     Module mod4 = new Module(server: as2, title: 'DAFi_Gating_Plotting_Streamlined', name: 'DAFi_Gating_Plotting_Streamlined', moduleParams: []).save(failOnSave: true)
 
 //                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "dir", pKey: 'Input.Dir', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/PreprocessedTest/').save()
-//                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "dir", pKey: 'Input.Dir', defaultVal: '').save()
-                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds.id.toString()).save()
+                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "dir", pKey: 'Input.Dir', defaultVal: '').save()
+//                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds.id.toString()).save()
 
 //                    ModuleParam mParam19 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/CLL_new.config').save()
                     ModuleParam mParam19 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '').save()
