@@ -199,6 +199,8 @@ class ExpFileController {
     }
 
     def expFileCreate(){
+        respond Experiment.get(params?.eId), model: [owner: springSecurityService.currentUser, eId: params?.eId
+        ]
     }
 
     def expFileCreate2(){
@@ -215,8 +217,8 @@ class ExpFileController {
         String fcsStoragePath = grailsApplication.config.getProperty('fcsFileStoreLocation.path', String)
         def ulFiles = request.multiFileMap.get("actFcsFile")
         if(ulFiles.findAll { !it.empty }.size<1){
-            flash.errMsg = 'E: no file selected!'
-            redirect action: 'expFileCreate', eId: experiment.id
+            flash.errMsg = 'No file selected!'
+            redirect action: 'expFileCreate', eId: experiment.id, params: [eId: experiment.id]
             return
 
         }

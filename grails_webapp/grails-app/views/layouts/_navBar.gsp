@@ -1,42 +1,39 @@
-<div class="navbar navbar-default navbar-static-top" role="navigation">
-    %{--<div class="container">--}%
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="${createLink(uri: '/about')}">
-                <i class=""><asset:image src="flowgate2.png" height="50"/></i>
-            </a>
-        </div>
-        <div class="navbar-collapse collapse" aria-expanded="false" style="height: 0.8px;">
-            <ul class="nav navbar-nav navbar-right pull-right">
-                <g:pageProperty name="page.nav" />
-                <div class="pull-right"  style="margin-right: 10px">
-                    <sec:ifLoggedIn>
-                        <li class="">
-                            %{--<li class="navbar-link">--}%
-                            <div class="nav-item" style="padding-top: 4px;" ><span class="glyphicon glyphicon-user"></span>&nbsp;<sec:username /></div>
-                        </li>
-                        <li class="navbar-link">
-                            <g:link controller="logout">Logout</g:link>
-                            %{-- for old version only now E: tag does not exist! <g:remoteLink class="logout" controller="logout">${message(code: 'springSecurity.logout.link')}</g:remoteLink> --}%
-                        </li>
-                    </sec:ifLoggedIn>
-                    <sec:ifNotLoggedIn>
-                        <li class="navbar-link">
-                            %{--<g:link controller='login' action='auth'>Login</g:link>--}%
-                            <g:link controller="logout">Login</g:link>
-                        </li>
-                    </sec:ifNotLoggedIn>
-                    <li class="navbar-link">
-                        <g:link uri="/about" ><g:message code="about.link.label" default="About" /></g:link>
-                    </li>
-                </div>
+<nav class="navbar navbar-dark bg-dark" role="navigation">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#flowgate-navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="${createLink(uri: '/')}"><img src="${assetPath(src: 'logo-dark.png')}" style="height: 40px;" class="img-fluid"></a>
+    </div>
 
-            </ul>
-        </div>
-    %{--</div>--}%
-</div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="flowgate-navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="nav-item">
+          <a class="nav-link" href="${createLink(uri: '/')}">Home</a>
+        </li>
+        <sec:ifLoggedIn>
+          <li class="nav-item">
+            <a class="nav-link" href="${createLink(uri: '/project/list')}">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="${createLink(uri: '/')}"><sec:username/></a>
+          </li>
+          <li class="nav-item">
+            <g:link class="nav-link" controller="logout">Logout</g:link>
+          </li>
+        </sec:ifLoggedIn>
+        <sec:ifNotLoggedIn>
+          <li id="navbar-login" class="navbar-item">
+            <g:link controller="logout" class="nav-link">Login</g:link>
+          </li>
+        </sec:ifNotLoggedIn>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

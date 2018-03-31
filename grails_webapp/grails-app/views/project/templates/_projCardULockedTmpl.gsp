@@ -1,10 +1,3 @@
-<style>
-a:hover {
-    text-decoration: none;
-    background: #79ee5d;
-}
-</style>
-
 %{--<a class="noLinkBlack" href="${createLink(controller: 'project', action: 'index', params:[pId: project?.id])}">--}%
 <a class="noLinkBlack" href="/flowgate/project/index?pId=${project?.id}" >
     <div class="panel panel-default">
