@@ -6,10 +6,10 @@
   <title><g:layoutTitle default="flowgate"/></title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <asset:link rel="icon" href="f.ico" type="image/x-ico" />
-  <asset:javascript src="uploadr.manifest.js"/>
-  <asset:javascript src="uploadr.demo.manifest.js"/>
-  <asset:stylesheet href="uploadr.manifest.css"/>
-  <asset:stylesheet href="uploadr.demo.manifest.css"/>
+  %{--<asset:javascript src="uploadr.manifest.js"/>--}%
+  %{--<asset:javascript src="uploadr.demo.manifest.js"/>--}%
+  %{--<asset:stylesheet href="uploadr.manifest.css"/>--}%
+  %{--<asset:stylesheet href="uploadr.demo.manifest.css"/>--}%
   <asset:stylesheet src="application.css"/>
   <g:layoutHead/>
 </head>
@@ -32,7 +32,6 @@
     <p class="m-0 text-center text-white">FlowGate &copy; 2018 | <g:link uri="/about" ><g:message code="about.link.label" default="About" /></g:link></p>
   </div>
 </footer>
-
 <div id="spinner" class="spinner" style="display:none;">
   <g:message code="spinner.alt" default="Loading&hellip;"/>
 </div>
