@@ -2,82 +2,84 @@ package flowgate
 import grails.converters.JSON
 import grails.util.Environment
 class BootStrap {
-    def init = { servletContext ->
-            if(Environment.current == Environment.DEVELOPMENT || Environment.current == Environment.PRODUCTION) {
-                    println 'roles & users'
-                    def superadminRole = Role.findOrSaveByAuthority('ROLE_Administrator')
-                    def adminRole = Role.findOrSaveByAuthority('ROLE_Admin')
-                    def userRole = Role.findOrSaveByAuthority('ROLE_User')
-                    def newUserRole = Role.findOrSaveByAuthority('ROLE_NewUser')
-                    def guestRole = Role.findOrSaveByAuthority('ROLE_Guest')
-                    def editExperiment = Role.findOrSaveByAuthority('ROLE_ExperimentEdit')
-                    def clickExperiment = Role.findOrSaveByAuthority('ROLE_ExperimentClick')
+  def init = { servletContext ->
+    if(Environment.current == Environment.DEVELOPMENT || Environment.current == Environment.PRODUCTION) {
+      println 'roles & users'
+      def superadminRole = Role.findOrSaveByAuthority('ROLE_Administrator')
+        def adminRole = Role.findOrSaveByAuthority('ROLE_Admin')
+  def userRole = Role.findOrSaveByAuthority('ROLE_User')
+  def newUserRole = Role.findOrSaveByAuthority('ROLE_NewUser')
+  def guestRole = Role.findOrSaveByAuthority('ROLE_Guest')
+  def editExperiment = Role.findOrSaveByAuthority('ROLE_ExperimentEdit')
+  def clickExperiment = Role.findOrSaveByAuthority('ROLE_ExperimentClick')
 //                    def addFcs = Role.findOrSaveByAuthority('ROLE_AddFcs')
-                    assert Role.count() == 7
-                    println 'pass Role count'
+  assert Role.count() == 7
+  println 'pass Role count'
 
-                    def superadminUser = User.findOrSaveByUsernameAndPasswordAndEmail('super', 'super', 'super@flowgate.ui')
-                    def adminUser = User.findOrSaveByUsernameAndPasswordAndEmail('admin', 'admin', 'admin@flowgate.ui')
-                    def userUser = User.findOrSaveByUsernameAndPasswordAndEmail( 'user', 'user', 'user@flowgate.ui')
-                    def flowGateUser = User.findOrSaveByUsernameAndPasswordAndEmail('flowGate', 'flowGate', 'flowgate.noreply@gmail.com')
-                    def testUser = User.findOrSaveByUsernameAndPasswordAndEmail( 'acs', 'acs', 'peter.acs@stanford.edu')
-                    UserRole.create(superadminUser, superadminRole)
-                    UserRole.create(adminUser, adminRole)
-                    UserRole.create(userUser, userRole)
-                    UserRole.create(userUser, editExperiment)
-                    UserRole.create(userUser, clickExperiment)
-                    UserRole.create(flowGateUser, userRole)
+  def superadminUser = User.findOrSaveByUsernameAndPasswordAndEmail('super', 'super', 'super@flowgate.ui')
+  def adminUser = User.findOrSaveByUsernameAndPasswordAndEmail('admin', 'admin', 'admin@flowgate.ui')
+  def userUser = User.findOrSaveByUsernameAndPasswordAndEmail( 'user', 'user', 'user@flowgate.ui')
+  def flowGateUser = User.findOrSaveByUsernameAndPasswordAndEmail('flowGate', 'flowGate', 'flowgate.noreply@gmail.com')
+  def testUser = User.findOrSaveByUsernameAndPasswordAndEmail( 'acs', 'acs', 'peter.acs@stanford.edu')
+  UserRole.create(superadminUser, superadminRole)
+  UserRole.create(adminUser, adminRole)
+  UserRole.create(userUser, userRole)
+  UserRole.create(userUser, editExperiment)
+  UserRole.create(userUser, clickExperiment)
+  UserRole.create(flowGateUser, userRole)
 //                    UserRole.create(flowGateUser, editExperiment)
 //                    UserRole.create(flowGateUser, clickExperiment)
-                    UserRole.create(testUser, newUserRole)
-                    assert User.count() == 5
-                    println 'pass User count'
+  UserRole.create(testUser, newUserRole)
+  assert User.count() == 5
+  println 'pass User count'
 
-                    println 'projects...'
-                    def orphanProj = new Project(title: 'orphanProject', description: 'dummy project, experiments get assigned to this project on project erasing to keep experiment data ', isActive: false)
-                    orphanProj.save(failOnError: true)
-                    def proj1 = new Project(title: 'SDY 180', description: 'Study Subjects and Study Design\n' +
-                            'The study was approved by the Baylor Research Institute Institutional Review Board at Baylor University Medical Center (Dallas, TX). After obtaining written informed consent, healthy adults, aged 18 to 64 years, were enrolled to receive a single intramuscular dose of 2009–2010 seasonal influenza (Fluzone, Sanofi Pasteur, PA), pneumococcal vaccine (Pneumovax23, Merck, NJ), or placebo (saline). Exclusion criteria were pregnancy, active allergy symptoms, or vaccinations within the previous 2 months. Prior to vaccination, participants had two baseline blood draws (on days −7 and 0, with respect to the day of vaccination; see Tables S1 and S2 for study design). Blood was collected in Tempus blood RNA tubes (Life Technologies) for microarray and acid citrate dextrose tubes (ACD, BD Vacutainer) for whole-blood flow cytometry, CBC, and serum analysis of neutralizing antibodies and cytokines. In addition, capillary blood was collected by finger stick for microarray (see Table S5 for study design). Freshly ficolled PBMC were used for sequential isolation of white blood cell subsets.\n',
-                            isActive: true).save(failOnError: true)
-                    def proj2 = new Project(title: '2nd Project', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
-                            isActive: true).save(failOnError: true)
-                    def proj3 = new Project(title: '3rd Project', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
-                            isActive: true).save(failOnError: true)
-                    ProjectUser.create(proj1, adminUser, 'owner')
-                    ProjectUser.create(proj1, userUser, 'member')
-                    ProjectUser.create(proj2, adminUser, 'owner')
-                    ProjectUser.create(proj2, userUser, 'member')
-                    ProjectUser.create(proj3, adminUser, 'owner')
-//                  ProjectUser.create(proj3, adminUser, 'member')
-                    /*
-                    def exp1 = new Experiment(title: 'exp1', description: 'exp1 desc', project: proj1, isActive: true).save(failOnError: true)
-                    def exp2 = new Experiment(title: 'exp2', description: 'exp2 desc', project: proj1, isActive: true).save(failOnError: true)
-                    def exp3 = new Experiment(title: 'exp3', description: 'exp3 desc', project: proj2, isActive: true).save(failOnError: true)
-                    */
-                    println 'experiments...'
-                    def exp1 = new Experiment(title: 'Experiment1', description: 'We incubated 200 uL of whole blood with pretitrated monoclonal antibodies for 15 min at room temperature followed by lysis of red blood cells (BD FACS Lyse). Samples were processed within 2 hr after blood draw and acquired on a BD Special Order LSRII flow cytometer. Analysis was performed by using FlowJo software (version 8.8.6, TreeStar, Inc.).',
+  println 'projects...'
+  def orphanProj = new Project(title: 'orphanProject', description: 'dummy project, experiments get assigned to this project on project erasing to keep experiment data ', isActive: false)
+  orphanProj.save(failOnError: true)
+  def proj1 = new Project(title: 'SDY 180', description: 'Study Subjects and Study Design\n' +
+    'The study was approved by the Baylor Research Institute Institutional Review Board at Baylor University Medical Center (Dallas, TX). After obtaining written informed consent, healthy adults, aged 18 to 64 years, were enrolled to receive a single intramuscular dose of 2009–2010 seasonal influenza (Fluzone, Sanofi Pasteur, PA), pneumococcal vaccine (Pneumovax23, Merck, NJ), or placebo (saline). Exclusion criteria were pregnancy, active allergy symptoms, or vaccinations within the previous 2 months. Prior to vaccination, participants had two baseline blood draws (on days −7 and 0, with respect to the day of vaccination; see Tables S1 and S2 for study design). Blood was collected in Tempus blood RNA tubes (Life Technologies) for microarray and acid citrate dextrose tubes (ACD, BD Vacutainer) for whole-blood flow cytometry, CBC, and serum analysis of neutralizing antibodies and cytokines. In addition, capillary blood was collected by finger stick for microarray (see Table S5 for study design). Freshly ficolled PBMC were used for sequential isolation of white blood cell subsets.\n',
+    isActive: true).save(failOnError: true)
+  def proj2 = new Project(title: '2nd Project', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
+                          isActive: true).save(failOnError: true)
+  def proj3 = new Project(title: '3rd Project', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
+                          isActive: true).save(failOnError: true)
+  ProjectUser.create(proj1, adminUser, 'owner')
+  ProjectUser.create(proj1, userUser, 'member')
+  ProjectUser.create(proj2, adminUser, 'owner')
+  ProjectUser.create(proj2, userUser, 'member')
+  ProjectUser.create(proj3, adminUser, 'owner')
+  //                  ProjectUser.create(proj3, adminUser, 'member')
+  /*
+  def exp1 = new Experiment(title: 'exp1', description: 'exp1 desc', project: proj1, isActive: true).save(failOnError: true)
+  def exp2 = new Experiment(title: 'exp2', description: 'exp2 desc', project: proj1, isActive: true).save(failOnError: true)
+  def exp3 = new Experiment(title: 'exp3', description: 'exp3 desc', project: proj2, isActive: true).save(failOnError: true)
+  */
+  println 'experiments...'
+  def exp1 = new Experiment(title: 'Experiment1', description: 'We incubated 200 uL of whole blood with pretitrated monoclonal antibodies for 15 min at room temperature followed by lysis of red blood cells (BD FACS Lyse). Samples were processed within 2 hr after blood draw and acquired on a BD Special Order LSRII flow cytometer. Analysis was performed by using FlowJo software (version 8.8.6, TreeStar, Inc.).',
                             project: proj1, isActive: true).save(failOnError: true)
-                    def exp2 = new Experiment(title: 'exp2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
+  def exp2 = new Experiment(title: 'exp2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
                             project: proj1, isActive: true).save(failOnError: true)
-                    def exp3 = new Experiment(title: 'exp3', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
+  def exp3 = new Experiment(title: 'exp3', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
                             project: proj2, isActive: true).save(failOnError: true)
-                    ExperimentUser.create(exp1, adminUser, 'owner')
-                    ExperimentUser.create(exp1, flowGateUser, 'owner')
-                    ExperimentUser.create(exp1, userUser, 'member')
-                    ExperimentUser.create(exp2, adminUser, 'owner')
-                    ExperimentUser.create(exp2, userUser, 'owner')
-                    ExperimentUser.create(exp3, adminUser, 'owner')
-                    ExperimentUser.create(exp3, userUser, 'member')
-                    def expFile1 = new ExpFile(experiment: exp2, title: 'test File', chkSum: 'a41a0f25bcb0454ab43a4451ac59bd6b', fileName: 'test.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: adminUser, isActive: true, reagentPanel: []).save(failOnError: true)
-                    def expFile2 = new ExpFile(experiment: exp2, title: 'fcsFile2.fcs', chkSum: 'efb1fede93ca087a90693353d3cfb2e9276925fd', fileName: 'fcsFile2.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: userUser, reagentPanel: []).save(failOnError: true)
+  ExperimentUser.create(exp1, adminUser, 'owner')
+  ExperimentUser.create(exp1, flowGateUser, 'owner')
+  ExperimentUser.create(exp1, userUser, 'member')
+  ExperimentUser.create(exp2, adminUser, 'owner')
+  ExperimentUser.create(exp2, userUser, 'owner')
+  ExperimentUser.create(exp3, adminUser, 'owner')
+  ExperimentUser.create(exp3, userUser, 'member')
+  def expFile11 = new ExpFile(experiment: exp1, title: '3.txt', chkSum: 'abc', fileName: '3.txt', filePath: '/Users/acs/Projects/flowgate/testData/dafi/PreprocessedTest/', createdBy: adminUser, isActive: true, reagentPanel: []).save(failOnError: true)
+  def expFile21 = new ExpFile(experiment: exp1, title: '5.txt', chkSum: 'cde', fileName: '5.txt', filePath: '/Users/acs/Projects/flowgate/testData/dafi/PreprocessedTest/', createdBy: userUser, reagentPanel: []).save(failOnError: true)
+  def expFile1 = new ExpFile(experiment: exp2, title: 'test File', chkSum: 'a41a0f25bcb0454ab43a4451ac59bd6b', fileName: 'test.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: adminUser, isActive: true, reagentPanel: []).save(failOnError: true)
+  def expFile2 = new ExpFile(experiment: exp2, title: 'fcsFile2.fcs', chkSum: 'efb1fede93ca087a90693353d3cfb2e9276925fd', fileName: 'fcsFile2.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: userUser, reagentPanel: []).save(failOnError: true)
                     def expFile3 = new ExpFile(experiment: exp2, title: 'fcsFile3.fcs', chkSum: 'ACS', fileName: 'fcsFile3.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: adminUser, reagentPanel: []).save(failOnError: true)
-                    assert ExpFile.count() == 3
+                    assert ExpFile.count() == 5
                     println 'expFile.count() == 3 ? passed!'
-//                    exp1.expFiles = [expFile1, expFile2]
-//                    exp1.save()
+                    exp1.expFiles = [expFile11, expFile21]
+                    exp1.save()
                     exp2.expFiles = [expFile1, expFile2]
                     exp2.save()
-                    def ds = new Dataset(experiment: exp2, expFiles: [expFile2,expFile3], name: '1st dataset', description: 'testDataset')
+                    def ds = new Dataset(experiment: exp1, expFiles: [expFile11,expFile21], name: 'Dafi 1st dataset', description: 'testDataset')
                     ds.save()
                     new UserSettings(user: adminUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
                     new UserSettings(user: userUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
@@ -127,8 +129,8 @@ class BootStrap {
                     Module mod4 = new Module(server: as2, title: 'DAFi_Gating_Plotting_Streamlined', name: 'DAFi_Gating_Plotting_Streamlined', moduleParams: []).save(failOnSave: true)
 
 //                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "dir", pKey: 'Input.Dir', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/PreprocessedTest/').save()
-                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "dir", pKey: 'Input.Dir', defaultVal: '').save()
-//                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds.id.toString()).save()
+//                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "dir", pKey: 'Input.Dir', defaultVal: '').save()
+                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds.id.toString()).save()
 
 //                    ModuleParam mParam19 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/CLL_new.config').save()
                     ModuleParam mParam19 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '').save()

@@ -36,7 +36,7 @@
     </tr>
   </thead>
   <tbody id="fcsTbl">
-          <g:render template="annotationTmpl/tablTmpl" model="[category: category]" />
+    <g:render template="annotationTmpl/tablTmpl" model="[category: category]" />
   </tbody>
 </table>
 %{--

@@ -81,7 +81,7 @@
 </sec:ifNotLoggedIn>
 --}%
 </content>
-<a href="#list-analysis" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
+%{--<a href="#list-analysis" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>--}%
 
 <div class="nav" role="navigation">
   <ul>
@@ -167,8 +167,8 @@
     }, 2500);
     */
 
-//                var intrvalTmr = setInterval(checkTimer, 3000);
-//                setInterval(checkTimer(), 3000);
+//  var intrvalTmr = setInterval(checkTimer, 3000);
+//  setInterval(checkTimer(), 3000);
 
     $("iframe#resultsFrame").load(function () {
       $("#loadingMessage").hide();
