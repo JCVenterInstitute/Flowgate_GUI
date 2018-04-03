@@ -2,155 +2,173 @@ package flowgate
 import grails.converters.JSON
 import grails.util.Environment
 class BootStrap {
-    def init = { servletContext ->
-            if(Environment.current == Environment.DEVELOPMENT || Environment.current == Environment.PRODUCTION) {
-                    println 'roles & users'
-                    def superadminRole = Role.findOrSaveByAuthority('ROLE_Administrator')
-                    def adminRole = Role.findOrSaveByAuthority('ROLE_Admin')
-                    def userRole = Role.findOrSaveByAuthority('ROLE_User')
-                    def newUserRole = Role.findOrSaveByAuthority('ROLE_NewUser')
-                    def guestRole = Role.findOrSaveByAuthority('ROLE_Guest')
-                    def editExperiment = Role.findOrSaveByAuthority('ROLE_ExperimentEdit')
-                    def clickExperiment = Role.findOrSaveByAuthority('ROLE_ExperimentClick')
+  def init = { servletContext ->
+    if(Environment.current == Environment.DEVELOPMENT || Environment.current == Environment.PRODUCTION) {
+      println 'roles & users'
+      def superadminRole = Role.findOrSaveByAuthority('ROLE_Administrator')
+        def adminRole = Role.findOrSaveByAuthority('ROLE_Admin')
+  def userRole = Role.findOrSaveByAuthority('ROLE_User')
+  def newUserRole = Role.findOrSaveByAuthority('ROLE_NewUser')
+  def guestRole = Role.findOrSaveByAuthority('ROLE_Guest')
+  def editExperiment = Role.findOrSaveByAuthority('ROLE_ExperimentEdit')
+  def clickExperiment = Role.findOrSaveByAuthority('ROLE_ExperimentClick')
 //                    def addFcs = Role.findOrSaveByAuthority('ROLE_AddFcs')
-                    assert Role.count() == 7
-                    println 'pass Role count'
+  assert Role.count() == 7
+  println 'pass Role count'
 
-                    def superadminUser = User.findOrSaveByUsernameAndPasswordAndEmail('super', 'super', 'super@flowgate.ui')
-                    def adminUser = User.findOrSaveByUsernameAndPasswordAndEmail('admin', 'admin', 'admin@flowgate.ui')
-                    def userUser = User.findOrSaveByUsernameAndPasswordAndEmail( 'user', 'user', 'user@flowgate.ui')
-                    def flowGateUser = User.findOrSaveByUsernameAndPasswordAndEmail('flowGate', 'flowGate', 'flowgate.noreply@gmail.com')
-                    def testUser = User.findOrSaveByUsernameAndPasswordAndEmail( 'acs', 'acs', 'peter.acs@stanford.edu')
-                    UserRole.create(superadminUser, superadminRole)
-                    UserRole.create(adminUser, adminRole)
-                    UserRole.create(userUser, userRole)
-                    UserRole.create(userUser, editExperiment)
-                    UserRole.create(userUser, clickExperiment)
-                    UserRole.create(flowGateUser, userRole)
+  def superadminUser = User.findOrSaveByUsernameAndPasswordAndEmail('super', 'super', 'super@flowgate.ui')
+  def adminUser = User.findOrSaveByUsernameAndPasswordAndEmail('admin', 'admin', 'admin@flowgate.ui')
+  def userUser = User.findOrSaveByUsernameAndPasswordAndEmail( 'user', 'user', 'user@flowgate.ui')
+  def flowGateUser = User.findOrSaveByUsernameAndPasswordAndEmail('flowGate', 'flowGate', 'flowgate.noreply@gmail.com')
+  def testUser = User.findOrSaveByUsernameAndPasswordAndEmail( 'acs', 'acs', 'peter.acs@stanford.edu')
+  UserRole.create(superadminUser, superadminRole)
+  UserRole.create(adminUser, adminRole)
+  UserRole.create(userUser, userRole)
+  UserRole.create(userUser, editExperiment)
+  UserRole.create(userUser, clickExperiment)
+  UserRole.create(flowGateUser, userRole)
 //                    UserRole.create(flowGateUser, editExperiment)
 //                    UserRole.create(flowGateUser, clickExperiment)
-                    UserRole.create(testUser, newUserRole)
-                    assert User.count() == 5
-                    println 'pass User count'
+  UserRole.create(testUser, newUserRole)
+  assert User.count() == 5
+  println 'pass User count'
 
-                    println 'projects...'
-                    def orphanProj = new Project(title: 'orphanProject', description: 'dummy project, experiments get assigned to this project on project erasing to keep experiment data ', isActive: false)
-                    orphanProj.save(failOnError: true)
-                    def proj1 = new Project(title: 'SDY 180', description: 'Study Subjects and Study Design\n' +
-                            'The study was approved by the Baylor Research Institute Institutional Review Board at Baylor University Medical Center (Dallas, TX). After obtaining written informed consent, healthy adults, aged 18 to 64 years, were enrolled to receive a single intramuscular dose of 2009–2010 seasonal influenza (Fluzone, Sanofi Pasteur, PA), pneumococcal vaccine (Pneumovax23, Merck, NJ), or placebo (saline). Exclusion criteria were pregnancy, active allergy symptoms, or vaccinations within the previous 2 months. Prior to vaccination, participants had two baseline blood draws (on days −7 and 0, with respect to the day of vaccination; see Tables S1 and S2 for study design). Blood was collected in Tempus blood RNA tubes (Life Technologies) for microarray and acid citrate dextrose tubes (ACD, BD Vacutainer) for whole-blood flow cytometry, CBC, and serum analysis of neutralizing antibodies and cytokines. In addition, capillary blood was collected by finger stick for microarray (see Table S5 for study design). Freshly ficolled PBMC were used for sequential isolation of white blood cell subsets.\n',
-                            isActive: true).save(failOnError: true)
-                    def proj2 = new Project(title: '2nd Project', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
-                            isActive: true).save(failOnError: true)
-                    def proj3 = new Project(title: '3rd Project', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
-                            isActive: true).save(failOnError: true)
-                    ProjectUser.create(proj1, adminUser, 'owner')
-                    ProjectUser.create(proj1, userUser, 'member')
-                    ProjectUser.create(proj2, adminUser, 'owner')
-                    ProjectUser.create(proj2, userUser, 'member')
-                    ProjectUser.create(proj3, adminUser, 'owner')
-//                  ProjectUser.create(proj3, adminUser, 'member')
-                    /*
-                    def exp1 = new Experiment(title: 'exp1', description: 'exp1 desc', project: proj1, isActive: true).save(failOnError: true)
-                    def exp2 = new Experiment(title: 'exp2', description: 'exp2 desc', project: proj1, isActive: true).save(failOnError: true)
-                    def exp3 = new Experiment(title: 'exp3', description: 'exp3 desc', project: proj2, isActive: true).save(failOnError: true)
-                    */
-                    println 'experiments...'
-                    def exp1 = new Experiment(title: 'Experiment1', description: 'We incubated 200 uL of whole blood with pretitrated monoclonal antibodies for 15 min at room temperature followed by lysis of red blood cells (BD FACS Lyse). Samples were processed within 2 hr after blood draw and acquired on a BD Special Order LSRII flow cytometer. Analysis was performed by using FlowJo software (version 8.8.6, TreeStar, Inc.).',
+  println 'projects...'
+  def orphanProj = new Project(title: 'orphanProject', description: 'dummy project, experiments get assigned to this project on project erasing to keep experiment data ', isActive: false)
+  orphanProj.save(failOnError: true)
+  def proj1 = new Project(title: 'SDY 180', description: 'Study Subjects and Study Design\n' +
+    'The study was approved by the Baylor Research Institute Institutional Review Board at Baylor University Medical Center (Dallas, TX). After obtaining written informed consent, healthy adults, aged 18 to 64 years, were enrolled to receive a single intramuscular dose of 2009–2010 seasonal influenza (Fluzone, Sanofi Pasteur, PA), pneumococcal vaccine (Pneumovax23, Merck, NJ), or placebo (saline). Exclusion criteria were pregnancy, active allergy symptoms, or vaccinations within the previous 2 months. Prior to vaccination, participants had two baseline blood draws (on days −7 and 0, with respect to the day of vaccination; see Tables S1 and S2 for study design). Blood was collected in Tempus blood RNA tubes (Life Technologies) for microarray and acid citrate dextrose tubes (ACD, BD Vacutainer) for whole-blood flow cytometry, CBC, and serum analysis of neutralizing antibodies and cytokines. In addition, capillary blood was collected by finger stick for microarray (see Table S5 for study design). Freshly ficolled PBMC were used for sequential isolation of white blood cell subsets.\n',
+    isActive: true).save(failOnError: true)
+  def proj2 = new Project(title: '2nd Project', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
+                          isActive: true).save(failOnError: true)
+  def proj3 = new Project(title: '3rd Project', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
+                          isActive: true).save(failOnError: true)
+  ProjectUser.create(proj1, adminUser, 'owner')
+  ProjectUser.create(proj1, userUser, 'member')
+  ProjectUser.create(proj2, adminUser, 'owner')
+  ProjectUser.create(proj2, userUser, 'member')
+  ProjectUser.create(proj3, adminUser, 'owner')
+  //                  ProjectUser.create(proj3, adminUser, 'member')
+  /*
+  def exp1 = new Experiment(title: 'exp1', description: 'exp1 desc', project: proj1, isActive: true).save(failOnError: true)
+  def exp2 = new Experiment(title: 'exp2', description: 'exp2 desc', project: proj1, isActive: true).save(failOnError: true)
+  def exp3 = new Experiment(title: 'exp3', description: 'exp3 desc', project: proj2, isActive: true).save(failOnError: true)
+  */
+  println 'experiments...'
+  def exp1 = new Experiment(title: 'Experiment1', description: 'We incubated 200 uL of whole blood with pretitrated monoclonal antibodies for 15 min at room temperature followed by lysis of red blood cells (BD FACS Lyse). Samples were processed within 2 hr after blood draw and acquired on a BD Special Order LSRII flow cytometer. Analysis was performed by using FlowJo software (version 8.8.6, TreeStar, Inc.).',
                             project: proj1, isActive: true).save(failOnError: true)
-                    def exp2 = new Experiment(title: 'exp2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
+  def exp2 = new Experiment(title: 'exp2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
                             project: proj1, isActive: true).save(failOnError: true)
-                    def exp3 = new Experiment(title: 'exp3', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
+  def exp3 = new Experiment(title: 'exp3', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
                             project: proj2, isActive: true).save(failOnError: true)
-                    ExperimentUser.create(exp1, adminUser, 'owner')
-                    ExperimentUser.create(exp1, flowGateUser, 'owner')
-                    ExperimentUser.create(exp1, userUser, 'member')
-                    ExperimentUser.create(exp2, adminUser, 'owner')
-                    ExperimentUser.create(exp2, userUser, 'owner')
-                    ExperimentUser.create(exp3, adminUser, 'owner')
-                    ExperimentUser.create(exp3, userUser, 'member')
-                    def expFile1 = new ExpFile(experiment: exp2, title: 'test File', chkSum: 'a41a0f25bcb0454ab43a4451ac59bd6b', fileName: 'test.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: adminUser, isActive: true, reagentPanel: []).save(failOnError: true)
-                    def expFile2 = new ExpFile(experiment: exp2, title: 'fcsFile2.fcs', chkSum: 'efb1fede93ca087a90693353d3cfb2e9276925fd', fileName: 'fcsFile2.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: userUser, reagentPanel: []).save(failOnError: true)
-                    def expFile3 = new ExpFile(experiment: exp2, title: 'fcsFile3.fcs', chkSum: 'ACS', fileName: 'fcsFile3.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: adminUser, reagentPanel: []).save(failOnError: true)
-                    assert ExpFile.count() == 3
-                    println 'expFile.count() == 3 ? passed!'
-//                    exp1.expFiles = [expFile1, expFile2]
-//                    exp1.save()
-                    exp2.expFiles = [expFile1, expFile2]
-                    exp2.save()
-                    def ds = new Dataset(experiment: exp2, expFiles: [expFile2,expFile3], name: '1st dataset', description: 'testDataset')
-                    ds.save()
-                    new UserSettings(user: adminUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
-                    new UserSettings(user: userUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
-                    new UserSettings(user: flowGateUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
-                    assert UserSettings.count() == 3
-                    AnalysisServer as1 = new AnalysisServer(name: 'local', url: 'http://127.0.0.1:8080', userName: 'peterAcs')
-                    as1.save()
-                    AnalysisServer as2 = new AnalysisServer(name: 'SDSC', url: 'http://flowgate.sdsc.edu:8080', userName: 'flowGate', userPw: 'flowGate').save()
-                    AnalysisServer as3 = new AnalysisServer(name: 'MIT', url: 'https://genepattern.broadinstitute.org', userName: 'flowGate', userPw: 'flowGate').save()
-                    assert AnalysisServer.count() == 3
-                    println 'pass AnalysisServer count'
-                    println 'Modules ...'
-                    Module mod1 = new Module(server: as3, title: 'FLOCK', name: 'ImmPortFLOCK', moduleParams: []).save(failOnSave: true)
-//                    ModuleParam mParam1 = new ModuleParam(module: mod1, pBasic: true, pType: "file", pKey: 'Input.file', defaultVal: '/Users/acs/Projects/flowgate/testData/flock/test.txt').save()
-                    ModuleParam mParam1 = new ModuleParam(module: mod1, pBasic: true, pType: "file", pKey: 'Input.file', defaultVal: '').save()
-                    ModuleParam mParam2 = new ModuleParam(module: mod1, pBasic: false, pType: "val", pKey: 'Number.of.bins', defaultVal: '0').save()
-                    ModuleParam mParam3 = new ModuleParam(module: mod1, pBasic: false, pType: "val", pKey: 'Density.threshold', defaultVal: '0').save()
-                    ModuleParam mParam4 = new ModuleParam(module: mod1, pBasic: false, pType: "val", pKey: 'Maximum.number.of.populations', defaultVal: '30').save()
-                    mod1.moduleParams = [mParam1, mParam2, mParam3, mParam4]
-                    mod1.save()
-                    Module mod2 = new Module(server: as2, title: 'DAFI', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:1:2', moduleParams: []).save(failOnSave: true)
-//                    ModuleParam mParam5 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'input.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/dafitest.txt').save()
-                    ModuleParam mParam5 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'input.file', defaultVal: '').save()
-//                    ModuleParam mParam6 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/Run02.config').save()
-                    ModuleParam mParam6 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '').save()
-//                    ModuleParam mParam7 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/Empty.config').save()
-                    ModuleParam mParam7 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '').save()
-                    ModuleParam mParam8 = new ModuleParam(module: mod2, pBasic: false, pType: "val", pKey: 'init.cluster.size', defaultVal: '200').save()
-                    ModuleParam mParam9 = new ModuleParam(module: mod2, pBasic: false, pType: "val", pKey: 're.cluster.size', defaultVal: '500').save()
-                    ModuleParam mParam10 = new ModuleParam(module: mod2, pBasic: false, pType: "val", pKey: 'num.cores', defaultVal: '24').save()
-                    mod2.moduleParams = [mParam5, mParam6, mParam7, mParam8, mParam9, mParam10]
-                    mod2.save()
-//                  Module mod3 = new Module(server: as1, title: 'Fcs2Txt', name: 'FcsToCsv', moduleParams: []).save(failOnSave: true)
-                    Module mod3 = new Module(server: as3, title: 'Fcs2Csv', name: 'FcsToCsv', moduleParams: []).save(failOnSave: true)
-//                    ModuleParam mParam11 = new ModuleParam(module: mod3, pBasic: true, pType: "file", pKey: 'Input.FCS.data.file', defaultVal: '/Users/acs/Projects/flowgate/testData/flock/test.fcs').save()
-                    ModuleParam mParam11 = new ModuleParam(module: mod3, pBasic: true, pType: "file", pKey: 'Input.FCS.data.file', defaultVal: '').save()
-                    ModuleParam mParam12 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Output.CSV.file.name', defaultVal: '<Input.FCS.data.file_basename>.csv').save()
-                    ModuleParam mParam13 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Use.full.names', defaultVal: 'TRUE').save()
-                    ModuleParam mParam14 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Output.keywords.file.name', defaultVal: '<Input.FCS.data.file_basename>').save()
-                    ModuleParam mParam15 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Output.keywords.mode', defaultVal: 'CSV').save()
-                    ModuleParam mParam16 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Channel.to.scale.conversion', defaultVal: 'TRUE').save()
-                    ModuleParam mParam17 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Precision', defaultVal: 'FALSE').save()
-                    mod3.moduleParams = [mParam11, mParam12, mParam13, mParam14, mParam15, mParam16, mParam17]
-                    mod3.save()
+  ExperimentUser.create(exp1, adminUser, 'owner')
+  ExperimentUser.create(exp1, flowGateUser, 'owner')
+  ExperimentUser.create(exp1, userUser, 'member')
+  ExperimentUser.create(exp2, adminUser, 'owner')
+  ExperimentUser.create(exp2, userUser, 'owner')
+  ExperimentUser.create(exp3, adminUser, 'owner')
+  ExperimentUser.create(exp3, userUser, 'member')
 
-                    //name lsid urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:20:3
-                    Module mod4 = new Module(server: as2, title: 'DAFi_Gating_Plotting_Streamlined', name: 'DAFi_Gating_Plotting_Streamlined', moduleParams: []).save(failOnSave: true)
+
+  def expFile11 = new ExpFile(experiment: exp1, title: '3.txt', chkSum: 'abc', fileName: '3.txt', filePath: '/Users/acs/Projects/flowgate/testData/dafi/PreprocessedTest/', createdBy: adminUser, isActive: true, reagentPanel: []).save(failOnError: true)
+  def expFile21 = new ExpFile(experiment: exp1, title: '5.txt', chkSum: 'cde', fileName: '5.txt', filePath: '/Users/acs/Projects/flowgate/testData/dafi/PreprocessedTest/', createdBy: userUser, reagentPanel: []).save(failOnError: true)
+  def expFile1 = new ExpFile(experiment: exp2, title: 'test File', chkSum: 'a41a0f25bcb0454ab43a4451ac59bd6b', fileName: 'test.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: adminUser, isActive: true, reagentPanel: []).save(failOnError: true)
+  def expFile2 = new ExpFile(experiment: exp2, title: 'fcsFile2.fcs', chkSum: 'efb1fede93ca087a90693353d3cfb2e9276925fd', fileName: 'fcsFile2.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: userUser, reagentPanel: []).save(failOnError: true)
+  def expFile3 = new ExpFile(experiment: exp2, title: 'fcsFile3.fcs', chkSum: 'ACS', fileName: 'fcsFile3.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: adminUser, reagentPanel: []).save(failOnError: true)
+  assert ExpFile.count() == 5
+  println 'expFile.count() == 3 ? passed!'
+
+  ExpFileMetadata expFileMeta1 = new ExpFileMetadata(expFile: expFile1, mdKey: 'Gender', mdVal: 'Female')
+  ExpFileMetadata expFileMeta2 = new ExpFileMetadata(expFile: expFile2, mdKey: 'Gender', mdVal: 'Female')
+  expFile11.metaDatas = [expFileMeta1]
+  expFile11.save()
+  expFile21.metaDatas = [expFileMeta2]
+  expFile21.save()
+
+  exp1.expFiles = [expFile11, expFile21]
+
+  exp1.save()
+  exp2.expFiles = [expFile1, expFile2]
+  exp2.save()
+
+      //  Dataset
+  def ds = new Dataset(experiment: exp1, expFiles: [expFile11,expFile21], name: 'Dafi 1st dataset', description: 'dafiDataset')
+  ds.save()
+  def ds2 = new Dataset(experiment: exp1, expFiles: [], name: 'test dataset', description: 'testDataset').save()
+
+
+  new UserSettings(user: adminUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
+  new UserSettings(user: userUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
+  new UserSettings(user: flowGateUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
+  assert UserSettings.count() == 3
+  AnalysisServer as1 = new AnalysisServer(name: 'local', url: 'http://127.0.0.1:8080', userName: 'peterAcs')
+  as1.save()
+  AnalysisServer as2 = new AnalysisServer(name: 'SDSC', url: 'http://flowgate.sdsc.edu:8080', userName: 'flowGate', userPw: 'flowGate').save()
+  AnalysisServer as3 = new AnalysisServer(name: 'MIT', url: 'https://genepattern.broadinstitute.org', userName: 'flowGate', userPw: 'flowGate').save()
+  assert AnalysisServer.count() == 3
+  println 'pass AnalysisServer count'
+  println 'Modules ...'
+  Module mod1 = new Module(server: as3, title: 'FLOCK', name: 'ImmPortFLOCK', moduleParams: []).save(failOnSave: true)
+//                    ModuleParam mParam1 = new ModuleParam(module: mod1, pBasic: true, pType: "file", pKey: 'Input.file', defaultVal: '/Users/acs/Projects/flowgate/testData/flock/test.txt').save()
+  ModuleParam mParam1 = new ModuleParam(module: mod1, pBasic: true, pType: "file", pKey: 'Input.file', defaultVal: '').save()
+  ModuleParam mParam2 = new ModuleParam(module: mod1, pBasic: false, pType: "val", pKey: 'Number.of.bins', defaultVal: '0').save()
+  ModuleParam mParam3 = new ModuleParam(module: mod1, pBasic: false, pType: "val", pKey: 'Density.threshold', defaultVal: '0').save()
+  ModuleParam mParam4 = new ModuleParam(module: mod1, pBasic: false, pType: "val", pKey: 'Maximum.number.of.populations', defaultVal: '30').save()
+  mod1.moduleParams = [mParam1, mParam2, mParam3, mParam4]
+  mod1.save()
+  Module mod2 = new Module(server: as2, title: 'DAFI', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:1:2', moduleParams: []).save(failOnSave: true)
+//                    ModuleParam mParam5 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'input.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/dafitest.txt').save()
+  ModuleParam mParam5 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'input.file', defaultVal: '').save()
+//                    ModuleParam mParam6 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/Run02.config').save()
+  ModuleParam mParam6 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '').save()
+//                    ModuleParam mParam7 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/Empty.config').save()
+  ModuleParam mParam7 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '').save()
+  ModuleParam mParam8 = new ModuleParam(module: mod2, pBasic: false, pType: "val", pKey: 'init.cluster.size', defaultVal: '200').save()
+  ModuleParam mParam9 = new ModuleParam(module: mod2, pBasic: false, pType: "val", pKey: 're.cluster.size', defaultVal: '500').save()
+  ModuleParam mParam10 = new ModuleParam(module: mod2, pBasic: false, pType: "val", pKey: 'num.cores', defaultVal: '24').save()
+  mod2.moduleParams = [mParam5, mParam6, mParam7, mParam8, mParam9, mParam10]
+  mod2.save()
+//                  Module mod3 = new Module(server: as1, title: 'Fcs2Txt', name: 'FcsToCsv', moduleParams: []).save(failOnSave: true)
+  Module mod3 = new Module(server: as3, title: 'Fcs2Csv', name: 'FcsToCsv', moduleParams: []).save(failOnSave: true)
+//                    ModuleParam mParam11 = new ModuleParam(module: mod3, pBasic: true, pType: "file", pKey: 'Input.FCS.data.file', defaultVal: '/Users/acs/Projects/flowgate/testData/flock/test.fcs').save()
+  ModuleParam mParam11 = new ModuleParam(module: mod3, pBasic: true, pType: "file", pKey: 'Input.FCS.data.file', defaultVal: '').save()
+  ModuleParam mParam12 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Output.CSV.file.name', defaultVal: '<Input.FCS.data.file_basename>.csv').save()
+  ModuleParam mParam13 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Use.full.names', defaultVal: 'TRUE').save()
+  ModuleParam mParam14 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Output.keywords.file.name', defaultVal: '<Input.FCS.data.file_basename>').save()
+  ModuleParam mParam15 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Output.keywords.mode', defaultVal: 'CSV').save()
+  ModuleParam mParam16 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Channel.to.scale.conversion', defaultVal: 'TRUE').save()
+  ModuleParam mParam17 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Precision', defaultVal: 'FALSE').save()
+  mod3.moduleParams = [mParam11, mParam12, mParam13, mParam14, mParam15, mParam16, mParam17]
+  mod3.save()
+
+  //name lsid urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:20:3
+  Module mod4 = new Module(server: as2, title: 'DAFi_Gating_Plotting_Streamlined', name: 'DAFi_Gating_Plotting_Streamlined', moduleParams: []).save(failOnSave: true)
 
 //                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "dir", pKey: 'Input.Dir', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/PreprocessedTest/').save()
 //                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "dir", pKey: 'Input.Dir', defaultVal: '').save()
-                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds.id.toString()).save()
+  ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds.id.toString()).save()
 
 //                    ModuleParam mParam19 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/CLL_new.config').save()
-                    ModuleParam mParam19 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '').save()
+  ModuleParam mParam19 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '').save()
 //                    ModuleParam mParam20 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/Empty.config').save()
-                    ModuleParam mParam20 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '').save()
-                    ModuleParam mParam21 = new ModuleParam(module: mod4, pBasic: true, pType: "var", pKey: 'init.cluster.size', defaultVal: '200').save()
-                    ModuleParam mParam22 = new ModuleParam(module: mod4, pBasic: true, pType: "var", pKey: 're.cluster.size', defaultVal: '500').save()
-                    ModuleParam mParam23 = new ModuleParam(module: mod4, pBasic: true, pType: "var", pKey: 'size.param', defaultVal: '1').save()
-                    ModuleParam mParam24 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'axisLabels.size', defaultVal: '14').save()
-                    ModuleParam mParam25 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'PopulationLabel.size', defaultVal: '10').save()
-                    ModuleParam mParam26 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'title.set', defaultVal: '').save()
-                    ModuleParam mParam27 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Multigates.set', defaultVal: '').save()
-                    ModuleParam mParam28 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Showparent.set', defaultVal: '').save()
-                    ModuleParam mParam29 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Sort.set', defaultVal: '').save()
-                    ModuleParam mParam30 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Showgrid.set', defaultVal: '').save()
-                    ModuleParam mParam31 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Hidegatelines.set', defaultVal: '').save()
+  ModuleParam mParam20 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '').save()
+  ModuleParam mParam21 = new ModuleParam(module: mod4, pBasic: true, pType: "var", pKey: 'init.cluster.size', defaultVal: '200').save()
+  ModuleParam mParam22 = new ModuleParam(module: mod4, pBasic: true, pType: "var", pKey: 're.cluster.size', defaultVal: '500').save()
+  ModuleParam mParam23 = new ModuleParam(module: mod4, pBasic: true, pType: "var", pKey: 'size.param', defaultVal: '1').save()
+  ModuleParam mParam24 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'axisLabels.size', defaultVal: '14').save()
+  ModuleParam mParam25 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'PopulationLabel.size', defaultVal: '10').save()
+  ModuleParam mParam26 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'title.set', defaultVal: '').save()
+  ModuleParam mParam27 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Multigates.set', defaultVal: '').save()
+  ModuleParam mParam28 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Showparent.set', defaultVal: '').save()
+  ModuleParam mParam29 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Sort.set', defaultVal: '').save()
+  ModuleParam mParam30 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Showgrid.set', defaultVal: '').save()
+  ModuleParam mParam31 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Hidegatelines.set', defaultVal: '').save()
 //            mod3.moduleParams = [mParam11, mParam12, mParam13, mParam14, mParam15, mParam16, mParam17]
-                    mod4.save()
-                    assert Module.count() == 4
-                    println 'pass Module count'
-                    assert ModuleParam.count() == 31
-                    println 'pass ModuleParams count'
+  mod4.save()
+  assert Module.count() == 4
+  println 'pass Module count'
+  assert ModuleParam.count() == 31
+  println 'pass ModuleParams count'
 
 /* */
 //            Analysis an1 = new Analysis(analysisName: 'DAFI Complete Beta', user: userUser, timestamp: new Date(117,8,22,10,00,00), analysisStatus: 2, jobNumber: 1, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
@@ -159,12 +177,12 @@ class BootStrap {
 //            Analysis an4 = new Analysis(analysisName: 'Flock 1', user: userUser, timestamp: new Date(117,10,4,14,30,00), analysisStatus: 3, jobNumber: 4, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
 //            Analysis an5 = new Analysis(analysisName: 'ImmPortColSelection', user: userUser, timestamp: new Date(117,10,14,10,00,00), analysisStatus: 3, jobNumber: 5, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
 //            Analysis an6 = new Analysis(analysisName: 'ImmPortCSV2TXT', user: userUser, timestamp: new Date(117,10,16,10,00,00), analysisStatus: 3, jobNumber: 6, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
-            Analysis an7 = new Analysis(analysisName: 'DAFI2', user: userUser, timestamp: new Date(117,11,17,11,30,00), analysisStatus: 3, jobNumber: 1155, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
+  Analysis an7 = new Analysis(analysisName: 'DAFI2', user: userUser, timestamp: new Date(117,11,17,11,30,00), analysisStatus: 3, jobNumber: 1155, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
 //            Analysis an8 = new Analysis(analysisName: 'FCS2CSV', user: userUser, timestamp: new Date(117,11,27,10,00,00), analysisStatus: 3, jobNumber: 8, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
 //            Analysis an9 = new Analysis(analysisName: 'DAFI Plotting', user: userUser, timestamp: new Date(117,11,27,11,00,00), analysisStatus: 1, jobNumber: 9, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
-            assert Analysis.count() == 1
+  assert Analysis.count() == 1
 //            assert Analysis.count() == 9
-            println 'pass Analysis count'
+  println 'pass Analysis count'
 // */
 
                     //AnalysisPipeline analysisPipeline = new AnalysisPipeline(experiment: exp1, name: 'Basic Analysis', elements: [])
@@ -172,29 +190,98 @@ class BootStrap {
                     //assert AnalysisPipeline.count() == 1
 //                    println 'pass AnalysisPipeline count'
 
-                    fillFcsKeywords()
+        fillFcsKeywords()
 
 
-                    def probes = fillProbes()
+        def probes = fillProbes()
 
-                    println "Probes count ${probes.size().toString()}"
-                    println "probe.cnt ${Probe.count().toString()}"
+        println "Probes count ${probes.size().toString()}"
+        println "probe.cnt ${Probe.count().toString()}"
 
-                    fillMetaData()
+        fillMetaData()
 //                    def metadata = fillMetaData()
-                    println "MetadataVoc.cnt ${MetadataVoc.count().toString()}"
+        println "MetadataVoc.cnt ${MetadataVoc.count().toString()}"
 
-
-
-
-                    def expMetadata = fillExperimentMetadata(exp1)
+        def expMetadata = fillExperimentMetadata(exp1)
 //                    metadata
+        def i=1
+        println 'bootstrapping done!'
+      }
+    }
 
-                    def i=1
 
+    def fillMetaData() {
 
-                    println 'bootstrapping done!'
-            }
+            MetadataVoc mdv = new MetadataVoc(mdKey: 'Organism', mdVal: '', category: 'Organisms', dispOrder: 0, status: 'active').save()
+//            println "mdv ${mdv?.dump()}  e: ${mdv?.errors}"
+            new MetadataVoc(mdKey: 'Sample Source', mdVals: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
+            new MetadataVoc(mdKey: 'Age', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
+            new MetadataVoc(mdKey: 'Age Unit', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
+            new MetadataVoc(mdKey: 'Gender', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
+            new MetadataVoc(mdKey: 'Phenotype', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
+            new MetadataVoc(mdKey: 'Treatment', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
+//            new MetadataVoc(mdKey: 'Staning', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
+            new MetadataVoc(mdKey: 'Location', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
+            new MetadataVoc(mdKey: 'Condition', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
+            new MetadataVoc(mdKey: 'Dose', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
+            new MetadataVoc(mdKey: 'Timepoint', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
+            new MetadataVoc(mdKey: 'Individual', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
+//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
+//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
+//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
+//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
+//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
+//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
+//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
+//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
+//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
+//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
+//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
+//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
+//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
+    }
+
+    def fillExperimentMetadata(Experiment exp){
+
+            ExperimentMetadataValue mdValOrg1 = new ExperimentMetadataValue(mdValue: 'Human', mdType: 'String', dispOrder: 0)
+            mdValOrg1.save()
+            ExperimentMetadataValue mdValOrg2 = new ExperimentMetadataValue(mdValue: 'Mouse', mdType: 'String', dispOrder: 1).save()
+            ExperimentMetadataValue mdValOrg3 = new ExperimentMetadataValue(mdValue: 'Fungus', mdType: 'String', dispOrder: 2).save()
+            ExperimentMetadataValue mdValAge = new ExperimentMetadataValue(mdValue: '31', mdType: 'String', dispOrder: 0).save()
+            ExperimentMetadataValue mdValAgeU = new ExperimentMetadataValue(mdValue: 'Years', mdType: 'String', dispOrder: 0).save()
+            ExperimentMetadataValue mdValGenF = new ExperimentMetadataValue(mdValue: 'Female', mdType: 'String', dispOrder: 0).save()
+            ExperimentMetadataValue mdValGenM = new ExperimentMetadataValue(mdValue: 'Male', mdType: 'String', dispOrder: 1).save()
+            ExperimentMetadataValue mdValDosMy = new ExperimentMetadataValue(mdValue: 'uL', mdType: 'String', dispOrder: 0).save()
+            ExperimentMetadataValue mdValDosM = new ExperimentMetadataValue(mdValue: 'mL', mdType: 'String', dispOrder: 1).save()
+            ExperimentMetadataValue mdValDosL = new ExperimentMetadataValue(mdValue: 'L', mdType: 'String', dispOrder: 2).save()
+            ExperimentMetadataValue mdValAnalytPE = new ExperimentMetadataValue(mdValue: 'Annexin', mdType: 'String', dispOrder: 0).save()
+            ExperimentMetadataValue mdValAnalytFITC = new ExperimentMetadataValue(mdValue: 'Anti-IL2', mdType: 'String', dispOrder: 0).save()
+            ExperimentMetadataValue mdValRepPE = new ExperimentMetadataValue(mdValue: 'PE', mdType: 'String', dispOrder: 1).save()
+            ExperimentMetadataValue mdValRepFITC = new ExperimentMetadataValue(mdValue: 'AlexaFluor 488', mdType: 'String', dispOrder: 1).save()
+            ExperimentMetadataValue mdValChanPE = new ExperimentMetadataValue(mdValue: 'PE', mdType: 'String', dispOrder: 2).save()
+            ExperimentMetadataValue mdValChanFITC = new ExperimentMetadataValue(mdValue: 'FITC', mdType: 'String', dispOrder: 2).save()
+
+//            ExperimentMetadata eMd = new ExperimentMetadata(experiment: exp, mdKey: 'Organism', mdVals: [mdValOrg1,mdValOrg2,mdValOrg3], mdCategory: 'Organisms', dispOrder: 0, expFiles: [])
+//            eMd.save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Sample Source', mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Age', mdVals: mdValAge, mdCategory: 'Demographics', dispOrder: 1, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Age Unit', mdVals: [mdValAgeU], mdCategory: 'Demographics', dispOrder: 2, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Gender', mdVals: [mdValGenF,mdValGenM], mdCategory: 'Demographics', dispOrder: 0, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Phenotype', mdVals: [], mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Treatment', mdVals: [], mdCategory: 'Stimulation', dispOrder: 0, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Location', mdVals: [], mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Condition', mdVals: [], mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
+//            new ExperimentMetadata(experiment: exp, mdKey: 'Dose', mdVals: [mdValDosMy,mdValDosM,mdValDosL], mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Timepoint', mdVals: [], mdCategory: 'Visit', dispOrder: 0, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Individual', mdVals: [], mdCategory: 'Visit', dispOrder: 0, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Analyte Detector', mdVals: [mdValAnalytPE,mdValAnalytFITC], mdCategory: 'Reagents', dispOrder: 0, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Analyte Detector', mdVals: [mdValAnalytPE,mdValAnalytFITC], mdCategory: 'Panel', dispOrder: 0, expFiles: []).save()
+            def em1 = new ExperimentMetadata(experiment: exp, mdKey: 'Reporter', mdVals: [mdValRepPE,mdValRepFITC], mdCategory: 'Reagents', dispOrder: 0, expFiles: []).save()
+            def em2 = new ExperimentMetadata(experiment: exp, mdKey: 'Reporter', mdVals: [mdValRepPE,mdValRepFITC], mdCategory: 'Panel', dispOrder: 0, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Channel', mdVals: [mdValChanPE,mdValChanFITC], mdCategory: 'Reagents', dispOrder: 0, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Channel', mdVals: [mdValChanPE,mdValChanFITC], mdCategory: 'Panel', dispOrder: 0, expFiles: []).save()
+
+            println "ExperimentMetadata.cnt ${ExperimentMetadata.count()}"
     }
 
 
@@ -867,68 +954,6 @@ class BootStrap {
 
             probes
     }
-
-    def fillMetaData() {
-
-            MetadataVoc mdv = new MetadataVoc(mdKey: 'Organism', mdVal: '', category: 'Organisms', dispOrder: 0, status: 'active').save()
-//            println "mdv ${mdv?.dump()}  e: ${mdv?.errors}"
-            new MetadataVoc(mdKey: 'Sample Source', mdVals: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
-            new MetadataVoc(mdKey: 'Age', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
-            new MetadataVoc(mdKey: 'Age Unit', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
-            new MetadataVoc(mdKey: 'Gender', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
-            new MetadataVoc(mdKey: 'Phenotype', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
-            new MetadataVoc(mdKey: 'Treatment', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
-//            new MetadataVoc(mdKey: 'Staning', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
-            new MetadataVoc(mdKey: 'Location', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
-            new MetadataVoc(mdKey: 'Condition', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
-            new MetadataVoc(mdKey: 'Dose', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
-            new MetadataVoc(mdKey: 'Timepoint', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
-            new MetadataVoc(mdKey: 'Individual', mdVal: '', category: 'Sample Info', dispOrder: 0, status: 'active').save()
-//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
-//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
-//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
-//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
-//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
-//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
-//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
-//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
-//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
-//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
-//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
-//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
-//            new MetadataVoc(mdKey: '', mdVal: '', category: '', dispOrder: 0, status: 'active').save()
-    }
-
-    def fillExperimentMetadata(Experiment exp){
-
-            ExperimentMetadataValue mdValOrg1 = new ExperimentMetadataValue(mdValue: 'Human', mdType: 'String', dispOrder: 0)
-            mdValOrg1.save()
-            ExperimentMetadataValue mdValOrg2 = new ExperimentMetadataValue(mdValue: 'Mouse', mdType: 'String', dispOrder: 1).save()
-            ExperimentMetadataValue mdValOrg3 = new ExperimentMetadataValue(mdValue: 'Fungus', mdType: 'String', dispOrder: 2).save()
-            ExperimentMetadataValue mdValAge = new ExperimentMetadataValue(mdValue: '31', mdType: 'String', dispOrder: 0).save()
-            ExperimentMetadataValue mdValAgeU = new ExperimentMetadataValue(mdValue: 'Years', mdType: 'String', dispOrder: 0).save()
-            ExperimentMetadataValue mdValGenF = new ExperimentMetadataValue(mdValue: 'Female', mdType: 'String', dispOrder: 0).save()
-            ExperimentMetadataValue mdValGenM = new ExperimentMetadataValue(mdValue: 'Male', mdType: 'String', dispOrder: 1).save()
-            ExperimentMetadataValue mdValDosMy = new ExperimentMetadataValue(mdValue: 'uL', mdType: 'String', dispOrder: 0).save()
-            ExperimentMetadataValue mdValDosM = new ExperimentMetadataValue(mdValue: 'mL', mdType: 'String', dispOrder: 1).save()
-            ExperimentMetadataValue mdValDosL = new ExperimentMetadataValue(mdValue: 'L', mdType: 'String', dispOrder: 2).save()
-            ExperimentMetadata eMd = new ExperimentMetadata(experiment: exp, mdKey: 'Organism', mdVals: [mdValOrg1,mdValOrg2,mdValOrg3], mdCategory: 'Organisms', dispOrder: 0, expFiles: [])
-            eMd.save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Sample Source', mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Age', mdVals: mdValAge, mdCategory: 'Demographics', dispOrder: 1, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Age Unit', mdVals: [mdValAgeU], mdCategory: 'Demographics', dispOrder: 2, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Gender', mdVals: [mdValGenF,mdValGenM], mdCategory: 'Demographics', dispOrder: 0, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Phenotype', mdVals: [], mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Treatment', mdVals: [], mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Location', mdVals: [], mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Condition', mdVals: [], mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Dose', mdVals: [mdValDosMy,mdValDosM,mdValDosL], mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Timepoint', mdVals: [], mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Individual', mdVals: [], mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
-
-            println "ExperimentMetadata.cnt ${ExperimentMetadata.count()}"
-    }
-
 
     def destroy = {
     }

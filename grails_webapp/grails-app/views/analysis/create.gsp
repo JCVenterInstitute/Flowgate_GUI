@@ -53,43 +53,35 @@
       </ul>
     </li>
   </sec:ifAnyGranted>
-%{--<sec:ifAnyGranted roles="ROLE_Admin,ROLE_Administrator">
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i> Settings <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            --}%%{--<g:each var="plugin" in="${applicationContext.getBean('pluginManager').allPlugins}">
-                <li><a href="#">${plugin.name} - ${plugin.version}</a></li>
-            </g:each>--}%%{--
-            <sec:ifAnyGranted roles="ROLE_Administrator">
-                --}%%{--<g:link controller="user">Manage Users</g:link>--}%%{--
-            </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_Admin,ROLE_Administrator">
-                --}%%{--<g:link controller="user" action="newUsers">New Users</g:link>--}%%{--
-            </sec:ifAnyGranted>
-        </ul>
-    </li>
-</sec:ifAnyGranted>--}%
-%{--
-<sec:ifLoggedIn>
-    -- <li><a><sec:username /></a></li> --
-    -- <li><g:link controller="logout">Logout</g:link></li> --
-    <p class="navbar-text" style="color: white">Logged in as: <sec:username /></p>
-    <g:link controller="logout" class="navbar-text">Logout</g:link>
-</sec:ifLoggedIn>
-<sec:ifNotLoggedIn>
-    <li><g:link controller='login' action='auth'>Login</g:link></li>
-</sec:ifNotLoggedIn>
---}%
+  %{--<sec:ifAnyGranted roles="ROLE_Admin,ROLE_Administrator">
+      <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i> Settings <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+              --}%%{--<g:each var="plugin" in="${applicationContext.getBean('pluginManager').allPlugins}">
+                  <li><a href="#">${plugin.name} - ${plugin.version}</a></li>
+              </g:each>--}%%{--
+              <sec:ifAnyGranted roles="ROLE_Administrator">
+                  --}%%{--<g:link controller="user">Manage Users</g:link>--}%%{--
+              </sec:ifAnyGranted>
+              <sec:ifAnyGranted roles="ROLE_Admin,ROLE_Administrator">
+                  --}%%{--<g:link controller="user" action="newUsers">New Users</g:link>--}%%{--
+              </sec:ifAnyGranted>
+          </ul>
+      </li>
+  </sec:ifAnyGranted>--}%
+  %{--
+  <sec:ifLoggedIn>
+      -- <li><a><sec:username /></a></li> --
+      -- <li><g:link controller="logout">Logout</g:link></li> --
+      <p class="navbar-text" style="color: white">Logged in as: <sec:username /></p>
+      <g:link controller="logout" class="navbar-text">Logout</g:link>
+  </sec:ifLoggedIn>
+  <sec:ifNotLoggedIn>
+      <li><g:link controller='login' action='auth'>Login</g:link></li>
+  </sec:ifNotLoggedIn>
+  --}%
 </content>
 
-
-%{--<a href="#create-analysis" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-<div class="nav" role="navigation">
-    <ul>
-        <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-        <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-    </ul>
-</div>--}%
 <div class="container">
   <h1 class="page-header"><g:message code="analysis.create.label" default="Add New Analysis"/></h1>
 
@@ -105,16 +97,16 @@
 </ul>
 </g:hasErrors>--}%
   <g:set var="sss" bean="springSecurityService"/>
-%{--<g:form action="save" enctype="multipart/form-data" useToken="true">--}%
+  %{--<g:form action="save" enctype="multipart/form-data" useToken="true">--}%
   <g:form controller="analysis" action="save" enctype="multipart/form-data">
     <div class="form-horizontal">
-    %{--<f:all bean="analysis"/>--}%
-    %{--<g:hiddenField name="datasets" value="${null}" />--}%
-    %{--<g:hiddenField name="protocol" value="${null}" />--}%
-    %{--<g:hiddenField name="dataInputFile" value="inputFile1" />--}%
+      %{--<f:all bean="analysis"/>--}%
+      %{--<g:hiddenField name="datasets" value="${null}" />--}%
+      %{--<g:hiddenField name="protocol" value="${null}" />--}%
+      %{--<g:hiddenField name="dataInputFile" value="inputFile1" />--}%
       <g:hiddenField name="user" value="${sss?.currentUser?.id}"/>
       <g:hiddenField name="analysisStatus" value="${1}"/>
-    %{--<g:hiddenField name="analysisIdchar" value="0" />--}%
+      %{--<g:hiddenField name="analysisIdchar" value="0" />--}%
       <g:hiddenField name="eId" value="${params?.eId}"/>
       <g:hiddenField name="timestamp" value="${new Date().format('yyyy-MM-dd hh:mm:ss')}"/>
       <f:with bean="analysis">
@@ -184,24 +176,24 @@
       %{--<h3 class="col-sm-offset-1">Pipleline Parameters</h3>
       <br />
       <div class="row">
-          <div class="col-xs-2 right">
-              Filter Step&nbsp;<span style="color:red">*</span>
-          </div>
-          <div class="col-xs-2">
-              <g:radioGroup name="filterStep" values="[0,1]" labels="['No','Yes']" value="0">
-                  <g:message code="${it.label}" />&nbsp;${it.radio}&nbsp;&nbsp;
-              </g:radioGroup>
-          </div>
+        <div class="col-xs-2 right">
+          Filter Step&nbsp;<span style="color:red">*</span>
+        </div>
+        <div class="col-xs-2">
+          <g:radioGroup name="filterStep" values="[0,1]" labels="['No','Yes']" value="0">
+            <g:message code="${it.label}" />&nbsp;${it.radio}&nbsp;&nbsp;
+          </g:radioGroup>
+        </div>
       </div>
       <div class="row">
-          <div class="col-xs-2 right">
-              Parameters in FLOCK Step&nbsp;<span style="color:red">*</span>
-          </div>
-          <div class="col-xs-2">
-              <g:radioGroup name="flockStep" values="[0,1]" labels="['Auto','Manual']" value="1">
-                  <g:message code="${it.label}" />&nbsp;${it.radio}&nbsp;&nbsp;
-              </g:radioGroup>
-          </div>
+        <div class="col-xs-2 right">
+          Parameters in FLOCK Step&nbsp;<span style="color:red">*</span>
+        </div>
+        <div class="col-xs-2">
+          <g:radioGroup name="flockStep" values="[0,1]" labels="['Auto','Manual']" value="1">
+            <g:message code="${it.label}" />&nbsp;${it.radio}&nbsp;&nbsp;
+          </g:radioGroup>
+        </div>
       </div>--}%
       %{--<hr />--}%
       %{--<div class="btn btn-default" onclick="selAllClick()" >Select All</div>--}%

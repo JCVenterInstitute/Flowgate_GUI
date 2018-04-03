@@ -77,64 +77,67 @@ class RestUtilsService {
         return resp.json
     }
 
-    ArrayList setModParamsRest(Module module, GrailsParameterMap params, def request) {
-        // TODO compare result vs module parameters; result is empty on upload errors!
-        ArrayList paramVars = []
-        module.moduleParams.each {
-            switch(it.pType){
-//                case [ 'ds']: def dsId = params["mp-${it.id}-ds"]
-                case 'ds': def dsId = params["mp-${it.id}-ds"]
-                              println "get dataset with id ${dsId}"
-                              Dataset ds = Dataset.get(dsId.toLong())
-                              if(ds){
-                                  ds.expFiles.each{ expFile ->
-                                      println "dataset files for upload p:${expFile.fileName}, fn:${expFile.fileName}"
-                                      println "( ['name': ${it.pKey}, 'values': ${expFile.filePath} ])"
-//                                      paramVars.push ( ['name': it.pKey, 'values': expFile.filePath ])
-                                  }
+ArrayList setModParamsRest(Module module, GrailsParameterMap params, def request) {
+// TODO compare result vs module parameters; result is empty on upload errors!
+  ArrayList paramVars = []
+  module.moduleParams.each {
+  switch(it.pType){
+//   case [ 'ds']: def dsId = params["mp-${it.id}-ds"]
+  case 'ds': def dsId = params["mp-${it.id}-ds"]
+    println "get dataset with id ${dsId}"
+    Dataset ds = Dataset.get(dsId.toLong())
+                          if(ds){
+                              ds.expFiles.each{ expFile ->
+                                  println "dataset files for upload p:${expFile.fileName}, fn:${expFile.fileName}"
+                                  println "( ['name': ${it.pKey}, 'values': ${expFile.filePath} ])"
+                                  File fileToUpload = new File(expFile.filePath+expFile.fileName)
+                                  def fileLocation = uploadFileOrDirParams(module, fileToUpload, expFile.fileName )
+                                  paramVars.push ( ['name': it.pKey, 'values': fileLocation ])
                               }
-                              else {
-                                  println "E: no Dataset!"
-                              }
-                    break
+                          }
+                          else {
+                              println "E: no Dataset!"
+                          }
+                break
 
-                case 'dir': def dir = request.getFiles("mp-${it.id}")
-                              dir.each{ dirFile ->
-                                 if(!dirFile.filename.contains('/.')){
-                                    String filename = dirFile.filename.replaceAll(/^.*\// , "" )
-                                    def fileLocation = uploadFileOrDirParams(module, dirFile.part.fileItem.tempFile, filename )
-                                    paramVars.push( ['name': it.pKey, 'values': fileLocation] )
-                                 }
+            case 'dir': def dir = request.getFiles("mp-${it.id}")
+                          dir.each{ dirFile ->
+                             if(!dirFile.filename.contains('/.')){
+                                String filename = dirFile.filename.replaceAll(/^.*\// , "" )
+                                def fileLocation = uploadFileOrDirParams(module, dirFile.part.fileItem.tempFile, filename )
+                                println "dir ${fileLocation}"
+                                paramVars.push( ['name': it.pKey, 'values': fileLocation] )
                              }
-                    break
+                         }
+                break
 
-                case 'file': def partFile = request.getFile("mp-${it.id}")
-                               if(!partFile.filename.startsWith('.')) {
-                                   def fileLocation = uploadFileOrDirParams(module, partFile.part.fileItem.tempFile, partFile.filename)
-                                   paramVars.push(['name': it.pKey, 'values': fileLocation])
-                               }
-                    break
+            case 'file': def partFile = request.getFile("mp-${it.id}")
+                           if(!partFile.filename.startsWith('.')) {
+                               def fileLocation = uploadFileOrDirParams(module, partFile.part.fileItem.tempFile, partFile.filename)
+                               paramVars.push(['name': it.pKey, 'values': fileLocation])
+                           }
+                break
 
-                default: paramVars.push( ['name': it.pKey, 'values': [params["mp-${it.id}"].toString()]] )
-                    break
-            }
-        }
-        paramVars
+            default: paramVars.push( ['name': it.pKey, 'values': [params["mp-${it.id}"].toString()]] )
+                break
     }
+  }
+  paramVars
+}
 
-    def uploadFileOrDirParams(Module module, File fileOrDirPath, String fName) {
-        def ulResult = [:]
-        def ulFiles = []
-        if(fileOrDirPath.isFile()){
-            ulResult = doUploadFile(module.server, fileOrDirPath, fName)
-            if (!(ulResult.code == 200)) {
-                println "Error uploading file!"
-                return
-            }
-            ulFiles.add( ulResult.location )
-        }
-        ulFiles
+def uploadFileOrDirParams(Module module, File fileOrDirPath, String fName) {
+  def ulResult = [:]
+  def ulFiles = []
+  if(fileOrDirPath.isFile()){
+    ulResult = doUploadFile(module.server, fileOrDirPath, fName)
+    if (!(ulResult.code == 200)) {
+      println "Error uploading file!"
+      return
     }
+    ulFiles.add( ulResult.location )
+  }
+  ulFiles
+}
 
     def doUploadFile(AnalysisServer server, File pathAndFile, String fName){
         String uploadApiPath = server.url + "/gp/rest/v1/data/upload/job_input?name=${fName}"

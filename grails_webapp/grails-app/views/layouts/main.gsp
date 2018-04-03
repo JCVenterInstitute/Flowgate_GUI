@@ -32,6 +32,7 @@
     <p class="m-0 text-center text-white">FlowGate &copy; 2018 | <g:link uri="/about" ><g:message code="about.link.label" default="About" /></g:link></p>
   </div>
 </footer>
+
 <div id="spinner" class="spinner" style="display:none;">
   <g:message code="spinner.alt" default="Loading&hellip;"/>
 </div>
