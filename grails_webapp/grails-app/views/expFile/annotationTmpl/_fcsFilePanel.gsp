@@ -1,16 +1,16 @@
 <%@ page import="flowgate.ExperimentMetadataValue" %>
 <style>
-#fileBox {
-    /*margin-right: auto;*/
-    /*margin-top: 20px;*/
-    /*background-color: #eefaff;*/
-    /*box-shadow: #ee50e3 1px 0;*/
+  #fileBox {
+    /* margin-right: auto; */
+    /* margin-top: 20px; */
+    /* background-color: #eefaff; */
+    /* box-shadow: #ee50e3 1px 0; */
     border: black 1px solid;
     padding: 10px 10px 10px 10px;
     overflow-y: scroll;
     overflow-x: hidden;
     max-height: 700px;
-}
+  }
 </style>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -37,10 +37,10 @@
 <br/>
 <div style="padding-left: 20px">
 <g:each in="${experiment.expFiles.sort{it.fileName}}" var="expFile" >
-    <g:each in="${expFile.metaDatas}" var="mVals">
-        %{--<p>${expFile.fileName} - ${ExperimentMetadataValue.find(mVals.mdVal)}</p>--}%
-        <p>${expFile.fileName} - ${mVals.mdVal}</p>
-    </g:each>
+  <g:each in="${expFile.metaDatas}" var="mVals">
+    %{--<p>${expFile.fileName} - ${ExperimentMetadataValue.find(mVals.mdVal)}</p>--}%
+    <p>${expFile.fileName} - ${mVals.mdVal}</p>
+  </g:each>
 </g:each>
 </div>
 

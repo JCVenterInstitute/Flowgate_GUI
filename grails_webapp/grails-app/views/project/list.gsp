@@ -18,7 +18,7 @@
 </content>
 
 %{--TODO remove after testing, just for testing purpose!!!!--}%
-<sec:ifAnyGranted roles="ROLE_Acs">
+<sec:ifAnyGranted roles="ROLE_Admin">
   <div class="nav" role="navigation">
     <ul>
       <li><g:link class="btn btn-default" controller="analysis" action="create" params="[eId: 1]"><g:message code="create.analysis.label" default="Create Analysis"/></g:link></li>

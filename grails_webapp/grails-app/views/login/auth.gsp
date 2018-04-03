@@ -47,14 +47,19 @@
         <input type="text" name="${securityConfig.apf.usernameParameter}" id="username" placeholder="Username" class="form-control" required="" autofocus=""/>
         <label for="password" class="sr-only">Password</label>
         <input type="password" name="${securityConfig.apf.passwordParameter}" id="password" placeholder="Password" class="form-control" required=""/>
-
+        %{--
+        <p id="remember_me_holder">
+          <input type="checkbox" class="chk" name="${rememberMeParameter ?: 'remember-me'}" id="remember_me" <g:if test='${hasCookie}'>checked="checked"</g:if>/>
+          <label for="remember_me"><g:message code='springSecurity.login.remember.me.label'/></label>
+        </p>
+        --}%
         <div class="mb-3"></div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">${g.message(code: 'spring.security.ui.login.login')}</button>
-
+          <button class="btn btn-lg btn-primary btn-block" type="submit">${g.message(code: 'spring.security.ui.login.login')}</button>
         <div>
-          <s2ui:linkButton elementId='register' controller='register' messageCode='spring.security.ui.login.register'/> or <g:link controller="register"
-                                                                                                                                   action="forgotPassword"><g:message
-                code="spring.security.ui.login.forgotPw" default="Reset password"/></g:link>
+          <s2ui:linkButton elementId='register' controller='register' messageCode='spring.security.ui.login.register'/>&nbsp;or&nbsp;
+          <g:link controller="register" action="forgotPassword">
+            <g:message code="spring.security.ui.login.forgotPw" default="Reset password"/>
+          </g:link>
         </div>
       </s2ui:form>
     </div>
