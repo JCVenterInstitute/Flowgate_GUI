@@ -13,16 +13,11 @@
     </g:if>
     <g:if test="${moduleParam?.pType == 'dir' || moduleParam?.pType == 'file'}">
       <div class="fieldcontain">
-        type=${moduleParam?.pType}
         <label for="mp-${moduleParam?.id}">${moduleParam?.pKey} [dir/file]</label>
         <g:if test="${moduleParam?.pType == 'dir'}">
           <input type="file" style="width: 40%;display:inline" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}"
                  value="${moduleParam?.defaultVal}" webkitdirectory directory multiple/>
         </g:if>
-        %{--<g:if test="${moduleParam?.pType == 'ds'}">--}%
-          %{--<input multiple type="file" style="width: 40%;display:inline" id="mp-${moduleParam?.id}"--}%
-                 %{--name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}" webkitdirectory directory multiple/>--}%
-        %{--</g:if>--}%
         <g:if test="${moduleParam?.pType == 'file'}">
           <input multiple type="file" style="width: 40%;display:inline" id="mp-${moduleParam?.id}"
                  name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}"/>

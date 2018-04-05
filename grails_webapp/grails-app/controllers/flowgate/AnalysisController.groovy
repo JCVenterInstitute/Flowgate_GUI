@@ -260,7 +260,7 @@ class AnalysisController {
         analysis.save flush:true
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'analysis.label', default: 'Analysis'), analysis.id])
+                flash.message = message(code: 'default.created.message', args: [message(code: 'analysis.label', default: 'Analysis:'), analysis.analysisName])
 //                redirect controller: 'experiment', action: 'index', params: [eId: params?.eId]
                 redirect action: 'index', params: [eId: params?.eId]
             }
