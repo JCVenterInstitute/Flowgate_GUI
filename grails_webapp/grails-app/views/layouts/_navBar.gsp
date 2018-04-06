@@ -21,6 +21,7 @@
           <li class="nav-item">
             <a class="nav-link" href="${createLink(uri: '/project/list')}">Projects</a>
           </li>
+          <g:pageProperty name="page.nav" />
           <li class="nav-item">
             <a class="nav-link" href="${createLink(uri: '/')}"><sec:username/></a>
           </li>

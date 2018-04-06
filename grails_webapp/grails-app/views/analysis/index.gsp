@@ -84,11 +84,11 @@
 %{--<a href="#list-analysis" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>--}%
 
 <div class="nav" role="navigation">
-  <ul>
+  %{--<ul>--}%
     %{--<li><a class="home" href="${createLink(uri: '/experiment/index?eId=' + params?.eId)}"><g:message code="default.home.label"/></a></li>--}%
     %{--<li><g:link class="create" action="create" params="[eId: params?.eId]"><g:message code="default.new.label" args="[entityName]" /></g:link></li>--}%
     %{--<li>JUST FOR TEST..<g:link class="btn btn-primary" action="downloadResult" params="[eId: params?.eId]">downLoadResults</g:link></li>--}%
-  </ul>
+  %{--</ul>--}%
 </div>
 
 <div class="row">

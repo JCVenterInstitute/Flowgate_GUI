@@ -7,13 +7,17 @@
       </g:sortableColumn>
       <g:each in="${experiment.expMetadatas.findAll{it.mdCategory== category}.sort{it.dispOrder} }" var="eMeta">
         <th class="sortable">
-          <p>action
-              <g:select name="colAction" from="['Sort','Hide','Filter']" />
+          <p>
+            <div class="btn btn-default pull-left" onclick="alert('not yet');">Sel All</div>
+            <div class="right btn btn-default pull-right" onclick="alert('not yet');">Sel None</div>
+          </p>
+          <p class="text-center">action
+              <g:select name="colAction" from="['Sort','Hide','Filter', 'Select All', 'Select None']" />
           </p>
           %{--<p class="text-center" ><a style="padding-right: 0" class="noLinkBlack" href="${g.createLink(controller: 'expFile', action: 'annotationTbl', id: experiment.id, params:[sort:p])}"><i class="fa fa-sort" ></i>sort</a></p>--}%
           %{--<p class="text-center" ><i class="fa fa-eye"></i>&nbsp;hide col&nbsp;<g:checkBox name="eMetaShow_${eMeta.id}" checked="${false}"/></p>--}%
           %{--<p class="text-center" ><i class="fa fa-filter"></i>&nbsp;filter&nbsp;<g:checkBox name="eMetaFilter_${eMeta.id}" checked="${false}"/></p>--}%
-          <p>&nbsp;</p>
+          %{--<p>&nbsp;</p>--}%
           <p class="text-center" >${eMeta.mdKey}</p>
           <p class="text-center" >
             <g:if test="${eMeta.mdVals.size()>1}" >

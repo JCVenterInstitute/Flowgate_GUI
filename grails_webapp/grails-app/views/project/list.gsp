@@ -11,7 +11,13 @@
 <content tag="topBtnBar">
   <div class="row">
     <div id="topBtnBar" >
-      <g:render template="templates/indexTopBtnBar" model="[project: this.project]" />
+      %{--<g:render template="templates/indexTopBtnBar" model="[project: this.project]" />--}%
+      <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_ProjectCreate">
+        <a class="btn btn-primary create noLinkBlack" href="/flowgate/project/create">
+          <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Add Project
+        </a>
+      </sec:ifAnyGranted>
+
     </div>
     <g:render template="/shared/errorsMsgs" model="[bean: this.project]" />
   </div>
@@ -26,11 +32,9 @@
     <ul>
       <li><g:link class="btn btn-default" controller="analysis" action="index" params="[eId: 1]"><g:message code="analysis.index.label" default="Analyses"/></g:link></li>
     </ul>
-    %{--
     <ul>
-        <li><g:link class="btn btn-default" controller="analysisPipeline" action="create" params="[eId: 1]" ><g:message code="create.analysis.label" default="Create A Pipeline" /></g:link></li>
+        <li><g:link class="btn btn-default" controller="dataset" action="ds_edit" params="[id: 1]" ><g:message code="manage.ds.label" default="Manage Datasets" /></g:link></li>
     </ul>
-    --}%
     <ul>
       <li><g:link class="btn btn-default" controller="expFile" action="expFileCreate" params="[eId: 1]"><g:message code="create.expFile.label" default="Upload FCS"/></g:link></li>
     </ul>
