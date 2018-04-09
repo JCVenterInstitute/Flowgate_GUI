@@ -22,7 +22,7 @@
 </g:if>
 
 <!-- Footer -->
-<footer class="py-3 bg-dark" style="position: absolute;bottom: 0;width: 100%;">
+<footer class="py-3 bg-dark" style="position: fixed;bottom: 0;width: 100%;">
   <div class="container">
     <p class="m-0 text-center text-white">FlowGate &copy; 2018 | <g:link uri="/about"><g:message code="about.link.label" default="About"/></g:link></p>
   </div>

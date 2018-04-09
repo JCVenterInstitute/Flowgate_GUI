@@ -38,6 +38,12 @@
     <ul>
       <li><g:link class="btn btn-default" controller="expFile" action="expFileCreate" params="[eId: 1]"><g:message code="create.expFile.label" default="Upload FCS"/></g:link></li>
     </ul>
+    <ul>
+      <li><g:link class="btn btn-default" controller="expFile" action="annotation" params="[id: 1]"><g:message code="create.expFile.label" default="Annotation V1"/></g:link></li>
+    </ul>
+    <ul>
+      <li><g:link class="btn btn-default" controller="expFile" action="annotationTbl" params="[id: 1]"><g:message code="create.expFile.label" default="Annotation V2"/></g:link></li>
+    </ul>
   </div>
 </sec:ifAnyGranted>
 

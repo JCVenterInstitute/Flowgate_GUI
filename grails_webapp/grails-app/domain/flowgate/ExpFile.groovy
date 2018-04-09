@@ -16,6 +16,7 @@ class ExpFile {
     Boolean isActive = true
 
     static constraints = {
+
         reagentPanel nullable: true
     }
 }

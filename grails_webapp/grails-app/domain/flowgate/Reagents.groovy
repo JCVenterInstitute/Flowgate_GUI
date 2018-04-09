@@ -4,8 +4,9 @@ class Reagents {
 
     static belongsTo = [ReagentPanel]
     ReagentPanel reagentPanel
-    String markerName
-    String dyeName
+    String channel
+    String fluorochrome
+    String marker
     String transformName
     String inputMin
     String inputMax
@@ -16,8 +17,9 @@ class Reagents {
     }
 
     static mapping = {
-        markerName      sqlType: 'varchar(512)'
-        dyeName         sqlType: 'varchar(512)'
+        channel         sqlType: 'varchar(512)'
+        fluorochrome         sqlType: 'varchar(512)'
+        marker      sqlType: 'varchar(512)'
         transformName   sqlType: 'varchar(512)'
         inputMin        sqlType: 'varchar(512)'
         inputMax        sqlType: 'varchar(512)'

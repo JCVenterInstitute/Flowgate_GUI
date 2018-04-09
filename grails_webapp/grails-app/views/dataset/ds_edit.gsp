@@ -15,7 +15,8 @@
 
 <body>
 <g:render template="/shared/nav"/>
-
+<div class="nav" role="navigation">
+</div>
 %{--
 experiment=${experiment} id=${experiment?.id} ${experiment == null}
 project=${experiment?.project}
@@ -38,7 +39,7 @@ project=${experiment?.project}
         <div class="col-sm-2" style="padding-left: 0">
           %{--<content tag="fcsPanel">--}%
           <div id="fcsPanel">
-            <g:render template="datasetTmpl/fcsFilePanel" model="[experiment: experiment]" />
+            <g:render template="datasetTmpl/fcsFilePanel" model="[experiment: experiment, ds:ds, dsId: ds.id ]" />
           </div>
           %{--</content>--}%
         </div>

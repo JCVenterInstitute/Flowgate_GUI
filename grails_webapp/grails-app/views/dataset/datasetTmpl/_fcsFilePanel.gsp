@@ -1,4 +1,4 @@
-<%@ page import="flowgate.ExperimentMetadataValue" %>
+<%@ page import="flowgate.Dataset; flowgate.ExperimentMetadataValue" %>
 <style>
   #fileBox {
     /* margin-right: auto; */
@@ -17,7 +17,12 @@
 %{--<p>sels=${session.sels}</p>--}%
 <div id="fileBox">
     <g:each in="${experiment?.expFiles.sort{it.fileName}}" var="expFile" >
-        <p><g:checkBox name="fcsFileId_${expFile.id}_chb"  checked="${expFile.id in session.fSels}"/>&nbsp;${expFile.fileName}%{--&nbsp;${expFile.id}--}%</p>
+        <p><g:checkBox name="fcsFileId_${expFile.id}_chb"  checked=""/>&nbsp;
+          <span id="" style="font-weight:${(expFile.id in ds?.expFiles*.id) ? 'bold' : 'normal'}" >${expFile.fileName}%{--&nbsp;${expFile.id}--}%</span>
+          <g:if test="${(expFile.id in ds?.expFiles*.id)}">
+            <i class="glyphicon glyphicon-check" />
+          </g:if>
+        </p>
     </g:each>
     <br/>
     %{--<div class="row">--}%
@@ -35,13 +40,14 @@
 <hr/>
 <br/>
 <br/>
-<div style="padding-left: 20px">
-<g:each in="${experiment.expFiles.sort{it.fileName}}" var="expFile" >
-  <g:each in="${expFile.metaDatas}" var="mVals">
-    %{--<p>${expFile.fileName} - ${ExperimentMetadataValue.find(mVals.mdVal)}</p>--}%
-    <p>${expFile.fileName} - ${mVals.mdVal}</p>
+<sec:ifAnyGranted roles="ROLE_Tester">
+  <div style="padding-left: 20px">
+  <g:each in="${experiment.expFiles.sort{it.fileName}}" var="expFile" >
+    <g:each in="${expFile.metaDatas}" var="mVals">
+      <p>${expFile.fileName} - ${mVals.mdVal}</p>
+    </g:each>
   </g:each>
-</g:each>
-</div>
+  </div>
+</sec:ifAnyGranted>
 
 

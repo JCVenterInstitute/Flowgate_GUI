@@ -32,7 +32,8 @@ class DatasetController {
 
 
   def ds_edit(Experiment experiment) {
-    render view: 'ds_edit', model: [experiment: experiment, dsId: params.dsId], params: params
+    Dataset ds = params.dsId ? Dataset.get(params.dsId) : Dataset.findAllByExperiment(experiment).first()
+    render view: 'ds_edit', model: [experiment: experiment, dsId: ds.id, ds: ds], params: params
   }
 
 
