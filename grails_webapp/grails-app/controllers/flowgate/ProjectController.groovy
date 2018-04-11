@@ -5,9 +5,7 @@ import grails.plugin.springsecurity.annotation.Secured
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
-//@Secured(['permitAll'])
-@Secured(['ROLE_Admin','ROLE_User'])
-//@Transactional(readOnly = true)
+@Secured(['IS_AUTHENTICATED_FULLY'])
 @Transactional
 class ProjectController {
 
@@ -18,7 +16,7 @@ class ProjectController {
     def springSecurityService
     def utilsService
 
-    @Secured(['ROLE_Admin','ROLE_User','ROLE_NewUser','ROLE_Guest','IS_AUTHENTICATED_ANONYMOUSLY', 'ROLE_ANONYMOUS','permitAll'])
+//    @Secured(['ROLE_Admin','ROLE_User','ROLE_NewUser','ROLE_Guest','IS_AUTHENTICATED_ANONYMOUSLY', 'ROLE_ANONYMOUS','permitAll'])
     def axToggleView(){
         session?.projCardView = !session?.projCardView ?: false
         ArrayList<Project> projectList = Project.findAllByIsActive(true, [params: params])
@@ -188,7 +186,8 @@ class ProjectController {
         respond projectList, model:[project: openProject, projectCount: projectList.size(), experimentList: experimentList]
     }
 
-    @Secured(['ROLE_Admin','ROLE_User','ROLE_NewUser','ROLE_Guest','IS_AUTHENTICATED_ANONYMOUSLY', 'ROLE_ANONYMOUS','permitAll'])
+//    @Secured(['ROLE_Admin','ROLE_User','ROLE_NewUser','ROLE_Guest','IS_AUTHENTICATED_ANONYMOUSLY', 'ROLE_ANONYMOUS','permitAll'])
+//    @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         def projectList = Project.findAllByIsActive(true, [params: params])

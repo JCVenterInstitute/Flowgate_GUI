@@ -15,7 +15,12 @@
     <div class="collapse navbar-collapse" id="flowgate-navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
         <li class="nav-item">
-          <a class="nav-link" href="${createLink(uri: '/')}">Home</a>
+          <sec:ifLoggedIn>
+            <a class="nav-link" href="${createLink(uri: '/project/list')}">Home</a>
+          </sec:ifLoggedIn>
+          <sec:ifNotLoggedIn>
+            <a class="nav-link" href="${createLink(uri: '/')}">Home</a>
+          </sec:ifNotLoggedIn>
         </li>
         <sec:ifLoggedIn>
           <li class="nav-item">
