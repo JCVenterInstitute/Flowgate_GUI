@@ -7,10 +7,10 @@
       </g:sortableColumn>
       <g:each in="${experiment.expMetadatas.findAll{it.mdCategory== category}.sort{it.dispOrder} }" var="eMeta">
         <th class="sortable">
-          <p>
-            <div class="btn btn-default pull-left" onclick="alert('not yet');">Sel All</div>
-            <div class="right btn btn-default pull-right" onclick="alert('not yet');">Sel None</div>
-          </p>
+          %{--<p>--}%
+            %{--<div class="btn btn-default pull-left" onclick="alert('not yet');">Sel All</div>--}%
+            %{--<div class="right btn btn-default pull-right" onclick="alert('not yet');">Sel None</div>--}%
+          %{--</p>--}%
           <p class="text-center">action
               <g:select name="colAction" from="['Sort','Hide','Filter', 'Select All', 'Select None']" />
           </p>
