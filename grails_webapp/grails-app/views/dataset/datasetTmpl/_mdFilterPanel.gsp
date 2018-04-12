@@ -87,13 +87,13 @@
 %{--eF:${expFile}--}%
 <p><strong>Filter</strong>
 <!-- Rounded switch -->
+%{--
 <label class="switch pull-right" style="margin-right:20px;margin-top:10px">
     <g:checkBox type="checkbox" name="filterFiles" value="${session.filterFiles}" />
-    %{--<g:link action="toggleFilter" id="${experiment.id}" ><span class="slider round" ></span></g:link>--}%
-    %{--<span class="slider round" onclick="${createLinkTo(action: 'toggleFilter', id: experiment.id)}"></span>--}%
     <span class="slider round" onclick="setFilter();"></span>
-    %{--<span class="slider round" onclick="${g.actionSubmit(action: 'toggleFilter', value: 'toggleFilter', params:[id: experiment.id])}"></span>--}%
 </label>
+--}%
+<br/>
 </p>
 <div id="metaBox">
   <g:each in="${experiment?.expMetadatas?.sort{it.mdCategory}?.mdCategory?.unique()}" var="catgy">
@@ -102,29 +102,25 @@
       <p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>${catGy.mdKey}</strong></p>
       <g:each in="${experiment?.expMetadatas.find{it.mdKey == catGy.mdKey}?.mdVals?.sort{it.dispOrder}}" var="mVals">
         %{--mVals=${mVals.id.toString()}--}%
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<g:checkBox name="mVal_${mVals.id}_chb" />&nbsp;&nbsp;${mVals.mdValue}</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<g:checkBox id="mValCb_${mVals.mdValue}" name="mVal_${mVals.id}_chb" onclick="setFilter(this.id);"/>&nbsp;&nbsp;${mVals.mdValue}</p>
       </g:each>
     </g:each>
     %{--<g:if test="${catNo}"--}%
   </g:each>
 </div>
+%{--
 <script type="text/javascript">
-  function setFilter(){
+  function setFilter(metaVal){
     var eId = ${experiment.id};
     $.ajax({
-      url: "${createLink(controller: 'expFile', action: 'toggleFilter')}",
+      url: "${createLink(controller: 'dataset', action: 'setFilter')}",
       dataType: "json",
-      data: {"id": JSON.stringify(eId)},
+      data: {"id": JSON.stringify(eId), eMetaVal: metaVal},
       type: "get",
-      /* success: function (data) {
-        console.log('toggleFilter success!');
-      },
-      error: function (request, status, error) {
-        alert(error);
-      },*/
       complete: function () {
         console.log('ajax completed');
       }
     });
    }
 </script>
+--}%
