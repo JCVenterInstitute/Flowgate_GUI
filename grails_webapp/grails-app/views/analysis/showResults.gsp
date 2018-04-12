@@ -7,9 +7,7 @@
 </head>
 
 <body>
-%{--<a href="#show-analysis" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>--}%
-<div class="nav" role="navigation">
-</div>
+<div class="nav" role="navigation"></div>
 <g:if test="${flash?.resultMsg}">
   <br/>
   <br/>
@@ -29,10 +27,8 @@
     </g:if>
     <f:with bean="analysis">
       <div class="fieldcontain">
-        <label for="exp">Experiment</label>
-        %{--<div class="form-control">--}%
+        <label class="control-label" for="exp">Experiment</label>
         <f:display id="exp" property="experiment.title" />
-        %{--</div>--}%
       </div>
 
       <div class="fieldcontain">
@@ -48,7 +44,6 @@
       <div class="fieldcontain">
         <label for="analysisStatus">Analysis Status</label>
         <span id="analysisStatus">
-          %{--<i class=" fa fa-circle" style="color: ${analysis.analysisStatus == 1 ? 'lightgrey' : analysis.analysisStatus == 2 ? 'orange': analysis.analysisStatus == 3? 'lawngreen' : analysis.analysisStatus == -1 ? 'red' : 'brown'}"></i>--}%
           ${analysis.analysisStatus == 1 ? 'init' : analysis.analysisStatus == 2 ? 'pending': analysis.analysisStatus == 3 ? 'results ready' : analysis.analysisStatus == -1 ? 'error' : 'done'}
         </span>
       </div>
@@ -89,7 +84,8 @@
     <br/>
     <div class="row" style="max-width: 100%">
       <div class="col-sm-12">
-        <g:render template="results/resultsGrid" />
+        %{--<g:render template="results/resultsGrid" />--}%
+        <g:render template="results/resultsReport" />
       </div>
     </div>
     %{--TODO remove for normal user / change visibility    --}%

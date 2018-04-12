@@ -18,12 +18,14 @@
   </div>
 </sec:ifAnyGranted>
 <g:render template="/shared/nav"/>
+<div class="nav" role="navigation"></div>
 <div id="list-user" class="content scaffold-list" role="main">
   <g:if test="${newUserLst.size() > 0}">
     <h1 class="text-center"><g:message code="default.list.label" args="[entityName]"/></h1>
     <g:if test="${flash.message}">
       <div class="message" role="status">${flash.message}</div>
     </g:if>
+    <br/>
     <div class="row">
       <div class="col-sm-offset-1 col-sm-10">
         %{--<f:table collection="${newUserLst}" properties="['username','enabled']" />--}%

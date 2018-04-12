@@ -91,6 +91,31 @@ class AnalysisController {
     }
 
     def dwnldZip(){
+        String zipFileName = "file.zip"
+        String inputDir = "logs"
+
+        ZipOutputStream zipFile = new ZipOutputStream(new FileOutputStream(zipFileName))
+        new File(inputDir).eachFile() { file ->
+            zipFile.putNextEntry(new ZipEntry(file.getName()))
+            def buffer = new byte[1024]
+            file.withInputStream { i ->
+                def l = i.read(buffer)
+//              check wether the file is empty
+                if (l > 0) {
+                    zipFile.write(buffer, 0, l)
+                }
+            }
+            zipFile.closeEntry()
+        }
+        zipFile.close()
+
+//        response.setHeader("Content-disposition", "filename=\"${album.title}.zip\"")
+//        response.contentType = "application/zip"
+//        response.outputStream << baos.toByteArray()
+//        response.outputStream.flush()
+    }
+
+    def dwnldZip2(){
         /*
         ByteArrayOutputStream baos = new ByteArrayOutputStream()
         ZipOutputStream zipFile = new ZipOutputStream(baos)
@@ -115,33 +140,6 @@ class AnalysisController {
         */
     }
 
-    def dwnldZip2(){
-        /*
-        String zipFileName = "file.zip"
-        String inputDir = "logs"
-
-        ZipOutputStream zipFile = new ZipOutputStream(new FileOutputStream(zipFileName))
-        new File(inputDir).eachFile() { file ->
-            zipFile.putNextEntry(new ZipEntry(file.getName()))
-            def buffer = new byte[1024]
-            file.withInputStream { i ->
-                def l = i.read(buffer)
-//              check wether the file is empty
-                if (l > 0) {
-                    zipFile.write(buffer, 0, l)
-                }
-            }
-            zipFile.closeEntry()
-        }
-        zipFile.close()
-        */
-
-//        response.setHeader("Content-disposition", "filename=\"${album.title}.zip\"")
-//        response.contentType = "application/zip"
-//        response.outputStream << baos.toByteArray()
-//        response.outputStream.flush()
-    }
-
     def downloadFile() {
         Analysis analysis = Analysis.get(params?.analysisId)
         def outputFile = JSON.parse(params.outputFile)
@@ -154,8 +152,26 @@ class AnalysisController {
         response.outputStream << dataStream
         response.outputStream.flush()
 //        String dwnLdMsg = "File '${params?.filename}' successfully downloaded!"
-//        redirect action:'showResults', params: ['analysis.id': analysis.id, analysisId: analysis.id, dwnLdMsg: dwnLdMsg]
     }
+
+    /*
+    // moved into taglib: fg:render
+    def downloadReport() {
+        AnalysisServer analysisServer = AnalysisServer.get(params?.analysisServerId?.toLong())
+        if(params.href && params.href!='' && analysisServer) {
+            def fileUrl = new URL(params.href)
+            def connection = fileUrl.openConnection()
+            connection.setRequestProperty ("Authorization", utilsService.authHeader(analysisServer.userName, analysisServer.userPw))
+            def dataStream = connection.inputStream
+            response.setContentType("text/html")
+            response.outputStream << dataStream
+            response.outputStream.flush()
+        }
+        else {
+           render 'Error: no report file found!'
+        }
+    }
+    */
 
 
     def getImage(){

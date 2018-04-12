@@ -17,6 +17,16 @@ class DatasetController {
     redirect action: 'ds_edit', id: experiment.id
   }
 
+  def setFilter(Experiment experiment){
+    String mdVal = params.eMetaVal-'mValCb_'
+    def expFileList = ExpFileMetadata.findAllByMdVal(mdVal)*.expFile
+    Dataset ds = Dataset.get(params?.dsId?.toLong())
+    render(contentType: 'text/json') {
+      success true
+      fcsList "${g.render (template: 'datasetTmpl/fcsFilePanel', model: [experiment: experiment, ds:ds, dsId: ds.id, expFileList: expFileList ]) }"
+    }
+  }
+
   def axAddDs(){
     Experiment experiment = Experiment.get(params.eId.toLong())
     params.dsMode = 'create'

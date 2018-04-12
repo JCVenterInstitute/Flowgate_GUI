@@ -1,15 +1,38 @@
 package flowgate
 
+//import grails.io.IOUtils
+import org.apache.commons.io.IOUtils
+
 //import org.grails.encoder.Encoder
 //import org.grails.taglib.TagOutput
 //import org.grails.taglib.encoder.OutputContextLookupHelper
 //import org.springframework.web.servlet.support.RequestContextUtils
 
 class FgUtilsTagLib {
-    static defaultEncodeAs = [taglib:'html']
+
+    static namespace = 'fg'
+//    static defaultEncodeAs = [taglib:'html']
+    static defaultEncodeAs = [taglib:'none']
     //static encodeAsForTags = [tagName: [taglib:'html'], otherTagName: [taglib:'none']]
 
+    def utilsService
 
+    /** Renders a html file
+     * used for rendering pipeline report results
+     */
+    def render = {attrs ->
+        AnalysisServer analysisServer = AnalysisServer.get(attrs?.analysisServerId)
+        if(attrs.href && attrs.href!='' && analysisServer) {
+            def fileUrl = new URL(attrs.href)
+            def connection = fileUrl.openConnection()
+            connection.setRequestProperty ("Authorization", utilsService.authHeader(analysisServer.userName, analysisServer.userPw))
+            def dataStream = connection.inputStream
+            out << dataStream
+        }
+        else {
+            out << 'Error: no report file found!'
+        }
+    }
 
     /**
      * Renders a sortable column to support sorting in list views.<br/>

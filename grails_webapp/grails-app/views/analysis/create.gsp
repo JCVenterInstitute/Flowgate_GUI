@@ -58,9 +58,9 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="analysisDescription" class="col-sm-2 control-label">Analysis Name<span class="required-indicator">*</span></label>
+              <label for="analysisDescription" class="col-sm-2 control-label">Analysis Description<span class="required-indicator">*</span></label>
               <div class="col-sm-10">
-                <textarea type="text" name="analysisDescription" id="analysisDescription" class="form-control" rows="2" cols="290" maxlength="150"></textarea>
+                <textarea type="text" name="analysisDescription" id="analysisDescription" class="form-control" rows="2" cols="290" maxlength="250"></textarea>
               </div>
             </div>
             <div id="modParams">

@@ -5,7 +5,7 @@
       <div class="panel-body">
         <i class="fa fa-3x fa-${session?.experimentOpenId?.toLong() == experiment?.id ? 'folder-open' : 'folder'}-o"
            style="padding-bottom: 10px;"></i>
-        <h4>${experiment?.title}
+        <h4 title="${experiment?.title}">${experiment?.title.take(20)+'...'}
           <span class="label label-success"><i class="fa fa-unlock"></i></span>
         </h4>
       </div>

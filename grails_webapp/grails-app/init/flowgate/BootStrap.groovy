@@ -50,13 +50,13 @@ class BootStrap {
   def proj2 = new Project(title: 'SDY 180', description: 'Study Subjects and Study Design\n' +
     'The study was approved by the Baylor Research Institute Institutional Review Board at Baylor University Medical Center (Dallas, TX). After obtaining written informed consent, healthy adults, aged 18 to 64 years, were enrolled to receive a single intramuscular dose of 2009–2010 seasonal influenza (Fluzone, Sanofi Pasteur, PA), pneumococcal vaccine (Pneumovax23, Merck, NJ), or placebo (saline). Exclusion criteria were pregnancy, active allergy symptoms, or vaccinations within the previous 2 months. Prior to vaccination, participants had two baseline blood draws (on days −7 and 0, with respect to the day of vaccination; see Tables S1 and S2 for study design). Blood was collected in Tempus blood RNA tubes (Life Technologies) for microarray and acid citrate dextrose tubes (ACD, BD Vacutainer) for whole-blood flow cytometry, CBC, and serum analysis of neutralizing antibodies and cytokines. In addition, capillary blood was collected by finger stick for microarray (see Table S5 for study design). Freshly ficolled PBMC were used for sequential isolation of white blood cell subsets.\n',
     isActive: true).save(failOnError: true)
-  def proj3 = new Project(title: '3rd Project', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
-                          isActive: true).save(failOnError: true)
+//  def proj3 = new Project(title: '3rd Project', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat sit amet dui ut egestas. Sed gravida viverra porttitor. In at finibus ipsum. Curabitur mattis rutrum bibendum. Mauris sit amet cursus felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce mattis eros sit amet accumsan lobortis. Sed scelerisque et velit ac elementum. Sed at convallis tortor. Quisque viverra elementum tincidunt. Integer rhoncus egestas dolor, in dapibus turpis aliquam non. ',
+//                          isActive: true).save(failOnError: true)
   ProjectUser.create(proj1, adminUser, 'owner')
   ProjectUser.create(proj1, userUser, 'member')
   ProjectUser.create(proj2, adminUser, 'owner')
   ProjectUser.create(proj2, userUser, 'member')
-  ProjectUser.create(proj3, adminUser, 'owner')
+//  ProjectUser.create(proj3, adminUser, 'owner')
   //                  ProjectUser.create(proj3, adminUser, 'member')
   /*
   def exp1 = new Experiment(title: 'exp1', description: 'exp1 desc', project: proj1, isActive: true).save(failOnError: true)
@@ -322,17 +322,19 @@ class BootStrap {
   ModuleParam mParam4 = new ModuleParam(module: mod1, pBasic: false, pType: "val", pKey: 'Maximum.number.of.populations', defaultVal: '30').save()
   mod1.moduleParams = [mParam1, mParam2, mParam3, mParam4]
   mod1.save()
-  Module mod2 = new Module(server: as2, title: 'DAFI', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:1:2', moduleParams: []).save(failOnSave: true)
+  Module mod2 = new Module(server: as2, title: 'DAFI_Complete_UCI_GR_Report', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:24:9', moduleParams: []).save(failOnSave: true)
+//  Module mod2 = new Module(server: as2, title: 'DAFI_Complete_UCI_GR_Report', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:26:3', moduleParams: []).save(failOnSave: true)
 //                    ModuleParam mParam5 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'input.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/dafitest.txt').save()
-  ModuleParam mParam5 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'input.file', defaultVal: '').save()
+  ModuleParam mParam5 = new ModuleParam(module: mod2, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds1.id.toString()).save()
 //                    ModuleParam mParam6 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/Run02.config').save()
-  ModuleParam mParam6 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '').save()
+//  ModuleParam mParam6 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '').save()
 //                    ModuleParam mParam7 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/Empty.config').save()
-  ModuleParam mParam7 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '').save()
+//  ModuleParam mParam7 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '').save()
   ModuleParam mParam8 = new ModuleParam(module: mod2, pBasic: false, pType: "val", pKey: 'init.cluster.size', defaultVal: '200').save()
   ModuleParam mParam9 = new ModuleParam(module: mod2, pBasic: false, pType: "val", pKey: 're.cluster.size', defaultVal: '500').save()
-  ModuleParam mParam10 = new ModuleParam(module: mod2, pBasic: false, pType: "val", pKey: 'num.cores', defaultVal: '24').save()
-  mod2.moduleParams = [mParam5, mParam6, mParam7, mParam8, mParam9, mParam10]
+//  ModuleParam mParam10 = new ModuleParam(module: mod2, pBasic: false, pType: "val", pKey: 'num.cores', defaultVal: '24').save()
+//  mod2.moduleParams = [mParam5, mParam6, mParam7, mParam8, mParam9, mParam10]
+  mod2.moduleParams = [mParam5, mParam8, mParam9 ]
   mod2.save()
 //                  Module mod3 = new Module(server: as1, title: 'Fcs2Txt', name: 'FcsToCsv', moduleParams: []).save(failOnSave: true)
   Module mod3 = new Module(server: as3, title: 'Fcs2Csv', name: 'FcsToCsv', moduleParams: []).save(failOnSave: true)
@@ -371,33 +373,33 @@ class BootStrap {
   ModuleParam mParam31 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Hidegatelines.set', defaultVal: '').save()
 //            mod3.moduleParams = [mParam11, mParam12, mParam13, mParam14, mParam15, mParam16, mParam17]
   mod4.save()
-  assert Module.count() == 4
+
+  Module mod5 = new Module(server: as2, title: 'Multi_DAFI_Complete_UCI_GR_Report_wC', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:26:3', moduleParams: []).save(failOnSave: true)
+  ModuleParam m5mP1 = new ModuleParam(module: mod5, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds1.id.toString()).save()
+  ModuleParam m5mP21 = new ModuleParam(module: mod5, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '').save()
+  ModuleParam m5mP22 = new ModuleParam(module: mod5, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '').save()
+  ModuleParam m5mP2 = new ModuleParam(module: mod5, pBasic: false, pType: "val", pKey: 'init.cluster.size', defaultVal: '200').save()
+  ModuleParam m5mP3 = new ModuleParam(module: mod5, pBasic: false, pType: "val", pKey: 're.cluster.size', defaultVal: '500').save()
+  mod5.moduleParams = [ m5mP1, m5mP21, m5mP22, m5mP2, m5mP3 ]
+  mod5.save()
+
+  assert Module.count() == 5
   println 'pass Module count'
-  assert ModuleParam.count() == 31
+//  assert ModuleParam.count() ==
   println 'pass ModuleParams count'
 
 /* */
   Analysis an0 = new Analysis(analysisName: 'Identification of sexual dimorphism in glucocorticoid receptor expression by computational analysis of flow cytometry data',
                               analysisDescription: 'Step 1: Quality control and preprocessing, including data transformation and re-compensation\n' +
                                   'Step 2: Computational identification of cell populations using DAFi and DAFi + FLOCK\n' +
-                                  'step 3: MFI and proportion statistics from cross-sample comparison',
+                                  'Step 3: MFI and proportion statistics from cross-sample comparison',
                               user: userUser,
                               timestamp: new Date(117,11,17,11,30,00),
                               analysisStatus: 3,
-                              jobNumber: 1155,
+                              jobNumber: 1259,
                               analysisServer: 'localhost', analysisUser: 'flowGate', analysisUserPw: 'flowGate',
                               experiment: exp1, module: mod4).save()
-//            Analysis an1 = new Analysis(analysisName: 'DAFI Complete Beta', user: userUser, timestamp: new Date(117,8,22,10,00,00), analysisStatus: 2, jobNumber: 1, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
-//            Analysis an2 = new Analysis(analysisName: 'DAFI Complete Beta FCS3.1', user: userUser, timestamp: new Date(117,8,22,11,00,00), analysisStatus: 1, jobNumber: 2, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
-//            Analysis an3 = new Analysis(analysisName: 'DAFI Gating Beta', user: userUser, timestamp: new Date(117,9,22,8,00,00), analysisStatus: 1, jobNumber: 3, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
-//            Analysis an4 = new Analysis(analysisName: 'Flock 1', user: userUser, timestamp: new Date(117,10,4,14,30,00), analysisStatus: 3, jobNumber: 4, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
-//            Analysis an5 = new Analysis(analysisName: 'ImmPortColSelection', user: userUser, timestamp: new Date(117,10,14,10,00,00), analysisStatus: 3, jobNumber: 5, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
-//            Analysis an6 = new Analysis(analysisName: 'ImmPortCSV2TXT', user: userUser, timestamp: new Date(117,10,16,10,00,00), analysisStatus: 3, jobNumber: 6, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
-//  Analysis an7 = new Analysis(analysisName: 'DAFI2', user: userUser, timestamp: new Date(117,11,17,11,30,00), analysisStatus: 3, jobNumber: 1155, analysisServer: 'localhost', analysisUser: 'flowGate', analysisUserPw: 'flowGate', experiment: exp2, module: mod4).save()
-//            Analysis an8 = new Analysis(analysisName: 'FCS2CSV', user: userUser, timestamp: new Date(117,11,27,10,00,00), analysisStatus: 3, jobNumber: 8, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
-//            Analysis an9 = new Analysis(analysisName: 'DAFI Plotting', user: userUser, timestamp: new Date(117,11,27,11,00,00), analysisStatus: 1, jobNumber: 9, analysisServer: 'localhost', analysisUser: 'nemo', analysisUserPw: 'xxx', experiment: exp1, module: mod4).save()
   assert Analysis.count() == 1
-//            assert Analysis.count() == 9
   println 'pass Analysis count'
 // */
 
@@ -459,64 +461,41 @@ class BootStrap {
 
     def fillExperimentMetadata(Experiment exp){
 
-//            ExperimentMetadataValue mdValOrg1 = new ExperimentMetadataValue(mdValue: 'Human', mdType: 'String', dispOrder: 0)
-//            mdValOrg1.save()
-//            ExperimentMetadataValue mdValOrg2 = new ExperimentMetadataValue(mdValue: 'Mouse', mdType: 'String', dispOrder: 1).save()
-//            ExperimentMetadataValue mdValOrg3 = new ExperimentMetadataValue(mdValue: 'Fungus', mdType: 'String', dispOrder: 2).save()
-//            ExperimentMetadataValue mdValAge = new ExperimentMetadataValue(mdValue: '31', mdType: 'String', dispOrder: 0).save()
-//            ExperimentMetadataValue mdValAgeU = new ExperimentMetadataValue(mdValue: 'Years', mdType: 'String', dispOrder: 0).save()
             ExperimentMetadataValue mdValGenF = new ExperimentMetadataValue(mdValue: 'Female', mdType: 'String', dispOrder: 0).save()
             ExperimentMetadataValue mdValGenM = new ExperimentMetadataValue(mdValue: 'Male', mdType: 'String', dispOrder: 1).save()
-//            ExperimentMetadataValue mdValDosMy = new ExperimentMetadataValue(mdValue: 'uL', mdType: 'String', dispOrder: 0).save()
-//            ExperimentMetadataValue mdValDosM = new ExperimentMetadataValue(mdValue: 'mL', mdType: 'String', dispOrder: 1).save()
-//            ExperimentMetadataValue mdValDosL = new ExperimentMetadataValue(mdValue: 'L', mdType: 'String', dispOrder: 2).save()
-            ExperimentMetadataValue mdValMarker1 = new ExperimentMetadataValue(mdValue: 'CD16', mdType: 'String', dispOrder: 0).save()
-            ExperimentMetadataValue mdValMarker2 = new ExperimentMetadataValue(mdValue: 'GR', mdType: 'String', dispOrder: 0).save()
+            ExperimentMetadataValue mdValMarker1 = new ExperimentMetadataValue(mdValue: 'CD16', mdType: 'String', dispOrder: 30).save()
+            ExperimentMetadataValue mdValMarker2 = new ExperimentMetadataValue(mdValue: 'GR', mdType: 'String', dispOrder: 40).save()
             ExperimentMetadataValue mdValMarker3 = new ExperimentMetadataValue(mdValue: 'not used', mdType: 'String', dispOrder: 0).save()
-            ExperimentMetadataValue mdValMarker4 = new ExperimentMetadataValue(mdValue: 'CD14', mdType: 'String', dispOrder: 0).save()
-            ExperimentMetadataValue mdValMarker5 = new ExperimentMetadataValue(mdValue: 'not used', mdType: 'String', dispOrder: 0).save()
-            ExperimentMetadataValue mdValMarker6 = new ExperimentMetadataValue(mdValue: 'CD3', mdType: 'String', dispOrder: 0).save()
-            ExperimentMetadataValue mdValMarker7 = new ExperimentMetadataValue(mdValue: 'not used', mdType: 'String', dispOrder: 0).save()
-            ExperimentMetadataValue mdValReag1 = new ExperimentMetadataValue(mdValue: 'VioBlue-A', mdType: 'String', dispOrder: 1).save()
-            ExperimentMetadataValue mdValReag2 = new ExperimentMetadataValue(mdValue: 'FITC-A', mdType: 'String', dispOrder: 1).save()
-            ExperimentMetadataValue mdValReag3 = new ExperimentMetadataValue(mdValue: 'PE-A', mdType: 'String', dispOrder: 1).save()
-            ExperimentMetadataValue mdValReag4 = new ExperimentMetadataValue(mdValue: 'PI/PE-Cy5.5-A/PECy5/PerCP', mdType: 'String', dispOrder: 1).save()
-            ExperimentMetadataValue mdValReag5 = new ExperimentMetadataValue(mdValue: 'PE-Cy7-A', mdType: 'String', dispOrder: 1).save()
-            ExperimentMetadataValue mdValReag6 = new ExperimentMetadataValue(mdValue: 'APC-A', mdType: 'String', dispOrder: 1).save()
-            ExperimentMetadataValue mdValReag7 = new ExperimentMetadataValue(mdValue: 'APC-Cy7-A', mdType: 'String', dispOrder: 1).save()
-            ExperimentMetadataValue mdValChanFl1A = new ExperimentMetadataValue(mdValue: 'FL1-A', mdType: 'String', dispOrder: 2).save()
-            ExperimentMetadataValue mdValChanFl2A = new ExperimentMetadataValue(mdValue: 'FL2-A', mdType: 'String', dispOrder: 2).save()
-            ExperimentMetadataValue mdValChanFl3A = new ExperimentMetadataValue(mdValue: 'FL3-A', mdType: 'String', dispOrder: 2).save()
-            ExperimentMetadataValue mdValChanFl4A = new ExperimentMetadataValue(mdValue: 'FL4-A', mdType: 'String', dispOrder: 2).save()
-            ExperimentMetadataValue mdValChanFl5A = new ExperimentMetadataValue(mdValue: 'FL5-A', mdType: 'String', dispOrder: 2).save()
-            ExperimentMetadataValue mdValChanFl6A = new ExperimentMetadataValue(mdValue: 'FL6-A', mdType: 'String', dispOrder: 2).save()
-            ExperimentMetadataValue mdValChanFl7A = new ExperimentMetadataValue(mdValue: 'FL7-A', mdType: 'String', dispOrder: 2).save()
+            ExperimentMetadataValue mdValMarker4 = new ExperimentMetadataValue(mdValue: 'CD14', mdType: 'String', dispOrder: 20).save()
+            ExperimentMetadataValue mdValMarker6 = new ExperimentMetadataValue(mdValue: 'CD3', mdType: 'String', dispOrder: 10).save()
+            ExperimentMetadataValue mdValReag1 = new ExperimentMetadataValue(mdValue: 'VioBlue-A', mdType: 'String', dispOrder: 40).save()
+            ExperimentMetadataValue mdValReag2 = new ExperimentMetadataValue(mdValue: 'FITC-A', mdType: 'String', dispOrder: 20).save()
+            ExperimentMetadataValue mdValReag3 = new ExperimentMetadataValue(mdValue: 'PE-A', mdType: 'String', dispOrder: 30).save()
+            ExperimentMetadataValue mdValReag4 = new ExperimentMetadataValue(mdValue: 'PI/PE-Cy5.5-A/PECy5/PerCP', mdType: 'String', dispOrder: 38).save()
+            ExperimentMetadataValue mdValReag5 = new ExperimentMetadataValue(mdValue: 'PE-Cy7-A', mdType: 'String', dispOrder: 32).save()
+            ExperimentMetadataValue mdValReag6 = new ExperimentMetadataValue(mdValue: 'APC-A', mdType: 'String', dispOrder: 0).save()
+            ExperimentMetadataValue mdValReag7 = new ExperimentMetadataValue(mdValue: 'APC-Cy7-A', mdType: 'String', dispOrder: 10).save()
+            ExperimentMetadataValue mdValChanFl1A = new ExperimentMetadataValue(mdValue: 'FL1-A', mdType: 'String', dispOrder: 0).save()
+            ExperimentMetadataValue mdValChanFl2A = new ExperimentMetadataValue(mdValue: 'FL2-A', mdType: 'String', dispOrder: 10).save()
+            ExperimentMetadataValue mdValChanFl3A = new ExperimentMetadataValue(mdValue: 'FL3-A', mdType: 'String', dispOrder: 20).save()
+            ExperimentMetadataValue mdValChanFl4A = new ExperimentMetadataValue(mdValue: 'FL4-A', mdType: 'String', dispOrder: 30).save()
+            ExperimentMetadataValue mdValChanFl5A = new ExperimentMetadataValue(mdValue: 'FL5-A', mdType: 'String', dispOrder: 40).save()
+            ExperimentMetadataValue mdValChanFl6A = new ExperimentMetadataValue(mdValue: 'FL6-A', mdType: 'String', dispOrder: 50).save()
+            ExperimentMetadataValue mdValChanFl7A = new ExperimentMetadataValue(mdValue: 'FL7-A', mdType: 'String', dispOrder: 60).save()
 
             ExperimentMetadataValue mdValEthn1 = new ExperimentMetadataValue(mdValue: 'Not Hispanic or Latino', mdType: 'String', dispOrder: 0).save()
 
             ExperimentMetadataValue mdValRace1 = new ExperimentMetadataValue(mdValue: 'Black or African American', mdType: 'String', dispOrder: 0).save()
-            ExperimentMetadataValue mdValRace2 = new ExperimentMetadataValue(mdValue: 'White', mdType: 'String', dispOrder: 0).save()
-            ExperimentMetadataValue mdValRace3 = new ExperimentMetadataValue(mdValue: 'Asian', mdType: 'String', dispOrder: 0).save()
+            ExperimentMetadataValue mdValRace2 = new ExperimentMetadataValue(mdValue: 'White', mdType: 'String', dispOrder: 10).save()
+            ExperimentMetadataValue mdValRace3 = new ExperimentMetadataValue(mdValue: 'Asian', mdType: 'String', dispOrder: 20).save()
 
-//            ExperimentMetadata eMd = new ExperimentMetadata(experiment: exp, mdKey: 'Organism', mdVals: [mdValOrg1,mdValOrg2,mdValOrg3], mdCategory: 'Organisms', dispOrder: 0, expFiles: [])
-//            eMd.save()
-//            new ExperimentMetadata(experiment: exp, mdKey: 'Sample Source', mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Age', mdVals: [], mdCategory: 'Demographics', dispOrder: 1, expFiles: []).save()
-//            new ExperimentMetadata(experiment: exp, mdKey: 'Age Unit', mdVals: [mdValAgeU], mdCategory: 'Demographics', dispOrder: 2, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Age', mdVals: [], mdCategory: 'Demographics', dispOrder: 10, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Gender', mdVals: [mdValGenF,mdValGenM], mdCategory: 'Demographics', dispOrder: 0, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Ethnicity', mdVals: [mdValEthn1], mdCategory: 'Demographics', dispOrder: 0, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Race', mdVals: [mdValRace1,mdValRace2,mdValRace3], mdCategory: 'Demographics', dispOrder: 0, expFiles: []).save()
-//            new ExperimentMetadata(experiment: exp, mdKey: 'Location', mdVals: [], mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
-//            new ExperimentMetadata(experiment: exp, mdKey: 'Condition', mdVals: [], mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
-//            new ExperimentMetadata(experiment: exp, mdKey: 'Dose', mdVals: [mdValDosMy,mdValDosM,mdValDosL], mdCategory: 'Sample Info', dispOrder: 0, expFiles: []).save()
-//            new ExperimentMetadata(experiment: exp, mdKey: 'Timepoint', mdVals: [], mdCategory: 'Visit', dispOrder: 0, expFiles: []).save()
-//            new ExperimentMetadata(experiment: exp, mdKey: 'Individual', mdVals: [], mdCategory: 'Visit', dispOrder: 0, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Ethnicity', mdVals: [mdValEthn1], mdCategory: 'Demographics', dispOrder: 2, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Race', mdVals: [mdValRace1,mdValRace2,mdValRace3], mdCategory: 'Demographics', dispOrder: 4, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Fluorochrome', mdVals: [mdValReag1,mdValReag2,mdValReag3,mdValReag4,mdValReag5,mdValReag6,mdValReag7], mdCategory: 'Reagents', dispOrder: 1, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Fluorochrome', mdVals: [mdValReag1,mdValReag2,mdValReag3,mdValReag4,mdValReag5,mdValReag6,mdValReag7], mdCategory: 'Panel', dispOrder: 1, expFiles: []).save()
-            def em1 = new ExperimentMetadata(experiment: exp, mdKey: 'Marker', mdVals: [mdValMarker1,mdValMarker2,mdValMarker3,mdValMarker4,mdValMarker5,mdValMarker6,mdValMarker7], mdCategory: 'Reagents', dispOrder: 2, expFiles: []).save()
-            def em2 = new ExperimentMetadata(experiment: exp, mdKey: 'Marker', mdVals: [mdValMarker1,mdValMarker2,mdValMarker3,mdValMarker4,mdValMarker5,mdValMarker6,mdValMarker7], mdCategory: 'Panel', dispOrder: 2, expFiles: []).save()
+            def em1 = new ExperimentMetadata(experiment: exp, mdKey: 'Marker', mdVals: [mdValMarker1,mdValMarker2,mdValMarker3,mdValMarker4,mdValMarker3,mdValMarker6,mdValMarker3], mdCategory: 'Reagents', dispOrder: 2, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Channel', mdVals: [mdValChanFl1A,mdValChanFl2A,mdValChanFl3A,mdValChanFl4A,mdValChanFl5A,mdValChanFl6A,mdValChanFl7A], mdCategory: 'Reagents', dispOrder: 0, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Channel', mdVals: [mdValChanFl1A,mdValChanFl2A,mdValChanFl3A,mdValChanFl4A,mdValChanFl5A,mdValChanFl6A,mdValChanFl7A], mdCategory: 'Panel', dispOrder: 0, expFiles: []).save()
 
             println "ExperimentMetadata.cnt ${ExperimentMetadata.count()}"
     }

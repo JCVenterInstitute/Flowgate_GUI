@@ -13,7 +13,7 @@ grails {
 
 grails.resources.adhoc.includes = ['/images/**', '/css/**', '/js/**', '/plugins/**', '/fonts/**']
 
-grails.plugin.springsecurity.ui.register.postRegisterUrl = '/project/list'
+grails.plugin.springsecurity.ui.register.postRegisterUrl = '/'
 grails.plugin.springsecurity.ui.register.defaultRoleNames = ['ROLE_NewUser','ROLE_Guest']
 //grails.plugin.springsecurity.ui.gsp.layoutRegister = 'main'
 
