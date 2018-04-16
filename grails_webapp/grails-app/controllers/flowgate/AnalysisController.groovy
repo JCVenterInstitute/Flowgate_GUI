@@ -14,7 +14,7 @@ import javax.imageio.ImageIO
 
 import static org.springframework.http.HttpStatus.*
 
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 class AnalysisController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", axSelectAllFcs: "GET", axUnselectAllFcs: "GET", del: ["DELETE","GET"]]

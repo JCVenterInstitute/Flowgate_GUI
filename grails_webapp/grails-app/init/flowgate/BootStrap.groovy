@@ -376,11 +376,9 @@ class BootStrap {
 
   Module mod5 = new Module(server: as2, title: 'Multi_DAFI_Complete_UCI_GR_Report_wC', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:26:3', moduleParams: []).save(failOnSave: true)
   ModuleParam m5mP1 = new ModuleParam(module: mod5, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds1.id.toString()).save()
-  ModuleParam m5mP21 = new ModuleParam(module: mod5, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '').save()
-  ModuleParam m5mP22 = new ModuleParam(module: mod5, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '').save()
   ModuleParam m5mP2 = new ModuleParam(module: mod5, pBasic: false, pType: "val", pKey: 'init.cluster.size', defaultVal: '200').save()
   ModuleParam m5mP3 = new ModuleParam(module: mod5, pBasic: false, pType: "val", pKey: 're.cluster.size', defaultVal: '500').save()
-  mod5.moduleParams = [ m5mP1, m5mP21, m5mP22, m5mP2, m5mP3 ]
+  mod5.moduleParams = [ m5mP1, m5mP2, m5mP3 ]
   mod5.save()
 
   assert Module.count() == 5
