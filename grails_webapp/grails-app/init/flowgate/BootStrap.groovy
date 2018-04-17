@@ -16,11 +16,11 @@ class BootStrap {
   assert Role.count() == 7
   println 'pass Role count'
 
-  def superadminUser = User.findOrSaveByUsernameAndPasswordAndEmail('super', 'super', 'super@flowgate.ui')
-  def adminUser = User.findOrSaveByUsernameAndPasswordAndEmail('admin', 'admin', 'admin@flowgate.ui')
-  def userUser = User.findOrSaveByUsernameAndPasswordAndEmail( 'user', 'user', 'user@flowgate.ui')
-  def flowGateUser = User.findOrSaveByUsernameAndPasswordAndEmail('flowGate', 'flowGate', 'flowgate.noreply@gmail.com')
-  def testUser = User.findOrSaveByUsernameAndPasswordAndEmail( 'acs', 'acs', 'peter.acs@stanford.edu')
+  def superadminUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('super', 'super', 'super@flowgate.ui', '')
+  def adminUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('admin', 'admin', 'admin@flowgate.ui', '')
+  def userUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation( 'user', 'user', 'user@flowgate.ui', '')
+  def flowGateUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('flowGate', 'flowGate', 'flowgate.noreply@gmail.com', '')
+  def testUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation( 'acs', 'acs', 'peter.acs@stanford.edu', '')
   UserRole.create(superadminUser, superadminRole)
   UserRole.create(adminUser, adminRole)
   UserRole.create(userUser, userRole)
