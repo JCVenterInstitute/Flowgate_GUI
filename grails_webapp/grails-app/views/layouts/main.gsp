@@ -12,7 +12,7 @@
 
 <body>
 <g:render template="/layouts/navBar"/>
-<div class="col-sm-10" style="position: static">
+<div class="container" style="position: static">
   <g:pageProperty name="page.topBtnBar" />
 </div>
 <g:if test="${flash.message}">
