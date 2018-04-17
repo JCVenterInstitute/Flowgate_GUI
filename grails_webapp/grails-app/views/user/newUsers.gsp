@@ -2,43 +2,31 @@
 <html>
 <head>
   <meta name="layout" content="main"/>
-  <g:set var="entityName" value="${message(code: 'user.label', default: '(New)Users')}"/>
+  <g:set var="entityName" value="${message(code: 'user.label', default: 'Users')}"/>
   <title><g:message code="default.list.label" args="[entityName]"/></title>
 </head>
 
 <body>
-<sec:ifAnyGranted roles="ROLE_Adminstrator">
-  %{--<a href="#list-user" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>--}%
-
-  <div class="nav" role="navigation">
-    %{--<ul>--}%
-      %{--<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>--}%
-      %{--<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]"/></g:link></li>--}%
-    %{--</ul>--}%
-  </div>
-</sec:ifAnyGranted>
 <g:render template="/shared/nav"/>
-<div class="nav" role="navigation"></div>
 <div id="list-user" class="content scaffold-list" role="main">
   <g:if test="${newUserLst.size() > 0}">
-    <h1 class="text-center"><g:message code="default.list.label" args="[entityName]"/></h1>
-    <g:if test="${flash.message}">
-      <div class="message" role="status">${flash.message}</div>
-    </g:if>
-    <br/>
     <div class="row">
       <div class="col-sm-offset-1 col-sm-10">
-        %{--<f:table collection="${newUserLst}" properties="['username','enabled']" />--}%
+        <h1 class="page-header"><g:message code="default.list.label" args="[entityName]"/></h1>
+        <g:if test="${flash.message}">
+          <div class="message" role="status">${flash.message}</div>
+        </g:if>
         <table class="table table-bordered table-responsive table-striped table-hover dataTable">
           <thead>
           <tr>
             <g:sortableColumn class="text-center" property="username" title="Username"/>
+            <g:sortableColumn class="text-center" property="email" title="Email"/>
             <g:sortableColumn class="text-center" property="enabled" title="Active"/>
           </tr>
           </thead>
           <tbody>
           <g:each in="${newUserLst}" var="nu" status="i">
-            <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+            <tr>
               <td class="text-center">
                 <sec:ifAnyGranted roles="ROLE_Administrator">
                 %{--  Show User method  --}%
@@ -55,8 +43,12 @@
                 </sec:ifNotGranted>
               </td>
               <td class="text-center">
+                <f:display bean="${nu}"
+                           property="${'email'}"
+                           displayStyle="${displayStyle ?: 'table'}"/>
+              </td>
+              <td class="text-center">
                 <div id="nu-act-${nu.id}" onclick="activate(${nu.id})"><g:render template="activateField" model="[user: nu]"/></div>
-                %{--<div id="nu-act-${nu.id}"><g:render template="activateField" model="[user: nu]" /></div>--}%
               </td>
             </tr>
           </g:each>
