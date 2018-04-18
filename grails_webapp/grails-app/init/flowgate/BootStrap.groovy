@@ -3,7 +3,8 @@ import grails.converters.JSON
 import grails.util.Environment
 class BootStrap {
   def init = { servletContext ->
-    if(Environment.current == Environment.DEVELOPMENT || Environment.current == Environment.PRODUCTION) {
+    /* */
+  if(Environment.current == Environment.DEVELOPMENT || Environment.current == Environment.PRODUCTION) {
       println 'roles & users'
       def superadminRole = Role.findOrSaveByAuthority('ROLE_Administrator')
         def adminRole = Role.findOrSaveByAuthority('ROLE_Admin')
@@ -58,11 +59,9 @@ class BootStrap {
   ProjectUser.create(proj2, userUser, 'member')
 //  ProjectUser.create(proj3, adminUser, 'owner')
   //                  ProjectUser.create(proj3, adminUser, 'member')
-  /*
-  def exp1 = new Experiment(title: 'exp1', description: 'exp1 desc', project: proj1, isActive: true).save(failOnError: true)
-  def exp2 = new Experiment(title: 'exp2', description: 'exp2 desc', project: proj1, isActive: true).save(failOnError: true)
-  def exp3 = new Experiment(title: 'exp3', description: 'exp3 desc', project: proj2, isActive: true).save(failOnError: true)
-  */
+//  def exp1 = new Experiment(title: 'exp1', description: 'exp1 desc', project: proj1, isActive: true).save(failOnError: true)
+//  def exp2 = new Experiment(title: 'exp2', description: 'exp2 desc', project: proj1, isActive: true).save(failOnError: true)
+//  def exp3 = new Experiment(title: 'exp3', description: 'exp3 desc', project: proj2, isActive: true).save(failOnError: true)
   println 'experiments...'
   def exp1 = new Experiment(title: 'Flow cytometry identification of sexual dimorphism in glucocorticoid receptor expression from human leukocytes',
                             description: 'Four panels: combo (GR/CD3/CD14/CD16), CD193 (GR/CD193), CD203 (GR/CD203), CD56 (GR/CD3/CD56)\n' +
@@ -106,144 +105,167 @@ class BootStrap {
   def expFile1037 = new ExpFile(experiment: exp1, title: '1037_Combo.fcs', chkSum: 'abc', fileName: '1037_Combo.fcs', filePath: '/Users/acs/Projects/flowgate/testData/ds1_combo/', createdBy: adminUser, isActive: true, reagentPanel: []).save(failOnError: true)
   def expFile1038 = new ExpFile(experiment: exp1, title: '1038_Combo.fcs', chkSum: 'abc', fileName: '1038_Combo.fcs', filePath: '/Users/acs/Projects/flowgate/testData/ds1_combo/', createdBy: adminUser, isActive: true, reagentPanel: []).save(failOnError: true)
 
+  ExpFileMetadata expFileMeta1012_subj = new ExpFileMetadata(expFile: expFile1012, mdKey: 'SubjectId', mdVal: '1012')
   ExpFileMetadata expFileMeta1012_gender = new ExpFileMetadata(expFile: expFile1012, mdKey: 'Gender', mdVal: 'Male')
   ExpFileMetadata expFileMeta1012_age = new ExpFileMetadata(expFile: expFile1012, mdKey: 'Age', mdVal: '35')
   ExpFileMetadata expFileMeta1012_ethn = new ExpFileMetadata(expFile: expFile1012, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1012_race = new ExpFileMetadata(expFile: expFile1012, mdKey: 'Race', mdVal: 'Black or African American')
 
+  ExpFileMetadata expFileMeta1013_subj = new ExpFileMetadata(expFile: expFile1013, mdKey: 'SubjectId', mdVal: '1013')
   ExpFileMetadata expFileMeta1013_gender = new ExpFileMetadata(expFile: expFile1013, mdKey: 'Gender', mdVal: 'Male')
   ExpFileMetadata expFileMeta1013_age = new ExpFileMetadata(expFile: expFile1013, mdKey: 'Age', mdVal: '35')
   ExpFileMetadata expFileMeta1013_ethn = new ExpFileMetadata(expFile: expFile1013, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1013_race = new ExpFileMetadata(expFile: expFile1013, mdKey: 'Race', mdVal: 'White')
 
+  ExpFileMetadata expFileMeta1014_subj = new ExpFileMetadata(expFile: expFile1014, mdKey: 'SubjectId', mdVal: '1014')
   ExpFileMetadata expFileMeta1014_gender = new ExpFileMetadata(expFile: expFile1014, mdKey: 'Gender', mdVal: 'Male')
   ExpFileMetadata expFileMeta1014_age = new ExpFileMetadata(expFile: expFile1014, mdKey: 'Age', mdVal: '38')
   ExpFileMetadata expFileMeta1014_ethn = new ExpFileMetadata(expFile: expFile1014, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1014_race = new ExpFileMetadata(expFile: expFile1014, mdKey: 'Race', mdVal: 'White')
 
+  ExpFileMetadata expFileMeta1015_subj = new ExpFileMetadata(expFile: expFile1015, mdKey: 'SubjectId', mdVal: '1015')
   ExpFileMetadata expFileMeta1015_gender = new ExpFileMetadata(expFile: expFile1015, mdKey: 'Gender', mdVal: 'Male')
   ExpFileMetadata expFileMeta1015_age = new ExpFileMetadata(expFile: expFile1015, mdKey: 'Age', mdVal: '25')
   ExpFileMetadata expFileMeta1015_ethn = new ExpFileMetadata(expFile: expFile1015, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1015_race = new ExpFileMetadata(expFile: expFile1015, mdKey: 'Race', mdVal: 'Asian')
 
+  ExpFileMetadata expFileMeta1016_subj = new ExpFileMetadata(expFile: expFile1016, mdKey: 'SubjectId', mdVal: '1016')
   ExpFileMetadata expFileMeta1016_gender = new ExpFileMetadata(expFile: expFile1016, mdKey: 'Gender', mdVal: 'Male')
   ExpFileMetadata expFileMeta1016_age = new ExpFileMetadata(expFile: expFile1016, mdKey: 'Age', mdVal: '38')
   ExpFileMetadata expFileMeta1016_ethn = new ExpFileMetadata(expFile: expFile1016, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1016_race = new ExpFileMetadata(expFile: expFile1016, mdKey: 'Race', mdVal: 'Asian')
 
+  ExpFileMetadata expFileMeta1017_subj = new ExpFileMetadata(expFile: expFile1017, mdKey: 'SubjectId', mdVal: '1017')
   ExpFileMetadata expFileMeta1017_gender = new ExpFileMetadata(expFile: expFile1017, mdKey: 'Gender', mdVal: 'Male')
   ExpFileMetadata expFileMeta1017_age = new ExpFileMetadata(expFile: expFile1017, mdKey: 'Age', mdVal: '27')
   ExpFileMetadata expFileMeta1017_ethn = new ExpFileMetadata(expFile: expFile1017, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1017_race = new ExpFileMetadata(expFile: expFile1017, mdKey: 'Race', mdVal: 'Asian')
 
+  ExpFileMetadata expFileMeta1018_subj = new ExpFileMetadata(expFile: expFile1018, mdKey: 'SubjectId', mdVal: '1018')
   ExpFileMetadata expFileMeta1018_gender = new ExpFileMetadata(expFile: expFile1018, mdKey: 'Gender', mdVal: 'Male')
   ExpFileMetadata expFileMeta1018_age = new ExpFileMetadata(expFile: expFile1018, mdKey: 'Age', mdVal: '24')
   ExpFileMetadata expFileMeta1018_ethn = new ExpFileMetadata(expFile: expFile1018, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1018_race = new ExpFileMetadata(expFile: expFile1018, mdKey: 'Race', mdVal: 'Asian')
 
+  ExpFileMetadata expFileMeta1019_subj = new ExpFileMetadata(expFile: expFile1019, mdKey: 'SubjectId', mdVal: '1019')
   ExpFileMetadata expFileMeta1019_gender = new ExpFileMetadata(expFile: expFile1019, mdKey: 'Gender', mdVal: 'Male')
   ExpFileMetadata expFileMeta1019_age = new ExpFileMetadata(expFile: expFile1019, mdKey: 'Age', mdVal: '34')
   ExpFileMetadata expFileMeta1019_ethn = new ExpFileMetadata(expFile: expFile1019, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1019_race = new ExpFileMetadata(expFile: expFile1019, mdKey: 'Race', mdVal: 'White')
 
+  ExpFileMetadata expFileMeta1020_subj = new ExpFileMetadata(expFile: expFile1020, mdKey: 'SubjectId', mdVal: '1020')
   ExpFileMetadata expFileMeta1020_gender = new ExpFileMetadata(expFile: expFile1020, mdKey: 'Gender', mdVal: 'Male')
   ExpFileMetadata expFileMeta1020_age = new ExpFileMetadata(expFile: expFile1020, mdKey: 'Age', mdVal: '27')
   ExpFileMetadata expFileMeta1020_ethn = new ExpFileMetadata(expFile: expFile1020, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1020_race = new ExpFileMetadata(expFile: expFile1020, mdKey: 'Race', mdVal: 'White')
 
+  ExpFileMetadata expFileMeta1021_subj = new ExpFileMetadata(expFile: expFile1021, mdKey: 'SubjectId', mdVal: '1021')
   ExpFileMetadata expFileMeta1021_gender = new ExpFileMetadata(expFile: expFile1021, mdKey: 'Gender', mdVal: 'Male')
   ExpFileMetadata expFileMeta1021_age = new ExpFileMetadata(expFile: expFile1021, mdKey: 'Age', mdVal: '31')
   ExpFileMetadata expFileMeta1021_ethn = new ExpFileMetadata(expFile: expFile1021, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1021_race = new ExpFileMetadata(expFile: expFile1021, mdKey: 'Race', mdVal: 'White')
 
+  ExpFileMetadata expFileMeta1022_subj = new ExpFileMetadata(expFile: expFile1022, mdKey: 'SubjectId', mdVal: '1022')
   ExpFileMetadata expFileMeta1022_gender = new ExpFileMetadata(expFile: expFile1022, mdKey: 'Gender', mdVal: 'Male')
   ExpFileMetadata expFileMeta1022_age = new ExpFileMetadata(expFile: expFile1022, mdKey: 'Age', mdVal: '25')
   ExpFileMetadata expFileMeta1022_ethn = new ExpFileMetadata(expFile: expFile1022, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1022_race = new ExpFileMetadata(expFile: expFile1022, mdKey: 'Race', mdVal: 'White')
 
+  ExpFileMetadata expFileMeta1023_subj = new ExpFileMetadata(expFile: expFile1023, mdKey: 'SubjectId', mdVal: '1023')
   ExpFileMetadata expFileMeta1023_gender = new ExpFileMetadata(expFile: expFile1023, mdKey: 'Gender', mdVal: 'Female')
   ExpFileMetadata expFileMeta1023_age = new ExpFileMetadata(expFile: expFile1023, mdKey: 'Age', mdVal: '36')
   ExpFileMetadata expFileMeta1023_ethn = new ExpFileMetadata(expFile: expFile1023, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1023_race = new ExpFileMetadata(expFile: expFile1023, mdKey: 'Race', mdVal: 'Asian')
 
+  ExpFileMetadata expFileMeta1024_subj = new ExpFileMetadata(expFile: expFile1024, mdKey: 'SubjectId', mdVal: '1024')
   ExpFileMetadata expFileMeta1024_gender = new ExpFileMetadata(expFile: expFile1024, mdKey: 'Gender', mdVal: 'Female')
   ExpFileMetadata expFileMeta1024_age = new ExpFileMetadata(expFile: expFile1024, mdKey: 'Age', mdVal: '21')
   ExpFileMetadata expFileMeta1024_ethn = new ExpFileMetadata(expFile: expFile1024, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1024_race = new ExpFileMetadata(expFile: expFile1024, mdKey: 'Race', mdVal: 'Asian')
 
+  ExpFileMetadata expFileMeta1025_subj = new ExpFileMetadata(expFile: expFile1025, mdKey: 'SubjectId', mdVal: '1025')
   ExpFileMetadata expFileMeta1025_gender = new ExpFileMetadata(expFile: expFile1025, mdKey: 'Gender', mdVal: 'Female')
   ExpFileMetadata expFileMeta1025_age = new ExpFileMetadata(expFile: expFile1025, mdKey: 'Age', mdVal: '27')
   ExpFileMetadata expFileMeta1025_ethn = new ExpFileMetadata(expFile: expFile1025, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1025_race = new ExpFileMetadata(expFile: expFile1025, mdKey: 'Race', mdVal: 'Asian')
 
+  ExpFileMetadata expFileMeta1029_subj = new ExpFileMetadata(expFile: expFile1029, mdKey: 'SubjectId', mdVal: '1029')
   ExpFileMetadata expFileMeta1029_gender = new ExpFileMetadata(expFile: expFile1029, mdKey: 'Gender', mdVal: 'Female')
   ExpFileMetadata expFileMeta1029_age = new ExpFileMetadata(expFile: expFile1029, mdKey: 'Age', mdVal: '23')
   ExpFileMetadata expFileMeta1029_ethn = new ExpFileMetadata(expFile: expFile1029, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1029_race = new ExpFileMetadata(expFile: expFile1029, mdKey: 'Race', mdVal: 'Asian')
 
+  ExpFileMetadata expFileMeta1030_subj = new ExpFileMetadata(expFile: expFile1030, mdKey: 'SubjectId', mdVal: '1030')
   ExpFileMetadata expFileMeta1030_gender = new ExpFileMetadata(expFile: expFile1030, mdKey: 'Gender', mdVal: 'Female')
   ExpFileMetadata expFileMeta1030_age = new ExpFileMetadata(expFile: expFile1030, mdKey: 'Age', mdVal: '31')
   ExpFileMetadata expFileMeta1030_ethn = new ExpFileMetadata(expFile: expFile1030, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1030_race = new ExpFileMetadata(expFile: expFile1030, mdKey: 'Race', mdVal: 'White')
 
+  ExpFileMetadata expFileMeta1031_subj = new ExpFileMetadata(expFile: expFile1031, mdKey: 'SubjectId', mdVal: '1031')
   ExpFileMetadata expFileMeta1031_gender = new ExpFileMetadata(expFile: expFile1031, mdKey: 'Gender', mdVal: 'Female')
   ExpFileMetadata expFileMeta1031_age = new ExpFileMetadata(expFile: expFile1031, mdKey: 'Age', mdVal: '31')
   ExpFileMetadata expFileMeta1031_ethn = new ExpFileMetadata(expFile: expFile1031, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1031_race = new ExpFileMetadata(expFile: expFile1031, mdKey: 'Race', mdVal: 'Asian')
 
+  ExpFileMetadata expFileMeta1032_subj = new ExpFileMetadata(expFile: expFile1032, mdKey: 'SubjectId', mdVal: '1032')
   ExpFileMetadata expFileMeta1032_gender = new ExpFileMetadata(expFile: expFile1032, mdKey: 'Gender', mdVal: 'Male')
   ExpFileMetadata expFileMeta1032_age = new ExpFileMetadata(expFile: expFile1032, mdKey: 'Age', mdVal: '22')
   ExpFileMetadata expFileMeta1032_ethn = new ExpFileMetadata(expFile: expFile1032, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1032_race = new ExpFileMetadata(expFile: expFile1032, mdKey: 'Race', mdVal: 'Asian')
 
+  ExpFileMetadata expFileMeta1033_subj = new ExpFileMetadata(expFile: expFile1033, mdKey: 'SubjectId', mdVal: '1033')
   ExpFileMetadata expFileMeta1033_gender = new ExpFileMetadata(expFile: expFile1033, mdKey: 'Gender', mdVal: 'Female')
   ExpFileMetadata expFileMeta1033_age = new ExpFileMetadata(expFile: expFile1033, mdKey: 'Age', mdVal: '21')
   ExpFileMetadata expFileMeta1033_ethn = new ExpFileMetadata(expFile: expFile1033, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1033_race = new ExpFileMetadata(expFile: expFile1033, mdKey: 'Race', mdVal: 'Asian')
 
+  ExpFileMetadata expFileMeta1035_subj = new ExpFileMetadata(expFile: expFile1035, mdKey: 'SubjectId', mdVal: '1035')
   ExpFileMetadata expFileMeta1035_gender = new ExpFileMetadata(expFile: expFile1035, mdKey: 'Gender', mdVal: 'Female')
   ExpFileMetadata expFileMeta1035_age = new ExpFileMetadata(expFile: expFile1035, mdKey: 'Age', mdVal: '38')
   ExpFileMetadata expFileMeta1035_ethn = new ExpFileMetadata(expFile: expFile1035, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1035_race = new ExpFileMetadata(expFile: expFile1035, mdKey: 'Race', mdVal: 'White')
 
+  ExpFileMetadata expFileMeta1036_subj = new ExpFileMetadata(expFile: expFile1036, mdKey: 'SubjectId', mdVal: '1036')
   ExpFileMetadata expFileMeta1036_gender = new ExpFileMetadata(expFile: expFile1036, mdKey: 'Gender', mdVal: 'Female')
   ExpFileMetadata expFileMeta1036_age = new ExpFileMetadata(expFile: expFile1036, mdKey: 'Age', mdVal: '30')
   ExpFileMetadata expFileMeta1036_ethn = new ExpFileMetadata(expFile: expFile1036, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1036_race = new ExpFileMetadata(expFile: expFile1036, mdKey: 'Race', mdVal: 'Asian')
 
+  ExpFileMetadata expFileMeta1037_subj = new ExpFileMetadata(expFile: expFile1037, mdKey: 'SubjectId', mdVal: '1037')
   ExpFileMetadata expFileMeta1037_gender = new ExpFileMetadata(expFile: expFile1037, mdKey: 'Gender', mdVal: 'Male')
   ExpFileMetadata expFileMeta1037_age = new ExpFileMetadata(expFile: expFile1037, mdKey: 'Age', mdVal: '27')
   ExpFileMetadata expFileMeta1037_ethn = new ExpFileMetadata(expFile: expFile1037, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1037_race = new ExpFileMetadata(expFile: expFile1037, mdKey: 'Race', mdVal: 'White')
 
+  ExpFileMetadata expFileMeta1038_subj = new ExpFileMetadata(expFile: expFile1038, mdKey: 'SubjectId', mdVal: '1038')
   ExpFileMetadata expFileMeta1038_gender = new ExpFileMetadata(expFile: expFile1038, mdKey: 'Gender', mdVal: 'Female')
   ExpFileMetadata expFileMeta1038_age = new ExpFileMetadata(expFile: expFile1038, mdKey: 'Age', mdVal: '39')
   ExpFileMetadata expFileMeta1038_ethn = new ExpFileMetadata(expFile: expFile1038, mdKey: 'Ethnicity', mdVal: 'Not Hispanic or Latino')
   ExpFileMetadata expFileMeta1038_race = new ExpFileMetadata(expFile: expFile1038, mdKey: 'Race', mdVal: 'White')
 
-  expFile1012.metaDatas = [expFileMeta1012_gender, expFileMeta1012_age, expFileMeta1012_ethn, expFileMeta1012_race]
-  expFile1013.metaDatas = [expFileMeta1013_gender, expFileMeta1013_age, expFileMeta1013_ethn, expFileMeta1013_race]
-  expFile1014.metaDatas = [expFileMeta1014_gender, expFileMeta1014_age, expFileMeta1014_ethn, expFileMeta1014_race]
-  expFile1015.metaDatas = [expFileMeta1015_gender, expFileMeta1015_age, expFileMeta1015_ethn, expFileMeta1015_race]
-  expFile1016.metaDatas = [expFileMeta1016_gender, expFileMeta1016_age, expFileMeta1016_ethn, expFileMeta1016_race]
-  expFile1017.metaDatas = [expFileMeta1017_gender, expFileMeta1017_age, expFileMeta1017_ethn, expFileMeta1017_race]
-  expFile1018.metaDatas = [expFileMeta1018_gender, expFileMeta1018_age, expFileMeta1018_ethn, expFileMeta1018_race]
-  expFile1019.metaDatas = [expFileMeta1019_gender, expFileMeta1019_age, expFileMeta1019_ethn, expFileMeta1019_race]
-  expFile1020.metaDatas = [expFileMeta1020_gender, expFileMeta1020_age, expFileMeta1020_ethn, expFileMeta1020_race]
-  expFile1021.metaDatas = [expFileMeta1021_gender, expFileMeta1021_age, expFileMeta1021_ethn, expFileMeta1021_race]
-  expFile1022.metaDatas = [expFileMeta1022_gender, expFileMeta1022_age, expFileMeta1022_ethn, expFileMeta1022_race]
-  expFile1023.metaDatas = [expFileMeta1023_gender, expFileMeta1023_age, expFileMeta1023_ethn, expFileMeta1023_race]
-  expFile1024.metaDatas = [expFileMeta1024_gender, expFileMeta1024_age, expFileMeta1024_ethn, expFileMeta1024_race]
-  expFile1025.metaDatas = [expFileMeta1025_gender, expFileMeta1025_age, expFileMeta1025_ethn, expFileMeta1025_race]
-  expFile1029.metaDatas = [expFileMeta1029_gender, expFileMeta1029_age, expFileMeta1029_ethn, expFileMeta1029_race]
-  expFile1030.metaDatas = [expFileMeta1030_gender, expFileMeta1030_age, expFileMeta1030_ethn, expFileMeta1030_race]
-  expFile1031.metaDatas = [expFileMeta1031_gender, expFileMeta1031_age, expFileMeta1031_ethn, expFileMeta1031_race]
-  expFile1032.metaDatas = [expFileMeta1032_gender, expFileMeta1032_age, expFileMeta1032_ethn, expFileMeta1032_race]
-  expFile1033.metaDatas = [expFileMeta1033_gender, expFileMeta1033_age, expFileMeta1033_ethn, expFileMeta1033_race]
-  expFile1035.metaDatas = [expFileMeta1035_gender, expFileMeta1035_age, expFileMeta1035_ethn, expFileMeta1035_race]
-  expFile1036.metaDatas = [expFileMeta1036_gender, expFileMeta1036_age, expFileMeta1036_ethn, expFileMeta1036_race]
-  expFile1037.metaDatas = [expFileMeta1037_gender, expFileMeta1037_age, expFileMeta1037_ethn, expFileMeta1037_race]
-  expFile1038.metaDatas = [expFileMeta1038_gender, expFileMeta1038_age, expFileMeta1038_ethn, expFileMeta1038_race]
+  expFile1012.metaDatas = [expFileMeta1012_subj, expFileMeta1012_gender, expFileMeta1012_age, expFileMeta1012_ethn, expFileMeta1012_race]
+  expFile1013.metaDatas = [expFileMeta1013_subj, expFileMeta1013_gender, expFileMeta1013_age, expFileMeta1013_ethn, expFileMeta1013_race]
+  expFile1014.metaDatas = [expFileMeta1014_subj, expFileMeta1014_gender, expFileMeta1014_age, expFileMeta1014_ethn, expFileMeta1014_race]
+  expFile1015.metaDatas = [expFileMeta1015_subj, expFileMeta1015_gender, expFileMeta1015_age, expFileMeta1015_ethn, expFileMeta1015_race]
+  expFile1016.metaDatas = [expFileMeta1016_subj, expFileMeta1016_gender, expFileMeta1016_age, expFileMeta1016_ethn, expFileMeta1016_race]
+  expFile1017.metaDatas = [expFileMeta1017_subj, expFileMeta1017_gender, expFileMeta1017_age, expFileMeta1017_ethn, expFileMeta1017_race]
+  expFile1018.metaDatas = [expFileMeta1018_subj, expFileMeta1018_gender, expFileMeta1018_age, expFileMeta1018_ethn, expFileMeta1018_race]
+  expFile1019.metaDatas = [expFileMeta1019_subj, expFileMeta1019_gender, expFileMeta1019_age, expFileMeta1019_ethn, expFileMeta1019_race]
+  expFile1020.metaDatas = [expFileMeta1020_subj, expFileMeta1020_gender, expFileMeta1020_age, expFileMeta1020_ethn, expFileMeta1020_race]
+  expFile1021.metaDatas = [expFileMeta1021_subj, expFileMeta1021_gender, expFileMeta1021_age, expFileMeta1021_ethn, expFileMeta1021_race]
+  expFile1022.metaDatas = [expFileMeta1022_subj, expFileMeta1022_gender, expFileMeta1022_age, expFileMeta1022_ethn, expFileMeta1022_race]
+  expFile1023.metaDatas = [expFileMeta1023_subj, expFileMeta1023_gender, expFileMeta1023_age, expFileMeta1023_ethn, expFileMeta1023_race]
+  expFile1024.metaDatas = [expFileMeta1024_subj, expFileMeta1024_gender, expFileMeta1024_age, expFileMeta1024_ethn, expFileMeta1024_race]
+  expFile1025.metaDatas = [expFileMeta1025_subj, expFileMeta1025_gender, expFileMeta1025_age, expFileMeta1025_ethn, expFileMeta1025_race]
+  expFile1029.metaDatas = [expFileMeta1029_subj, expFileMeta1029_gender, expFileMeta1029_age, expFileMeta1029_ethn, expFileMeta1029_race]
+  expFile1030.metaDatas = [expFileMeta1030_subj, expFileMeta1030_gender, expFileMeta1030_age, expFileMeta1030_ethn, expFileMeta1030_race]
+  expFile1031.metaDatas = [expFileMeta1031_subj, expFileMeta1031_gender, expFileMeta1031_age, expFileMeta1031_ethn, expFileMeta1031_race]
+  expFile1032.metaDatas = [expFileMeta1032_subj, expFileMeta1032_gender, expFileMeta1032_age, expFileMeta1032_ethn, expFileMeta1032_race]
+  expFile1033.metaDatas = [expFileMeta1033_subj, expFileMeta1033_gender, expFileMeta1033_age, expFileMeta1033_ethn, expFileMeta1033_race]
+  expFile1035.metaDatas = [expFileMeta1035_subj, expFileMeta1035_gender, expFileMeta1035_age, expFileMeta1035_ethn, expFileMeta1035_race]
+  expFile1036.metaDatas = [expFileMeta1036_subj, expFileMeta1036_gender, expFileMeta1036_age, expFileMeta1036_ethn, expFileMeta1036_race]
+  expFile1037.metaDatas = [expFileMeta1037_subj, expFileMeta1037_gender, expFileMeta1037_age, expFileMeta1037_ethn, expFileMeta1037_race]
+  expFile1038.metaDatas = [expFileMeta1038_subj, expFileMeta1038_gender, expFileMeta1038_age, expFileMeta1038_ethn, expFileMeta1038_race]
 
   expFile1012.save()
   expFile1013.save()
@@ -269,13 +291,6 @@ class BootStrap {
   expFile1037.save()
   expFile1038.save()
 
-  //  Dataset
-  def ds1 = new Dataset(experiment: exp1, expFiles: [expFile1023,expFile1024,expFile1025,expFile1029,expFile1030,expFile1031,expFile1033,expFile1035,expFile1036,expFile1037,expFile1038], name: 'Females', description: 'females')
-  ds1.save()
-  def ds2 = new Dataset(experiment: exp1, expFiles: [expFile1012,expFile1013,expFile1014,expFile1015,expFile1016,expFile1017,expFile1018,expFile1019,expFile1020,expFile1021,expFile1022,expFile1032], name: 'Males', description: 'males').save()
-  def ds3 = new Dataset(experiment: exp1, expFiles: [expFile1015,expFile1016,expFile1017,expFile1018,expFile1023,expFile1024,expFile1025,expFile1029,expFile1031,expFile1032,expFile1033,expFile1036], name: 'Asian', description: 'asian').save()
-  // TODO test age range dataset
-
 
   def expFile11 = new ExpFile(experiment: exp2, title: '3.txt', chkSum: 'abc', fileName: '3.txt', filePath: '/Users/acs/Projects/flowgate/testData/dafi/PreprocessedTest/', createdBy: adminUser, isActive: true, reagentPanel: []).save(failOnError: true)
   def expFile21 = new ExpFile(experiment: exp2, title: '5.txt', chkSum: 'cde', fileName: '5.txt', filePath: '/Users/acs/Projects/flowgate/testData/dafi/PreprocessedTest/', createdBy: userUser, reagentPanel: []).save(failOnError: true)
@@ -299,9 +314,19 @@ class BootStrap {
   exp3.expFiles = [expFile31, expFile32, expFile33]
   exp3.save()
 
-  //  Dataset
-//  def ds2 = new Dataset(experiment: exp2, expFiles: [], name: 'test dataset', description: 'testDataset').save()
 
+  def expMetadata = fillExperimentMetadata(exp1)
+
+  //  Dataset
+  def ds1 = new Dataset(experiment: exp1, expFiles: [expFile1023,expFile1024,expFile1025,expFile1029,expFile1030,expFile1031,expFile1033,expFile1035,expFile1036,expFile1038],
+                        filters: [ExperimentMetadataValue.findAllByMdValue('Female')], name: 'Females', description: 'females')
+  ds1.save()
+//  def ds2 = new Dataset(experiment: exp2, expFiles: [], name: 'test dataset', description: 'testDataset').save()
+  def ds2 = new Dataset(experiment: exp1, expFiles: [expFile1012,expFile1013,expFile1014,expFile1015,expFile1016,expFile1017,expFile1018,expFile1019,expFile1020,expFile1021,expFile1022,expFile1032],
+      filters: [ExperimentMetadataValue.findAllByMdValue('Male')],name: 'Males', description: 'males').save()
+  def ds3 = new Dataset(experiment: exp1, expFiles: [expFile1015,expFile1016,expFile1017,expFile1018,expFile1023,expFile1024,expFile1025,expFile1029,expFile1031,expFile1032,expFile1033,expFile1036],
+      filters: [ExperimentMetadataValue.findAllByMdValue('Asian')],name: 'Asian', description: 'asian').save()
+  // TODO test age range dataset
 
   new UserSettings(user: adminUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
   new UserSettings(user: userUser, projectOpenId: 2, projectEditModeId: 0, experimentOpenId: 0, experimentEditModeId: 0, expFileOpenIds: ([0] as JSON).toString()).save(failOnError: true)
@@ -374,11 +399,14 @@ class BootStrap {
 //            mod3.moduleParams = [mParam11, mParam12, mParam13, mParam14, mParam15, mParam16, mParam17]
   mod4.save()
 
-  Module mod5 = new Module(server: as2, title: 'Multi_DAFI_Complete_UCI_GR_Report_wC', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:26:3', moduleParams: []).save(failOnSave: true)
+//  Module mod5 = new Module(server: as2, title: 'Multi_DAFI_Complete_UCI_GR_Report_wC', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:26:3', moduleParams: []).save(failOnSave: true)
+  Module mod5 = new Module(server: as2, title: 'Multi_DAFi_Complete_UCI_GR_Report_Metadata', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:30:4', moduleParams: []).save(failOnSave: true)
   ModuleParam m5mP1 = new ModuleParam(module: mod5, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds1.id.toString()).save()
   ModuleParam m5mP2 = new ModuleParam(module: mod5, pBasic: false, pType: "val", pKey: 'init.cluster.size', defaultVal: '200').save()
   ModuleParam m5mP3 = new ModuleParam(module: mod5, pBasic: false, pType: "val", pKey: 're.cluster.size', defaultVal: '500').save()
-  mod5.moduleParams = [ m5mP1, m5mP2, m5mP3 ]
+  ModuleParam m5mP4 = new ModuleParam(module: mod5, pBasic: false, pType: "field", pKey: 'Input.Desc', defaultVal: 'description.txt').save()
+  ModuleParam m5mP5 = new ModuleParam(module: mod5, pBasic: false, pType: "meta", pKey: 'Input.Meta', defaultVal: 'metadata.txt').save()
+  mod5.moduleParams = [ m5mP1, m5mP2, m5mP3, m5mP4, m5mP5 ]
   mod5.save()
 
   assert Module.count() == 5
@@ -386,7 +414,6 @@ class BootStrap {
 //  assert ModuleParam.count() ==
   println 'pass ModuleParams count'
 
-/* */
   Analysis an0 = new Analysis(analysisName: 'Identification of sexual dimorphism in glucocorticoid receptor expression by computational analysis of flow cytometry data',
                               analysisDescription: 'Step 1: Quality control and preprocessing, including data transformation and re-compensation\n' +
                                   'Step 2: Computational identification of cell populations using DAFi and DAFi + FLOCK\n' +
@@ -394,12 +421,11 @@ class BootStrap {
                               user: userUser,
                               timestamp: new Date(117,11,17,11,30,00),
                               analysisStatus: 3,
-                              jobNumber: 1259,
+                              jobNumber: 1292,
                               analysisServer: 'localhost', analysisUser: 'flowGate', analysisUserPw: 'flowGate',
                               experiment: exp1, module: mod4).save()
   assert Analysis.count() == 1
   println 'pass Analysis count'
-// */
 
                     //AnalysisPipeline analysisPipeline = new AnalysisPipeline(experiment: exp1, name: 'Basic Analysis', elements: [])
                     //analysisPipeline.save()
@@ -418,8 +444,7 @@ class BootStrap {
 //                    def metadata = fillMetaData()
         println "MetadataVoc.cnt ${MetadataVoc.count().toString()}"
 
-        def expMetadata = fillExperimentMetadata(exp1)
-//                    metadata
+
         def i=1
         println 'bootstrapping done!'
       }
@@ -459,8 +484,9 @@ class BootStrap {
 
     def fillExperimentMetadata(Experiment exp){
 
-            ExperimentMetadataValue mdValGenF = new ExperimentMetadataValue(mdValue: 'Female', mdType: 'String', dispOrder: 0).save()
-            ExperimentMetadataValue mdValGenM = new ExperimentMetadataValue(mdValue: 'Male', mdType: 'String', dispOrder: 1).save()
+            ExperimentMetadataValue mdValSubj = new ExperimentMetadataValue(mdValue: 'SubjectID', mdType: 'String', dispOrder: 0).save()
+            ExperimentMetadataValue mdValGenF = new ExperimentMetadataValue(mdValue: 'Female', mdType: 'String', dispOrder: 2).save()
+            ExperimentMetadataValue mdValGenM = new ExperimentMetadataValue(mdValue: 'Male', mdType: 'String', dispOrder: 4).save()
             ExperimentMetadataValue mdValMarker1 = new ExperimentMetadataValue(mdValue: 'CD16', mdType: 'String', dispOrder: 30).save()
             ExperimentMetadataValue mdValMarker2 = new ExperimentMetadataValue(mdValue: 'GR', mdType: 'String', dispOrder: 40).save()
             ExperimentMetadataValue mdValMarker3 = new ExperimentMetadataValue(mdValue: 'not used', mdType: 'String', dispOrder: 0).save()
@@ -487,10 +513,11 @@ class BootStrap {
             ExperimentMetadataValue mdValRace2 = new ExperimentMetadataValue(mdValue: 'White', mdType: 'String', dispOrder: 10).save()
             ExperimentMetadataValue mdValRace3 = new ExperimentMetadataValue(mdValue: 'Asian', mdType: 'String', dispOrder: 20).save()
 
-            new ExperimentMetadata(experiment: exp, mdKey: 'Age', mdVals: [], mdCategory: 'Demographics', dispOrder: 10, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Gender', mdVals: [mdValGenF,mdValGenM], mdCategory: 'Demographics', dispOrder: 0, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Ethnicity', mdVals: [mdValEthn1], mdCategory: 'Demographics', dispOrder: 2, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Race', mdVals: [mdValRace1,mdValRace2,mdValRace3], mdCategory: 'Demographics', dispOrder: 4, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'SubjectID', mdVals: [], mdCategory: 'Demographics', dispOrder: 02, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Age', mdVals: [], mdCategory: 'Demographics', dispOrder: 100, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Gender', mdVals: [mdValGenF,mdValGenM], mdCategory: 'Demographics', dispOrder: 04, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Ethnicity', mdVals: [mdValEthn1], mdCategory: 'Demographics', dispOrder: 20, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Race', mdVals: [mdValRace1,mdValRace2,mdValRace3], mdCategory: 'Demographics', dispOrder: 40, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Fluorochrome', mdVals: [mdValReag1,mdValReag2,mdValReag3,mdValReag4,mdValReag5,mdValReag6,mdValReag7], mdCategory: 'Reagents', dispOrder: 1, expFiles: []).save()
             def em1 = new ExperimentMetadata(experiment: exp, mdKey: 'Marker', mdVals: [mdValMarker1,mdValMarker2,mdValMarker3,mdValMarker4,mdValMarker3,mdValMarker6,mdValMarker3], mdCategory: 'Reagents', dispOrder: 2, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Channel', mdVals: [mdValChanFl1A,mdValChanFl2A,mdValChanFl3A,mdValChanFl4A,mdValChanFl5A,mdValChanFl6A,mdValChanFl7A], mdCategory: 'Reagents', dispOrder: 0, expFiles: []).save()
@@ -1167,6 +1194,7 @@ class BootStrap {
             probes.add(new Probe(probeTagDictionary: chromogen, probeTag:"Ferangi Blue",                                                 preferredShortName:"Ferangi-Blue",   precColor:"Royal Blue"  ).save())
 
             probes
+           /* */
     }
 
     def destroy = {
