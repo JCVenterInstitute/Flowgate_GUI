@@ -16,6 +16,11 @@
   </div>
   <div class="row justify-content-center">
     <div class="col-lg-8">
+      <g:if test='${flash.error}'>
+        <div class="row justify-content-center ">
+          <div class="alert alert-danger text-center" role="alert">${flash.error}</div>
+        </div>
+      </g:if>
       <g:if test='${emailSent}'>
         <div class="row justify-content-center ">
           <div class="alert alert-info text-center" role="alert"><g:message code='spring.security.ui.register.sent'/></div>
@@ -30,6 +35,14 @@
               </div>
               <div class="form-group col-md-6">
                 <s2ui:textFieldRow name='email' class="form-control" labelCodeDefault='Email' placeholder="Email"/>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <s2ui:textFieldRow name='affiliation' class="form-control" labelCodeDefault='Affiliation' placeholder="Affiliation"/>
+              </div>
+              <div class="form-group col-md-6">
+                <s2ui:textFieldRow name='reason' class="form-control" labelCodeDefault='Reason for Registration' placeholder="Reason for Registration"/>
               </div>
             </div>
             <div class="form-row">
