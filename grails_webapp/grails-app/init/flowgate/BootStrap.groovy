@@ -400,12 +400,15 @@ class BootStrap {
   mod4.save()
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   Module mod5 = new Module(server: as2, title: 'Multi_DAFI_Complete_UCI_GR_Report_wC', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:26:3', moduleParams: []).save(failOnSave: true)
   ModuleParam m5mP1 = new ModuleParam(module: mod5, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds1.id.toString()).save()
   ModuleParam m5mP2 = new ModuleParam(module: mod5, pBasic: false, pType: "val", pKey: 'init.cluster.size', defaultVal: '200').save()
   ModuleParam m5mP3 = new ModuleParam(module: mod5, pBasic: false, pType: "val", pKey: 're.cluster.size', defaultVal: '500').save()
   mod5.moduleParams = [ m5mP1, m5mP2, m5mP3 ]
 =======
+=======
+>>>>>>> master
 //  Module mod5 = new Module(server: as2, title: 'Multi_DAFI_Complete_UCI_GR_Report_wC', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:26:3', moduleParams: []).save(failOnSave: true)
   Module mod5 = new Module(server: as2, title: 'Multi_DAFi_Complete_UCI_GR_Report_Metadata', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:30:4', moduleParams: []).save(failOnSave: true)
   ModuleParam m5mP1 = new ModuleParam(module: mod5, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds1.id.toString()).save()
@@ -414,6 +417,9 @@ class BootStrap {
   ModuleParam m5mP4 = new ModuleParam(module: mod5, pBasic: false, pType: "field", pKey: 'Input.Desc', defaultVal: 'description.txt').save()
   ModuleParam m5mP5 = new ModuleParam(module: mod5, pBasic: false, pType: "meta", pKey: 'Input.Meta', defaultVal: 'metadata.txt').save()
   mod5.moduleParams = [ m5mP1, m5mP2, m5mP3, m5mP4, m5mP5 ]
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
   mod5.save()
 
@@ -430,7 +436,11 @@ class BootStrap {
                               timestamp: new Date(117,11,17,11,30,00),
                               analysisStatus: 3,
 <<<<<<< HEAD
+<<<<<<< HEAD
                               jobNumber: 1259,
+=======
+                              jobNumber: 1292,
+>>>>>>> master
 =======
                               jobNumber: 1292,
 >>>>>>> master
@@ -497,8 +507,14 @@ class BootStrap {
     def fillExperimentMetadata(Experiment exp){
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             ExperimentMetadataValue mdValGenF = new ExperimentMetadataValue(mdValue: 'Female', mdType: 'String', dispOrder: 0).save()
             ExperimentMetadataValue mdValGenM = new ExperimentMetadataValue(mdValue: 'Male', mdType: 'String', dispOrder: 1).save()
+=======
+            ExperimentMetadataValue mdValSubj = new ExperimentMetadataValue(mdValue: 'SubjectID', mdType: 'String', dispOrder: 0).save()
+            ExperimentMetadataValue mdValGenF = new ExperimentMetadataValue(mdValue: 'Female', mdType: 'String', dispOrder: 2).save()
+            ExperimentMetadataValue mdValGenM = new ExperimentMetadataValue(mdValue: 'Male', mdType: 'String', dispOrder: 4).save()
+>>>>>>> master
 =======
             ExperimentMetadataValue mdValSubj = new ExperimentMetadataValue(mdValue: 'SubjectID', mdType: 'String', dispOrder: 0).save()
             ExperimentMetadataValue mdValGenF = new ExperimentMetadataValue(mdValue: 'Female', mdType: 'String', dispOrder: 2).save()
@@ -531,16 +547,22 @@ class BootStrap {
             ExperimentMetadataValue mdValRace3 = new ExperimentMetadataValue(mdValue: 'Asian', mdType: 'String', dispOrder: 20).save()
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             new ExperimentMetadata(experiment: exp, mdKey: 'Age', mdVals: [], mdCategory: 'Demographics', dispOrder: 10, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Gender', mdVals: [mdValGenF,mdValGenM], mdCategory: 'Demographics', dispOrder: 0, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Ethnicity', mdVals: [mdValEthn1], mdCategory: 'Demographics', dispOrder: 2, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Race', mdVals: [mdValRace1,mdValRace2,mdValRace3], mdCategory: 'Demographics', dispOrder: 4, expFiles: []).save()
 =======
+=======
+>>>>>>> master
             new ExperimentMetadata(experiment: exp, mdKey: 'SubjectID', mdVals: [], mdCategory: 'Demographics', dispOrder: 02, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Age', mdVals: [], mdCategory: 'Demographics', dispOrder: 100, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Gender', mdVals: [mdValGenF,mdValGenM], mdCategory: 'Demographics', dispOrder: 04, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Ethnicity', mdVals: [mdValEthn1], mdCategory: 'Demographics', dispOrder: 20, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Race', mdVals: [mdValRace1,mdValRace2,mdValRace3], mdCategory: 'Demographics', dispOrder: 40, expFiles: []).save()
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
             new ExperimentMetadata(experiment: exp, mdKey: 'Fluorochrome', mdVals: [mdValReag1,mdValReag2,mdValReag3,mdValReag4,mdValReag5,mdValReag6,mdValReag7], mdCategory: 'Reagents', dispOrder: 1, expFiles: []).save()
             def em1 = new ExperimentMetadata(experiment: exp, mdKey: 'Marker', mdVals: [mdValMarker1,mdValMarker2,mdValMarker3,mdValMarker4,mdValMarker3,mdValMarker6,mdValMarker3], mdCategory: 'Reagents', dispOrder: 2, expFiles: []).save()

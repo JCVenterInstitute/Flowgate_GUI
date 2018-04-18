@@ -1,6 +1,7 @@
 package flowgate
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 //import grails.io.IOUtils
 import org.apache.commons.io.IOUtils
 
@@ -8,10 +9,19 @@ import org.apache.commons.io.IOUtils
 //import org.grails.taglib.TagOutput
 //import org.grails.taglib.encoder.OutputContextLookupHelper
 //import org.springframework.web.servlet.support.RequestContextUtils
+=======
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
+import org.jsoup.nodes.Node
+import org.jsoup.nodes.TextNode
+
+>>>>>>> master
 
 class FgUtilsTagLib {
 
     static namespace = 'fg'
+<<<<<<< HEAD
 //    static defaultEncodeAs = [taglib:'html']
     static defaultEncodeAs = [taglib:'none']
     //static encodeAsForTags = [tagName: [taglib:'html'], otherTagName: [taglib:'none']]
@@ -19,6 +29,13 @@ class FgUtilsTagLib {
     def utilsService
 
     /** Renders a html file
+=======
+    static defaultEncodeAs = [taglib:'none']
+
+    def utilsService
+
+    /** Renders a html file from gp-server
+>>>>>>> master
      * used for rendering pipeline report results
      */
     def render = {attrs ->
@@ -27,6 +44,7 @@ class FgUtilsTagLib {
             def fileUrl = new URL(attrs.href)
             def connection = fileUrl.openConnection()
             connection.setRequestProperty ("Authorization", utilsService.authHeader(analysisServer.userName, analysisServer.userPw))
+<<<<<<< HEAD
             def dataStream = connection.inputStream
             out << dataStream
         }
@@ -59,6 +77,8 @@ class FgUtilsTagLib {
             def fileUrl = new URL(attrs.href)
             def connection = fileUrl.openConnection()
             connection.setRequestProperty ("Authorization", utilsService.authHeader(analysisServer.userName, analysisServer.userPw))
+=======
+>>>>>>> master
             String outPut
             def dataStream = connection.inputStream
             outPut = dataStream.text

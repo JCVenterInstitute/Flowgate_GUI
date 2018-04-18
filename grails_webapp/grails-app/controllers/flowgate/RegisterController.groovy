@@ -63,11 +63,25 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
 
         flash.message = message(code: 'spring.security.ui.register.complete')
 <<<<<<< HEAD
+<<<<<<< HEAD
         String adminEmail = User.findByUsername('admin').email
         sendMail{
             to adminEmail
             subject "New user registration"
             body "There is a new user registration awaiting confirmation in 'flowgate' app!"
+=======
+        //String adminEmail = User.findByUsername('admin').email
+        def body = "There is a new user waiting for your approval <br/><br/>" +
+                "<b>Username:</b> " + user.username + "<br/>" +
+                "<b>Email:</b> " + user.email + "<br/>" +
+                "<b>Affiliation:</b> " + user.affiliation + "<br/>" +
+                "<b>Reason:</b> " + ((user.reason == null) ? "" : user.reason)  + "<br/>" +
+                "<b>Go to users page for approval!</b> "
+        sendMail{
+            to adminEmail
+            subject "New user registration for approval"
+            html body
+>>>>>>> master
 =======
         //String adminEmail = User.findByUsername('admin').email
         def body = "There is a new user waiting for your approval <br/><br/>" +
