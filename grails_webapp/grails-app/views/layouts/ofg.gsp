@@ -8,6 +8,7 @@
   <asset:stylesheet src="application.css"/>
   %{--<asset:stylesheet href="ofg.css" />--}%
   <g:layoutHead/>
+  <sec:ifLoggedIn><script>window.location.href="${createLink(uri: '/project/list')}"</script></sec:ifLoggedIn>
 </head>
 
 <body class="text-center">

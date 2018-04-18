@@ -12,7 +12,9 @@
 <body>
 <div class="container">
   <g:if test='${emailSent}'>
-    <g:message code='spring.security.ui.forgotPassword.sent'/>
+    <div class="row justify-content-center ">
+      <div class="alert alert-info text-center" role="alert"><g:message code='spring.security.ui.forgotPassword.sent'/></div>
+    </div>
   </g:if>
   <g:else>
     <s2ui:formContainer type='forgotPassword' focus='username'>
