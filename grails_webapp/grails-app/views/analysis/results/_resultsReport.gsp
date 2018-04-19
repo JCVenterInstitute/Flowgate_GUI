@@ -6,5 +6,6 @@
   %{--<fg:render2 style="z-index: -100" href="${jobResult.outputFiles.find{it.link.name.contains('Reports/')}.link.href}" analysisServerId="${this?.analysis?.module?.server?.id}"/>--}%
   <fg:renderHtmlFile fileName="report.html" />
   %{--<fg:renderHtmlFile fileName="notebookDiv.html" />--}%
+  %{--<fg:renderHtmlFile fileName="notebookDiv.html" />--}%
 <br/>
 <br/>

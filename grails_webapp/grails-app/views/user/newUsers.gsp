@@ -8,6 +8,7 @@
 
 <body>
 <g:render template="/shared/nav"/>
+<div class="nav" role="navigation"></div>
 <div id="list-user" class="content scaffold-list" role="main">
   <g:if test="${newUserLst.size() > 0}">
     <div class="row">

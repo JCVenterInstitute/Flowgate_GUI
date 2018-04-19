@@ -17,11 +17,11 @@ class BootStrap {
   assert Role.count() == 7
   println 'pass Role count'
 
-  def superadminUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('super', 'super', 'super@flowgate.ui', 'loc1')
-  def adminUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('admin', 'admin', 'admin@flowgate.ui', 'loc1')
-  def userUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation( 'user', 'user', 'user@flowgate.ui', 'loc1')
-  def flowGateUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('flowGate', 'flowGate', 'flowgate.noreply@gmail.com', 'loc1')
-  def testUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation( 'acs', 'acs', 'peter.acs@stanford.edu', 'loc1')
+  def superadminUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('super', 'super', 'super@flowgate.ui', 'jcv')
+  def adminUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('admin', 'admin', 'admin@flowgate.ui', 'jcv')
+  def userUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation( 'user', 'user', 'user@flowgate.ui', 'jcv')
+  def flowGateUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('flowGate', 'flowGate', 'flowgate.noreply@gmail.com', 'jcv')
+  def testUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation( 'acs', 'acs', 'peter.acs@stanford.edu', 'som')
   UserRole.create(superadminUser, superadminRole)
   UserRole.create(adminUser, adminRole)
   UserRole.create(userUser, userRole)
@@ -512,6 +512,8 @@ class BootStrap {
             ExperimentMetadataValue mdValRace1 = new ExperimentMetadataValue(mdValue: 'Black or African American', mdType: 'String', dispOrder: 0).save()
             ExperimentMetadataValue mdValRace2 = new ExperimentMetadataValue(mdValue: 'White', mdType: 'String', dispOrder: 10).save()
             ExperimentMetadataValue mdValRace3 = new ExperimentMetadataValue(mdValue: 'Asian', mdType: 'String', dispOrder: 20).save()
+
+
 
             new ExperimentMetadata(experiment: exp, mdKey: 'SubjectID', mdVals: [], mdCategory: 'Demographics', dispOrder: 02, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Age', mdVals: [], mdCategory: 'Demographics', dispOrder: 100, expFiles: []).save()
