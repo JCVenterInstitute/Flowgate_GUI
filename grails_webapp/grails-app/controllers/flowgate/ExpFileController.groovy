@@ -7,7 +7,7 @@ import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
 @Secured(['ROLE_Admin','ROLE_User'])
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 class ExpFileController {
 
     def fcsService

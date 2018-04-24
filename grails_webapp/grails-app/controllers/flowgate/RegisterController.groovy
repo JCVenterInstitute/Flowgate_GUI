@@ -77,7 +77,6 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
     redirect uri: registerPostRegisterUrl ?: successHandlerDefaultTargetUrl
   }
 
-
   void afterPropertiesSet() {
     super.afterPropertiesSet()
 
@@ -91,7 +90,6 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
     registerPostRegisterUrl = conf.ui.register.postRegisterUrl ?: ''
     registerPostResetUrl = conf.ui.register.postResetUrl ?: ''
     successHandlerDefaultTargetUrl = conf.successHandler.defaultTargetUrl ?: '/'
-
     passwordMaxLength = conf.ui.password.maxLength instanceof Number ? conf.ui.password.maxLength : 64
     passwordMinLength = conf.ui.password.minLength instanceof Number ? conf.ui.password.minLength : 8
     passwordValidationRegex = conf.ui.password.validationRegex ?: '^.*(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&]).*$'

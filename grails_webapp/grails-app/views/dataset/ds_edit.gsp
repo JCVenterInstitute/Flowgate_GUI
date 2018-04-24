@@ -3,88 +3,82 @@
 <head>
   <meta name="layout" content="main" />
   <g:set var="entityName" value="${message(code: 'expFile.label', default: 'Experiment File')}" />
-  %{--<title><g:message code="default.expFile.annotation.label" default="Manage Dataset" args="[entityName]" /></title>--}%
   <title><g:message code="default.expFile.annotation.label" default="Manage Dataset" /></title>
   <asset:javascript src="jquery-2.2.0.min.js"/>
-  <style>
-    #toAnno, #toFcs{
-        background-color: rgba(122, 122, 122, 0.27);
-    }
-  </style>
 </head>
 
 <body>
 <g:render template="/shared/nav"/>
 <div class="nav" role="navigation">
 </div>
-%{--
-experiment=${experiment} id=${experiment?.id} ${experiment == null}
-project=${experiment?.project}
---}%
-
 <g:if test="${experiment}">
   <div class="text-center">Datasets - ${experiment?.title}</div>
   <br/>
-  <g:form controller="dataset" action="dsUpdate" params="[experiment: experiment]" id="${experiment.id}">
+  <g:form controller="dataset" action="dsExit" params="[experiment: experiment]" id="${experiment.id}">
     <g:hiddenField name="expId" value="${experiment?.id}" />
     <g:hiddenField name="projId" value="${experiment?.project?.id}" />
     <div class="row" style="padding-left: 20px;padding-right:20px;max-width: 100%">
       <div class="col-sm-offset-1 col-sm-2" style="padding-right: 0">
-          %{--<content tag="fcsPanel">--}%
           <div id="metaData" >
             <g:render template="datasetTmpl/mdFilterPanel" model="[experiment: experiment]" />
           </div>
-          %{--</content>--}%
         </div>
         <div class="col-sm-2" style="padding-left: 0">
-          %{--<content tag="fcsPanel">--}%
-          <div id="fcsPanel">
-            <g:render template="datasetTmpl/fcsFilePanel" model="[experiment: experiment, ds:ds, dsId: ds.id, expFileList: experiment.expFiles ]" />
+          <div id="fcsCandidates">
+            <g:render template="datasetTmpl/fcsFileCandidates" model="[experiment: experiment, ds:ds, dsId: ds.id, expFileCandidatesList: expFileCandidatesList, pType: 'cand' ]" />
           </div>
-          %{--</content>--}%
         </div>
         <div class="col-sm-1">
           <div id="datasetBtnPnl" style="padding-top: 150px">
-            <p><div id="toDs" class="btn btn-default" onclick="alert('not implemented yet!');" style="width: 100%" >assign&nbsp;<i class="fa fa-caret-right" ></i></div></p>
+            <p><g:actionSubmit id="toDs" class="btn btn-default" style="width: 100%" action="assign" value="assign" /></p>
+            <p><g:actionSubmit id="fromDs" class="btn btn-default" style="width: 100%" action="remove" value="remove" /></p>
           </div>
         </div>
-        <div class="col-sm-4" >
-          %{--<content tag="pgContent">--}%
+        <div class="col-sm-2" style="">
             <div id="dsPanel">
-              <div class="btn btn-default" onclick="addDs(${experiment.id});"><i class="fa fa-plus" ></i>Add New Dataset</div>
-              <p></p>
-              <g:render template="datasetTmpl/datasetPanel" model="[experiment: experiment, dsMode: params.dsMode]" />
+                <g:render template="datasetTmpl/datasetPanel" model="[experiment: experiment, dsMode: params.dsMode]" />
             </div>
-            <br/>
-            <br/>
-            <br/>
-            <div class="text-center">
-              <button type="submit" class="btn btn-success"  >Submit</button>
+            <div id="fcsAssigned">
+              <g:render template="datasetTmpl/fcsFileAssigned" model="[experiment: experiment, ds:ds, dsId: ds.id, expFileAssignedList: ds.expFiles, pType: 'ass' ]" />
             </div>
-          %{--</content>--}%
         </div>
-        %{--<div class="col-sm-3" >--}%
-          %{--<content tag="pgRightPanel">--}%
-            <br/>
-            <br/>
-            <br/>
-            <div class="text-center" ></div>
-            <br/>
-            <br/>
-            <br/>
-          %{--</content>--}%
-        %{--</div>--}%
+      <div class="col-sm-1">
+        <div id="submitBtnPnl" style="padding-top: 150px">
+          <div class="pull-right">
+            <button type="submit" class="btn btn-success"  >Submit</button>
+          </div>
+        </div>
+      </div>
       </div>
     </g:form>
   </g:if>
   <script type="text/javascript">
-    function addDs(eId) {
+    function addDs(dsId) {
+      var eId = ${experiment.id};
       $.ajax({
         url: "${createLink(controller: 'dataset', action: 'axAddDs')}",
         dataType: "json",
         type: "get",
-        %{--data: {eId: ${params?.eId}, modId: moduleId},--}%
-        data: {eId: eId},
+        data: {id: eId},
+        success: function (data) {
+          $("#datasetField").html(data.dsField);
+          $("#fcsAssigned").html(data.fcsAssList);
+        },
+        error: function (request, status, error) {
+          console.log('E: ' + error);
+        },
+        complete: function () {
+          console.log('ajax completed');
+        }
+      });
+    }
+
+    function editDs(dsId) {
+      $.ajax({
+        url: "${createLink(controller: 'dataset', action: 'axEditDs')}",
+        dataType: "json",
+        type: "get",
+        data: {id: dsId},
         success: function (data) {
           $("#datasetField").html(data.dsField);
         },
@@ -97,22 +91,129 @@ project=${experiment?.project}
       });
     }
 
-    function setFilter(metaVal){
+    function setFilter(metaVal, ckStatus){
       var eId = ${experiment.id};
       var dsId = ${ds.id};
       $.ajax({
-        url: "${createLink(controller: 'dataset', action: 'setFilter')}",
+        url: "${createLink(controller: 'dataset', action: 'axSetFilter')}",
         dataType: "json",
-        data: {"id": JSON.stringify(eId), dsId: dsId, eMetaVal: metaVal},
+        data: {id: eId, dsId: dsId, eMetaVal: metaVal, ckStatus: ckStatus},
         type: "get",
         success: function (data) {
-          $("#fcsPanel").html(data.fcsList);
+          $("#fcsCandidates").html(data.fcsList);
         },
         error: function (request, status, error) {
           console.log('E: ' + error);
         },
         complete: function () {
           console.log('ajax completed');
+        }
+      });
+    }
+
+    function selAllCandFcs(dsId){
+      var eId = ${experiment.id};
+      var dsId = ${ds.id};
+      $.ajax({
+        url: "${createLink(controller: 'dataset', action: 'axSelAllCandFcs')}",
+        dataType: "json",
+        data: {id: eId, dsId: dsId},
+        type: "get",
+        success: function (data) {
+          $("#fcsCandidates").html(data.fcsCandList);
+        },
+        error: function (request, status, error) {
+          console.log('E: ' + error);
+        },
+        complete: function () {
+          console.log('ajax completed');
+        }
+      });
+    }
+
+    function deselAllCandFcs(dsId){
+      var eId = ${experiment.id};
+      var dsId = ${ds.id};
+      $.ajax({
+        url: "${createLink(controller: 'dataset', action: 'axDeselAllCandFcs')}",
+        dataType: "json",
+        data: {id: eId, dsId: dsId},
+        type: "get",
+        success: function (data) {
+          $("#fcsCandidates").html(data.fcsCandList);
+        },
+        error: function (request, status, error) {
+          console.log('E: ' + error);
+        },
+        complete: function () {
+          console.log('ajax completed');
+        }
+      });
+    }
+
+    function selAllAssFcs(dsId){
+      %{--var eId = ${experiment.id};--}%
+      %{--var dsId = ${ds.id};--}%
+      $.ajax({
+        url: "${createLink(controller: 'dataset', action: 'axSelAllAssFcs')}",
+        dataType: "json",
+        data: {id: dsId},
+        type: "get",
+        success: function (data) {
+          $("#fcsAssigned").html(data.fcsAssList);
+        },
+        error: function (request, status, error) {
+          console.log('E: ' + error);
+        },
+        complete: function () {
+          console.log('ajax completed');
+        }
+      });
+    }
+
+    function deselAllAssFcs(dsId){
+      %{--var eId = ${experiment.id};--}%
+      %{--var dsId = ${ds.id};--}%
+      $.ajax({
+        url: "${createLink(controller: 'dataset', action: 'axDeselAllAssFcs')}",
+        dataType: "json",
+        // data: {id: eId, dsId: dsId},
+        data: {id: dsId},
+        type: "get",
+        success: function (data) {
+          $("#fcsAssigned").html(data.fcsAssList);
+        },
+        error: function (request, status, error) {
+          console.log('E: ' + error);
+        },
+        complete: function () {
+          console.log('ajax completed');
+        }
+      });
+    }
+
+    function dsSelChange(dsId) {
+      $.ajax({
+        url: "${createLink(controller: 'dataset', action: 'axDsChange')}",
+        dataType: "json",
+        type: "get",
+        %{--data: {eId: ${params?.eId}, modId: moduleId},--}%
+        data: {id: dsId},
+        success: function (data) {
+          // alert("ds Changed!");
+          $("#metaData").html(data.metaData);
+          $("#dsPanel").html(data.dsPanel);
+          // $("#fcsCandidates").html(data.fcsCandidates);
+          $("#fcsAssigned").html(data.fcsAssigned);
+          console.log('ds changed');
+        },
+        error: function (request, status, error) {
+          console.log('E: ' + error);
+          // alert("ds Change error");
+        },
+        complete: function () {
+          // alert("ds Change completed");
+          console.log('ajax ds change completed');
         }
       });
     }

@@ -202,7 +202,7 @@ class ExperimentController {
             form multipartForm {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.id])
 //                redirect experiment
-                redirect view: 'index'
+                redirect view: 'index', params:[eId: experiment.id]
             }
             '*' { respond experiment, [status: CREATED] }
         }
