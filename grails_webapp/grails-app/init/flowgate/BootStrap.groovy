@@ -322,7 +322,7 @@ class BootStrap {
                         filters: [ExperimentMetadataValue.findAllByMdValue('Female')], name: 'Females', description: 'females')
   ds1.save()
 //  def ds2 = new Dataset(experiment: exp2, expFiles: [], name: 'test dataset', description: 'testDataset').save()
-  def ds2 = new Dataset(experiment: exp1, expFiles: [expFile1012,expFile1013,expFile1014,expFile1015,expFile1016,expFile1017,expFile1018,expFile1019,expFile1020,expFile1021,expFile1022,expFile1032],
+  def ds2 = new Dataset(experiment: exp1, expFiles: [expFile1012,expFile1013,expFile1014,expFile1015,expFile1016,expFile1017,expFile1018,expFile1019,expFile1020,expFile1021,expFile1022,expFile1032,expFile1037],
       filters: [ExperimentMetadataValue.findAllByMdValue('Male')],name: 'Males', description: 'males').save()
   def ds3 = new Dataset(experiment: exp1, expFiles: [expFile1015,expFile1016,expFile1017,expFile1018,expFile1023,expFile1024,expFile1025,expFile1029,expFile1031,expFile1032,expFile1033,expFile1036],
       filters: [ExperimentMetadataValue.findAllByMdValue('Asian')],name: 'Asian', description: 'asian').save()
@@ -513,16 +513,14 @@ class BootStrap {
             ExperimentMetadataValue mdValRace2 = new ExperimentMetadataValue(mdValue: 'White', mdType: 'String', dispOrder: 10).save()
             ExperimentMetadataValue mdValRace3 = new ExperimentMetadataValue(mdValue: 'Asian', mdType: 'String', dispOrder: 20).save()
 
-
-
             new ExperimentMetadata(experiment: exp, mdKey: 'SubjectID', mdVals: [], mdCategory: 'Demographics', dispOrder: 02, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Age', mdVals: [], mdCategory: 'Demographics', dispOrder: 100, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Gender', mdVals: [mdValGenF,mdValGenM], mdCategory: 'Demographics', dispOrder: 04, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Ethnicity', mdVals: [mdValEthn1], mdCategory: 'Demographics', dispOrder: 20, expFiles: []).save()
             new ExperimentMetadata(experiment: exp, mdKey: 'Race', mdVals: [mdValRace1,mdValRace2,mdValRace3], mdCategory: 'Demographics', dispOrder: 40, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Fluorochrome', mdVals: [mdValReag1,mdValReag2,mdValReag3,mdValReag4,mdValReag5,mdValReag6,mdValReag7], mdCategory: 'Reagents', dispOrder: 1, expFiles: []).save()
-            def em1 = new ExperimentMetadata(experiment: exp, mdKey: 'Marker', mdVals: [mdValMarker1,mdValMarker2,mdValMarker3,mdValMarker4,mdValMarker3,mdValMarker6,mdValMarker3], mdCategory: 'Reagents', dispOrder: 2, expFiles: []).save()
-            new ExperimentMetadata(experiment: exp, mdKey: 'Channel', mdVals: [mdValChanFl1A,mdValChanFl2A,mdValChanFl3A,mdValChanFl4A,mdValChanFl5A,mdValChanFl6A,mdValChanFl7A], mdCategory: 'Reagents', dispOrder: 0, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Fluorochrome', mdVals: [mdValReag1,mdValReag2,mdValReag3,mdValReag4,mdValReag5,mdValReag6,mdValReag7], mdCategory: 'Reagents', dispOrder: 1, dispOnFilter: false, expFiles: []).save()
+            def em1 = new ExperimentMetadata(experiment: exp, mdKey: 'Marker', mdVals: [mdValMarker1,mdValMarker2,mdValMarker3,mdValMarker4,mdValMarker3,mdValMarker6,mdValMarker3], mdCategory: 'Reagents', dispOrder: 2, dispOnFilter: false, expFiles: []).save()
+            new ExperimentMetadata(experiment: exp, mdKey: 'Channel', mdVals: [mdValChanFl1A,mdValChanFl2A,mdValChanFl3A,mdValChanFl4A,mdValChanFl5A,mdValChanFl6A,mdValChanFl7A], mdCategory: 'Reagents', dispOrder: 0, dispOnFilter: false, expFiles: []).save()
 
             println "ExperimentMetadata.cnt ${ExperimentMetadata.count()}"
     }

@@ -126,4 +126,3 @@ class RegisterCommand implements CommandObject {
     reason nullable: true
   }
 }
-

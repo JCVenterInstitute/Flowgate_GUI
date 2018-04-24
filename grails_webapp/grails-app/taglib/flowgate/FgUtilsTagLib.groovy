@@ -39,8 +39,6 @@ class FgUtilsTagLib {
         }
     }
 
-
-
     /*
     def render2 = {attrs ->
         AnalysisServer analysisServer = AnalysisServer.get(attrs?.analysisServerId)

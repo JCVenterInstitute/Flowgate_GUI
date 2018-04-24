@@ -8,6 +8,7 @@ class ExperimentMetadata {
     String mdCategory
     String mdKey
     Integer dispOrder
+    Boolean dispOnFilter = true
 
     static constraints = {
         mdCategory nullable: true, blank: true
