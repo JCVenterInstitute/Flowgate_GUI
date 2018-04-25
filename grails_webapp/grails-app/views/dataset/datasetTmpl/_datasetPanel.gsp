@@ -7,8 +7,4 @@
   <div id="datasetField" >
     <g:render template="datasetTmpl/datasetFieldEdit" model="[experiment: experiment, dsId: ds.id ]" />
   </div>
-  %{--<div class="pull-right">
-    <button type="submit" class="btn btn-success"  >Submit</button>
-  </div>
-  --}%
 </div>

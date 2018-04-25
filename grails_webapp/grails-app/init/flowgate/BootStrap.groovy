@@ -5,9 +5,9 @@ class BootStrap {
   def init = { servletContext ->
     /* */
   if(Environment.current == Environment.DEVELOPMENT || Environment.current == Environment.PRODUCTION) {
-      println 'roles & users'
-      def superadminRole = Role.findOrSaveByAuthority('ROLE_Administrator')
-        def adminRole = Role.findOrSaveByAuthority('ROLE_Admin')
+    println 'roles & users'
+    def superadminRole = Role.findOrSaveByAuthority('ROLE_Administrator')
+    def adminRole = Role.findOrSaveByAuthority('ROLE_Admin')
   def userRole = Role.findOrSaveByAuthority('ROLE_User')
   def newUserRole = Role.findOrSaveByAuthority('ROLE_NewUser')
   def guestRole = Role.findOrSaveByAuthority('ROLE_Guest')

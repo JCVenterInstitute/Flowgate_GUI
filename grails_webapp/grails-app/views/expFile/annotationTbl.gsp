@@ -32,6 +32,9 @@
 <br/>
 <div class="row" style="max-width: none">
   <div class="col-sm-12 annotationTable">
+    <div class="pull-right">
+      <g:link class="btn btn-success" controller="experiment" action="index" params="[eId: experiment.id]"><g:message code="submitBtn.label" default="Submit"/></g:link>
+    </div>
     <ul class="nav nav-tabs">
       <li class="active"><a href="#tabDemogr" role="tab" data-toggle="tab">Demographics</a></li>
       <li><a href="#tabVisit" role="tab" data-toggle="tab">Visit</a></li>

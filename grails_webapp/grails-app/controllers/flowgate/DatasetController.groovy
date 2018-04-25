@@ -76,6 +76,11 @@ class DatasetController {
     }
     else{
       expFileCandidatesList = ExpFileMetadata.findAll{expFile.experiment == experiment}*.expFile
+      //TODO check this
+      //  if there is no annotation done??? expect empty list here, fill with experiment expfiles
+      if(expFileCandidatesList.size()<1){
+        expFileCandidatesList = experiment.expFiles
+      }
     }
     return expFileCandidatesList.unique()
   }
@@ -121,7 +126,10 @@ class DatasetController {
 
 
   def ds_edit(Experiment experiment) {
-    Dataset ds = params.dsId ? Dataset.get(params.dsId) : Dataset.findAllByExperiment(experiment).first()
+    Dataset ds = params.dsId ? Dataset.get(params.dsId) :
+                                 Dataset.findAllByExperiment(experiment) ?
+                                   Dataset.findAllByExperiment(experiment)?.first() :
+                                     new Dataset(experiment:experiment, name: 'new dataset', expFiles: [], description: '[]').save(flush: true)
     def expFileCandidatesList = getFilteredList(experiment)
     render view: 'ds_edit', model: [experiment: experiment, dsId: ds.id, ds: ds, expFileCandidatesList: expFileCandidatesList], params: params
   }

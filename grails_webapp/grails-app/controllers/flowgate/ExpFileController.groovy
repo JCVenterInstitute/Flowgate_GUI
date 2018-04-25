@@ -199,28 +199,20 @@ class ExpFileController {
     }
 
     def expFileCreate(){
-        respond Experiment.get(params?.eId), model: [owner: springSecurityService.currentUser, eId: params?.eId
-        ]
+        respond Experiment.get(params?.eId), model: [owner: springSecurityService.currentUser, eId: params?.eId ]
     }
 
     def expFileCreate2(){
     }
 
     def uploadFcsFiles(){
-//        TODO remove hardcoded experiment and change to params!! for developing shortcut only!!!
-        Experiment experiment = Experiment.get(1)
-//        def partFiles = request.getFiles("actFcsFile")
-//        partFiles.each{ file ->
-//            println file.getOriginalFilename()
-//
-//        }
+        Experiment experiment = Experiment.get(params.eId.toLong())
         String fcsStoragePath = grailsApplication.config.getProperty('fcsFileStoreLocation.path', String)
         def ulFiles = request.multiFileMap.get("actFcsFile")
         if(ulFiles.findAll { !it.empty }.size<1){
             flash.errMsg = 'No file selected!'
             redirect action: 'expFileCreate', eId: experiment.id, params: [eId: experiment.id]
             return
-
         }
         else {
             ulFiles.each { fcsFile ->
