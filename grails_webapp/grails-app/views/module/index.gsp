@@ -81,7 +81,7 @@
 </sec:ifNotLoggedIn>
 --}%
 </content>
-<a href="#list-module" class="skip" tabindex="-1"><g:message code="default.link.skip.label"
+%{--<a href="#list-module" class="skip" tabindex="-1"><g:message code="default.link.skip.label"
                                                              default="Skip to content&hellip;"/></a>
 
 <div class="nav" role="navigation">
@@ -89,15 +89,15 @@
     <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
     <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]"/></g:link></li>
   </ul>
-</div>
+</div>--}%
 
-<div id="list-module" class="content scaffold-list" role="main">
-  <h3 class="text-center"><g:message code="default.list.label" args="[entityName]"/></h3>
+<div id="list-module" class="container" role="main">
+  <h1 class="page-header"><g:message code="default.list.label" args="[entityName]"/></h1>
   <g:if test="${flash.message}">
     <div class="message" role="status">${flash.message}</div>
   </g:if>
   <div class="row">
-    <div class="col-sm-offset-1 col-sm-10">
+    <div class="col-sm-12">
       <f:table collection="${moduleList}" properties="${['name', 'server']}"/>
       <div class="pagination">
         <g:paginate total="${moduleCount ?: 0}"/>
