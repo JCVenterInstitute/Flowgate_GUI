@@ -38,7 +38,7 @@
         <i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;Delete Project
     </g:link>
     --}%
-      <a class="btn btn-primary noLinkBlack" href="/flowgate/project/delete?id="${project?.id}"
+      <a class="btn btn-primary noLinkBlack" href="/flowgate/project/delete?id=${project?.id}"
          onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">
         <i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;Delete Project
       </a>
@@ -51,7 +51,7 @@
         <i class="fa fa-eraser"></i>&nbsp;&nbsp;Erase Project
     </g:link>
     --}%
-      <a class="btn btn-primary noLinkBlack" href="/flowgate/project/erase?id="${project?.id}"
+      <a class="btn btn-primary noLinkBlack" href="/flowgate/project/erase?id=${project?.id}"
          onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">
         <i class="fa fa-eraser"></i>&nbsp;&nbsp;Erase Project
       </a>

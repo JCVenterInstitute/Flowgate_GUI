@@ -9,7 +9,7 @@
     </div>
 --}%
 <div id="edit-project" class="content scaffold-edit" role="main">
-%{--<h1><g:message code="default.edit.label" args="[entityName]" /></h1>--}%
+  <h1 class="page-header"><g:message code="default.edit.label" args="[entityName]"/></h1>
   <g:if test="${flash.message}">
     <div class="message" role="status">${flash.message}</div>
   </g:if>
@@ -22,24 +22,26 @@
       </g:eachError>
     </ul>
   </g:hasErrors>
-  <g:form resource="${this.project}" method="PUT">
+  <g:form action="update" resource="${this.project}" method="POST" class="col-xs-6 col-sm-3">
     <g:hiddenField name="version" value="${this.project?.version}"/>
   %{--<g:hiddenField name="isOpen" value="${this.project?.isOpen}" />--}%
   %{--<g:hiddenField name="inEditMode" value="true" />--}%
   %{--<g:hiddenField name="owners" value="${this.project?.version}" />--}%
   %{--<g:hiddenField name="version" value="${this.project?.version}" />--}%
-    <fieldset class="form">
-      %{--<f:all bean="project"/>--}%
-      <f:with bean="project">
-        <f:field property="title"/>
-        <f:field property="description"/>
-      %{--<f:field property=""/>--}%
-      %{--<f:field property=""/>--}%
-      </f:with>
-    </fieldset>
+    <div class="form-group">
+      <label for="title">Title *</label>
+      <input type="text" class="form-control" id="title" name="title" placeholder="Title" required value="${project.title}">
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description *</label>
+      <input type="text" class="form-control" id="description" name="description" placeholder="Description" required value="${project.description}">
+    </div>
   %{--<fieldset class="buttons">--}%
   %{--<fieldset>--}%
-    <input class="save btn btn-success" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}"/>
+
+    <button type="submit" class="btn btn-primary">${message(code: 'default.button.update.label', default: 'Update')}</button>
+    <a href="/flowgate/project/index?pId=${project.id}" type="submit" name="back" class="btn btn-warning">Back</a>
   %{--</fieldset>--}%
   </g:form>
 </div>

@@ -8,7 +8,7 @@
 </div>
 --}%
 <div id="create-project" class="content scaffold-create" role="main">
-  <h1><g:message code="default.create.label" args="[entityName]"/></h1>
+  <h1 class="page-header"><g:message code="default.create.label" args="[entityName]"/></h1>
   <g:if test="${flash.message}">
     <div class="message" role="status">${flash.message}</div>
   </g:if>
@@ -21,29 +21,24 @@
       </g:eachError>
     </ul>
   </g:hasErrors>
-  <g:form action="save">
+  <g:form action="save" class="col-xs-6 col-sm-3">
   %{--<g:hiddenField name="version" value="${this.project?.version}" />--}%
   %{--<g:hiddenField name="isOpen" value="${flowgate?.Project?.list()?.size()<=0}" />--}%
   %{--<g:hiddenField name="inEditMode" value="${flowgate.Project.list().size()<=0}" />--}%
   %{--<g:hiddenField name="owners" value="${this?.project.owners}" />--}%
   %{--<g:hiddenField name="owners" value="${this.project.owners}" />--}%
   %{--<g:hiddenField name="members" value="${this.project.members}" />--}%
-    <fieldset class="form">
-      %{--<f:all bean="project"/>--}%
+    <div class="form-group">
+      <label for="title">Title *</label>
+      <input type="text" class="form-control" id="title" name="title" placeholder="Title" required>
+    </div>
 
-      <f:with bean="project">
-        <f:field property="title"/>
-        <f:field property="description"/>
-        <f:field property="experiments"/>
-      %{--<f:field property=""/>--}%
-      %{--<f:field property=""/>--}%
-      %{--<f:field property=""/>--}%
-      </f:with>
-    </fieldset>
-  %{--<fieldset class="buttons">--}%
-    <fieldset class="text-center">
-      <g:submitButton name="create" class="save btn btn-success"
-                      value="${message(code: 'default.button.create.label', default: 'Create')}"/>
-    </fieldset>
+    <div class="form-group">
+      <label for="description">Description *</label>
+      <input type="text" class="form-control" id="description" name="description" placeholder="Description" required>
+    </div>
+
+    <g:submitButton name="create" class="btn btn-primary" value="${message(code: 'default.button.create.label', default: 'Create')}"/>
+    <a href="/flowgate/project/list" class="btn btn-warning">Back</a>
   </g:form>
 </div>
