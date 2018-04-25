@@ -178,8 +178,7 @@ class ExperimentController {
     def create() {
         ArrayList<Project> projectList = Project.findAllByIsActive(true, [params: params])
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(Project.get(params?.pId?.toLong()), true)
-        respond new Experiment(params), model: [owner: springSecurityService.currentUser, projectList: projectList, pId: params?.pId, experimentList: experimentList
-        ]
+        respond new Experiment(params), model: [owner: springSecurityService.currentUser, projectList: projectList, pId: params?.pId, experimentList: experimentList]
     }
 
     @Transactional
@@ -193,11 +192,11 @@ class ExperimentController {
         }
         if (experiment.hasErrors()) {
             transactionStatus.setRollbackOnly()
-            respond experiment.errors, view:'create'
+            respond experiment.errors, view:'create', model: [pId: params?.pId]
             return
         }
         experiment.save flush:true
-        ExperimentUser.create(experiment, springSecurityService.currentUser, 'owner')
+        ExperimentUser.create(experiment, springSecurityService.currentUser, 'owner').save(flush: true)
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title.take(20)+'... '])
