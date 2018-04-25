@@ -200,9 +200,9 @@ class ExperimentController {
         ExperimentUser.create(experiment, springSecurityService.currentUser, 'owner')
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.id])
+                flash.message = message(code: 'default.created.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title])
 //                redirect experiment
-                redirect view: 'index', params:[eId: experiment.id]
+                redirect controller: 'experiment', action: 'index', params:[eId: experiment.id]
             }
             '*' { respond experiment, [status: CREATED] }
         }
@@ -227,8 +227,8 @@ class ExperimentController {
         experiment.save flush:true
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.id])
-                redirect experiment
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title])
+                redirect controller: 'experiment', action: 'index', params:[eId: experiment.id]
             }
             '*'{ respond experiment, [status: OK] }
         }
@@ -247,7 +247,7 @@ class ExperimentController {
         }
         experiment.isActive = false
         experiment.save flush:true
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.id])
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title])
         redirect view: 'index', params: [pId: experiment.project.id]
     }
 
@@ -263,7 +263,7 @@ class ExperimentController {
         experiment.delete flush:true
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }

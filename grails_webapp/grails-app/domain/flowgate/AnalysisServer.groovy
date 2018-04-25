@@ -2,6 +2,7 @@ package flowgate
 
 class AnalysisServer {
 
+    User user
     String name
     String url
     String userName
