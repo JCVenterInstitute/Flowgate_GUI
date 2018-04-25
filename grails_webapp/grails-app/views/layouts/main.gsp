@@ -12,9 +12,11 @@
 
 <body>
 <g:render template="/layouts/navBar"/>
-<div class="container" style="position: static">
-  <g:pageProperty name="page.topBtnBar" />
-</div>
+<g:ifPageProperty name="page.topBtnBar">
+  <div class="container" style="position: static">
+    <g:pageProperty name="page.topBtnBar" />
+  </div>
+</g:ifPageProperty>
 <g:if test="${flash.message}">
   <div class="row justify-content-center ">
     <div class="alert alert-info text-center" role="alert">${flash.message}</div>
