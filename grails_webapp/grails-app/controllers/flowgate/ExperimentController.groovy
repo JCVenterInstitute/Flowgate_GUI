@@ -200,8 +200,7 @@ class ExperimentController {
         ExperimentUser.create(experiment, springSecurityService.currentUser, 'owner')
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title])
-//                redirect experiment
+                flash.message = message(code: 'default.created.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title.take(20)+'... '])
                 redirect controller: 'experiment', action: 'index', params:[eId: experiment.id]
             }
             '*' { respond experiment, [status: CREATED] }

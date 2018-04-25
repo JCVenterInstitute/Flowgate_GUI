@@ -13,10 +13,9 @@
 <content tag="topBtnBar">
   <div id="topBtnBar">
     <div class="row">
-<div class="right">
-
-    <g:render template="templates/indexTopBtnBar" model="[experiment: experiment]"/>
-</div>
+      <div class="right">
+        <g:render template="templates/indexTopBtnBar" model="[experiment: experiment]"/>
+      </div>
     </div>
   </div>
   <g:render template="/shared/errorsMsgs" model="[bean: this.experiment]"/>
@@ -31,27 +30,5 @@
     <g:render template="templates/indexTmpl" model="[experiment: experiment]"/>
   </div>
 </content>
-%{--<script type="text/javascript">
-    --}%%{--$(document).ready(function(){--}%%{--
-        --}%%{--$('[data-toggle="tooltip"]').tooltip();--}%%{--
-    --}%%{--});--}%%{--
-    function toggleExpView() {
-        $.ajax({
-            url: "${createLink(controller: 'project', action: 'axToggleExpView')}",
-            dataType: 'json',
-            type: "get",
-            success: function (data) {
-                console.log('had success!!');
-                $("#pageContent").replaceWith($("#pageContent").html(data.contentPage));
-            },
-            error: function (request, status, error) {
-                alert(error)
-            },
-            complete: function () {
-                console.log('ajax completed');
-            }
-        });
-    }
-</script>--}%
 </body>
 </html>

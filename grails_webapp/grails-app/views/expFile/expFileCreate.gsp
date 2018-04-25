@@ -22,7 +22,7 @@
     </ul>
   </g:hasErrors>
   <g:uploadForm controller="expFile" action="uploadFcsFiles" name="uploadFcsFiles">
-    <g:hiddenField name="id" value="${this.expFile?.id}"/>
+    <g:hiddenField name="eId" value="${eId}"/>
     <g:hiddenField name="version" value="${this.expFile?.version}"/>
     <g:if test="${flash.errMsg && flash.errMsg != ''}">
       <div class="form-group">
@@ -37,7 +37,7 @@
 
       <p class="help-block">You can upload single or multiple .fcs file(s).</p>
     </div>
-    <g:submitButton name="fcsUpload" class="save btn btn-primary" value="${message(code: 'default.button.annotate.label', default: 'Annotate')}"/>
+    <g:submitButton name="fcsUpload" class="save btn btn-primary" value="${message(code: 'default.button.annotate.label', default: 'Annotate')}" id="${eId}"/>
     <a href="/flowgate/experiment/index?eId=${eId}" class="btn btn-warning">Back</a>
   </g:uploadForm>
 </div>

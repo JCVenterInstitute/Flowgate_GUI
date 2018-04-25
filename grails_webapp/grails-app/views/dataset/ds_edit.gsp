@@ -3,25 +3,14 @@
 <head>
   <meta name="layout" content="main" />
   <g:set var="entityName" value="${message(code: 'expFile.label', default: 'Experiment File')}" />
-  %{--<title><g:message code="default.expFile.annotation.label" default="Manage Dataset" args="[entityName]" /></title>--}%
   <title><g:message code="default.expFile.annotation.label" default="Manage Dataset" /></title>
   <asset:javascript src="jquery-2.2.0.min.js"/>
-  <style>
-    #toAnno, #toFcs{
-        background-color: rgba(122, 122, 122, 0.27);
-    }
-  </style>
 </head>
 
 <body>
 <g:render template="/shared/nav"/>
 <div class="nav" role="navigation">
 </div>
-%{--
-experiment=${experiment} id=${experiment?.id} ${experiment == null}
-project=${experiment?.project}
---}%
-
 <g:if test="${experiment}">
   <div class="text-center">Datasets - ${experiment?.title}</div>
   <br/>
@@ -41,26 +30,17 @@ project=${experiment?.project}
         </div>
         <div class="col-sm-1">
           <div id="datasetBtnPnl" style="padding-top: 150px">
-            %{--<p><div id="toDs" class="btn btn-default" onclick="alert('not implemented yet!');" style="width: 100%" >assign&nbsp;<i class="fa fa-caret-right" ></i></div></p>--}%
             <p><g:actionSubmit id="toDs" class="btn btn-default" style="width: 100%" action="assign" value="assign" /></p>
-            %{--<p><div id="fromDs" class="btn btn-default" onclick="alert('not implemented yet!');" style="width: 100%" ><i class="fa fa-caret-left" ></i>&nbsp;remove</div></p>--}%
             <p><g:actionSubmit id="fromDs" class="btn btn-default" style="width: 100%" action="remove" value="remove" /></p>
           </div>
         </div>
         <div class="col-sm-2" style="">
-          %{--<div class="row">--}%
-            %{--<div class="pull-right">--}%
-              %{--<button type="submit" class="btn btn-success"  >Submit</button>--}%
-            %{--</div>--}%
-          %{--</div>--}%
-          %{--<div class="row">--}%
             <div id="dsPanel">
                 <g:render template="datasetTmpl/datasetPanel" model="[experiment: experiment, dsMode: params.dsMode]" />
             </div>
             <div id="fcsAssigned">
               <g:render template="datasetTmpl/fcsFileAssigned" model="[experiment: experiment, ds:ds, dsId: ds.id, expFileAssignedList: ds.expFiles, pType: 'ass' ]" />
             </div>
-          %{--</div>--}%
         </div>
       <div class="col-sm-1">
         <div id="submitBtnPnl" style="padding-top: 150px">

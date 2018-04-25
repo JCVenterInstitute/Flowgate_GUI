@@ -92,6 +92,16 @@
     </g:isOwnerOrRoles>
 
     <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
+      <span data-toggle="tooltip" title="FCS-file Annotation">
+        <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'annotationTbl', id: experiment?.id)}" >
+        <div class="btn btn-default" style="cursor: pointer">
+          <i class="fa fa-adn fa-lg"></i>
+        </div>
+      </a>
+      </span>
+    </g:isOwnerOrRoles>
+
+    <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
       <span data-toggle="tooltip" title="Manage Datasets">
         <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'dataset', action: 'ds_edit', id: experiment?.id)}" >
         <div class="btn btn-default" style="cursor: pointer">

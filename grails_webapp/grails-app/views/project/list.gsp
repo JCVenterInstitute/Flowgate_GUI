@@ -12,7 +12,7 @@
   <div class="row">
     <div id="topBtnBar" >
       %{--<g:render template="templates/indexTopBtnBar" model="[project: this.project]" />--}%
-      <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_ProjectCreate">
+      <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectCreate">
         <a class="btn btn-primary create noLinkBlack" href="/flowgate/project/create">
           <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Add Project
         </a>

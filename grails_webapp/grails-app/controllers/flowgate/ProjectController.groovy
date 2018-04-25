@@ -223,8 +223,7 @@ class ProjectController {
         ProjectUser.create(project, owner, 'owner')
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), project.title.take(10)+'... '])
-//                redirect project
+                flash.message = message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), "${project.title.take(10)+'... '}"])
                 redirect view: 'index'
             }
             '*' { respond project, [status: CREATED] }

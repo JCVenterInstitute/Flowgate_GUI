@@ -95,6 +95,7 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
     passwordMinLength = conf.ui.password.minLength instanceof Number ? conf.ui.password.minLength : 8
     passwordValidationRegex = conf.ui.password.validationRegex ?: '^.*(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&]).*$'
   }
+
 }
 
 class RegisterCommand implements CommandObject {
