@@ -13,23 +13,10 @@
     </ul>
   </g:hasErrors>
   <g:form action="save" class="col-xs-6 col-sm-3">
-    %{-- --}%
-    <div class="form-group">
-      <label for="title">Title *</label>
-      <input type="text" class="form-control" id="title" name="title" placeholder="Title" required>
-    </div>
-
-    <div class="form-group">
-      <label for="description">Description *</label>
-      <input type="text" class="form-control" id="description" name="description" placeholder="Description" required>
-    </div>
-  %{-- --}%
-
     <f:with bean="project">
       <f:field property="title"/>
       <f:field property="description"/>
     </f:with>
-
     <g:submitButton name="create" class="btn btn-primary" value="${message(code: 'default.button.create.label', default: 'Create')}"/>
     <a href="/flowgate/project/list" class="btn btn-warning">Back</a>
   </g:form>

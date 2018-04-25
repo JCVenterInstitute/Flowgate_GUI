@@ -178,8 +178,7 @@ class ExperimentController {
     def create() {
         ArrayList<Project> projectList = Project.findAllByIsActive(true, [params: params])
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(Project.get(params?.pId?.toLong()), true)
-        respond new Experiment(params), model: [owner: springSecurityService.currentUser, projectList: projectList, pId: params?.pId, experimentList: experimentList
-        ]
+        respond new Experiment(params), model: [owner: springSecurityService.currentUser, projectList: projectList, pId: params?.pId, experimentList: experimentList]
     }
 
     @Transactional
@@ -193,14 +192,15 @@ class ExperimentController {
         }
         if (experiment.hasErrors()) {
             transactionStatus.setRollbackOnly()
-            respond experiment.errors, view:'create'
+            respond experiment.errors, view:'create', model: [pId: params?.pId]
             return
         }
         experiment.save flush:true
-        ExperimentUser.create(experiment, springSecurityService.currentUser, 'owner')
+        ExperimentUser.create(experiment, springSecurityService.currentUser, 'owner').save(flush: true)
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title.take(20)+'... '])
+//                redirect view: 'index', params:[eId: experiment.id]
                 redirect controller: 'experiment', action: 'index', params:[eId: experiment.id]
             }
             '*' { respond experiment, [status: CREATED] }
@@ -226,7 +226,7 @@ class ExperimentController {
         experiment.save flush:true
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title.take(20)+'... '])
                 redirect controller: 'experiment', action: 'index', params:[eId: experiment.id]
             }
             '*'{ respond experiment, [status: OK] }
@@ -246,7 +246,7 @@ class ExperimentController {
         }
         experiment.isActive = false
         experiment.save flush:true
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title])
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title.take(20)+'... '])
         redirect view: 'index', params: [pId: experiment.project.id]
     }
 
@@ -262,7 +262,7 @@ class ExperimentController {
         experiment.delete flush:true
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title.take(20)+'... '])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
@@ -272,7 +272,7 @@ class ExperimentController {
     protected void notFound() {
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'experiment.label', default: 'Experiment'), params.id])
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title.take(20)+'... '])
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }
