@@ -73,6 +73,7 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
       to adminEmail
       subject "New user registration for approval"
       html body
+
     }
     redirect uri: registerPostRegisterUrl ?: successHandlerDefaultTargetUrl
   }

@@ -1,3 +1,12 @@
+<style>
+#metaBox {
+  border: black 1px solid;
+  padding: 10px 10px 10px 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 700px;
+}
+</style>
 <p>&nbsp;</p>
 <p><strong>Filter</strong>
 <br/>
@@ -5,7 +14,6 @@
 <div id="metaBox">
   <g:each in="${experiment?.expMetadatas?.findAll{it.dispOnFilter}?.sort{it.mdCategory}?.mdCategory?.unique()}" var="catgy">
     <p>${catgy}</p>
-    %{--<g:each in="${experiment?.expMetadatas?.findAll{(it.mdCategory == catgy) && it.dispOnFilter}?.sort{it.dispOrder} }" var="catGy">--}%
     <g:each in="${experiment?.expMetadatas?.findAll{it.mdCategory == catgy}?.sort{it.dispOrder} }" var="catGy">
       <p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>${catGy.mdKey}</strong></p>
       <g:each in="${experiment?.expMetadatas?.find{it.mdKey == catGy.mdKey}?.mdVals?.sort{it.dispOrder}}" var="mVals">

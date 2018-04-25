@@ -201,8 +201,8 @@ class ExperimentController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title.take(20)+'... '])
-//                redirect experiment
-                redirect view: 'index', params:[eId: experiment.id]
+//                redirect view: 'index', params:[eId: experiment.id]
+                redirect controller: 'experiment', action: 'index', params:[eId: experiment.id]
             }
             '*' { respond experiment, [status: CREATED] }
         }
@@ -227,8 +227,8 @@ class ExperimentController {
         experiment.save flush:true
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.id])
-                redirect experiment
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title.take(20)+'... '])
+                redirect controller: 'experiment', action: 'index', params:[eId: experiment.id]
             }
             '*'{ respond experiment, [status: OK] }
         }
@@ -247,7 +247,7 @@ class ExperimentController {
         }
         experiment.isActive = false
         experiment.save flush:true
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.id])
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title.take(20)+'... '])
         redirect view: 'index', params: [pId: experiment.project.id]
     }
 
@@ -263,7 +263,7 @@ class ExperimentController {
         experiment.delete flush:true
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title.take(20)+'... '])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
@@ -273,7 +273,7 @@ class ExperimentController {
     protected void notFound() {
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'experiment.label', default: 'Experiment'), params.id])
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title.take(20)+'... '])
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }

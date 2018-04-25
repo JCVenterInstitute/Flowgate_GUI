@@ -250,7 +250,7 @@ class ProjectController {
         project.save flush:true
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'project.label', default: 'Project'), project.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'project.label', default: 'Project'), project.title])
 //                redirect project
                 redirect view: 'index'
             }
@@ -271,7 +271,7 @@ class ProjectController {
         }
         project.isActive = false
         project.save flush:true
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'project.label', default: 'Project'), project.id])
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'project.label', default: 'Project'), project.title])
         redirect view: 'index'
     }
 
@@ -296,7 +296,7 @@ class ProjectController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'project.label', default: 'Project'), project.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'project.label', default: 'Project'), project.title])
 //                redirect action:"index", method:"GET"
                 redirect view: 'index'
             }

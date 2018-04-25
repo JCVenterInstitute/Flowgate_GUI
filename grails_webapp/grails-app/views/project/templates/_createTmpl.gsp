@@ -1,5 +1,5 @@
 <div id="create-project" class="content scaffold-create" role="main">
-  <h1><g:message code="default.create.label" args="[entityName]"/></h1>
+  <h1 class="page-header"><g:message code="default.create.label" args="[entityName]"/></h1>
   <g:if test="${flash.message}">
     <div class="message" role="status">${flash.message}</div>
   </g:if>
@@ -12,16 +12,12 @@
       </g:eachError>
     </ul>
   </g:hasErrors>
-  <g:form action="save">
-    <fieldset class="form">
-      <f:with bean="project">
-        <f:field property="title"/>
-        <f:field property="description"/>
-      </f:with>
-    </fieldset>
-    <fieldset class="text-center">
-      <g:submitButton name="create" class="save btn btn-success"
-                      value="${message(code: 'default.button.create.label', default: 'Create')}"/>
-    </fieldset>
+  <g:form action="save" class="col-xs-6 col-sm-3">
+    <f:with bean="project">
+      <f:field property="title"/>
+      <f:field property="description"/>
+    </f:with>
+    <g:submitButton name="create" class="btn btn-primary" value="${message(code: 'default.button.create.label', default: 'Create')}"/>
+    <a href="/flowgate/project/list" class="btn btn-warning">Back</a>
   </g:form>
 </div>
