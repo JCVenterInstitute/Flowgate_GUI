@@ -39,40 +39,19 @@ class FgUtilsTagLib {
         }
     }
 
-    /*
+    /* */
     def render2 = {attrs ->
         AnalysisServer analysisServer = AnalysisServer.get(attrs?.analysisServerId)
         if(attrs.href && attrs.href!='' && analysisServer) {
-            String outPut ="""
-                            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
-                            <script type="text/x-mathjax-config;executed=true">
-                                MathJax.Hub.Config({
-                                    tex2jax: {
-                                        inlineMath: [ ['\$','\$'], ["\\\\(","\\\\)"] ],
-                                        displayMath: [ ['\$\$','\$\$'], ["\\\\[","\\\\]"] ],
-                                        processEscapes: true,
-                                        processEnvironments: true
-                                    },
-                                    // Center justify equations in code and markdown cells. Elsewhere
-                                    // we use CSS to left justify single line equations in code cells.
-                                    displayAlign: 'center',
-                                    "HTML-CSS": {
-                                        styles: {'.MathJax_Display': {"margin": 0}},
-                                        linebreaks: { automatic: true }
-                                    }
-                                });
-                            </script>
-                            """
             Document document = Jsoup.connect(attrs.href).header("Authorization", utilsService.authHeader(analysisServer.userName, analysisServer.userPw)).get()
             Element element = document.getElementById("notebook")
-            outPut += element?.text()
-            out << outPut
+            out << element
         }
         else {
             out << 'Error: no report file found!'
         }
     }
-    */
+    /* */
 
     def renderHtmlFile = {attrs ->
         def htmlFile = grailsApplication.mainContext.getResource("classpath:resources/$attrs.fileName").file
