@@ -4,6 +4,15 @@
   <meta name="layout" content="main" />
   <g:set var="entityName" value="${message(code: 'analysis.label', default: 'Analysis')}" />
   <title><g:message code="default.show.label" args="[entityName]" /></title>
+  <style>
+    footer{
+      z-index: 101;
+    }
+    .fieldcontain{
+      padding-left: 30px;
+    }
+  </style>
+  <asset:javascript src="jquery-2.2.0.min.js"/>
 </head>
 
 <body>
@@ -84,6 +93,7 @@
     <br/>
     <div class="row" style="max-width: 100%">
       <div class="col-sm-12">
+        <g:render template="results/resultsFileLst" />
         %{--<g:render template="results/resultsGrid" />--}%
         <g:render template="results/resultsReport" />
       </div>

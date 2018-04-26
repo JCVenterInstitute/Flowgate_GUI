@@ -3,10 +3,9 @@
   <div class="panel panel-default">
     <div class="bootcards-summary-item ${session?.searchLst?.find { it == project?.id } != null ? 'findSel' : ''}">
       <div class="panel-body">
-        %{--<i class="fa fa-3x fa-file-text-o" style="padding-bottom: 10px;"></i>--}%
         <i class="fa fa-3x fa-${session?.projectOpenId?.toLong() == project?.id ? 'folder-open' : 'folder'}-o"
            style="padding-bottom: 10px;"></i>
-        <h4>${project?.title.take(20)+'...'}
+        <h4>${project?.title?.take(20)+'...'}
           <span class="label label-success"><i class="fa fa-unlock"></i></span>
         </h4>
       </div>
