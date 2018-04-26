@@ -4,6 +4,8 @@ class ReagentPanel {
 
 //    static belongsTo = [ExpFile]
 
+    static hasMany = [reagents: Reagent]
+
     String reagentPanelName
 
     static constraints = {
@@ -12,5 +14,6 @@ class ReagentPanel {
 
     static mapping ={
         reagentPanelName sqlType: 'varchar(512)'
+        reagents         nullable : true
     }
 }

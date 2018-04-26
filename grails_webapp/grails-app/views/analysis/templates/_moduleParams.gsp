@@ -6,6 +6,7 @@
         <label for="mp-${moduleParam?.id}-ds" class="col-sm-2 control-label">${moduleParam?.pKey} [dataset]</label>
         <div class="col-sm-10">
         <g:if test="${moduleParam?.pType == 'ds'}">
+          <g:hiddenField name="mp-meta" value="${moduleParam?.id}" />
           <g:select class="form-control" style="width: 40%;display:inline;" id="mp-${moduleParam?.id}-ds"
                     from="${Dataset.findAllByExperiment(Experiment.get(params.eId))}" name="mp-${moduleParam?.id}-ds"
                     optionKey="id" optionValue="name" value="${moduleParam?.defaultVal}"/>
@@ -52,6 +53,7 @@
           <label for="mp-${moduleParam?.id}-ds" class="col-sm-2 control-label">${moduleParam?.pKey} [dataset]</label>
           <div class="col-sm-10">
             <g:if test="${moduleParam?.pType == 'ds'}">
+              <g:hiddenField name="mp-meta" value="${moduleParam?.id}" />
               <g:select style="width: 40%;display:inline" id="mp-${moduleParam?.id}-ds"
                         from="${Dataset.findAllByExperiment(Experiment.get(params.eId))}" name="mp-${moduleParam?.id}-ds"
                         optionKey="id" optionValue="name" value="${moduleParam?.defaultVal}"/>

@@ -40,7 +40,6 @@
       <li><a href="#tabVisit" role="tab" data-toggle="tab">Visit</a></li>
       <li><a href="#tabStimulation" role="tab" data-toggle="tab">Stimulation</a></li>
       <li><a href="#tabReagents" role="tab" data-toggle="tab">Reagents</a></li>
-      <li><a href="#tabPanel" role="tab" data-toggle="tab">Panel</a></li>
     </ul>
     <div class="tab-content">
       <div class="tab-pane active" role="tabpanel" id="tabDemogr">
@@ -53,11 +52,13 @@
         <g:render template="annMasterTbl" model="[category: 'Stimulation']" />
       </div>
       <div class="tab-pane" role="tabpanel" id="tabReagents">
-        <g:render template="annMasterTbl" model="[category: 'Reagents']" />
+        <g:render template="annReagentsMasterTbl" model="[category: 'Reagents']" />
       </div>
-      <div class="tab-pane" role="tabpanel" id="tabPanel">
-        <g:render template="annMasterTbl" model="[category: 'Panel']" />
-      </div>
+      %{--
+      <div class="tab-pane" role="tabpanel" id="tabPanel">--}%
+        %{--<g:render template="annMasterTbl" model="[category: 'Panel']" />--}%
+      %{--</div>
+      --}%
     </div>
   </div>
 </div>
