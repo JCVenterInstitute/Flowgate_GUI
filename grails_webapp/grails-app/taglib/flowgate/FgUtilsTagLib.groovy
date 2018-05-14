@@ -45,6 +45,15 @@ class FgUtilsTagLib {
         if(attrs.href && attrs.href!='' && analysisServer) {
             Document document = Jsoup.connect(attrs.href).header("Authorization", utilsService.authHeader(analysisServer.userName, analysisServer.userPw)).get()
             Element element = document.getElementById("notebook")
+            out << """
+                     <style>
+                     a.anchor-link:link {
+                        text-decoration: none;
+                        padding: 0px 20px;
+                        visibility: hidden;
+                    }
+                    </style>   
+                    """
             out << element
         }
         else {
