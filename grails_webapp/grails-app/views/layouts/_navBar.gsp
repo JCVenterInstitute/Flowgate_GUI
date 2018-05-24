@@ -14,24 +14,17 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="flowgate-navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li class="nav-item">
-          <sec:ifLoggedIn>
-            <a class="nav-link" href="${createLink(uri: '/project/list')}">Home</a>
-          </sec:ifLoggedIn>
-          <sec:ifNotLoggedIn>
-            <a class="nav-link" href="${createLink(uri: '/')}">Home</a>
-          </sec:ifNotLoggedIn>
-        </li>
         <sec:ifLoggedIn>
           <li class="nav-item">
             <a class="nav-link" href="${createLink(uri: '/project/list')}">Projects</a>
           </li>
           <g:pageProperty name="page.nav" />
-          <li class="nav-item">
-            <a class="nav-link" href="${createLink(uri: '/')}"><sec:username/></a>
-          </li>
-          <li class="nav-item">
-            <g:link class="nav-link" controller="logout">Logout</g:link>
+          <li class="dropdown" style="min-width: 100px;">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+               aria-expanded="false"><i class="fa fa-user" style="margin-right: 5px;"></i> <sec:username/> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><g:link controller="logout">Logout</g:link></li>
+            </ul>
           </li>
         </sec:ifLoggedIn>
         <sec:ifNotLoggedIn>
