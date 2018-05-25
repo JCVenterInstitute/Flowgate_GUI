@@ -66,7 +66,8 @@ class AnalysisController {
             analysisList = Analysis.findAllByUserAndAnalysisStatusNotInList(currentUser, [-2], params)
             jobList = Analysis.findAllByUserAndAnalysisStatusNotInList(currentUser, [3,-2])*.jobNumber
         }
-        respond analysisList, model:[analysisCount: analysisList.size(), eId: params?.eId, jobList: jobList]
+        Experiment experiment = Experiment.findById(params.eId)
+        respond analysisList, model:[analysisCount: analysisList.size(), eId: params?.eId, jobList: jobList, experiment: experiment]
     }
 
     def show(Analysis analysis) {
@@ -196,7 +197,8 @@ class AnalysisController {
 
     def create() {
         Analysis analysis = new Analysis(params)
-        respond analysis, model: [eId: params.eId]
+        Experiment experiment = Experiment.findById(params.eId)
+        respond analysis, model: [eId: params.eId, experiment: experiment]
     }
 
     def checkStatus(){

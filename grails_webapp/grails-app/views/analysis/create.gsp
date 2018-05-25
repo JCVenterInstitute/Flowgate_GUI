@@ -5,6 +5,14 @@
   <meta name="layout" content="main"/>
   <g:set var="entityName" value="${message(code: 'analysis.label', default: 'Analysis')}"/>
   <title><g:message code="default.create.label" args="[entityName]"/></title>
+  <style>
+  .fade {
+    display:none;
+  }
+  .fade.in {
+    display:block;
+  }
+  </style>
 </head>
 
 <body>
@@ -21,6 +29,11 @@
 </content>
 
 <div class="container">
+  <ul class="breadcrumb">
+    <li><a href="/flowgate/project/index?pId=${experiment?.project?.id}" title="${experiment?.project?.title}">${experiment?.project?.title}</a></li>
+    <li><a href="/flowgate/experiment/index?eId=${experiment?.id}" title="${experiment?.title}">${experiment?.title}</a></li>
+    <li class="active">Analysis</li>
+  </ul>
   <h1 class="page-header"><g:message code="analysis.create.label" default="Add New Analysis"/></h1>
   <g:set var="sss" bean="springSecurityService"/>
   <g:form controller="analysis" action="save" enctype="multipart/form-data">
