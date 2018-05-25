@@ -61,6 +61,13 @@
       --}%
     </div>
   </div>
+  <div id="colCreateModal">
+    <g:render template="annotationTmpl/colCreateModal" model="[experiment: experiment]"/>
+  </div>
+  <div id="colEditModal">
+    %{--<g:render template="annotationTmpl/colEditModal" model="[experiment: experiment, eMeta: eMeta]"/>--}%
+  </div>
+
 </div>
 <br/>
 <br/>
@@ -90,14 +97,90 @@
 
   }
 
-  function eMetaValueChange(mId, valId){
+  function eMetaValueChange(mId, valId) {
     $.ajax({
       url: "${g.createLink(controller: 'expFile', action: 'axMetaChange') }",
       dataType: 'json',
       data: {id: mId, valId: valId},
-      success:  function (data, status, xhr){
+      success: function (data, status, xhr) {
         console.log('success');
         $("#fcsTbl").html(data.tablTabl);
+      },
+      error: function (request, status, error) {
+        console.log('ajxError!');
+      },
+      complete: function (xhr, status) {
+        console.log('ajxComplete!');
+      }
+    });
+  }
+
+  function eMetaActionChange(mId, colAction){
+    switch(colAction){
+      case 'Delete':
+        if (confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}')){
+          $.ajax({
+            url: "${g.createLink(controller: 'expFile', action: 'axMetaActionChange') }",
+            dataType: 'json',
+            data: {id: mId, colAction: colAction},
+            success:  function (data, status, xhr){
+              console.log('success');
+              $("#wholeTbl").html(data.tablTabl);
+            },
+            error: function(request, status, error){
+              console.log('ajxError!');
+            },
+            complete: function(xhr, status){
+              console.log('ajxComplete!');
+            }
+          });
+        }
+        break;
+      case 'Edit':
+          $.ajax({
+            url: "${g.createLink(controller: 'expFile', action: 'axMetaActionChange') }",
+            dataType: 'json',
+            data: {id: mId, colAction: colAction},
+            success:  function (data, status, xhr){
+              console.log('success');
+              $("#colEditModal").html(data.edModalTmpl);
+            },
+            error: function(request, status, error){
+              console.log('ajxError!');
+            },
+            complete: function(xhr, status){
+              console.log('ajxComplete!');
+            }
+          });
+        break;
+
+      default:
+        $.ajax({
+          url: "${g.createLink(controller: 'expFile', action: 'axMetaActionChange') }",
+          dataType: 'json',
+          data: {id: mId, colAction: colAction},
+          success:  function (data, status, xhr){
+            console.log('success');
+            $("#wholeTbl").html(data.tablTabl);
+          },
+          error: function(request, status, error){
+            console.log('ajxError!');
+          },
+          complete: function(xhr, status){
+            console.log('ajxComplete!');
+          }
+        });
+    }
+  }
+
+  function showAllHidden(eId, category){
+    $.ajax({
+      url: "${g.createLink(controller: 'expFile', action: 'axShowAllCols') }",
+      dataType: 'json',
+      data: {id: eId, category: category},
+      success:  function (data, status, xhr){
+        console.log('success');
+        $("#wholeTbl").html(data.tablTabl);
       },
       error: function(request, status, error){
         console.log('ajxError!');

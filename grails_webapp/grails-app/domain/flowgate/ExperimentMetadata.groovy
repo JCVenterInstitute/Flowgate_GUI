@@ -9,9 +9,10 @@ class ExperimentMetadata {
     String mdKey
     Integer dispOrder
     Boolean dispOnFilter = true
+    Boolean visible = true
 
     static constraints = {
-        mdCategory nullable: true, blank: true
+        mdCategory nullable: true, blank: true //, inList: ['Demographics','Visit','Stimulation','Reagents']
         expFiles nullable: true, blank: true
         mdVals nullable: true, blank: true
 
