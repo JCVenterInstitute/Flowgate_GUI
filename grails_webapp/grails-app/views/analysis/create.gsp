@@ -5,6 +5,14 @@
   <meta name="layout" content="main"/>
   <g:set var="entityName" value="${message(code: 'analysis.label', default: 'Analysis')}"/>
   <title><g:message code="default.create.label" args="[entityName]"/></title>
+  <style>
+  .fade {
+    display:none;
+  }
+  .fade.in {
+    display:block;
+  }
+  </style>
 </head>
 
 <body>
