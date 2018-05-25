@@ -29,7 +29,12 @@
   </div>
 </g:if>
 <g:else>
-    <div id="show-analysis" class="content scaffold-show" role="main">
+  <div id="show-analysis" class="content scaffold-show" role="main">
+    <ul class="breadcrumb">
+      <li><a href="/flowgate/project/index?pId=${analysis?.experiment?.project?.id}" title="${analysis?.experiment?.project?.title}">${analysis?.experiment?.project?.title}</a></li>
+      <li><a href="/flowgate/experiment/index?eId=${analysis?.experiment?.id}" title="${analysis?.experiment?.title}">${analysis?.experiment?.title}</a></li>
+      <li class="active">Analysis</li>
+    </ul>
     <h3 class="text-center"><g:message code="analysis.showResult.label" args="[entityName]" default="Analysis Results" /></h3>
     <g:if test="${flash.message}">
       <div class="message" role="status">${flash.message}</div>

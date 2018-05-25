@@ -19,6 +19,11 @@
   %{--</ul>--}%
 </div>
 <div id="edit-analysis" class="content scaffold-edit" role="main">
+  <ul class="breadcrumb">
+    <li><a href="/flowgate/project/index?pId=${analysis?.experiment?.project?.id}" title="${analysis?.experiment?.project?.title}">${analysis?.experiment?.project?.title}</a></li>
+    <li><a href="/flowgate/experiment/index?eId=${analysis?.experiment?.id}" title="${analysis?.experiment?.title}">${analysis?.experiment?.title}</a></li>
+    <li class="active">Analysis</li>
+  </ul>
   <h3 class="text-center"><g:message code="default.edit.label" args="[entityName]" /></h3>
   <g:if test="${flash.message}">
     <div class="message" role="status">${flash.message}</div>
