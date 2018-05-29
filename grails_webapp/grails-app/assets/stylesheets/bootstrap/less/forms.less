@@ -161,6 +161,27 @@ output {
   }
 }
 
+// Readonly controls as plain text
+//
+// Apply class to a readonly input to make it appear like regular plain
+// text (without any border, background color, focus indicator)
+
+.form-control-plaintext {
+  display: block;
+  width: 100%;
+  padding: @padding-base-vertical @padding-base-horizontal;
+  margin-bottom: 0; // match inputs if this class comes on inputs with default margins
+  line-height: @line-height-base;
+  background-color: transparent;
+  border: solid transparent;
+  border-width: 1px solid 0;
+
+  &.form-control-sm,
+  &.form-control-lg {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
 
 // Search inputs in iOS
 //

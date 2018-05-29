@@ -2,29 +2,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="layout" content="main" />
-  <g:set var="entityName" value="${message(code: 'analysis.label', default: 'Analysis')}" />
-  <title><g:message code="default.edit.label" args="[entityName]" /></title>
+  <meta name="layout" content="main"/>
+  <g:set var="entityName" value="${message(code: 'analysis.label', default: 'Analysis')}"/>
+  <title><g:message code="default.edit.label" args="[entityName]"/></title>
 </head>
 
 <body>
-%{--<a href="#edit-analysis" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>--}%
-<div class="nav" role="navigation">
-  %{--<ul>--}%
-    %{--<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>--}%
-    %{--<li><a class="home" href="${createLink(controller: 'experiment', action: 'index', params: [eId: this.analysis.experiment.id])}"><g:message code="default.home.label"/></a></li>--}%
-    %{--<li><a class="home" href="${createLink(uri: '/experiment/index?eId='+ this.analysis.experiment.id)}"><g:message code="default.home.label"/></a></li>--}%
-    %{--<li><g:link class="list" action="index" params="[eId: this.analysis.experiment.id]" ><g:message code="default.list.label" args="[entityName]" /></g:link></li>--}%
-    %{--<li><g:link class="create" action="create" params="[eId: this.analysis.experiment.id]"><g:message code="default.new.label" args="[entityName]" /></g:link></li>--}%
-  %{--</ul>--}%
-</div>
-<div id="edit-analysis" class="content scaffold-edit" role="main">
+
+<div class="container">
   <ul class="breadcrumb">
     <li><a href="/flowgate/project/index?pId=${analysis?.experiment?.project?.id}" title="${analysis?.experiment?.project?.title}">${analysis?.experiment?.project?.title}</a></li>
     <li><a href="/flowgate/experiment/index?eId=${analysis?.experiment?.id}" title="${analysis?.experiment?.title}">${analysis?.experiment?.title}</a></li>
     <li class="active">Analysis</li>
   </ul>
-  <h3 class="text-center"><g:message code="default.edit.label" args="[entityName]" /></h3>
+
+  <h1 class="page-header"><g:message code="default.edit.label" args="[entityName]"/></h1>
   <g:if test="${flash.message}">
     <div class="message" role="status">${flash.message}</div>
   </g:if>
@@ -35,43 +27,48 @@
       </g:eachError>
     </ul>
   </g:hasErrors>
-  <g:form resource="${this.analysis}" method="PUT">
-    <g:hiddenField name="version" value="${this.analysis?.version}" />
-    <fieldset class="form">
+  <g:form resource="${this.analysis}" method="PUT" class="form-horizontal">
+    <g:hiddenField name="version" value="${this.analysis?.version}"/>
+
     <f:with bean="analysis">
-      <div class="fieldcontain">
-        <label for="exp">Experiment</label>
-        <f:display id="exp" property="experiment.title" />
-        <g:hiddenField name="experimentId" value="${this.analysis.experiment}" />
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="exp">Experiment</label>
+
+        <div class="col-sm-10"><f:display id="exp" property="experiment.title"/></div>
+        <g:hiddenField name="experimentId" value="${this.analysis.experiment.id}"/>
       </div>
       <f:field property="analysisName" required="true"/>
       <f:field property="analysisDescription" required="false"/>
       <f:field property="analysisStatus" required="false"/>
-      %{--<f:field property="jobNumber" disabled="true" />--}%
-      <div class="fieldcontain">
-        <label for="jobNumber">Job Number</label>
-        <f:display id="jobNumber" property="jobNumber" />
-        <g:hiddenField name="jobNumber" value="${this.analysis.jobNumber}" />
+    %{--<f:field property="jobNumber" disabled="true" />--}%
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="jobNumber">Job Number</label>
+
+        <div class="col-sm-10"><f:display id="jobNumber" property="jobNumber"/></div>
+        <g:hiddenField name="jobNumber" value="${this.analysis.jobNumber}"/>
       </div>
 
-      <div class="fieldcontain">
-        <label for="usr">Sent by</label>
-        <f:display id="usr" property="user.username" />
-        <g:hiddenField name="userId" value="${this.analysis.user}" />
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="usr">Sent by</label>
+
+        <div class="col-sm-10"><f:display id="usr" property="user.username"/></div>
+        <g:hiddenField name="userId" value="${this.analysis.user}"/>
       </div>
 
-      <div class="fieldcontain">
-        <label for="tstmp">Date Created</label>
-        <f:display id="tstmp" property="timestamp" />
-        <g:hiddenField name="timestamp" value="${this.analysis.timestamp}" />
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="tstmp">Date Created</label>
+
+        <div class="col-sm-10"><f:display id="tstmp" property="timestamp"/></div>
+        <g:hiddenField name="timestamp" value="${this.analysis.timestamp}"/>
       </div>
     </f:with>
-  </fieldset>
-  %{--<fieldset class="buttons">--}%
-  <fieldset class="text-center">
-    <input class="btn btn-success save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />
-  </fieldset>
-</g:form>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <g:submitButton name="update" class="btn btn-success" value="${message(code: 'default.button.update.label', default: 'Update')}"/>
+      </div>
+    </div>
+  </g:form>
 </div>
 </body>
 </html>
