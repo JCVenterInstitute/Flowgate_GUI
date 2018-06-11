@@ -12,11 +12,7 @@
 <g:render template="/shared/nav"/>
 <content tag="topBtnBar">
   <div id="topBtnBar">
-    <div class="row">
-      <div class="right">
-        <g:render template="templates/indexTopBtnBar" model="[experiment: experiment]"/>
-      </div>
-    </div>
+    <g:render template="templates/indexTopBtnBar" model="[experiment: experiment]"/>
   </div>
   <g:render template="/shared/errorsMsgs" model="[bean: this.experiment]"/>
 </content>
