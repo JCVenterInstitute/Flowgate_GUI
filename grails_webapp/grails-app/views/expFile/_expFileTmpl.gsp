@@ -58,10 +58,10 @@
       </div>
     </div>
     <div class="panel-body ${session.expFileOpenIds?.contains(expFile?.id) ?: 'collapse'}"  >
-      ${expFile.fileName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-list-alt"></i>
+      ${expFile.fileName}%{--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-list-alt"></i>
       &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-table"></i>
       &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-picture-o"></i>
-      &nbsp;&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-apple"></i>
+      &nbsp;&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-apple"></i>--}%
       %{--&nbsp;&nbsp;&nbsp;--- no owner no buttons--}%
     </div>
   </div>

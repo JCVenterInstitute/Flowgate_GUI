@@ -93,13 +93,13 @@
     </g:isOwnerOrRoles>
 
     <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
-      <span data-toggle="tooltip" title="FCS-file Annotation">
+      %{--<span data-toggle="tooltip" title="FCS File Annotation">
         <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'annotationTbl', id: experiment?.id)}" >
         <div class="btn btn-default" style="cursor: pointer">
-          <i class="fa fa-adn fa-lg"></i>FCS-file Annotation
+          <i class="fa fa-adn fa-lg"></i>FCS File Annotation
         </div>
       </a>
-      </span>
+      </span>--}%
     </g:isOwnerOrRoles>
 
     <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
