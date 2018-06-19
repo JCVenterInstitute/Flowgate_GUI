@@ -97,9 +97,9 @@
       <ul class="breadcrumb">
         <li><a href="/flowgate/project/index?pId=${experiment?.project?.id}" title="${experiment?.project?.title}">${experiment?.project?.title}</a></li>
         <li><a href="/flowgate/experiment/index?eId=${experiment?.id}" title="${experiment?.title}">${experiment?.title}</a></li>
-        <li class="active">Analysis</li>
+        <li class="active">List of Analysis Task</li>
       </ul>
-      <h1 class="page-header"><g:message code="default.list.label" args="[entityName]"/></h1>
+      <h1 class="page-header">List of Analysis Task</h1>
 
       <div id="analysisListTabl">
         <g:render template="templates/analysisListTbl" model="[]"/>

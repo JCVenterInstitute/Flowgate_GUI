@@ -32,16 +32,16 @@
   <ul class="breadcrumb">
     <li><a href="/flowgate/project/index?pId=${experiment?.project?.id}" title="${experiment?.project?.title}">${experiment?.project?.title}</a></li>
     <li><a href="/flowgate/experiment/index?eId=${experiment?.id}" title="${experiment?.title}">${experiment?.title}</a></li>
-    <li class="active">Analysis</li>
+    <li class="active">Create New Analysis</li>
   </ul>
-  <h1 class="page-header"><g:message code="analysis.create.label" default="Add New Analysis"/></h1>
+  <h1 class="page-header"><g:message code="analysis.create.label" default="Create New Analysis"/></h1>
   <g:set var="sss" bean="springSecurityService"/>
   <g:form controller="analysis" action="save" enctype="multipart/form-data">
     <div class="form-horizontal">
-      <div class="col-sm-offset-11">
+      %{--<div class="col-sm-offset-11">
         <g:link url="https://google.com" ><div class="btn btn-primary">Jupyter Link</div></g:link>
       </div>
-      <br/>
+      <br/>--}%
       <g:hiddenField name="user" value="${sss?.currentUser?.id}"/>
       <g:hiddenField name="analysisStatus" value="${1}"/>
       <g:hiddenField name="eId" value="${params?.eId}"/>
@@ -81,7 +81,7 @@
             </div>
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
-                <g:submitButton name="create" class="save btn btn-primary" value="${message(code: 'analysis.create.btn.label', default: 'Run/Submit')}"/>
+                <g:submitButton name="create" class="save btn btn-primary" value="${message(code: 'analysis.create.btn.label', default: 'Submit')}"/>
                 <a href="/flowgate/analysis/index?eId=${eId}" class="btn btn-warning"><i class="fa fa-times"></i>Cancel</a>
               </div>
             </div>

@@ -10,7 +10,7 @@
 <div class="container">
   <h1 class="page-header">${experiment?.title}</h1>
 
-  <h3 class="sub-header"><g:message code="default.fcsFile.create.label" default="Upload FCS-Files"/></h3>
+  <h3 class="sub-header"><g:message code="default.fcsFile.create.label" default="Upload FCS Files"/></h3>
   <g:if test="${flash.message}">
     <div class="message" role="status">${flash.message}</div>
   </g:if>
