@@ -21,9 +21,9 @@
                   </div>
                 </g:isOwner>
               </sec:ifNotGranted>
-              <div class="btn-toolbar btn btn-default" onclick="toggleExpFileOpen(${experiment?.id},${expFile?.id})">
+              %{--<div class="btn-toolbar btn btn-default" onclick="toggleExpFileOpen(${experiment?.id},${expFile?.id})">
                 <i class="glyphicon ${session.expFileOpenIds?.contains(expFile?.id) ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down' }" ></i>
-              </div>
+              </div>--}%
             </div>
           </div>
         </div>
@@ -46,7 +46,7 @@
             ${expFile?.title}
           %{--</div>--}%
         </div>
-        <div class="col-sm-1" style="padding: 0;" >
+        %{--<div class="col-sm-1" style="padding: 0;" >
           <div class="pull-right">
             <div class="btn-group">
               <div class="btn-toolbar btn btn-default" onclick="toggleExpFileOpen(${experiment?.id},${expFile?.id})">
@@ -54,7 +54,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>--}%
       </div>
     </div>
     <div class="panel-body ${session.expFileOpenIds?.contains(expFile?.id) ?: 'collapse'}"  >
