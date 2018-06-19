@@ -27,11 +27,11 @@
               &nbsp;&nbsp;${experiment?.title.take(20) + '...'}
               %{--&nbsp;&nbsp;{{ strTruncate(experiment.title, 30, '...') }}--}%
             </span>
-            <g:if test="${session?.experimentOpenId == experiment?.id}">
+            %{--<g:if test="${session?.experimentOpenId == experiment?.id}">
               <g:if test="${experiment?.expFiles?.size() > 0}">
-              %{-- TODO put in controller --}%
+              --}%%{-- TODO put in controller --}%%{--
                 <g:each var="expFile" in="${ExpFile.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment?.id?.toLong(), true), true).sort { it.id }}">
-                %{--<ul (click)="boxToggle(elbox)">--}%
+                --}%%{--<ul (click)="boxToggle(elbox)">--}%%{--
                   <ul>
                     <li>
                       <i class="fa fa-${session?.expFileOpenIds?.contains(expFile?.id) ? 'folder-open' : 'folder'}-o"></i>&nbsp;&nbsp;${expFile?.title}
@@ -39,7 +39,7 @@
                   </ul>
                 </g:each>
               </g:if>
-            </g:if>
+            </g:if>--}%
           </li>
         </g:each>
       </ul>
