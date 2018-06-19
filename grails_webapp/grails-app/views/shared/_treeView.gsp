@@ -3,7 +3,7 @@
   <div style="cursor: pointer;" onclick="window.location.href = '${createLink(controller: 'project', action: 'list')}'">${'Projects'}</div>
 </h3>
 
-<div class="input-group" style="padding-right: 10px;">
+%{--<div class="input-group" style="padding-right: 10px;">
   <span class="input-group-addon">
     <i class="fa fa-search"></i>
   </span>
@@ -12,7 +12,7 @@
     <span class="input-group-addon" onclick="clearFilter()"><i class="fa fa-close"></i></span>
   </g:if>
 </div>
-<br/>
+<br/>--}%
 <ul>
   <g:each var="project" in="${projectList}" status="p">
     <li class="${session?.searchLst?.find { it == project?.id } != null ? 'findSel' : ''} folder" style="cursor: pointer" onclick="projectClick(${project?.id})"><i
