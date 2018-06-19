@@ -1,12 +1,18 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <meta name="layout" content="uploadLt"/>
+  <meta name="layout" content="wTreeSideBar"/>
   <g:set var="entityName" value="${message(code: 'uploadFcs.label', default: 'Upload FCS')}"/>
   <title><g:message code="default.uploadFcs.label" args="[entityName]" default="Upload FCS"/></title>
 </head>
 
 <body>
+<content tag="treeView">
+  <div id="projTree">
+    <g:render template="/shared/treeView" model="[projectList: projectList, experimentList: experimentList]"/>
+  </div>
+</content>
+<content tag="pgContent">
 <div class="container">
   <h1 class="page-header">${experiment?.title}</h1>
 
@@ -41,5 +47,6 @@
     <a href="/flowgate/experiment/index?eId=${eId}" class="btn btn-warning">Back</a>
   </g:uploadForm>
 </div>
+</content>
 </body>
 </html>

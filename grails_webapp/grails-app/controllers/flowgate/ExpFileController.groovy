@@ -199,7 +199,24 @@ class ExpFileController {
     }
 
     def expFileCreate(){
-        respond Experiment.get(params?.eId), model: [owner: springSecurityService.currentUser, eId: params?.eId ]
+        Experiment experiment = Experiment.findByIdAndIsActive(params?.eId?.toLong(), true)
+        if(experiment) {
+            User user = springSecurityService.currentUser
+            ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params)
+            ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(experiment?.project, true)
+            respond Experiment.get(params?.eId), model: [owner: springSecurityService.currentUser, eId: params?.eId, projectList: projectList, experimentList: experimentList]
+        } else {
+            if(experiment?.project){
+                redirect controller: 'project', view: 'index'
+            }
+            else {
+                request.withFormat {
+                    'html' { render view: '/error2', model: [message: g.message(message: 'error.experiment.noActive.message')]  }
+                    'json' { render(contentType: 'text/json') { 'this should go to gson view!'  }
+                    }
+                }
+            }
+        }
     }
 
     def expFileCreate2(){
