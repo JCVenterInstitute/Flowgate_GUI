@@ -8,7 +8,7 @@
   max-height: 635px;
 }
 </style>
-<p>&nbsp;</p>
+<p>FCS files assigned to this subset:</p>
 <div class="row">
   <div class="col-sm-12">
     <div class="pull-left btn btn-default" onclick="selAllAssFcs(${ds.id})" >Select All</div>

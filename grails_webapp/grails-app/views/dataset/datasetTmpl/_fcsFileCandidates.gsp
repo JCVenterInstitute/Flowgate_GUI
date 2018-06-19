@@ -8,7 +8,7 @@
   max-height: 700px;
 }
 </style>
-<p>&nbsp;</p>
+<p>FCS files in this experiment:</p>
 <div class="row">
   <div class="col-sm-12">
     %{--<g:actionSubmit class="pull-left btn btn-default" action="selAllCandFcs" id="${experiment?.id}"
