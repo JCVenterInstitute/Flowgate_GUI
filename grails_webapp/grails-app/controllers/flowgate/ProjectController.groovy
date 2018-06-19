@@ -182,8 +182,7 @@ class ProjectController {
         if(params?.pId)
             session.projectOpenId = params?.pId
         Project openProject = Project.findByIdAndIsActive(session.projectOpenId, true)
-        ArrayList<Project> projectList = user.username.equals("admin") ? Project.findAllByIsActive(true, [params: params])
-                : getProjectListForUser(user)
+        ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(openProject, true)
         respond projectList, model:[project: openProject, projectCount: projectList.size(), experimentList: experimentList]
     }
@@ -194,20 +193,9 @@ class ProjectController {
         params.max = Math.min(max ?: 10, 100)
         User user = springSecurityService.currentUser
 
-        def projectList = user.username.equals("admin") ? Project.findAllByIsActive(true, [params: params])
-                : getProjectListForUser(user)
+        def projectList = utilsService.getProjectListForUser(user, params)
 
         respond projectList, model: [projectCount: projectList.size()]
-    }
-
-    def getProjectListForUser(User user) {
-        def projectUserList = ProjectUser.findAllByUser(user);
-        List<Project> projectList = new ArrayList<Project>(projectUserList.size())
-        for(def projectUser : projectUserList) {
-            projectList.add(projectUser.project)
-        }
-
-        return projectList
     }
 
     def show(Project project) {
