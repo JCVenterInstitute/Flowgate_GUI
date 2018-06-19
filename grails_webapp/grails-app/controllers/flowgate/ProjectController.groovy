@@ -178,10 +178,12 @@ class ProjectController {
     @Secured(['ROLE_Admin','ROLE_User'])
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
+        User user = springSecurityService.currentUser
         if(params?.pId)
             session.projectOpenId = params?.pId
         Project openProject = Project.findByIdAndIsActive(session.projectOpenId, true)
-        ArrayList<Project> projectList = Project.findAllByIsActive(true, [params: params])
+        ArrayList<Project> projectList = user.username.equals("admin") ? Project.findAllByIsActive(true, [params: params])
+                : getProjectListForUser(user)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(openProject, true)
         respond projectList, model:[project: openProject, projectCount: projectList.size(), experimentList: experimentList]
     }
@@ -190,9 +192,22 @@ class ProjectController {
 //    @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        def projectList = Project.findAllByIsActive(true, [params: params])
-        respond projectList, model:[projectCount: projectList.size()]
+        User user = springSecurityService.currentUser
 
+        def projectList = user.username.equals("admin") ? Project.findAllByIsActive(true, [params: params])
+                : getProjectListForUser(user)
+
+        respond projectList, model: [projectCount: projectList.size()]
+    }
+
+    def getProjectListForUser(User user) {
+        def projectUserList = ProjectUser.findAllByUser(user);
+        List<Project> projectList = new ArrayList<Project>(projectUserList.size())
+        for(def projectUser : projectUserList) {
+            projectList.add(projectUser.project)
+        }
+
+        return projectList
     }
 
     def show(Project project) {
