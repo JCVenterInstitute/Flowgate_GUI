@@ -19,7 +19,7 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
       return [registerCommand: registerCommand]
     }
 
-    def user = uiPropertiesStrategy.setProperties(
+    /*def user = uiPropertiesStrategy.setProperties(
         email: registerCommand.email, username: registerCommand.username, affiliation: registerCommand.affiliation,
         reason: registerCommand.reason, accountLocked: true, enabled: true, User, null)
 
@@ -32,10 +32,25 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
       return [registerCommand: registerCommand]
     }
 
-    sendVerifyRegistrationMail registrationCode, user, registerCommand.email
+    sendVerifyRegistrationMail registrationCode, user, registerCommand.email*/
+
+    sendAlphaAccessRequest registerCommand
 
     [emailSent: true, registerCommand: registerCommand]
   }
+
+    def sendAlphaAccessRequest(RegisterCommand registerCommand) {
+        def body = "There is a new alpha release access request <br/><br/>" +
+                "<b>Name:</b> " + registerCommand.username + "<br/>" +
+                "<b>Email:</b> " + registerCommand.email + "<br/>" +
+                "<b>Comments:</b> " + ((registerCommand.reason == null) ? "" : registerCommand.reason) + "<br/>"
+        sendMail {
+            to "mqian@jcvi.org"
+            subject "New alpha release access request"
+            html body
+        }
+
+    }
 
   def verifyRegistration() {
 
@@ -78,7 +93,7 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
   }
 
   void afterPropertiesSet() {
-    super.afterPropertiesSet()
+    //super.afterPropertiesSet()
 
     RegisterCommand.User = User
     RegisterCommand.usernamePropertyName = usernamePropertyName
@@ -115,14 +130,14 @@ class RegisterCommand implements CommandObject {
         return
       }
 
-      if (User.findWhere((usernamePropertyName): value)) {
+      /*if (User.findWhere((usernamePropertyName): value)) {
         return 'registerCommand.username.unique'
-      }
+      }*/
     }
     email email: true
-    password validator: RegisterController.passwordValidator
-    password2 nullable: true, validator: RegisterController.password2Validator
-    affiliation nullable: false
+    password  nullable: true
+    password2 nullable: true
+    affiliation nullable: true
     reason nullable: true
   }
 }
