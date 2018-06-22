@@ -38,7 +38,7 @@ project=${experiment?.project}
       <div id="dsPanel">
         <g:render template="datasetTmpl/datasetPanel" model="[experiment: experiment, dsMode: params.dsMode]"/>
       </div>
-      <p>* All the changes will be automatically when you assign or remove fcs files</p>
+      <p>* All the changes will be automatically saved when you assign or remove fcs files</p>
       <div class="row mt-5">
         %{--<div class="col-sm-2">
           <div id="metaData">
