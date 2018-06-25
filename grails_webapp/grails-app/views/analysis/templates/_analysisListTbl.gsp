@@ -69,7 +69,7 @@
           <g:else>
             <td class="text-center">
               <g:if test="${p == 'analysisStatus'}">
-                <div id="job-${bean.jobNumber}">
+                <div id="job-${bean.jobNumber}" class="form-control-plaintext">
                   <i class=" fa fa-circle"
                      style="color: ${bean.analysisStatus == 1 ? 'lightgrey' : bean.analysisStatus == 2 ? 'orange' : bean.analysisStatus == 3 ? 'lawngreen' : bean.analysisStatus == -1 ? 'red' : 'brown'}"></i>
                   &nbsp;&nbsp;&nbsp;
@@ -78,12 +78,14 @@
               </g:if>
               <g:else>
                 <g:if test="${p == 'timestamp'}">
-                  <g:formatDate date="${bean.timestamp}" format="dd/MM/yyyy hh:mm:ss"/>
+                  <div class="form-control-plaintext"><g:formatDate date="${bean.timestamp}" format="dd/MM/yyyy hh:mm:ss"/></div>
                 </g:if>
                 <g:else>
-                  <f:display bean="${bean}"
-                             property="${p}"
-                             displayStyle="${displayStyle ?: 'table'}"/>
+                  <div style="margin-left: 40%;">
+                    <f:display bean="${bean}"
+                               property="${p}"
+                               displayStyle="${displayStyle ?: 'table'}"/>
+                  </div>
                 </g:else>
               </g:else>
             </td>
