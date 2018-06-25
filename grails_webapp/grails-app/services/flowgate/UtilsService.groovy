@@ -98,6 +98,7 @@ class UtilsService {
 
     def doManage(Experiment experiment, List<Long> cmpLst, String role){
         List<Long> srcLst = ExperimentUser.findAllByExperimentAndExpRole(experiment, role)*.user.id
+        if(cmpLst == null) cmpLst = new ArrayList<>(0);
         ((srcLst - cmpLst) + (cmpLst - srcLst)).each{
             if(springSecurityService.currentUser.id != it.toLong()) { //you cannot remove yourself!
                 User experimentUser = User.get(it.toLong())
