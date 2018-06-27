@@ -44,7 +44,7 @@ class BootStrap {
 //                    UserRole.create(flowGateUser, editExperiment)
 //                    UserRole.create(flowGateUser, clickExperiment)
 //  UserRole.create(testUser, newUserRole)
-            assert User.count() == 9
+            assert User.count() == 11
             println 'pass User count'
 
             println 'projects...'
@@ -422,7 +422,7 @@ class BootStrap {
             mod5.moduleParams = [m5mP1, m5mP2, m5mP3, m5mP4, m5mP5]
             mod5.save()
 
-            assert Module.count() == 5
+            assert Module.count() == 1
             println 'pass Module count'
 //  assert ModuleParam.count() ==
             println 'pass ModuleParams count'
@@ -437,7 +437,7 @@ class BootStrap {
 //                              jobNumber: 1292,
 //                              analysisServer: 'localhost', analysisUser: 'flowGate', analysisUserPw: 'flowGate',
 //                              experiment: exp1, module: mod4).save()
-            assert Analysis.count() == 1
+//            assert Analysis.count() == 1
             println 'pass Analysis count'
 
             //AnalysisPipeline analysisPipeline = new AnalysisPipeline(experiment: exp1, name: 'Basic Analysis', elements: [])
