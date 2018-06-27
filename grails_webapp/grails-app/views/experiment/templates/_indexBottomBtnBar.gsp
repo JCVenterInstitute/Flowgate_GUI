@@ -86,26 +86,27 @@
             %{--</span>--}%
             </g:if>
           </i>
+          Analysis
         </div>
       </a>
       </span>
     </g:isOwnerOrRoles>
 
     <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
-      <span data-toggle="tooltip" title="FCS-file Annotation">
+      %{--<span data-toggle="tooltip" title="FCS File Annotation">
         <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'annotationTbl', id: experiment?.id)}" >
         <div class="btn btn-default" style="cursor: pointer">
-          <i class="fa fa-adn fa-lg"></i>
+          <i class="fa fa-adn fa-lg"></i>FCS File Annotation
         </div>
       </a>
-      </span>
+      </span>--}%
     </g:isOwnerOrRoles>
 
     <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
       <span data-toggle="tooltip" title="Manage Datasets">
         <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'dataset', action: 'ds_edit', id: experiment?.id)}" >
         <div class="btn btn-default" style="cursor: pointer">
-          <i class="fa fa-database"></i>
+          <i class="fa fa-database"></i>Manage Datasets
         </div>
       </a>
       </span>
@@ -120,7 +121,7 @@
         --}%
         %{--<div style="cursor: pointer" data-toggle="modal" data-target="#manageExperimentUsersModal-${experiment?.id}">--}%
         <div style="cursor: pointer" class="btn btn-default " data-toggle="modal" data-target="#manageExperimentUsersModal-${experiment?.id}">
-          <i class="fa fa-user"></i>
+          <i class="fa fa-user"></i>Manage Users
         </div>
         %{--</div>--}%
       </span>

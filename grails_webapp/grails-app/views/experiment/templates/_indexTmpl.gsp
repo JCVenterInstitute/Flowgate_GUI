@@ -26,10 +26,10 @@
     <div class="col-sm-12">
       %{--TODO disable collapseAll or expandAll if all are already collapsed or expanded--}%
       %{--<g:link controller="expFile" action="collapseAll" params="[eId: experiment?.id]" >--}%
-      <div class="btn btn-info" onclick="expFileCollapseAllClick(${experiment?.id})">collapse all</div>
+      %{--<div class="btn btn-info" onclick="expFileCollapseAllClick(${experiment?.id})">collapse all</div>--}%
       %{--</g:link>--}%
       %{--<g:link controller="expFile" action="expandAll" params="[eId: experiment?.id]" >--}%
-      <div class="btn btn-info" onclick="expFileExpandAllClick(${experiment?.id})">expand all</div>
+      %{--<div class="btn btn-info" onclick="expFileExpandAllClick(${experiment?.id})">expand all</div>--}%
     %{--</g:link>--}%
     %{--<g:if test="${experiment?.id == session.experimentEditModeId?.toLong()}">--}%
     %{--<sec:ifAnyGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_AddFcs">--}%

@@ -17,9 +17,9 @@
   <a href="/flowgate/experiment/create?pId=${project?.id}" class="btn btn-info">
     <i class="glyphicon glyphicon-plus"></i>Add Experiment
   </a>
-  <a href="/flowgate/experiment/createFromTemplate?pId=${project?.id}" class="btn btn-info">
+  %{--<a href="/flowgate/experiment/createFromTemplate?pId=${project?.id}" class="btn btn-info">
     <i class="glyphicon glyphicon-plus"></i>Add From Template
-  </a>
+  </a>--}%
 </div>
 
 <h1 class="sub-header">Experiments</h1>

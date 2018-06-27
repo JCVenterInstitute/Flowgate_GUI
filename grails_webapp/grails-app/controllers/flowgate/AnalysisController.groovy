@@ -303,7 +303,10 @@ class AnalysisController {
 
         if (analysis.hasErrors()) {
             transactionStatus.setRollbackOnly()
-            respond analysis.errors, view:'edit'
+            analysis.experiment = Experiment.get(params?.experimentId)
+            analysis.experiment.project.attach()
+            analysis.user.attach()
+            respond analysis, view:'edit'
             return
         }
 

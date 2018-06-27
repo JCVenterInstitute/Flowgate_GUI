@@ -1,0 +1,1 @@
+<input type="text" readonly class="form-control-plaintext" id="${property}" value="${value}">
