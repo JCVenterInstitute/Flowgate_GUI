@@ -8,7 +8,7 @@
   </li>
 </g:each>
 <strong>Download Job Results Archive</strong>
-<g:each in="${jobResult.outputFiles.findAll { (it.kind.contains('gz')) }}" var="outputFile" status="i">
+<g:each in="${jobResult.outputFiles.findAll { (it.link.name.contains('Job.')) }}" var="outputFile" status="i">
   <li class="">${outputFile?.path}
     <a href="${g.createLink(controller: 'analysis', action: 'downloadFile', params: [analysisId: this?.analysis?.id, filename: outputFile?.path, fileLink: outputFile?.link?.href, outputFile: outputFile])}">
       %{---- ${outputFile?.path}&nbsp; -- --}%dwnld&nbsp;<i class="fa fa-floppy-o fa-lg"></i>
