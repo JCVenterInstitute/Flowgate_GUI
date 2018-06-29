@@ -141,7 +141,8 @@ class ExperimentController {
             session.projectOpenId = experiment?.project?.id
 //            experiment.save(failOnSafe: true, flush: true)
             ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(experiment?.project, true)
-            ArrayList<Project> projectList = Project.findAllByIsActive(true)
+            User user = springSecurityService.currentUser
+            ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params)
             params.max = Math.min(max ?: 10, 100)
             request.withFormat {
                 'html' { render view: 'index', model: [project: experiment?.project, projectList: projectList, experiment: experiment, experimentList: experimentList]   }
@@ -176,7 +177,8 @@ class ExperimentController {
     }
 
     def create() {
-        ArrayList<Project> projectList = Project.findAllByIsActive(true, [params: params])
+        User user = springSecurityService.currentUser
+        ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(Project.get(params?.pId?.toLong()), true)
         respond new Experiment(params), model: [owner: springSecurityService.currentUser, projectList: projectList, pId: params?.pId, experimentList: experimentList]
     }
