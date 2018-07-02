@@ -19,10 +19,10 @@ class BootStrap {
 //            assert Role.count() == 7
             println 'pass Role count'
 
-            def superadminUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('super', 'super', 'super@flowgate.ui', 'jcv')
-            def adminUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('admin', 'admin', 'admin@flowgate.ui', 'jcv')
-            def userUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('user', 'user', 'user@flowgate.ui', 'jcv')
-            def flowGateUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('flowGate', 'flowGate', 'flowgate.noreply@gmail.com', 'jcv')
+            def superadminUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('super', 'superdafi', 'super@flowgate.ui', 'jcv')
+            def adminUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('admin', 'dafiadmin', 'admin@flowgate.ui', 'jcv')
+            def userUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('user', 'DAFIuser', 'user@flowgate.ui', 'jcv')
+            def flowGateUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('flowGate', 'DAFIflowGate', 'flowgate.noreply@gmail.com', 'jcv')
             def alphaTester1 = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('alpha1', 'flowGate', 'alpha1@flowgate.ui', 'jcvi')
             def alphaTester2 = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('alpha2', 'flowGate', 'alpha2@flowgate.ui', 'jcvi')
             def alphaTester3 = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('alpha3', 'flowGate', 'alpha3@flowgate.ui', 'jcvi')
