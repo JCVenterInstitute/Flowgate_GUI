@@ -1,5 +1,5 @@
 server:
-    contextPath: /flowgate
+    contextPath: /
     port: 8585
 ---
 gpServer:
