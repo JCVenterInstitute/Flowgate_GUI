@@ -1,5 +1,5 @@
 server:
-    contextPath: /flowgate
+    contextPath: /
     port: 8585
 ---
 gpServer:
@@ -123,13 +123,13 @@ hibernate:
 dataSource:
     pooled: true
     jmxExport: true
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
-#    driverClassName: com.mysql.jdbc.Driver
-#    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-#    username: flowgate
-#    password: flowGate
+#    driverClassName: org.h2.Driver
+#    username: sa
+#    password:
+    driverClassName: com.mysql.jdbc.Driver
+    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    username: flowgate
+    password: flowGate
 
 #            dbCreate: create
 #            dbCreate: update
@@ -141,21 +141,25 @@ dataSource:
 environments:
     development:
         dataSource:
-            dbCreate: create-drop
-            url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+#            dbCreate: create-drop
+            dbCreate: update
+
+#            url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
 #            url: jdbc:mysql://localhost:3306/flowgate
+            url: jdbc:mysql://flowgate.sdsc.edu:3306/flowgate
     test:
         dataSource:
+#            dbCreate: create-drop
             dbCreate: update
-            url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-#            url: jdbc:mysql://flowgate.sdsc.edu:3306/flowgate
+#            url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            url: jdbc:mysql://flowgate.sdsc.edu:3306/flowgate
     production:
         dataSource:
 #            dbCreate: none
 #            dbCreate: create-drop
             dbCreate: update
-            url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-#            url: jdbc:mysql://flowgate.sdsc.edu:3306/flowgate
+#            url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            url: jdbc:mysql://flowgate.sdsc.edu:3306/flowgate
             properties:
                 jmxEnabled: true
                 initialSize: 5
