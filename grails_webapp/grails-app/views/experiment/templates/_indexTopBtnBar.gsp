@@ -28,7 +28,7 @@
         <i class="glyphicon glyphicon-trash"></i>&nbsp;Delete
     </g:link>
     --}%
-      <a class="btn btn-info" href="/flowgate/experiment/delete?id=${experiment?.id}"
+      <a class="btn btn-info" href="${createLink(controller: 'experiment', action: 'delete', params: [id: experiment?.id])}"
          onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">
         <i class="glyphicon glyphicon-trash"></i>&nbsp;Delete
       </a>

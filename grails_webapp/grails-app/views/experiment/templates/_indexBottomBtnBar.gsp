@@ -29,7 +29,7 @@
 
 %{--
 <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentDelete">
-    <a class="btn btn-info" href="/flowgate/experiment/delete?id=${experiment?.id}"
+    <a class="btn btn-info" href="/experiment/delete?id=${experiment?.id}"
         onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" >
         <i class="glyphicon glyphicon-trash"></i>&nbsp;Delete
     </a>
@@ -70,14 +70,12 @@
    <g:else>--}%
     <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
       <span data-toggle="tooltip" title="Analysis">
-      %{--<a class="noLinkBlack" href="/flowgate/analysis/create" params="${[experiment: experiment]}">--}%
         <g:if test="${experiment.analyses.size() > 0}">
           <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'analysis', action: 'index', params: [eId: experiment?.id])}" >
         </g:if>
         <g:else>
           <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'analysis', action: 'create', params: [eId: experiment?.id])}" >
         </g:else>
-      %{--<div class="btn btn-default" style="cursor: pointer" data-toggle="modal" data-target="#createAnalysisModal-${experiment?.id}">--}%
         <div class="btn btn-default" style="cursor: pointer">
           <i class="fa fa-bar-chart">&nbsp;
             <g:if test="${experiment?.analyses?.size() > 0}">
@@ -157,7 +155,7 @@
       <i class="glyphicon glyphicon-trash"></i>&nbsp;Delete
   </g:link>
   --}%%{--
-      <a class="btn btn-info" href="/flowgate/experiment/delete?id=${experiment?.id}"
+      <a class="btn btn-info" href="/experiment/delete?id=${experiment?.id}"
          onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" >
           <i class="glyphicon glyphicon-trash"></i>&nbsp;Delete
       </a>

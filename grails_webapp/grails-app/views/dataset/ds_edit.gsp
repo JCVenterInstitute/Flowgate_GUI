@@ -25,8 +25,8 @@ project=${experiment?.project}
 <g:if test="${experiment}">
   <div class="container">
     <ul class="breadcrumb">
-      <li><a href="/flowgate/project/index?pId=${experiment?.project?.id}" title="${experiment?.project?.title}">${experiment?.project?.title}</a></li>
-      <li><a href="/flowgate/experiment/index?eId=${experiment?.id}" title="${experiment?.title}">${experiment?.title}</a></li>
+      <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: experiment?.project?.id])}" title="${experiment?.project?.title}">${experiment?.project?.title}</a></li>
+      <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" title="${experiment?.title}">${experiment?.title}</a></li>
       <li class="active">Create/Manage subsets for data analysis</li>
     </ul>
 

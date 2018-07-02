@@ -27,8 +27,7 @@
     <div class="list-group">
       <g:each var="project" in="${projectList}">
         <g:isAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectClick,ROLE_ProjectSearch">
-        %{--<a class="list-group-item noLinkBlack" href="${createLink(controller: 'project', action: 'index', params:[pId: project?.id])}">--}%
-          <a class="list-group-item noLinkBlack ${session?.searchLst?.find { it == project?.id } != null ? 'findSel' : ''}" href="/flowgate/project/index?pId=${project?.id}">
+          <a class="list-group-item noLinkBlack ${session?.searchLst?.find { it == project?.id } != null ? 'findSel' : ''}" href="${createLink(controller: 'project', action: 'index', params:[pId: project?.id])}">
             <i class="fa fa-3x fa-file-text-o img-rounded pull-left"></i>
             <h4 class="list-group-item-heading">${project?.title}</h4>
 

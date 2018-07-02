@@ -30,8 +30,8 @@
 
 <div class="container">
   <ul class="breadcrumb">
-    <li><a href="/flowgate/project/index?pId=${experiment?.project?.id}" title="${experiment?.project?.title}">${experiment?.project?.title}</a></li>
-    <li><a href="/flowgate/experiment/index?eId=${experiment?.id}" title="${experiment?.title}">${experiment?.title}</a></li>
+    <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: experiment?.project?.id])}" title="${experiment?.project?.title}">${experiment?.project?.title}</a></li>
+    <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" title="${experiment?.title}">${experiment?.title}</a></li>
     <li class="active">Create New Analysis</li>
   </ul>
   <h1 class="page-header"><g:message code="analysis.create.label" default="Create New Analysis"/></h1>
@@ -82,7 +82,7 @@
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
                 <g:submitButton name="create" class="save btn btn-primary" value="${message(code: 'analysis.create.btn.label', default: 'Submit')}"/>
-                <a href="/flowgate/analysis/index?eId=${eId}" class="btn btn-warning"><i class="fa fa-times"></i>Cancel</a>
+                <a href="${createLink(controller: 'analysis', action: 'index', params: [eId: eId])}" class="btn btn-warning"><i class="fa fa-times"></i>Cancel</a>
               </div>
             </div>
 

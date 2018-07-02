@@ -44,7 +44,7 @@
       <p class="help-block">You can upload single or multiple .fcs file(s).</p>
     </div>
     <g:submitButton name="fcsUpload" class="save btn btn-primary" value="${message(code: 'default.button.annotate.label', default: 'Upload')}" id="${eId}"/>
-    <a href="/flowgate/experiment/index?eId=${eId}" class="btn btn-warning">Back</a>
+    <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: eId])}" class="btn btn-warning">Back</a>
   </g:uploadForm>
 </div>
 </content>

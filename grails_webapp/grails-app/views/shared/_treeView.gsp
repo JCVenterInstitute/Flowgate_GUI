@@ -21,8 +21,7 @@
       <ul>
         <g:each var="experiment" in="${experimentList}">
           <li>
-            %{--<span id="experimentFolder" style="cursor: pointer" onclick="window.location.href='${createLink(controller: 'experiment', action: 'index')}?pId=${project?.id}&eId=${experiment?.id}'"><i class="fa fa-${session?.experimentOpenId?.toLong() == experiment?.id ? 'folder-open' : 'folder'}-o" ></i>--}%
-            <span id="experimentFolder" style="cursor: pointer" onclick="window.location.href = '/flowgate/experiment/index?pId=${project?.id}&eId=${experiment?.id}'"><i
+            <span id="experimentFolder" style="cursor: pointer" onclick="window.location.href = '${createLink(controller:'experiment', action: 'index', params: [pId: project?.id, eId: experiment?.id])}'"><i
                 class="fa fa-${session?.experimentOpenId?.toLong() == experiment?.id ? 'folder-open' : 'folder'}-o"></i>
               &nbsp;&nbsp;${experiment?.title.take(20) + '...'}
               %{--&nbsp;&nbsp;{{ strTruncate(experiment.title, 30, '...') }}--}%

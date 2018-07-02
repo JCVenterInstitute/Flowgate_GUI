@@ -1,5 +1,4 @@
-%{--<a class="noLinkBlack" href="${createLink(controller: 'project', action: 'index', params:[pId: project?.id])}">--}%
-<a class="noLinkBlack" href="/flowgate/project/index?pId=${project?.id}">
+<a class="noLinkBlack" href="${createLink(controller: 'project', action:'index', params:[pId: project?.id])}">
   <div class="panel panel-default">
     <div class="bootcards-summary-item ${session?.searchLst?.find { it == project?.id } != null ? 'findSel' : ''}">
       <div class="panel-body">

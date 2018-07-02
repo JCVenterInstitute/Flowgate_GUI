@@ -6,7 +6,7 @@
         <i class="glyphicon glyphicon-edit"></i>&nbsp;&nbsp;Edit Project
     </g:link>
     --}%
-      <a class="btn btn-primary edit noLinkBlack" href="/flowgate/project/edit?id=${project?.id}">
+      <a class="btn btn-primary edit noLinkBlack" href="${createLink(controller: 'project', action: 'edit', params: [id: project?.id])}">
         <i class="glyphicon glyphicon-edit"></i>&nbsp;&nbsp;Edit Project
       </a>
     </sec:ifAnyGranted>
@@ -17,7 +17,7 @@
         <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Add Project
     </g:link>
     --}%
-      <a class="btn btn-primary create noLinkBlack" href="/flowgate/project/create">
+      <a class="btn btn-primary create noLinkBlack" href="${createLink(controller: 'project', action: 'create')}">
         <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Add Project
       </a>
     </sec:ifAnyGranted>
@@ -38,7 +38,7 @@
         <i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;Delete Project
     </g:link>
     --}%
-      <a class="btn btn-primary noLinkBlack" href="/flowgate/project/delete?id=${project?.id}"
+      <a class="btn btn-primary noLinkBlack" href="${createLink(controller: 'project', action: 'delete', params: [id: project?.id])}"
          onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">
         <i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;Delete Project
       </a>
@@ -51,7 +51,7 @@
         <i class="fa fa-eraser"></i>&nbsp;&nbsp;Erase Project
     </g:link>
     --}%
-      <a class="btn btn-primary noLinkBlack" href="/flowgate/project/erase?id=${project?.id}"
+      <a class="btn btn-primary noLinkBlack" href="${createLink(controller: 'project', action: 'erase', params: [id: project?.id])}"
          onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">
         <i class="fa fa-eraser"></i>&nbsp;&nbsp;Erase Project
       </a>

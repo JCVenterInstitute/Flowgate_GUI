@@ -14,7 +14,7 @@
 
     <div class="col-sm-4">
       <button type="button" class="btn btn-primary" onclick="addDs(${ds.id});"><i class="fa fa-plus"></i>Add New Subset</button>
-      <a href="/flowgate/experiment/index?eId=${experiment?.id}" class="btn btn-primary">Return to Experiment</a>
+      <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="btn btn-primary">Return to Experiment</a>
     </div>
   </div>
 </div>

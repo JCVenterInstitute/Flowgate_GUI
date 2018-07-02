@@ -31,8 +31,8 @@
 <g:else>
   <div class="container">
     <ul class="breadcrumb">
-      <li><a href="/flowgate/project/index?pId=${analysis?.experiment?.project?.id}" title="${analysis?.experiment?.project?.title}">${analysis?.experiment?.project?.title}</a></li>
-      <li><a href="/flowgate/experiment/index?eId=${analysis?.experiment?.id}" title="${analysis?.experiment?.title}">${analysis?.experiment?.title}</a></li>
+      <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: analysis?.experiment?.project?.id])}" title="${analysis?.experiment?.project?.title}">${analysis?.experiment?.project?.title}</a></li>
+      <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: analysis?.experiment?.id])}" title="${analysis?.experiment?.title}">${analysis?.experiment?.title}</a></li>
       <li class="active">Analysis Results</li>
     </ul>
     <h1 class="page-header"><g:message code="analysis.showResult.label" args="[entityName]" default="Analysis Results" /></h1>
