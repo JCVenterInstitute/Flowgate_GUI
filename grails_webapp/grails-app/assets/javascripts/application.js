@@ -15,9 +15,9 @@
 if (typeof jQuery !== 'undefined') {
   (function ($) {
     $(document).ajaxStart(function () {
-      $('#spinner').fadeIn();
+      $('#spinner, #screen-locker').fadeIn();
     }).ajaxStop(function () {
-      $('#spinner').fadeOut();
+      $('#spinner, #screen-locker').fadeOut();
     });
   })(jQuery);
 

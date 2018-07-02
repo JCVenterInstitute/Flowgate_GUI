@@ -22,16 +22,31 @@ class BootStrap {
   def userUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation( 'user', 'user', 'user@flowgate.ui', 'jcv')
   def flowGateUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('flowGate', 'flowGate', 'flowgate.noreply@gmail.com', 'jcv')
   def testUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation( 'acs', 'acs', 'peter.acs@stanford.edu', 'som')
+//  def testUser = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation( 'acs', 'acs', 'peter.acs@stanford.edu', 'som')
+  def alphaTester1 = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('alpha1', 'flowGate', 'alpha1@flowgate.ui', 'jcvi')
+  def alphaTester2 = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('alpha2', 'flowGate', 'alpha2@flowgate.ui', 'jcvi')
+  def alphaTester3 = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('alpha3', 'flowGate', 'alpha3@flowgate.ui', 'jcvi')
+  def alphaTester4 = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('alpha4', 'flowGate', 'alpha4@flowgate.ui', 'jcvi')
+  def alphaTester5 = User.findOrSaveByUsernameAndPasswordAndEmailAndAffiliation('alpha5', 'flowGate', 'alpha5@flowgate.ui', 'jcvi')
   UserRole.create(superadminUser, superadminRole)
   UserRole.create(adminUser, adminRole)
   UserRole.create(userUser, userRole)
   UserRole.create(userUser, editExperiment)
   UserRole.create(userUser, clickExperiment)
   UserRole.create(flowGateUser, userRole)
-//                    UserRole.create(flowGateUser, editExperiment)
-//                    UserRole.create(flowGateUser, clickExperiment)
+  UserRole.create(flowGateUser, editExperiment)
+  UserRole.create(flowGateUser, clickExperiment)
+//  UserRole.create(flowGateUser, editExperiment)
+//  UserRole.create(flowGateUser, clickExperiment)
   UserRole.create(testUser, newUserRole)
-  assert User.count() == 5
+  UserRole.create(alphaTester1, userRole)
+  UserRole.create(alphaTester2, userRole)
+  UserRole.create(alphaTester3, userRole)
+  UserRole.create(alphaTester4, userRole)
+  UserRole.create(alphaTester5, userRole)
+
+//            assert Role.count() == 7
+//  assert User.count() == 5
   println 'pass User count'
 
   println 'projects...'
@@ -55,13 +70,15 @@ class BootStrap {
 //                          isActive: true).save(failOnError: true)
   ProjectUser.create(proj1, adminUser, 'owner')
   ProjectUser.create(proj1, userUser, 'member')
+  ProjectUser.create(proj1, flowGateUser, 'member')
   ProjectUser.create(proj2, adminUser, 'owner')
   ProjectUser.create(proj2, userUser, 'member')
 //  ProjectUser.create(proj3, adminUser, 'owner')
-  //                  ProjectUser.create(proj3, adminUser, 'member')
+//                  ProjectUser.create(proj3, adminUser, 'member')
 //  def exp1 = new Experiment(title: 'exp1', description: 'exp1 desc', project: proj1, isActive: true).save(failOnError: true)
 //  def exp2 = new Experiment(title: 'exp2', description: 'exp2 desc', project: proj1, isActive: true).save(failOnError: true)
 //  def exp3 = new Experiment(title: 'exp3', description: 'exp3 desc', project: proj2, isActive: true).save(failOnError: true)
+
   println 'experiments...'
   def exp1 = new Experiment(title: 'Flow cytometry identification of sexual dimorphism in glucocorticoid receptor expression from human leukocytes',
                             description: 'Four panels: combo (GR/CD3/CD14/CD16), CD193 (GR/CD193), CD203 (GR/CD203), CD56 (GR/CD3/CD56)\n' +
@@ -311,8 +328,14 @@ class BootStrap {
   def expFile31 = new ExpFile(experiment: exp3, title: 'test File', chkSum: 'a41a0f25bcb0454ab43a4451ac59bd6b', fileName: 'test.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: adminUser, isActive: true, reagentPanel: []).save(failOnError: true)
   def expFile32 = new ExpFile(experiment: exp3, title: 'fcsFile2.fcs', chkSum: 'efb1fede93ca087a90693353d3cfb2e9276925fd', fileName: 'fcsFile2.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: userUser, reagentPanel: []).save(failOnError: true)
   def expFile33 = new ExpFile(experiment: exp3, title: 'fcsFile3.fcs', chkSum: 'ACS', fileName: 'fcsFile3.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: adminUser, reagentPanel: []).save(failOnError: true)
-//  assert ExpFile.count() == 5
   println "expFile.count()=5 == ${ExpFile.count()} ? passed!"
+
+//            def expFile11 = new ExpFile(experiment: exp2, title: '3.txt', chkSum: 'abc', fileName: '3.txt', filePath: '/Users/acs/Projects/flowgate/testData/dafi/PreprocessedTest/', createdBy: adminUser, isActive: true, reagentPanel: []).save(failOnError: true)
+//            def expFile21 = new ExpFile(experiment: exp2, title: '5.txt', chkSum: 'cde', fileName: '5.txt', filePath: '/Users/acs/Projects/flowgate/testData/dafi/PreprocessedTest/', createdBy: userUser, reagentPanel: []).save(failOnError: true)
+//            def expFile31 = new ExpFile(experiment: exp3, title: 'test File', chkSum: 'a41a0f25bcb0454ab43a4451ac59bd6b', fileName: 'test.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: adminUser, isActive: true, reagentPanel: []).save(failOnError: true)
+//            def expFile32 = new ExpFile(experiment: exp3, title: 'fcsFile2.fcs', chkSum: 'efb1fede93ca087a90693353d3cfb2e9276925fd', fileName: 'fcsFile2.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: userUser, reagentPanel: []).save(failOnError: true)
+//            def expFile33 = new ExpFile(experiment: exp3, title: 'fcsFile3.fcs', chkSum: 'ACS', fileName: 'fcsFile3.fcs', filePath: '/Users/acs/Projects/flowgate/testData/flock/', createdBy: adminUser, reagentPanel: []).save(failOnError: true)
+//  assert ExpFile.count() == 5
 
 
   ExpFileMetadata expFileMeta11 = new ExpFileMetadata(expFile: expFile11, mdKey: 'Gender', mdVal: 'Female')
@@ -414,19 +437,50 @@ class BootStrap {
   mod4.save()
 
 //  Module mod5 = new Module(server: as2, title: 'Multi_DAFI_Complete_UCI_GR_Report_wC', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:26:3', moduleParams: []).save(failOnSave: true)
-  Module mod5 = new Module(server: as2, title: 'Multi_DAFi_Complete_UCI_GR_Report_Metadata', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:30:4', moduleParams: []).save(failOnSave: true)
-  ModuleParam m5mP1 = new ModuleParam(module: mod5, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds1.id.toString()).save()
-  ModuleParam m5mP2 = new ModuleParam(module: mod5, pBasic: false, pType: "val", pKey: 'init.cluster.size', defaultVal: '200').save()
-  ModuleParam m5mP3 = new ModuleParam(module: mod5, pBasic: false, pType: "val", pKey: 're.cluster.size', defaultVal: '500').save()
-  ModuleParam m5mP4 = new ModuleParam(module: mod5, pBasic: false, pType: "field", pKey: 'Input.Desc', defaultVal: 'description.txt').save()
-  ModuleParam m5mP5 = new ModuleParam(module: mod5, pBasic: false, pType: "meta", pKey: 'Input.Meta', defaultVal: 'metadata.txt').save()
-  mod5.moduleParams = [ m5mP1, m5mP2, m5mP3, m5mP4, m5mP5 ]
-  mod5.save()
+//  Module mod5 = new Module(server: as2, title: 'Multi_DAFi_Complete_UCI_GR_Report_Metadata', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:30:4', moduleParams: []).save(failOnSave: true)
+//  ModuleParam m5mP1 = new ModuleParam(module: mod5, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds1.id.toString()).save()
+//  ModuleParam m5mP2 = new ModuleParam(module: mod5, pBasic: false, pType: "val", pKey: 'init.cluster.size', defaultVal: '200').save()
+//  ModuleParam m5mP3 = new ModuleParam(module: mod5, pBasic: false, pType: "val", pKey: 're.cluster.size', defaultVal: '500').save()
+//  ModuleParam m5mP4 = new ModuleParam(module: mod5, pBasic: false, pType: "field", pKey: 'Input.Desc', defaultVal: 'description.txt').save()
+//  ModuleParam m5mP5 = new ModuleParam(module: mod5, pBasic: false, pType: "meta", pKey: 'Input.Meta', defaultVal: 'metadata.txt').save()
+//  mod5.moduleParams = [ m5mP1, m5mP2, m5mP3, m5mP4, m5mP5 ]
+//  mod5.save()
 
-  assert Module.count() == 5
-  println 'pass Module count'
+    Module mod5 = new Module(server: as2, title: 'DAFi.for.UCI_GR', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:30:6', moduleParams: []).save(failOnSave: true)
+    ModuleParam m5mP1 = new ModuleParam(module: mod5, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds1.id.toString()).save()
+    ModuleParam m5mP2 = new ModuleParam(module: mod5, pBasic: false, pType: "val", pKey: 'init.cluster.size', defaultVal: '200').save()
+    ModuleParam m5mP3 = new ModuleParam(module: mod5, pBasic: false, pType: "val", pKey: 're.cluster.size', defaultVal: '500').save()
+    ModuleParam m5mP4 = new ModuleParam(module: mod5, pBasic: false, pType: "field", pKey: 'Input.Desc', defaultVal: 'description.txt').save()
+    ModuleParam m5mP5 = new ModuleParam(module: mod5, pBasic: false, pType: "meta", pKey: 'Input.Meta', defaultVal: 'metadata.txt').save()
+    mod5.moduleParams = [m5mP1, m5mP2, m5mP3, m5mP4, m5mP5]
+    mod5.save()
+
+    Module mod6 = new Module(server: as2, title: 'DAFi.Complete.Pipeline', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:29:5', moduleParams: []).save(failOnSave: true)
+    ModuleParam m6Param1 = new ModuleParam(module: mod6, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds1.id.toString()).save()
+    ModuleParam m6Param2 = new ModuleParam(module: mod6, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '').save()
+    ModuleParam m6Param3 = new ModuleParam(module: mod6, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '').save()
+    ModuleParam m6Param4 = new ModuleParam(module: mod6, pBasic: true, pType: "var", pKey: 'init.cluster.size', defaultVal: '200').save()
+    ModuleParam m6Param5 = new ModuleParam(module: mod6, pBasic: true, pType: "var", pKey: 're.cluster.size', defaultVal: '500').save()
+    ModuleParam m6Param6 = new ModuleParam(module: mod6, pBasic: false, pType: "field", pKey: 'Input.Desc', defaultVal: 'description.txt').save()
+    ModuleParam m6Param7 = new ModuleParam(module: mod6, pBasic: false, pType: "meta", pKey: 'Input.Meta', defaultVal: 'metadata.txt').save()
+    mod6.moduleParams = [m6Param1, m6Param2, m6Param3, m6Param4, m6Param5, m6Param6, m6Param7]
+    mod6.save()
+
+
+    Module mod7 = new Module(server: as2, title: 'DAFi.for.LJI', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:28:5', moduleParams: []).save(failOnSave: true)
+    ModuleParam m7mP1 = new ModuleParam(module: mod7, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds1.id.toString()).save()
+    ModuleParam m7mP2 = new ModuleParam(module: mod7, pBasic: false, pType: "val", pKey: 'init.cluster.size', defaultVal: '200').save()
+    ModuleParam m7mP3 = new ModuleParam(module: mod7, pBasic: false, pType: "val", pKey: 're.cluster.size', defaultVal: '500').save()
+    ModuleParam m7mP4 = new ModuleParam(module: mod7, pBasic: false, pType: "field", pKey: 'Input.Desc', defaultVal: 'description.txt').save()
+    ModuleParam m7mP5 = new ModuleParam(module: mod7, pBasic: false, pType: "meta", pKey: 'Input.Meta', defaultVal: 'metadata.txt').save()
+    mod7.moduleParams = [m7mP1, m7mP2, m7mP3, m7mP4, m7mP5]
+    mod7.save()
+
+//            assert Module.count() == 1
+//  assert Module.count() == 5
+    println 'pass Module count'
 //  assert ModuleParam.count() ==
-  println 'pass ModuleParams count'
+    println 'pass ModuleParams count'
 
   Analysis an0 = new Analysis(analysisName: 'Identification of sexual dimorphism in glucocorticoid receptor expression by computational analysis of flow cytometry data',
                               analysisDescription: 'Step 1: Quality control and preprocessing, including data transformation and re-compensation\n' +
@@ -441,10 +495,87 @@ class BootStrap {
   assert Analysis.count() == 1
   println 'pass Analysis count'
 
-                    //AnalysisPipeline analysisPipeline = new AnalysisPipeline(experiment: exp1, name: 'Basic Analysis', elements: [])
-                    //analysisPipeline.save()
-                    //assert AnalysisPipeline.count() == 1
-//                    println 'pass AnalysisPipeline count'
+  //AnalysisPipeline analysisPipeline = new AnalysisPipeline(experiment: exp1, name: 'Basic Analysis', elements: [])
+  //analysisPipeline.save()
+  //assert AnalysisPipeline.count() == 1
+//  Module mod1 = new Module(server: as3, title: 'FLOCK', name: 'ImmPortFLOCK', moduleParams: []).save(failOnSave: true)
+////                    ModuleParam mParam1 = new ModuleParam(module: mod1, pBasic: true, pType: "file", pKey: 'Input.file', defaultVal: '/Users/acs/Projects/flowgate/testData/flock/test.txt').save()
+//  ModuleParam mParam1 = new ModuleParam(module: mod1, pBasic: true, pType: "file", pKey: 'Input.file', defaultVal: '').save()
+//  ModuleParam mParam2 = new ModuleParam(module: mod1, pBasic: false, pType: "val", pKey: 'Number.of.bins', defaultVal: '0').save()
+//  ModuleParam mParam3 = new ModuleParam(module: mod1, pBasic: false, pType: "val", pKey: 'Density.threshold', defaultVal: '0').save()
+//  ModuleParam mParam4 = new ModuleParam(module: mod1, pBasic: false, pType: "val", pKey: 'Maximum.number.of.populations', defaultVal: '30').save()
+//  mod1.moduleParams = [mParam1, mParam2, mParam3, mParam4]
+//  mod1.save()
+//  Module mod2 = new Module(server: as2, title: 'DAFI_Complete_UCI_GR_Report', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:24:9', moduleParams: []).save(failOnSave: true)
+////  Module mod2 = new Module(server: as2, title: 'DAFI_Complete_UCI_GR_Report', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:26:3', moduleParams: []).save(failOnSave: true)
+////                    ModuleParam mParam5 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'input.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/dafitest.txt').save()
+//  ModuleParam mParam5 = new ModuleParam(module: mod2, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds1.id.toString()).save()
+////                    ModuleParam mParam6 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/Run02.config').save()
+////  ModuleParam mParam6 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '').save()
+////                    ModuleParam mParam7 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/Empty.config').save()
+////  ModuleParam mParam7 = new ModuleParam(module: mod2, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '').save()
+//  ModuleParam mParam8 = new ModuleParam(module: mod2, pBasic: false, pType: "val", pKey: 'init.cluster.size', defaultVal: '200').save()
+//  ModuleParam mParam9 = new ModuleParam(module: mod2, pBasic: false, pType: "val", pKey: 're.cluster.size', defaultVal: '500').save()
+////  ModuleParam mParam10 = new ModuleParam(module: mod2, pBasic: false, pType: "val", pKey: 'num.cores', defaultVal: '24').save()
+////  mod2.moduleParams = [mParam5, mParam6, mParam7, mParam8, mParam9, mParam10]
+//  mod2.moduleParams = [mParam5, mParam8, mParam9 ]
+//  mod2.save()
+////                  Module mod3 = new Module(server: as1, title: 'Fcs2Txt', name: 'FcsToCsv', moduleParams: []).save(failOnSave: true)
+//  Module mod3 = new Module(server: as3, title: 'Fcs2Csv', name: 'FcsToCsv', moduleParams: []).save(failOnSave: true)
+////                    ModuleParam mParam11 = new ModuleParam(module: mod3, pBasic: true, pType: "file", pKey: 'Input.FCS.data.file', defaultVal: '/Users/acs/Projects/flowgate/testData/flock/test.fcs').save()
+//  ModuleParam mParam11 = new ModuleParam(module: mod3, pBasic: true, pType: "file", pKey: 'Input.FCS.data.file', defaultVal: '').save()
+//  ModuleParam mParam12 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Output.CSV.file.name', defaultVal: '<Input.FCS.data.file_basename>.csv').save()
+//  ModuleParam mParam13 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Use.full.names', defaultVal: 'TRUE').save()
+//  ModuleParam mParam14 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Output.keywords.file.name', defaultVal: '<Input.FCS.data.file_basename>').save()
+//  ModuleParam mParam15 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Output.keywords.mode', defaultVal: 'CSV').save()
+//  ModuleParam mParam16 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Channel.to.scale.conversion', defaultVal: 'TRUE').save()
+//  ModuleParam mParam17 = new ModuleParam(module: mod3, pBasic: false, pType: "var", pKey: 'Precision', defaultVal: 'FALSE').save()
+//  mod3.moduleParams = [mParam11, mParam12, mParam13, mParam14, mParam15, mParam16, mParam17]
+//  mod3.save()
+
+            //name lsid urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:20:3
+//            Module mod4 = new Module(server: as2, title: 'DAFi_Gating_Plotting_Streamlined', name: 'DAFi_Gating_Plotting_Streamlined', moduleParams: []).save(failOnSave: true)
+//
+////                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "dir", pKey: 'Input.Dir', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/PreprocessedTest/').save()
+////                    ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "dir", pKey: 'Input.Dir', defaultVal: '').save()
+//            ModuleParam mParam18 = new ModuleParam(module: mod4, pBasic: true, pType: "ds", pKey: 'Input.Dir', defaultVal: ds1.id.toString()).save()
+//
+////                    ModuleParam mParam19 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/CLL_new.config').save()
+//            ModuleParam mParam19 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'config.file', defaultVal: '').save()
+////                    ModuleParam mParam20 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '/Users/acs/Projects/flowgate/testData/dafi/Empty.config').save()
+//            ModuleParam mParam20 = new ModuleParam(module: mod4, pBasic: true, pType: "file", pKey: 'rev.config.file', defaultVal: '').save()
+//            ModuleParam mParam21 = new ModuleParam(module: mod4, pBasic: true, pType: "var", pKey: 'init.cluster.size', defaultVal: '200').save()
+//            ModuleParam mParam22 = new ModuleParam(module: mod4, pBasic: true, pType: "var", pKey: 're.cluster.size', defaultVal: '500').save()
+//            ModuleParam mParam23 = new ModuleParam(module: mod4, pBasic: true, pType: "var", pKey: 'size.param', defaultVal: '1').save()
+//            ModuleParam mParam24 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'axisLabels.size', defaultVal: '14').save()
+//            ModuleParam mParam25 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'PopulationLabel.size', defaultVal: '10').save()
+//            ModuleParam mParam26 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'title.set', defaultVal: '').save()
+//            ModuleParam mParam27 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Multigates.set', defaultVal: '').save()
+//            ModuleParam mParam28 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Showparent.set', defaultVal: '').save()
+//            ModuleParam mParam29 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Sort.set', defaultVal: '').save()
+//            ModuleParam mParam30 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Showgrid.set', defaultVal: '').save()
+//            ModuleParam mParam31 = new ModuleParam(module: mod4, pBasic: false, pType: "var", pKey: 'Hidegatelines.set', defaultVal: '').save()
+////            mod3.moduleParams = [mParam11, mParam12, mParam13, mParam14, mParam15, mParam16, mParam17]
+//            mod4.save()
+// LSID: urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:30:5
+//  Module mod5 = new Module(server: as2, title: 'Multi_DAFI_Complete_UCI_GR_Report_wC', name: 'urn:lsid:8080.ichang.flowgate.sdsc.edu:genepatternmodules:26:3', moduleParams: []).save(failOnSave: true)
+
+
+//  Analysis an0 = new Analysis(analysisName: 'Identification of sexual dimorphism in glucocorticoid receptor expression by computational analysis of flow cytometry data',
+//                              analysisDescription: 'Step 1: Quality control and preprocessing, including data transformation and re-compensation\n' +
+//                                  'Step 2: Computational identification of cell populations using DAFi and DAFi + FLOCK\n' +
+//                                  'Step 3: MFI and proportion statistics from cross-sample comparison',
+//                              user: userUser,
+//                              timestamp: new Date(117,11,17,11,30,00),
+//                              analysisStatus: 3,
+//                              jobNumber: 1292,
+//                              analysisServer: 'localhost', analysisUser: 'flowGate', analysisUserPw: 'flowGate',
+//                              experiment: exp1, module: mod4).save()
+            //AnalysisPipeline analysisPipeline = new AnalysisPipeline(experiment: exp1, name: 'Basic Analysis', elements: [])
+            //analysisPipeline.save()
+//            assert Analysis.count() == 1
+            println 'pass Analysis count'
+
 
         fillFcsKeywords()
 
