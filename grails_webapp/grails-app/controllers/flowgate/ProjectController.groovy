@@ -19,7 +19,8 @@ class ProjectController {
 //    @Secured(['ROLE_Admin','ROLE_User','ROLE_NewUser','ROLE_Guest','IS_AUTHENTICATED_ANONYMOUSLY', 'ROLE_ANONYMOUS','permitAll'])
     def axToggleView(){
         session?.projCardView = !session?.projCardView ?: false
-        ArrayList<Project> projectList = Project.findAllByIsActive(true, [params: params])
+        User user = springSecurityService.currentUser
+        def projectList = utilsService.getProjectListForUser(user, params)
         if(session?.projCardView){
             render (contentType:"text/json"){
                 success true
@@ -56,7 +57,8 @@ class ProjectController {
     def axSearch(){
         def project = Project.findByIdAndIsActive(session?.projectOpenId?.toLong(), true)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(project, true)
-        ArrayList<Project> projectList = Project.findAllByIsActive(true)
+        User user = springSecurityService.currentUser
+        def projectList = utilsService.getProjectListForUser(user, params)
         def searchLst = []
         projectList.findAll{it.title.contains(params?.filterString) ? searchLst.push(it.id) : '' }
         if(params?.filterString != ''){
@@ -81,7 +83,8 @@ class ProjectController {
     def axClearSearch(){
         def project = Project.findByIdAndIsActive(session?.projectOpenId?.toLong(), true)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(project, true)
-        ArrayList<Project> projectList = Project.findAllByIsActive(true)
+        User user = springSecurityService.currentUser
+        def projectList = utilsService.getProjectListForUser(user, params)
         def searchLst = []
 //        projectList.findAll{it.title.contains(params?.filterString) ? searchLst.push(it.id) : '' }
         params.filterString = ''
@@ -106,7 +109,8 @@ class ProjectController {
     def axSearchTree(){
         def project = Project.findByIdAndIsActive(session?.projectOpenId?.toLong(), true)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(project, true)
-        ArrayList<Project> projectList = Project.findAllByIsActive(true)
+        User user = springSecurityService.currentUser
+        def projectList = utilsService.getProjectListForUser(user, params)
         def searchLst = []
         projectList.findAll{it.title.contains(params?.filterString) ? searchLst.push(it.id) : '' }
         if(params?.filterString != ''){
@@ -123,7 +127,8 @@ class ProjectController {
     def axClearSearchTree(){
         def project = Project.findByIdAndIsActive(session?.projectOpenId?.toLong(), true)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(project, true)
-        ArrayList<Project> projectList = Project.findAllByIsActive(true)
+        User user = springSecurityService.currentUser
+        def projectList = utilsService.getProjectListForUser(user, params)
         def searchLst = []
 //        projectList.findAll{it.title.contains(params?.filterString) ? searchLst.push(it.id) : '' }
         params.filterString = ''
@@ -140,7 +145,8 @@ class ProjectController {
         session.projectOpenId = params.projId.toLong()
         Project openProject = Project.findByIdAndIsActive(session.projectOpenId?.toLong(), true)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(openProject, true)
-        ArrayList<Project> projectList = Project.findAllByIsActive(true)
+        User user = springSecurityService.currentUser
+        def projectList = utilsService.getProjectListForUser(user, params)
         render (contentType:"text/json"){
             success true
             contentTree "${g.render(template: '/shared/treeView', model: [projectList: projectList, experimentList: experimentList])}"
@@ -152,7 +158,8 @@ class ProjectController {
     def axCloneProjectClick() {
         Project sourceProject = Project.findByIdAndIsActive(params.projId.toLong(), true)
         utilsService.clone('project', sourceProject, null, true, '-clone')
-        ArrayList<Project> projectList = Project.findAllByIsActive(true, [params: params])
+        User user = springSecurityService.currentUser
+        def projectList = utilsService.getProjectListForUser(user, params)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(sourceProject, true)
         render (contentType:"text/json"){
             success true
@@ -178,10 +185,11 @@ class ProjectController {
     @Secured(['ROLE_Admin','ROLE_User'])
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
+        User user = springSecurityService.currentUser
         if(params?.pId)
             session.projectOpenId = params?.pId
         Project openProject = Project.findByIdAndIsActive(session.projectOpenId, true)
-        ArrayList<Project> projectList = Project.findAllByIsActive(true, [params: params])
+        ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(openProject, true)
         respond projectList, model:[project: openProject, projectCount: projectList.size(), experimentList: experimentList]
     }
@@ -190,9 +198,11 @@ class ProjectController {
 //    @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        def projectList = Project.findAllByIsActive(true, [params: params])
-        respond projectList, model:[projectCount: projectList.size()]
+        User user = springSecurityService.currentUser
 
+        def projectList = utilsService.getProjectListForUser(user, params)
+
+        respond projectList, model: [projectCount: projectList.size()]
     }
 
     def show(Project project) {
@@ -200,7 +210,8 @@ class ProjectController {
     }
 
     def create() {
-        ArrayList<Project> projectList = Project.findAllByIsActive(true, [params: params])
+        User user = springSecurityService.currentUser
+        def projectList = utilsService.getProjectListForUser(user, params)
         Project project = new Project(params)
         respond project, model: [projectList: projectList, projectCount: projectList.size(), experimentList:[] ]
     }
@@ -231,7 +242,8 @@ class ProjectController {
     }
 
     def edit(Project project) {
-        ArrayList<Project> projectList = Project.findAllByIsActive(true, [params: params])
+        User user = springSecurityService.currentUser
+        def projectList = utilsService.getProjectListForUser(user, params)
         respond project, model: [projectList: projectList]
     }
 

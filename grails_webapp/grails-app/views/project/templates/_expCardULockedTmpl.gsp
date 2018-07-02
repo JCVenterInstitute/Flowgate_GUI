@@ -1,7 +1,7 @@
 <%@ page import="flowgate.Experiment; flowgate.ExperimentUser" %>
 <div class="panel panel-default">
   <div class="bootcards-summary-item">
-    <a class="noLinkBlack" href="/flowgate/experiment/index?eId=${experiment?.id}">
+    <a class="noLinkBlack" href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}">
       <div class="panel-body">
         <i class="fa fa-3x fa-${session?.experimentOpenId?.toLong() == experiment?.id ? 'folder-open' : 'folder'}-o"
            style="padding-bottom: 10px;"></i>

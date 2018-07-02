@@ -95,6 +95,113 @@ class ExpFileController {
         }
     }
 
+    def axMetaChange(ExperimentMetadata eMeta){
+        ExperimentMetadataValue eMetaVal = ExperimentMetadataValue.get(params.valId.toLong())
+        session["meta_${eMeta.mdKey}"] = eMetaVal.mdValue
+        Experiment experiment = eMeta.experiment
+        render (contentType:"text/json") {
+            success true
+            tablTabl "${g.render(template: 'annotationTmpl/tablTmpl', model: [experiment: experiment])}"
+        }
+    }
+
+    def axMetaActionChange(ExperimentMetadata eMeta){
+      println "axMetaActionChange ${params.colAction}!"
+      switch (params.colAction){
+        case 'Delete': delCol(eMeta)
+                       return
+          break
+
+        case 'Hide': hideCol(eMeta)
+                     return
+          break
+
+        case 'Edit': Experiment experiment = eMeta.experiment
+                     render (contentType:"text/json") {
+                       success true
+                       edModalTmpl "${g.render(template: 'annotationTmpl/colEditModal', model: [experiment: experiment, eMeta: eMeta, category: eMeta.mdCategory])}"
+                     }
+          break
+
+        default:  Experiment experiment = eMeta.experiment
+                  render (contentType:"text/json") {
+                    success true
+                    tablTabl "${g.render(template: 'annMasterTbl', model: [experiment: experiment, category: eMeta.mdCategory])}"
+                  }
+      }
+    }
+
+    def axShowAllCols(Experiment experiment){
+      println "showCols "
+      experiment.expMetadatas.each{
+        setColVisability(it, true)
+      }
+      render (contentType:"text/json") {
+        success true
+        tablTabl "${g.render(template: 'annMasterTbl', model: [experiment: experiment, category: params.category])}"
+      }
+    }
+
+    def hideCol(ExperimentMetadata eMeta){
+      println "hide ${eMeta.mdKey}"
+      Experiment experiment = eMeta.experiment
+      String category = eMeta.mdCategory
+      setColVisability(eMeta, false)
+      render (contentType:"text/json") {
+        success true
+        tablTabl "${g.render(template: 'annMasterTbl', model: [experiment: experiment, category: category])}"
+      }
+    }
+
+    def setColVisability(ExperimentMetadata eMeta, Boolean visible){
+      eMeta.visible = visible
+      eMeta.save flush: true
+    }
+
+
+
+    def delCol(ExperimentMetadata eMeta){
+      println "delete eMeta ${eMeta.mdKey}"
+      Experiment experiment = eMeta.experiment
+      String category = eMeta.mdCategory
+      eMeta.mdVals.each{
+        eMeta.mdVals.remove(it)
+        it.delete flush: true
+      }
+      eMeta.delete flush: true
+      render (contentType:"text/json") {
+        success true
+        tablTabl "${g.render(template: 'annMasterTbl', model: [experiment: experiment, category: category])}"
+      }
+    }
+
+    def addColumn(Experiment experiment){ //add metaData column in annotation table
+        params.experiment = experiment
+        ExperimentMetadata eMetaData = new ExperimentMetadata(params)
+        eMetaData.save(flush: true)
+        params.expMetaData = eMetaData
+        ExperimentMetadataValue eMetaValue = new ExperimentMetadataValue(params)
+        eMetaValue.save(flush: true)
+        if(eMetaData?.mdVals){
+          eMetaData?.mdVals?.add(eMetaValue)
+        }
+        else{
+          eMetaData?.mdVals = [eMetaValue]
+        }
+        println 'add metaData column'
+        redirect action: 'annotationTbl', id: experiment.id
+    }
+
+    def editColumn(Experiment experiment){ //add metaData column in annotation table
+        ExperimentMetadata eMetaData = ExperimentMetadata.get(params?.metaId?.toLong())
+        eMetaData.save(flush: true)
+        ExperimentMetadataValue eMetaValue = ExperimentMetadataValue(params?.metaValId?.toLong())
+        eMetaValue.save(flush: true)
+        eMetaData.mdVals.add(eMetaValue)
+        println 'add metaData column'
+        redirect action: 'annotationTbl', id: experiment.id
+    }
+
     def axExpFileCreate(){
         ExpFile expFile = new ExpFile()
         expFile.experiment = Experiment.get(params?.eId?.toLong())
@@ -199,7 +306,24 @@ class ExpFileController {
     }
 
     def expFileCreate(){
-        respond Experiment.get(params?.eId), model: [owner: springSecurityService.currentUser, eId: params?.eId ]
+        Experiment experiment = Experiment.findByIdAndIsActive(params?.eId?.toLong(), true)
+        if(experiment) {
+            User user = springSecurityService.currentUser
+            ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params)
+            ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(experiment?.project, true)
+            respond Experiment.get(params?.eId), model: [owner: springSecurityService.currentUser, eId: params?.eId, projectList: projectList, experimentList: experimentList]
+        } else {
+            if(experiment?.project){
+                redirect controller: 'project', view: 'index'
+            }
+            else {
+                request.withFormat {
+                    'html' { render view: '/error2', model: [message: g.message(message: 'error.experiment.noActive.message')]  }
+                    'json' { render(contentType: 'text/json') { 'this should go to gson view!'  }
+                    }
+                }
+            }
+        }
     }
 
     def expFileCreate2(){
@@ -263,16 +387,6 @@ class ExpFileController {
         session.fSels = []
 //        redirect action: 'annotation', id: Experiment.get(1).id, model: [sels: []]
         redirect action: 'annotation', id: experiment.id
-    }
-
-    def axMetaChange(ExperimentMetadata eMeta){
-        ExperimentMetadataValue eMetaVal = ExperimentMetadataValue.get(params.valId.toLong())
-        session["meta_${eMeta.mdKey}"] = eMetaVal.mdValue
-        Experiment experiment = eMeta.experiment
-        render (contentType:"text/json") {
-            success true
-            tablTabl "${g.render(template: 'annotationTmpl/tablTmpl', model: [experiment: experiment])}"
-        }
     }
 
     def setCkInitValues(Experiment experiment){

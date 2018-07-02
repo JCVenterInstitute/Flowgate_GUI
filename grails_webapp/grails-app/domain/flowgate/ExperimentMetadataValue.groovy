@@ -9,5 +9,6 @@ class ExperimentMetadataValue {
 
     static constraints = {
         expMetaData nullable: true
+        mdType inList: ['String','List']
     }
 }

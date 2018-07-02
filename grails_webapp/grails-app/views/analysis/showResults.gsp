@@ -29,81 +29,63 @@
   </div>
 </g:if>
 <g:else>
-    <div id="show-analysis" class="content scaffold-show" role="main">
-    <h3 class="text-center"><g:message code="analysis.showResult.label" args="[entityName]" default="Analysis Results" /></h3>
+  <div class="container">
+    <ul class="breadcrumb">
+      <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: analysis?.experiment?.project?.id])}" title="${analysis?.experiment?.project?.title}">${analysis?.experiment?.project?.title}</a></li>
+      <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: analysis?.experiment?.id])}" title="${analysis?.experiment?.title}">${analysis?.experiment?.title}</a></li>
+      <li class="active">Analysis Results</li>
+    </ul>
+    <h1 class="page-header"><g:message code="analysis.showResult.label" args="[entityName]" default="Analysis Results" /></h1>
     <g:if test="${flash.message}">
       <div class="message" role="status">${flash.message}</div>
     </g:if>
     <f:with bean="analysis">
-      <div class="fieldcontain">
-        <label class="control-label" for="exp">Experiment</label>
-        <f:display id="exp" property="experiment.title" />
-      </div>
+      <dl class="dl-horizontal">
+        <dt>Experiment:</dt>
+        <dd>${analysis?.experiment?.title}</dd>
 
-      <div class="fieldcontain">
-        <label for="analysisName">Analysis Name</label>
-        <f:display id="analysisName" property="analysisName" />
-      </div>
+        <dt>Analysis Name:</dt>
+        <dd>${analysis?.analysisName}</dd>
 
-      <div class="fieldcontain">
-        <label for="analysisDescription">Analysis Description</label>
-        <f:display id="analysisDescription" property="analysisDescription" />
-      </div>
+        <dt>Analysis Description:</dt>
+        <dd>${analysis?.analysisDescription}</dd>
 
-      <div class="fieldcontain">
-        <label for="analysisStatus">Analysis Status</label>
-        <span id="analysisStatus">
-          ${analysis.analysisStatus == 1 ? 'init' : analysis.analysisStatus == 2 ? 'pending': analysis.analysisStatus == 3 ? 'results ready' : analysis.analysisStatus == -1 ? 'error' : 'done'}
-        </span>
-      </div>
+        <dt>Analysis Status:</dt>
+        <dd>${analysis.analysisStatus == 1 ? 'init' : analysis.analysisStatus == 2 ? 'pending': analysis.analysisStatus == 3 ? 'results ready' : analysis.analysisStatus == -1 ? 'error' : 'done'}</dd>
 
-      <div class="fieldcontain">
-        <label for="jobNumber">Job Number</label>
-        <span id="jobNumber">${analysis.jobNumber.toString()}</span>
-      </div>
+        <dt>Job Number:</dt>
+        <dd>${analysis.jobNumber.toString()}</dd>
 
-      <div class="fieldcontain">
-        <label for="usr">Sent by</label>
-        <f:display id="usr" property="user.username" />
-      </div>
+        <dt>Sent by:</dt>
+        <dd>${analysis?.user.username}</dd>
 
-      <div class="fieldcontain">
-        <label for="tstmp">Date Created</label>
-        <span><g:formatDate id="tstmp" date="${analysis.timestamp}" format="MM/dd/yyyy hh:mm:ss"/></span>
-      </div>
+        <dt>Date Created:</dt>
+        <dd><g:formatDate id="tstmp" date="${analysis.timestamp}" format="MM/dd/yyyy hh:mm:ss"/></dd>
 
-      <div class="fieldcontain">
-        <label for="jobComplete">Date Completed</label>
+        <dt>Date Completed:</dt>
         <g:if test="${jobResult.dateCompleted}">
-          <span><g:formatDate id="jobComplete" date="${new Date().parse("yyyy-MM-dd'T'hh:mm:ss",jobResult?.dateCompleted)}" format="MM/dd/yyyy hh:mm:ss"/></span>
+          <dd><g:formatDate id="jobComplete" date="${new Date().parse("yyyy-MM-dd'T'hh:mm:ss",jobResult?.dateCompleted)}" format="MM/dd/yyyy hh:mm:ss"/></dd>
         </g:if>
-      </div>
 
-      <div class="fieldcontain">
-        <label for="jobStatusMsg">Job Complete Status</label>
-        <span id="jobStatusMsg">
-          <i class=" fa fa-circle" style="color: ${!jobResult?.status?.hasError ? 'lawngreen' : 'red'}"></i>
-          ${jobResult?.status?.statusMessage}
-        </span>
-      </div>
+        <dt>Job Complete Status:</dt>
+        <dd><i class=" fa fa-circle" style="color: ${!jobResult?.status?.hasError ? 'lawngreen' : 'red'}"></i>${jobResult?.status?.statusMessage}</dd>
+      </dl>
     </f:with>
-    <br/>
-    <br/>
-    %{--${jobResult.dump()}--}%
-    <br/>
     <div class="row" style="max-width: 100%">
       <div class="col-sm-12">
-        <g:render template="results/resultsFileLst" />
+        <sec:ifAnyGranted roles="ROLE_Administrator">
+          <g:render template="results/resultsFileLst" />
+        </sec:ifAnyGranted>
         %{--<g:render template="results/resultsGrid" />--}%
         <g:render template="results/resultsReport" />
       </div>
     </div>
     %{--TODO remove for normal user / change visibility    --}%
     <g:form resource="${this.analysis}" method="DELETE">
-      <fieldset class="text-center">
+      <div class="form-group">
         <g:link class="edit btn btn-primary" action="edit" resource="${this.analysis}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
         <input class="delete btn btn-danger" type="submit" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-      </fieldset>
+      </div>
     </g:form>
   </div>
 </g:else>

@@ -98,6 +98,7 @@ class UtilsService {
 
     def doManage(Experiment experiment, List<Long> cmpLst, String role){
         List<Long> srcLst = ExperimentUser.findAllByExperimentAndExpRole(experiment, role)*.user.id
+        if(cmpLst == null) cmpLst = new ArrayList<>(0);
         ((srcLst - cmpLst) + (cmpLst - srcLst)).each{
             if(springSecurityService.currentUser.id != it.toLong()) { //you cannot remove yourself!
                 User experimentUser = User.get(it.toLong())
@@ -172,6 +173,20 @@ class UtilsService {
         else {
             println "init ${sVar} with ${id}"
             session[sVar] = [id]
+        }
+    }
+
+    def getProjectListForUser(User user, Map paginateParams) {
+        if(user.username.equals("admin"))
+            return Project.findAllByIsActive(true, [params: paginateParams])
+        else {
+            def projectUserList = ProjectUser.findAllByUser(user, [params: paginateParams]);
+            List<Project> projectList = new ArrayList<Project>(projectUserList.size())
+            for (def projectUser : projectUserList) {
+                projectList.add(projectUser.project)
+            }
+
+            return projectList
         }
     }
 

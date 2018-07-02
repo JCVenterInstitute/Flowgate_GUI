@@ -13,11 +13,21 @@
 //= require_self
 
 if (typeof jQuery !== 'undefined') {
-    (function($) {
-        $(document).ajaxStart(function() {
-            $('#spinner').fadeIn();
-        }).ajaxStop(function() {
-            $('#spinner').fadeOut();
-        });
-    })(jQuery);
+  (function ($) {
+    $(document).ajaxStart(function () {
+      $('#spinner, #screen-locker').fadeIn();
+    }).ajaxStop(function () {
+      $('#spinner, #screen-locker').fadeOut();
+    });
+  })(jQuery);
+
+  $(document).ready(function () {
+    $(".breadcrumb a").each(function () {
+      $(this).text(shorten($(this).text(), 50));
+    });
+  });
+}
+
+function shorten(text, count) {
+  return text.slice(0, count) + (text.length > count ? "..." : "");
 }

@@ -19,5 +19,5 @@
     <input type="text" class="form-control" id="experimentHypothesis" name="experimentHypothesis" placeholder="Experiment Hypothesis">
   </div>
   <button type="submit" name="create" class="btn btn-primary">${message(code: 'default.button.create.label', default: 'Create')}</button>
-  <a href="/flowgate/project/index?pId=${pId}" type="submit" name="back" class="btn btn-warning">Back</a>
+  <a href="${createLink(controller: 'project', action:'index', params: [pId: pId])}" type="submit" name="back" class="btn btn-warning">Back</a>
 </g:form>

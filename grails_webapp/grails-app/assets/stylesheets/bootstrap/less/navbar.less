@@ -716,3 +716,11 @@
     }
   }
 }
+
+.navbar-nav > li.dropdown > a{color: rgba(255, 255, 255, 0.5);}
+.navbar-nav > li.dropdown > a:hover{color: rgba(255, 255, 255, 0.75);}
+.navbar-nav > li.open > a{background-color: #080808 !important;}
+
+@media (max-width: @grid-float-breakpoint-max) {
+  .navbar-nav .open .dropdown-menu > li > a {color: rgba(255, 255, 255, 0.5)}
+}

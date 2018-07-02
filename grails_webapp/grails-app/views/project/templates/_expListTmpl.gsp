@@ -29,8 +29,7 @@
     <div class="list-group">
       <g:each var="experiment" in="${experimentList}">
         <g:isAffilOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentClick,ROLE_ExperimentEdit">
-        %{--<a class="list-group-item" href="${createLink(controller: 'experiment', action: 'index', params:[eId: experiment?.id])}">--}%
-          <a class="list-group-item noLinkBlack" href="/flowgate/experiment/index?eId=${experiment?.id}">
+          <a class="list-group-item noLinkBlack" href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}">
             <i class="fa fa-3x fa-file-text-o img-rounded pull-left" style=""></i>
             <h4 class="list-group-item-heading">${experiment?.title}</h4>
 

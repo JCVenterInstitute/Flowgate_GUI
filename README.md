@@ -41,7 +41,7 @@ _grails run_
 
 expected output
 Grails application running at http://localhost:8585/flowgate in environment: ....
-and locate your internet browser to: http://localhost:8585/flowgate/ after the app started when finished initialization
+and locate your internet browser to: http://localhost:8585/ after the app started when finished initialization
 
 the app can be closed using the ctrl + c key combination
 

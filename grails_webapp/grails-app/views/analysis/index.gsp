@@ -94,7 +94,12 @@
 <div class="row">
   <div class="col-sm-offset-1 col-sm-10">
     <div id="list-analysis" class="content scaffold-list" role="main">
-      <h1 class="page-header"><g:message code="default.list.label" args="[entityName]"/></h1>
+      <ul class="breadcrumb">
+        <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: experiment?.project?.id])}" title="${experiment?.project?.title}">${experiment?.project?.title}</a></li>
+        <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" title="${experiment?.title}">${experiment?.title}</a></li>
+        <li class="active">List of Analysis Task</li>
+      </ul>
+      <h1 class="page-header">List of Analysis Task</h1>
 
       <div id="analysisListTabl">
         <g:render template="templates/analysisListTbl" model="[]"/>

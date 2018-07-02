@@ -18,6 +18,6 @@
       <f:field property="description"/>
     </f:with>
     <g:submitButton name="create" class="btn btn-primary" value="${message(code: 'default.button.create.label', default: 'Create')}"/>
-    <a href="/flowgate/project/list" class="btn btn-warning">Back</a>
+    <a href="${createLink(controller: 'project', action:'list')}" class="btn btn-warning">Back</a>
   </g:form>
 </div>

@@ -1,16 +1,22 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <meta name="layout" content="uploadLt"/>
+  <meta name="layout" content="wTreeSideBar"/>
   <g:set var="entityName" value="${message(code: 'uploadFcs.label', default: 'Upload FCS')}"/>
   <title><g:message code="default.uploadFcs.label" args="[entityName]" default="Upload FCS"/></title>
 </head>
 
 <body>
+<content tag="treeView">
+  <div id="projTree">
+    <g:render template="/shared/treeView" model="[projectList: projectList, experimentList: experimentList]"/>
+  </div>
+</content>
+<content tag="pgContent">
 <div class="container">
   <h1 class="page-header">${experiment?.title}</h1>
 
-  <h3 class="sub-header"><g:message code="default.fcsFile.create.label" default="Upload FCS-Files"/></h3>
+  <h3 class="sub-header"><g:message code="default.fcsFile.create.label" default="Upload FCS Files"/></h3>
   <g:if test="${flash.message}">
     <div class="message" role="status">${flash.message}</div>
   </g:if>
@@ -37,9 +43,10 @@
 
       <p class="help-block">You can upload single or multiple .fcs file(s).</p>
     </div>
-    <g:submitButton name="fcsUpload" class="save btn btn-primary" value="${message(code: 'default.button.annotate.label', default: 'Annotate')}" id="${eId}"/>
-    <a href="/flowgate/experiment/index?eId=${eId}" class="btn btn-warning">Back</a>
+    <g:submitButton name="fcsUpload" class="save btn btn-primary" value="${message(code: 'default.button.annotate.label', default: 'Upload')}" id="${eId}"/>
+    <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: eId])}" class="btn btn-warning">Back</a>
   </g:uploadForm>
 </div>
+</content>
 </body>
 </html>

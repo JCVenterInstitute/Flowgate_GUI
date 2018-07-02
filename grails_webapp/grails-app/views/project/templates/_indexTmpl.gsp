@@ -14,12 +14,12 @@
 </g:if>
 
 <div class="pull-right pt-3">
-  <a href="/flowgate/experiment/create?pId=${project?.id}" class="btn btn-info">
+  <a href="${createLink(controller: 'experiment', action: 'create', params: [pId: project?.id])}" class="btn btn-info">
     <i class="glyphicon glyphicon-plus"></i>Add Experiment
   </a>
-  <a href="/flowgate/experiment/createFromTemplate?pId=${project?.id}" class="btn btn-info">
+  %{--<a href="/experiment/createFromTemplate?pId=${project?.id}" class="btn btn-info">
     <i class="glyphicon glyphicon-plus"></i>Add From Template
-  </a>
+  </a>--}%
 </div>
 
 <h1 class="sub-header">Experiments</h1>

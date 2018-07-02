@@ -92,10 +92,12 @@
   --}%
 </div>
 
-<div id="create-module" class="content scaffold-create" role="main">
-  <h1><g:message code="default.create.label" args="[entityName]"/></h1>
+<div id="create-module" class="container" role="main">
+  <h1 class="page-header"><g:message code="default.create.label" args="[entityName]"/></h1>
   <g:if test="${flash.message}">
-    <div class="message" role="status">${flash.message}</div>
+    <div class="row justify-content-center ">
+      <div class="alert alert-info text-center" role="alert">${flash.message}</div>
+    </div>
   </g:if>
   <g:hasErrors bean="${this.module}">
     <ul class="errors" role="alert">
@@ -109,7 +111,7 @@
       <f:all bean="module"/>
     </fieldset>
     <fieldset class="buttons">
-      <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}"/>
+      <g:submitButton name="create" class="save btn btn-primary" value="${message(code: 'default.button.create.label', default: 'Create')}"/>
     </fieldset>
   </g:form>
 </div>

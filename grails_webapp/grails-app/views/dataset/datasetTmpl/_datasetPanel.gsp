@@ -1,10 +1,20 @@
 <%@ page import="flowgate.Dataset" %>
-<div class="row">
-  <div class="btn btn-default" onclick="editDs(${ds.id});"><i class="fa fa-pencil" ></i>Edit Dataset</div>
-  <div class="btn btn-default" onclick="addDs(${ds.id});"><i class="fa fa-plus" ></i>Add New Dataset</div>
-</div>
-<div class="row">
-  <div id="datasetField" >
-    <g:render template="datasetTmpl/datasetFieldEdit" model="[experiment: experiment, dsId: ds.id ]" />
+
+<div class="form-horizontal">
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Subset Name:</label>
+
+    <div id="datasetField" class="col-sm-4">
+      <g:render template="datasetTmpl/datasetFieldEdit" model="[experiment: experiment, dsId: ds.id]"/>
+    </div>
+
+    <div class="col-sm-2">
+      <button type="button" class="btn btn-warning" onclick="editDs(${ds.id});"><i class="fa fa-pencil"></i>Edit Subset Name</button>
+    </div>
+
+    <div class="col-sm-4">
+      <button type="button" class="btn btn-primary" onclick="addDs(${ds.id});"><i class="fa fa-plus"></i>Add New Subset</button>
+      <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="btn btn-primary">Return to Experiment</a>
+    </div>
   </div>
 </div>

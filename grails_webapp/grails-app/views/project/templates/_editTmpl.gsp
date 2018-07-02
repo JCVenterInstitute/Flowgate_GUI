@@ -41,7 +41,7 @@
   %{--<fieldset>--}%
 
     <button type="submit" class="btn btn-primary">${message(code: 'default.button.update.label', default: 'Update')}</button>
-    <a href="/flowgate/project/index?pId=${project.id}" type="submit" name="back" class="btn btn-warning">Back</a>
+    <a href="${createLink(controller: 'project', action: 'index', params: [pId: project?.id])}" type="submit" name="back" class="btn btn-warning">Back</a>
   %{--</fieldset>--}%
   </g:form>
 </div>

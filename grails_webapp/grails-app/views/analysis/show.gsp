@@ -7,24 +7,13 @@
 </head>
 
 <body>
-<a href="#show-analysis" class="skip" tabindex="-1"><g:message code="default.link.skip.label"
-                                                               default="Skip to content&hellip;"/></a>
-
-<div class="nav" role="navigation">
-    <ul>
-        %{--<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>--}%
-        %{--<li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>--}%
-        %{--<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>--}%
-        <li><a class="home" href="${createLink(uri: '/experiment/index?eId=' + this.analysis.experiment.id)}"><g:message
-             code="default.home.label"/></a></li>
-        <li><g:link class="list" action="index" params="[eId: this.analysis.experiment.id]"><g:message
-             code="default.list.label" args="[entityName]"/></g:link></li>
-        <li><g:link class="create" action="create" params="[eId: this.analysis.experiment.id]"><g:message
-             code="default.new.label" args="[entityName]"/></g:link></li>
-    </ul>
-</div>
 
 <div id="show-analysis" class="content scaffold-show" role="main">
+  <ul class="breadcrumb">
+    <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: analysis?.experiment?.project?.id])}" title="${analysis?.experiment?.project?.title}">${analysis?.experiment?.project?.title}</a></li>
+    <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: analysis?.experiment?.id])}" title="${analysis?.experiment?.title}">${analysis?.experiment?.title}</a></li>
+    <li class="active">Analysis</li>
+  </ul>
   <h1><g:message code="default.show.label" args="[entityName]"/></h1>
   <g:if test="${flash.message}">
     <div class="message" role="status">${flash.message}</div>
