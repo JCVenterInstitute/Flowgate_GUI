@@ -9,7 +9,7 @@
       </div>
     </g:isOwnerOrRoles>
 
-    <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentClone">
+    %{--<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentClone">
       <div class="btn btn-primary" onclick="experimentCloneClick(${experiment?.id})">
         <i class="fa fa-clone"></i>&nbsp;Clone Experiment
       </div>
@@ -19,7 +19,7 @@
       <div class="btn btn-primary" onclick="experimentUploadTemplateClick(${experiment?.id})">
         <i class="fa fa-upload"></i>&nbsp;Upload FCS Template
       </div>
-    </g:isOwnerOrRoles>
+    </g:isOwnerOrRoles>--}%
 
     <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentDelete">
     %{--
