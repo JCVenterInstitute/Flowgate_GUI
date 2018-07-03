@@ -25,7 +25,7 @@
 <h1 class="sub-header">Experiments</h1>
 
 <div class="row">
-  <div id="expContent">
+  <div id="expContent" class="col-md-12">
     <g:render template="templates/expListTmpl"/>
     %{--<g:if test="${!session?.expCardView ?: true}">
       <g:render template="templates/expCardsTmpl"/>
