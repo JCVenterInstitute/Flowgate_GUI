@@ -353,7 +353,8 @@ class ExpFileController {
                     experiment.expFiles.add(expFile)
                 }
             }
-            redirect action: 'annotationTbl', id: experiment.id   //, model: [expi: Experiment.get(1), expId2: Experiment.get(1)]
+            //redirect action: 'annotationTbl', id: experiment.id   //, model: [expi: Experiment.get(1), expId2: Experiment.get(1)]
+            redirect controller: 'experiment', action: 'index', id: experiment.id, params:[eId: experiment.id]
         }
     }
 
