@@ -26,11 +26,11 @@
 
 <div class="row">
   <div id="expContent">
-    <g:if test="${!session?.expCardView ?: true}">
+    <g:render template="templates/expListTmpl"/>
+    %{--<g:if test="${!session?.expCardView ?: true}">
       <g:render template="templates/expCardsTmpl"/>
     </g:if>
     <g:else>
-      <g:render template="templates/expListTmpl"/>
-    </g:else>
+    </g:else>--}%
   </div>
 </div>

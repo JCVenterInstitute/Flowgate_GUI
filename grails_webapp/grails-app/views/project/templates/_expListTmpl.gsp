@@ -1,6 +1,6 @@
 <div class="bootcards-list">
   <div class="panel panel-default">
-    <div class="panel-body">
+    %{--<div class="panel-body">
       <g:isAffilOrRoles roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentClick,ROLE_ExperimentSearch">
         <form>
           <div class="col-xs-10">
@@ -24,7 +24,7 @@
       <g:isNotAffilOrRoles roles="ROLE_ExperimentClick,ROLE_ExperimentSearch">
         <br/>
       </g:isNotAffilOrRoles>
-    </div>
+    </div>--}%
 
     <div class="list-group">
       <g:each var="experiment" in="${experimentList}">
