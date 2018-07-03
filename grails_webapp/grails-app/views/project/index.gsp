@@ -10,6 +10,11 @@
 <body>
 <g:render template="/shared/nav"/>
 <content tag="topBtnBar">
+  <g:if test="${flash.message}">
+    <div class="row justify-content-center ">
+      <div class="alert alert-info text-center" role="alert">${flash.message}</div>
+    </div>
+  </g:if>
   <div id="topBtnBar">
     <g:render template="templates/indexTopBtnBar" model="[project: this.project]"/>
   </div>
