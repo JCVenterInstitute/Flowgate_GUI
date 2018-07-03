@@ -2,6 +2,7 @@ package flowgate
 
 import grails.core.GrailsApplication
 import grails.plugin.springsecurity.annotation.Secured
+import grails.util.Environment
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -353,8 +354,12 @@ class ExpFileController {
                     experiment.expFiles.add(expFile)
                 }
             }
-            //redirect action: 'annotationTbl', id: experiment.id   //, model: [expi: Experiment.get(1), expId2: Experiment.get(1)]
-            redirect controller: 'experiment', action: 'index', id: experiment.id, params:[eId: experiment.id]
+            if(Environment.current == Environment.DEVELOPMENT) {
+                redirect action: 'annotationTbl', id: experiment.id   //, model: [expi: Experiment.get(1), expId2: Experiment.get(1)]
+            }
+            else{
+                redirect controller: 'experiment', action: 'index', id: experiment.id, params:[eId: experiment.id]
+            }
         }
     }
 
