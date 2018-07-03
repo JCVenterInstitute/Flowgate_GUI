@@ -1,14 +1,12 @@
 <%@ page import="flowgate.ExpFile; flowgate.Experiment" %>
 <% def utilsService = grailsApplication.mainContext.getBean("utilsService") %>
 <g:if test="${experiment?.id == session?.experimentOpenId?.toLong()}">
-  <div class="row">
   <h1 class="page-header">
     <g:if test="${experiment?.id == session?.experimentEditModeId?.toLong()}">
-      <input class="form-control" name="title" value="${experiment?.title}" onchange="experimentTitleInputBlur(${experiment?.id}, this.value)" style="width: 50%;">
+      <input class="form-control" name="title" value="${experiment?.title}" onchange="experimentTitleInputBlur(${experiment?.id}, this.value)" style="width: 75%;">
     </g:if>
     <g:else>${experiment?.title}</g:else>
   </h1>
-  </div>
 
   <g:if test="${experiment?.id == session.experimentEditModeId?.toLong()}">
     <textarea id="experimentDescription" class="form-control" rows="10" cols="130" onchange="experimentDescriptionInputBlur(${experiment?.id}, this.value)"
