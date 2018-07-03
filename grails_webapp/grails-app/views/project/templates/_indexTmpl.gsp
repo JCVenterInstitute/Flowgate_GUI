@@ -25,12 +25,12 @@
 <h1 class="sub-header">Experiments</h1>
 
 <div class="row">
-  <div id="expContent">
-    <g:if test="${!session?.expCardView ?: true}">
+  <div id="expContent" class="col-md-12">
+    <g:render template="templates/expListTmpl"/>
+    %{--<g:if test="${!session?.expCardView ?: true}">
       <g:render template="templates/expCardsTmpl"/>
     </g:if>
     <g:else>
-      <g:render template="templates/expListTmpl"/>
-    </g:else>
+    </g:else>--}%
   </div>
 </div>
