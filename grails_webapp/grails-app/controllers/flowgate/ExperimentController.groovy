@@ -249,7 +249,7 @@ class ExperimentController {
         experiment.isActive = false
         experiment.save flush:true
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title.take(20)+'... '])
-        redirect view: 'index', params: [pId: experiment.project.id]
+        redirect controller: 'project', action: 'index', params: [pId: experiment.project.id]
     }
 
     // for Super Admins to completely erase experiments from db with their expFiles
