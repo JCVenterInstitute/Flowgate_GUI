@@ -1,16 +1,20 @@
 <%@ page import="flowgate.ExpFile; flowgate.Experiment" %>
 <% def utilsService = grailsApplication.mainContext.getBean("utilsService") %>
+<g:form name="updateExperiment" method="PUT" controller="experiment" action="update" id="${experiment?.id}">
 <g:if test="${experiment?.id == session?.experimentOpenId?.toLong()}">
-  <h1 class="page-header">
-    <g:if test="${experiment?.id == session?.experimentEditModeId?.toLong()}">
-      <input class="form-control" name="title" value="${experiment?.title}" onchange="experimentTitleInputBlur(${experiment?.id}, this.value)" style="width: 75%;">
-    </g:if>
-    <g:else>${experiment?.title}</g:else>
-  </h1>
+  <g:if test="${experiment?.id == session?.experimentEditModeId?.toLong()}">
+    <div class="form-group">
+      <label for="title">Experiment Title</label>
+      <input class="form-control" id="title" name="title" value="${experiment?.title}" style="width: 75%;">
+    </div>
+  </g:if>
+  <g:else><h1 class="page-header">${experiment?.title}</h1></g:else>
 
   <g:if test="${experiment?.id == session.experimentEditModeId?.toLong()}">
-    <textarea id="experimentDescription" class="form-control" rows="10" cols="130" onchange="experimentDescriptionInputBlur(${experiment?.id}, this.value)"
-              onfocus="this.select()">${experiment?.description}</textarea>
+    <div class="form-group">
+      <label for="title">Experiment Description</label>
+      <textarea id="experimentDescription" name="description" class="form-control" rows="10" cols="130" onfocus="this.select()">${experiment?.description}</textarea>
+    </div>
   </g:if>
   <g:else>
     <textarea class="form-control" readonly="true" rows="10" cols="130">${experiment?.description}</textarea>
@@ -66,3 +70,4 @@
   </g:each>
 </g:if>
 <g:render template="/shared/manageUsers" model="[objectType: 'Experiment', object: experiment]"/>
+</g:form>

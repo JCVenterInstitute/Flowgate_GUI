@@ -1,6 +1,7 @@
 <div class="pull-right">
   <g:if test="${experiment?.id == session?.experimentEditModeId?.toLong()}">
-    <div class="btn btn-primary" onclick="toggleExpEditMode(${experiment?.id})">Done</div>
+    <div class="btn btn-warning" onclick="toggleExpEditMode(${experiment?.id});">Cancel</div>
+    <div class="btn btn-primary" onclick="toggleExpEditMode(${experiment?.id});document.getElementById('updateExperiment').submit();">Submit</div>
   </g:if>
   <g:else>
     <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentEdit">
