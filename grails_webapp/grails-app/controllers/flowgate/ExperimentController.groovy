@@ -10,7 +10,7 @@ import grails.transaction.Transactional
 @Transactional
 class ExperimentController {
 
-    static allowedMethods = [save: "POST", manageUsers: "POST", update: "PUT", axCloneExperimentClick: "PUT", index: "GET"]
+    static allowedMethods = [save: "POST", manageUsers: "POST", update: ["PUT","POST"], axCloneExperimentClick: "PUT", index: "GET"]
 
     def springSecurityService
     def utilsService

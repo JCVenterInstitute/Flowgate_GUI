@@ -4,7 +4,7 @@
     <div class="panel-heading">
       <div class="row" style="padding: 0;">
         <div class="col-sm-10" style="padding: 0;">
-          <input class="form-control" type="text" value="${expFile?.title}" onchange="expFileTitleChange(${expFile?.id})" (mouseup)="$event.target.select()" />
+          ${expFile?.title}%{--<input class="form-control" type="text" value="${expFile?.title}" onchange="expFileTitleChange(${expFile?.id})" (mouseup)="$event.target.select()" />--}%
         </div>
         <div class="col-sm-2" style="padding: 0;" >
           <div class="pull-right">

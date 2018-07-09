@@ -7,21 +7,40 @@
 </head>
 
 <body>
-%{--<a href="#list-dataset" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>--}%
+<div class="container">
+  <ul class="breadcrumb">
+    <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: experiment?.project?.id])}" title="${experiment?.project?.title}">${experiment?.project?.title}</a></li>
+    <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" title="${experiment?.title}">${experiment?.title}</a></li>
+    <li class="active">List of Dataset</li>
+  </ul>
 
-<div class="nav" role="navigation">
-  %{--<ul>--}%
-    %{--<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>--}%
-    %{--<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]"/></g:link></li>--}%
-  %{--</ul>--}%
-</div>
+  <h1>List of Dataset</h1>
 
-<div id="list-dataset" class="content scaffold-list" role="main">
-  <h1><g:message code="default.list.label" args="[entityName]"/></h1>
-  <g:if test="${flash.message}">
-    <div class="message" role="status">${flash.message}</div>
-  </g:if>
-  <f:table collection="${datasetList}"/>
+  <div class="row">
+    <div class="col-md-offset-9 col-md-3 mb-2" style="text-align: right;">
+      <a href="${createLink(controller: 'dataset', action: 'create', params: [eId: experiment?.id])}"  class="btn btn-primary"><i class="fa fa-plus"></i>Add New Subset</a>
+      <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="btn btn-warning">Back</a>
+    </div>
+  </div>
+
+  <table class="table table-bordered table-responsive table-striped table-hover dataTable" width="100%">
+    <thead>
+    <tr>
+      <g:sortableColumn class="text-center" property="name" title="Name"/>
+      <g:sortableColumn class="text-center" property="description" title="Description"/>
+      <g:sortableColumn class="text-center" property="files" title="Files"/>
+    </tr>
+    </thead>
+    <tbody>
+      <g:each in="${datasetList}" var="bean">
+        <tr>
+          <td><a href="edit/${bean?.id}">${bean?.name}</a></td>
+          <td>${bean?.description}</td>
+          <td><g:each in="${bean?.expFiles}" var="file">${file?.fileName}<br></g:each></td>
+        </tr>
+      </g:each>
+    </tbody>
+  </table>
 
   <div class="pagination">
     <g:paginate total="${datasetCount ?: 0}"/>
