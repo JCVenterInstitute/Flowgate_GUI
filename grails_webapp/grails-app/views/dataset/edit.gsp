@@ -22,7 +22,7 @@
       </g:eachError>
     </ul>
   </g:hasErrors>
-  <g:form resource="${this.dataset}" method="PUT" class="form-horizontal">
+  <g:form resource="${this.dataset}" params="[eId: experiment.id]" method="PUT" class="form-horizontal">
     <g:hiddenField name="version" value="${this.dataset?.version}"/>
     <div class="form-group">
       <label class="col-sm-1 control-label" for="description">Name</label>
