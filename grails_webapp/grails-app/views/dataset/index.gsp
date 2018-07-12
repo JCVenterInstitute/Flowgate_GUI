@@ -11,14 +11,14 @@
   <ul class="breadcrumb">
     <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: experiment?.project?.id])}" title="${experiment?.project?.title}">${experiment?.project?.title}</a></li>
     <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" title="${experiment?.title}">${experiment?.title}</a></li>
-    <li class="active">List of Dataset</li>
+    <li class="active">List of Datasets for Analysis</li>
   </ul>
 
-  <h1>List of Dataset</h1>
+  <h1>List of Datasets for Analysis</h1>
 
   <div class="row">
     <div class="col-md-offset-9 col-md-3 mb-2" style="text-align: right;">
-      <a href="${createLink(controller: 'dataset', action: 'create', params: [eId: experiment?.id])}"  class="btn btn-primary"><i class="fa fa-plus"></i>Add New Subset</a>
+      <a href="${createLink(controller: 'dataset', action: 'create', params: [eId: experiment?.id])}"  class="btn btn-primary"><i class="fa fa-plus"></i>Create New Dataset</a>
       <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="btn btn-warning">Back</a>
     </div>
   </div>

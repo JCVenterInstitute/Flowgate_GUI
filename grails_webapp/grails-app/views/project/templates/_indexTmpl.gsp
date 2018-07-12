@@ -15,7 +15,7 @@
 
 <div class="pull-right pt-3">
   <a href="${createLink(controller: 'experiment', action: 'create', params: [pId: project?.id])}" class="btn btn-info">
-    <i class="glyphicon glyphicon-plus"></i>Add Experiment
+    <i class="glyphicon glyphicon-plus"></i>Create Experiment
   </a>
   %{--<a href="/experiment/createFromTemplate?pId=${project?.id}" class="btn btn-info">
     <i class="glyphicon glyphicon-plus"></i>Add From Template
