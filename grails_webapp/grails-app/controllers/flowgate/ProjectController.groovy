@@ -225,9 +225,9 @@ class ProjectController {
             return
         }
         if (project.hasErrors()) {
-            println "project has errors!"
             transactionStatus.setRollbackOnly()
-            respond project.errors, view:'create'
+            def projectList = utilsService.getProjectListForUser(owner, params)
+            respond project.errors, view:'create', model: [projectList: projectList, projectCount: projectList.size(), experimentList:[] ]
             return
         }
         project.save flush:true
