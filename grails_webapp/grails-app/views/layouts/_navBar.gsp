@@ -19,6 +19,9 @@
             <a class="nav-link" href="${createLink(uri: '/project/list')}">Projects</a>
           </li>
           <g:pageProperty name="page.nav" />
+          <li class="nav-item">
+            <a class="nav-link" href="${createLink(uri: '/about')}"><g:message code="about.link.label" default="About" /></a>
+          </li>
           <li class="dropdown" style="min-width: 100px;">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                aria-expanded="false"><i class="fa fa-user" style="margin-right: 5px;"></i> <sec:username/> <span class="caret"></span></a>
