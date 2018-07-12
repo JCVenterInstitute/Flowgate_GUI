@@ -1,16 +1,16 @@
 <h1 class="page-header">Create Experiment</h1>
-<g:form action="save" class="col-xs-6 col-sm-3">
+<g:form action="save" class="col-xs-12 col-sm-6">
   <g:hiddenField name="datasets" value="${null}"/>
   <g:hiddenField name="experimentMeta" value=""/>
   <g:hiddenField name="pId" value="${pId}"/>
 
   <div class="form-group">
-    <label for="title">Title</label>
+    <label for="title">Title *</label>
     <input type="text" class="form-control" id="title" name="title" placeholder="Title">
   </div>
 
   <div class="form-group">
-    <label for="description">Description</label>
+    <label for="description">Description *</label>
     <input type="text" class="form-control" id="description" name="description" placeholder="Description">
   </div>
 
