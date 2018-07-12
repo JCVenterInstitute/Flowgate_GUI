@@ -59,22 +59,21 @@ class ProjectController {
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(project, true)
         User user = springSecurityService.currentUser
         def projectList = utilsService.getProjectListForUser(user, params)
-        def searchLst = []
-        projectList.findAll{it.title.contains(params?.filterString) ? searchLst.push(it.id) : '' }
-        if(params?.filterString != ''){
+        def searchLst =  projectList.findAll{it.title.toLowerCase().contains(params?.filterString.toLowerCase()) || it.description.toLowerCase().contains(params?.filterString.toLowerCase())}
+        /*if(params?.filterString != ''){
             session.filterString = params?.filterString
             session.searchLst = searchLst
-        }
+        }*/
         if(session?.projCardView){
             render (contentType:"text/json"){
                 success true
-                contentPage "${g.render(template: 'templates/projCardsTmpl', model: [projectList: projectList])}"
+                contentPage "${g.render(template: 'templates/projCardsTmpl', model: [projectList: searchLst, filterString: params?.filterString])}"
             }
         }
         else {
             render (contentType:"text/json"){
                 success true
-                contentPage "${g.render(template: 'templates/projListTmpl', model: [projectList: projectList])}"
+                contentPage "${g.render(template: 'templates/projListTmpl', model: [projectList: searchLst, filterString: params?.filterString])}"
             }
         }
 
