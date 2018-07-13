@@ -188,12 +188,12 @@ class ExperimentController {
         experiment.project = Project.findByIdAndIsActive(params?.pId?.toLong(), true)
         experiment.validate()
         if (experiment == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
         if (experiment.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             ArrayList<Project> projectList = utilsService.getProjectListForUser(springSecurityService.currentUser, params)
             ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(Project.get(params?.pId?.toLong()), true)
             respond experiment.errors, view:'create', model: [projectList: projectList, pId: params?.pId, experimentList: experimentList]
@@ -218,12 +218,12 @@ class ExperimentController {
     @Transactional
     def update(Experiment experiment) {
         if (experiment == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
         if (experiment.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             respond experiment.errors, view:'edit'
             return
         }
@@ -241,7 +241,7 @@ class ExperimentController {
     def delete(Experiment experiment) {
 //        TODO remove ExperimentUser / if not done automatically
         if (experiment == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
@@ -259,7 +259,7 @@ class ExperimentController {
     def erase(Experiment experiment) {
 //        TODO remove ExperimentUser / if not done automatically
         if (experiment == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }

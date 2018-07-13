@@ -266,12 +266,12 @@ class AnalysisController {
         experiment.addToAnalyses(analysis)
         analysis.validate()
         if (analysis == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
         if (analysis.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             respond analysis.errors, view:'create'
             return
         }
@@ -293,7 +293,7 @@ class AnalysisController {
     @Transactional
     def update(Analysis analysis) {
         if (analysis == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
@@ -302,7 +302,7 @@ class AnalysisController {
         analysis.validate()
 
         if (analysis.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             analysis.experiment = Experiment.get(params?.experimentId)
             analysis.experiment.project.attach()
             analysis.user.attach()
@@ -326,7 +326,7 @@ class AnalysisController {
     def delete(Analysis analysis) {
 
         if (analysis == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
@@ -346,7 +346,7 @@ class AnalysisController {
     def del(Analysis analysis) {
 //        TODO check if delete on server should be done as well
         if (analysis == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }

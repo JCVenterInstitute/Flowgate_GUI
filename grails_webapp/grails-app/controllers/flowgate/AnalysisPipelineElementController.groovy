@@ -24,13 +24,13 @@ class AnalysisPipelineElementController {
     @Transactional
     def save(AnalysisPipelineElement analysisPipelineElement) {
         if (analysisPipelineElement == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
 
         if (analysisPipelineElement.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             respond analysisPipelineElement.errors, view:'create'
             return
         }
@@ -53,13 +53,13 @@ class AnalysisPipelineElementController {
     @Transactional
     def update(AnalysisPipelineElement analysisPipelineElement) {
         if (analysisPipelineElement == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
 
         if (analysisPipelineElement.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             respond analysisPipelineElement.errors, view:'edit'
             return
         }
@@ -79,7 +79,7 @@ class AnalysisPipelineElementController {
     def delete(AnalysisPipelineElement analysisPipelineElement) {
 
         if (analysisPipelineElement == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
