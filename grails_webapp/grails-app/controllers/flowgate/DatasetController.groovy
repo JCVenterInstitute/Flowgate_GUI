@@ -199,7 +199,11 @@ class DatasetController {
     def save(params) {
         Experiment experiment = Experiment.findById(params.eId)
         Dataset exist = Dataset.findByNameAndExperiment(params.name, experiment)
-        if(exist == null) {
+        if(exist != null) {
+            flash.error = "Dataset with " + params.name + " is already exist in this experiment"
+        } else if(params.name == null || params.name.toString().equals("")) {
+            flash.error = "Name is required!"
+        } else {
             Dataset ds = new Dataset(experiment: experiment, name: params.name, description: params.description, expFiles: [])
             (params.findAll { key, value -> key.startsWith('file_') }).each {
                 if (it.value == 'on') {
@@ -211,20 +215,21 @@ class DatasetController {
             ds.save(flush: true)
             flash.message = "New dataset is successfully created"
             redirect action: 'index', params: [eId: params?.eId]
-        } else{
-            (params.findAll { key, value -> key.startsWith('file_') }).each {
-                if (it.value == 'on') {
-                    def fcsId = (it?.key - 'file_').toLong()
-                    if (session.selectedFiles)
-                        session.selectedFiles.add(fcsId)
-                    else
-                        session.selectedFiles = [fcsId]
-                }
-            }
-
-            flash.message = "Dataset with " + params.name + " is already exist in this experiment"
-            redirect action: 'create', params: params
+            return
         }
+
+        (params.findAll { key, value -> key.startsWith('file_') }).each {
+            if (it.value == 'on') {
+                def fcsId = (it?.key - 'file_').toLong()
+                if (session.selectedFiles)
+                    session.selectedFiles.add(fcsId)
+                else
+                    session.selectedFiles = [fcsId]
+            }
+        }
+
+        redirect action: 'create', params: params
+        return
     }
 
     def update(params) {

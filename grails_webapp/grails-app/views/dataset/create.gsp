@@ -16,17 +16,15 @@
   </ul>
 
   <h1><g:message code="default.create.label" args="[entityName]"/></h1>
-  <g:hasErrors bean="${this.dataset}">
-    <ul class="errors" role="alert">
-      <g:eachError bean="${this.dataset}" var="error">
-        <li<g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-      </g:eachError>
-    </ul>
-  </g:hasErrors>
+  <g:if test="${flash.error}">
+    <div class="row justify-content-center ">
+      <div class="alert alert-danger text-center" role="alert">${flash.error}</div>
+    </div>
+  </g:if>
   <g:form resource="${this.dataset}" action="save" method="PUT" class="form-horizontal">
     <g:hiddenField name="eId" value="${this.eId}"/>
     <div class="form-group">
-      <label class="col-sm-1 control-label" for="description">Name</label>
+      <label class="col-sm-1 control-label" for="description">Name *</label>
       <div class="col-sm-11">
         <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="${this.name}">
       </div>

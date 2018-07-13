@@ -29,13 +29,13 @@ class AnalysisPipelineController {
     @Transactional
     def save(AnalysisPipeline analysisPipeline) {
         if (analysisPipeline == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
 
         if (analysisPipeline.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             respond analysisPipeline.errors, view:'create'
             return
         }
@@ -58,13 +58,13 @@ class AnalysisPipelineController {
     @Transactional
     def update(AnalysisPipeline analysisPipeline) {
         if (analysisPipeline == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
 
         if (analysisPipeline.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             respond analysisPipeline.errors, view:'edit'
             return
         }
@@ -84,7 +84,7 @@ class AnalysisPipelineController {
     def delete(AnalysisPipeline analysisPipeline) {
 
         if (analysisPipeline == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }

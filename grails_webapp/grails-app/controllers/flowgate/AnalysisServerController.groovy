@@ -24,13 +24,13 @@ class AnalysisServerController {
     @Transactional
     def save(AnalysisServer analysisServer) {
         if (analysisServer == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
 
         if (analysisServer.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             respond analysisServer.errors, view:'create'
             return
         }
@@ -53,13 +53,13 @@ class AnalysisServerController {
     @Transactional
     def update(AnalysisServer analysisServer) {
         if (analysisServer == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
 
         if (analysisServer.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             respond analysisServer.errors, view:'edit'
             return
         }
@@ -79,7 +79,7 @@ class AnalysisServerController {
     def delete(AnalysisServer analysisServer) {
 
         if (analysisServer == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
