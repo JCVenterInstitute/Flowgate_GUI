@@ -194,7 +194,9 @@ class ExperimentController {
         }
         if (experiment.hasErrors()) {
             transactionStatus.setRollbackOnly()
-            respond experiment.errors, view:'create', model: [pId: params?.pId]
+            ArrayList<Project> projectList = utilsService.getProjectListForUser(springSecurityService.currentUser, params)
+            ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(Project.get(params?.pId?.toLong()), true)
+            respond experiment.errors, view:'create', model: [projectList: projectList, pId: params?.pId, experimentList: experimentList]
             return
         }
         experiment.save flush:true

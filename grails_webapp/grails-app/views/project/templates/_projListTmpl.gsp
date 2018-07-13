@@ -3,20 +3,20 @@
     <div class="panel-body">
       <g:isAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectClick,ROLE_ProjectSearch">
         <form>
-          <div class="col-xs-10">
+          <div class="col-xs-12">
             <div class="input-group">
-              <input id="filterInput" type="text" class="form-control" style="position: initial" onchange="setFilter()" placeholder="Search Projects..." value="${session?.filterString}">
+              <input id="filterInput" type="text" class="form-control" style="position: initial" onchange="setFilter()" placeholder="Search Projects..." value="${filterString}">
               <i class="fa fa-search"></i>
               <span class="input-group-btn">
                 <button class="btn btn-primary" type="button" onclick="clearFilter()"><i class="fa fa-close"></i></button>
               </span>
             </div>
           </div>
-          <div class="col-xs-2" style="text-align: right;">
+          %{--<div class="col-xs-2" style="text-align: right;">
             <span data-toggle="tooltip" title="${session?.projCardView ? 'show as list' : 'show as cards'}">
               <div class="btn btn-default" style="color: #333;" onclick="toggleProjView()"><i class="fa ${session?.projCardView ? 'fa-list' : 'fa-th'}"></i></div>
             </span>
-          </div>
+          </div>--}%
         </form>
       </g:isAffilOrRoles>
       <g:isNotAffilOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectClick,ROLE_ProjectSearch">

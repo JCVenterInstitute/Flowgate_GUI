@@ -14,7 +14,7 @@
       %{--<g:render template="templates/indexTopBtnBar" model="[project: this.project]" />--}%
       <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectCreate">
         <a class="btn btn-primary create noLinkBlack" href="${createLink(controller: 'project', action: 'create')}">
-          <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Add Project
+          <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Create Project
         </a>
       </sec:ifAnyGranted>
 

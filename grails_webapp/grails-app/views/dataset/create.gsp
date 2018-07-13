@@ -12,7 +12,7 @@
   <ul class="breadcrumb">
     <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: experiment?.project?.id])}" title="${experiment?.project?.title}">${experiment?.project?.title}</a></li>
     <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" title="${experiment?.title}">${experiment?.title}</a></li>
-    <li class="active">Edit Dataset</li>
+    <li class="active">Create Dataset</li>
   </ul>
 
   <h1><g:message code="default.create.label" args="[entityName]"/></h1>

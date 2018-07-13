@@ -13,6 +13,7 @@ class Experiment implements Serializable  {
     Boolean isActive = true
 
     static constraints = {
+        title unique: ['project']
         experimentMeta blank: true, nullable: true
         experimentHypothesis blank: true, nullable: true
     }

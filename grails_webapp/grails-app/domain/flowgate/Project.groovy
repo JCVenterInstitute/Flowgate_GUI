@@ -7,7 +7,9 @@ class Project implements Serializable  {
     String description
     Boolean isActive = true
 
-    static constraints = {  }
+    static constraints = {
+        title unique: true
+    }
 
     static mapping = {
         description sqlType: 'varchar(2048)'

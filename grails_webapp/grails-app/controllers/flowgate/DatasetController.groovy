@@ -197,9 +197,9 @@ class DatasetController {
 
 
     def save(params) {
-        Dataset exist = Dataset.findByName(params.name)
+        Experiment experiment = Experiment.findById(params.eId)
+        Dataset exist = Dataset.findByNameAndExperiment(params.name, experiment)
         if(exist == null) {
-            Experiment experiment = Experiment.findById(params.eId)
             Dataset ds = new Dataset(experiment: experiment, name: params.name, description: params.description, expFiles: [])
             (params.findAll { key, value -> key.startsWith('file_') }).each {
                 if (it.value == 'on') {
@@ -222,13 +222,14 @@ class DatasetController {
                 }
             }
 
-            flash.message = "Dataset with " + params.name + " is already exist"
+            flash.message = "Dataset with " + params.name + " is already exist in this experiment"
             redirect action: 'create', params: params
         }
     }
 
-    def update(Experiment experiment, params) {
-        Dataset exist = Dataset.findByName(params.name)
+    def update(params) {
+        Experiment experiment = Experiment.findById(params.eId)
+        Dataset exist = Dataset.findByNameAndExperiment(params.name, experiment)
         if(exist == null || exist.id == params.id.toLong()) {
             Dataset ds = Dataset.get(params.id.toLong())
             ds.name = params.name
@@ -236,7 +237,7 @@ class DatasetController {
             ds.save(flush: true)
             flash.message = "Dataset is successfully updated"
         } else {
-            flash.message = "Dataset with " + params.name + " is already exist"
+            flash.message = "Dataset with " + params.name + " is already exist in this experiment"
         }
         redirect action: 'edit', id: params.id
     }
