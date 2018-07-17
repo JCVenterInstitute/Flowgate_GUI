@@ -4,19 +4,34 @@
     <div class="message" role="status">${flash.message}</div>
   </g:if>
   <g:hasErrors bean="${this.experiment}">
-    <ul class="errors" role="alert">
-      <g:eachError bean="${this.experiment}" var="error">
-        <li<g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-      </g:eachError>
-    </ul>
+    <div class="row m-0">
+      <div class="alert alert-danger col-xs-12 col-sm-6" role="alert">
+        <g:eachError bean="${this.experiment}" var="error">
+          <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+        </g:eachError>
+      </div>
+    </div>
   </g:hasErrors>
-  <g:form resource="${this.experiment}" method="PUT">
+  <g:form resource="${this.experiment}" method="PUT" class="col-xs-12 col-sm-6">
     <g:hiddenField name="version" value="${this.experiment?.version}"/>
-    <fieldset class="form">
-      <f:all bean="experiment"/>
-    </fieldset>
-    <fieldset class="buttons">
-      <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}"/>
-    </fieldset>
+    <div class="form-group">
+      <label for="title">Title *</label>
+      <input type="text" class="form-control" id="title" name="title" placeholder="Title" required value="${experiment.title}">
+    </div>
+    <div class="form-group">
+      <label for="description">Description *</label>
+      <input type="text" class="form-control" id="description" name="description" placeholder="Description" required value="${experiment.description}">
+    </div>
+    <div class="form-group">
+      <label for="experimentMeta">Experiment Meta</label>
+      <input type="text" class="form-control" id="experimentMeta" name="experimentMeta" placeholder="Experiment Meta" value="${experiment.experimentMeta}">
+    </div>
+    <div class="form-group">
+      <label for="experimentMeta">Experiment Hypothesis</label>
+      <input type="text" class="form-control" id="experimentHypothesis" name="experimentHypothesis" placeholder="Experiment Hypothesis" value="${experiment.experimentHypothesis}">
+    </div>
+
+    <button type="submit" class="btn btn-primary">${message(code: 'default.button.update.label', default: 'Update')}</button>
+    <a type="submit" name="back" class="btn btn-warning" href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}">Back</a>
   </g:form>
 </div>

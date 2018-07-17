@@ -1,5 +1,10 @@
 <%@ page import="flowgate.ExpFile; flowgate.Experiment" %>
 <% def utilsService = grailsApplication.mainContext.getBean("utilsService") %>
+<g:if test="${flash.message}">
+  <div class="row justify-content-center ">
+    <div class="alert alert-info text-center" role="alert">${flash.message}</div>
+  </div>
+</g:if>
 <g:form name="updateExperiment" method="PUT" controller="experiment" action="update" id="${experiment?.id}">
 <g:if test="${experiment?.id == session?.experimentOpenId?.toLong()}">
   <g:if test="${experiment?.id == session?.experimentEditModeId?.toLong()}">

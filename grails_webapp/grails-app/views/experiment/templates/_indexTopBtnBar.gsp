@@ -5,9 +5,9 @@
   </g:if>
   <g:else>
     <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentEdit">
-      <div class="btn btn-info" onclick="toggleExpEditMode(${experiment?.id})">
-        <i class="glyphicon glyphicon-pencil"></i>&nbsp;Edit
-      </div>
+      <a class="btn btn-info edit noLinkBlack" href="${createLink(controller: 'experiment', action: 'edit', params: [id: experiment?.id])}">
+        <i class="glyphicon glyphicon-edit"></i>&nbsp;&nbsp;Edit
+      </a>
     </g:isOwnerOrRoles>
 
     %{--<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentClone">
