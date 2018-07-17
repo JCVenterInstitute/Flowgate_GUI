@@ -198,7 +198,8 @@ class AnalysisController {
     def create() {
         Analysis analysis = new Analysis(params)
         Experiment experiment = Experiment.findById(params.eId)
-        respond analysis, model: [eId: params.eId, experiment: experiment]
+        def dsList = Dataset.findAllByExperiment(experiment)
+        respond analysis, model: [eId: params.eId, experiment: experiment, dsCount: dsList.size()]
     }
 
     def checkStatus(){
