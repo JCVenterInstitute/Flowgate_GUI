@@ -272,7 +272,7 @@ class AnalysisController {
         }
         if (analysis.hasErrors()) {
             //transactionStatus.setRollbackOnly()
-            respond analysis.errors, view:'create'
+            respond analysis.errors, view:'create', model: [eId: params.eId, experiment: experiment]
             return
         }
         analysis.save flush:true

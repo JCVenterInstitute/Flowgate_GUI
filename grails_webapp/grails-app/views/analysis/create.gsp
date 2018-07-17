@@ -35,6 +35,15 @@
     <li class="active">Create New Analysis</li>
   </ul>
   <h1 class="page-header"><g:message code="analysis.create.label" default="Create New Analysis"/></h1>
+  <g:hasErrors bean="${this.analysis}">
+    <div class="row m-0">
+      <div class="alert alert-danger col-xs-12 col-sm-6" role="alert">
+        <g:eachError bean="${this.analysis}" var="error">
+          <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+        </g:eachError>
+      </div>
+    </div>
+  </g:hasErrors>
   <g:set var="sss" bean="springSecurityService"/>
   <g:form controller="analysis" action="save" enctype="multipart/form-data">
     <div class="form-horizontal">
@@ -67,7 +76,7 @@
             <div class="form-group">
               <label for="analysisName" class="col-sm-2 control-label">Analysis Name<span class="required-indicator">*</span></label>
               <div class="col-sm-10">
-                <input type="text" name="analysisName" id="analysisName" class="form-control" >
+                <input type="text" name="analysisName" id="analysisName" class="form-control" required>
               </div>
             </div>
             <div class="form-group">
