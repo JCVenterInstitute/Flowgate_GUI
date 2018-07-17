@@ -18,6 +18,7 @@ class Analysis {
   Integer jobNumber
 
   static constraints = {
+    analysisName blank: false
     analysisDescription nullable: true, blank: true, blankable: true
     jobNumber nullable: true, blank: true, blankable: true
   }
