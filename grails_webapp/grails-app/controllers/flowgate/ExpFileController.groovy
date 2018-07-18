@@ -238,7 +238,7 @@ class ExpFileController {
     def axDeleteExpFile() {
         ExpFile expFile = ExpFile.get(params?.expFileId?.toLong())
         if (expFile == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
@@ -280,7 +280,7 @@ class ExpFileController {
     def erase(ExpFile expFile) {
 
         if (expFile == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }

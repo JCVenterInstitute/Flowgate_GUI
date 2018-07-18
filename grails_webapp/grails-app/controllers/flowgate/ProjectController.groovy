@@ -59,22 +59,21 @@ class ProjectController {
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(project, true)
         User user = springSecurityService.currentUser
         def projectList = utilsService.getProjectListForUser(user, params)
-        def searchLst = []
-        projectList.findAll{it.title.contains(params?.filterString) ? searchLst.push(it.id) : '' }
-        if(params?.filterString != ''){
+        def searchLst =  projectList.findAll{it.title.toLowerCase().contains(params?.filterString.toLowerCase()) || it.description.toLowerCase().contains(params?.filterString.toLowerCase())}
+        /*if(params?.filterString != ''){
             session.filterString = params?.filterString
             session.searchLst = searchLst
-        }
+        }*/
         if(session?.projCardView){
             render (contentType:"text/json"){
                 success true
-                contentPage "${g.render(template: 'templates/projCardsTmpl', model: [projectList: projectList])}"
+                contentPage "${g.render(template: 'templates/projCardsTmpl', model: [projectList: searchLst, filterString: params?.filterString])}"
             }
         }
         else {
             render (contentType:"text/json"){
                 success true
-                contentPage "${g.render(template: 'templates/projListTmpl', model: [projectList: projectList])}"
+                contentPage "${g.render(template: 'templates/projListTmpl', model: [projectList: searchLst, filterString: params?.filterString])}"
             }
         }
 
@@ -220,14 +219,14 @@ class ProjectController {
     def save(Project project) {
         User owner = springSecurityService.currentUser
         if (project == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
         if (project.hasErrors()) {
-            println "project has errors!"
-            transactionStatus.setRollbackOnly()
-            respond project.errors, view:'create'
+            //transactionStatus.setRollbackOnly()
+            def projectList = utilsService.getProjectListForUser(owner, params)
+            respond project.errors, view:'create', model: [projectList: projectList, projectCount: projectList.size(), experimentList:[] ]
             return
         }
         project.save flush:true
@@ -250,12 +249,12 @@ class ProjectController {
     @Transactional
     def update(Project project) {
         if (project == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
         if (project.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             respond project.errors, view:'edit'
             return
         }
@@ -273,7 +272,7 @@ class ProjectController {
     @Transactional
     def delete(Project project) {
         if (project == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
@@ -292,7 +291,7 @@ class ProjectController {
     def erase(Project project) {
 //        TODO remove ExperimentUser / if not done automatically
         if (project == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }

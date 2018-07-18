@@ -61,11 +61,13 @@
     </div>
   </g:if>
   <g:hasErrors bean="${this.experiment}">
-    <ul class="errors" role="alert">
+    <div class="row">
+      <div class="alert alert-danger col-xs-12 col-sm-6" role="alert">
       <g:eachError bean="${this.experiment}" var="error">
         <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
       </g:eachError>
-    </ul>
+      </div>
+    </div>
   </g:hasErrors>
 </content>
 <content tag="treeView">

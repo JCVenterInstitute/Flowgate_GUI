@@ -10,7 +10,7 @@ import grails.transaction.Transactional
 @Transactional
 class ExperimentController {
 
-    static allowedMethods = [save: "POST", manageUsers: "POST", update: "PUT", axCloneExperimentClick: "PUT", index: "GET"]
+    static allowedMethods = [save: "POST", manageUsers: "POST", update: ["PUT","POST"], axCloneExperimentClick: "PUT", index: "GET"]
 
     def springSecurityService
     def utilsService
@@ -188,13 +188,15 @@ class ExperimentController {
         experiment.project = Project.findByIdAndIsActive(params?.pId?.toLong(), true)
         experiment.validate()
         if (experiment == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
         if (experiment.hasErrors()) {
-            transactionStatus.setRollbackOnly()
-            respond experiment.errors, view:'create', model: [pId: params?.pId]
+            //transactionStatus.setRollbackOnly()
+            ArrayList<Project> projectList = utilsService.getProjectListForUser(springSecurityService.currentUser, params)
+            ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(Project.get(params?.pId?.toLong()), true)
+            respond experiment.errors, view:'create', model: [projectList: projectList, pId: params?.pId, experimentList: experimentList]
             return
         }
         experiment.save flush:true
@@ -216,12 +218,12 @@ class ExperimentController {
     @Transactional
     def update(Experiment experiment) {
         if (experiment == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
         if (experiment.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             respond experiment.errors, view:'edit'
             return
         }
@@ -239,7 +241,7 @@ class ExperimentController {
     def delete(Experiment experiment) {
 //        TODO remove ExperimentUser / if not done automatically
         if (experiment == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
@@ -249,7 +251,7 @@ class ExperimentController {
         experiment.isActive = false
         experiment.save flush:true
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'experiment.label', default: 'Experiment'), experiment.title.take(20)+'... '])
-        redirect view: 'index', params: [pId: experiment.project.id]
+        redirect controller: 'project', action: 'index', params: [pId: experiment.project.id]
     }
 
     // for Super Admins to completely erase experiments from db with their expFiles
@@ -257,7 +259,7 @@ class ExperimentController {
     def erase(Experiment experiment) {
 //        TODO remove ExperimentUser / if not done automatically
         if (experiment == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }

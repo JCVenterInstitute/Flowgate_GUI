@@ -150,12 +150,12 @@ class ExperimentBackupController {
         experiment.project = Project.findByIdAndIsActive(params?.pId?.toLong(), true)
         experiment.validate()
         if (experiment == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
         if (experiment.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             respond experiment.errors, view:'create'
             return
         }
@@ -178,12 +178,12 @@ class ExperimentBackupController {
     @Transactional
     def update(Experiment experiment) {
         if (experiment == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
         if (experiment.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             respond experiment.errors, view:'edit'
             return
         }
@@ -201,7 +201,7 @@ class ExperimentBackupController {
     def delete(Experiment experiment) {
 //        TODO remove ExperimentUser / if not done automatically
         if (experiment == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
@@ -219,7 +219,7 @@ class ExperimentBackupController {
     def erase(Experiment experiment) {
 //        TODO remove ExperimentUser / if not done automatically
         if (experiment == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }

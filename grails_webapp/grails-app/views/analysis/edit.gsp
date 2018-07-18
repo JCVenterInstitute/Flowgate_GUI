@@ -13,7 +13,7 @@
   <ul class="breadcrumb">
     <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: analysis?.experiment?.project?.id])}" title="${analysis?.experiment?.project?.title}">${analysis?.experiment?.project?.title}</a></li>
     <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: analysis?.experiment?.id])}" title="${analysis?.experiment?.title}">${analysis?.experiment?.title}</a></li>
-    <li class="active">Analysis</li>
+    <li class="active">Edit Analysis</li>
   </ul>
 
   <h1 class="page-header"><g:message code="default.edit.label" args="[entityName]"/></h1>
@@ -39,7 +39,6 @@
       </div>
       <f:field property="analysisName" required="true"/>
       <f:field property="analysisDescription" required="false"/>
-      <f:field property="analysisStatus" required="false"/>
     %{--<f:field property="jobNumber" disabled="true" />--}%
       <div class="form-group">
         <label class="col-sm-2 control-label" for="jobNumber">Job Number</label>

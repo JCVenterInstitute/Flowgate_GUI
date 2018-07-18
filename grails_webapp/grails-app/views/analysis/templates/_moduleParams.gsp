@@ -9,7 +9,7 @@
           <g:hiddenField name="mp-meta" value="${moduleParam?.id}" />
           <g:select class="form-control" style="width: 40%;display:inline;" id="mp-${moduleParam?.id}-ds"
                     from="${Dataset.findAllByExperiment(Experiment.get(params.eId))}" name="mp-${moduleParam?.id}-ds"
-                    optionKey="id" optionValue="name" value="${moduleParam?.defaultVal}"/>
+                    optionKey="id" optionValue="name" value="${moduleParam?.defaultVal}" required="required" />
         </g:if>
         </div>
       </div>

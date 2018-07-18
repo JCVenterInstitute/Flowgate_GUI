@@ -198,7 +198,8 @@ class AnalysisController {
     def create() {
         Analysis analysis = new Analysis(params)
         Experiment experiment = Experiment.findById(params.eId)
-        respond analysis, model: [eId: params.eId, experiment: experiment]
+        def dsList = Dataset.findAllByExperiment(experiment)
+        respond analysis, model: [eId: params.eId, experiment: experiment, dsCount: dsList.size()]
     }
 
     def checkStatus(){
@@ -266,13 +267,13 @@ class AnalysisController {
         experiment.addToAnalyses(analysis)
         analysis.validate()
         if (analysis == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
         if (analysis.hasErrors()) {
-            transactionStatus.setRollbackOnly()
-            respond analysis.errors, view:'create'
+            //transactionStatus.setRollbackOnly()
+            respond analysis.errors, view:'create', model: [eId: params.eId, experiment: experiment]
             return
         }
         analysis.save flush:true
@@ -293,7 +294,7 @@ class AnalysisController {
     @Transactional
     def update(Analysis analysis) {
         if (analysis == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
@@ -302,7 +303,7 @@ class AnalysisController {
         analysis.validate()
 
         if (analysis.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             analysis.experiment = Experiment.get(params?.experimentId)
             analysis.experiment.project.attach()
             analysis.user.attach()
@@ -326,7 +327,7 @@ class AnalysisController {
     def delete(Analysis analysis) {
 
         if (analysis == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
@@ -346,7 +347,7 @@ class AnalysisController {
     def del(Analysis analysis) {
 //        TODO check if delete on server should be done as well
         if (analysis == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }

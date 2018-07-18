@@ -24,13 +24,13 @@ class ModuleController {
     @Transactional
     def save(Module module) {
         if (module == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
 
         if (module.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             respond module.errors, view:'create'
             return
         }
@@ -53,13 +53,13 @@ class ModuleController {
     @Transactional
     def update(Module module) {
         if (module == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
 
         if (module.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             respond module.errors, view:'edit'
             return
         }
@@ -79,7 +79,7 @@ class ModuleController {
     def delete(Module module) {
 
         if (module == null) {
-            transactionStatus.setRollbackOnly()
+            //transactionStatus.setRollbackOnly()
             notFound()
             return
         }
