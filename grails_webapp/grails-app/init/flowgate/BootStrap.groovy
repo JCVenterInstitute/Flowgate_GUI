@@ -5,7 +5,7 @@ import grails.util.Environment
 
 class BootStrap {
     def init = { servletContext ->
-        /* */
+        /* * /
         if (Environment.current == Environment.DEVELOPMENT || Environment.current == Environment.PRODUCTION) {
             println 'roles & users'
             def superadminRole = Role.findOrSaveByAuthority('ROLE_Administrator')
@@ -1276,7 +1276,7 @@ class BootStrap {
         probes.add(new Probe(probeTagDictionary: chromogen, probeTag: "Ferangi Blue", preferredShortName: "Ferangi-Blue", precColor: "Royal Blue").save())
 
         probes
-        /* */
+        / * */
     }
 
     def destroy = {
