@@ -159,7 +159,7 @@ class RestUtilsService {
           String descrFilePrefix = 'description'
           String descrFileSuffix = '.txt'
           File descrFile = File.createTempFile(descrFilePrefix, descrFileSuffix)
-          descrFile.write(params.analysisDescription)
+          descrFile.write(params.analysisName)
           def fileLocation = uploadFileOrDirParams(module, descrFile, descrFilePrefix+descrFileSuffix)
           descrFile.delete()
           paramVars.push(['name': it.pKey, 'values': fileLocation])
