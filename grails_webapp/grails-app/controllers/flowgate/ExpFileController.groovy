@@ -331,34 +331,49 @@ class ExpFileController {
     }
 
     def uploadFcsFiles(){
-        Experiment experiment = Experiment.get(params.eId.toLong())
-        String fcsStoragePath = grailsApplication.config.getProperty('fcsFileStoreLocation.path', String)
-        def ulFiles = request.multiFileMap.get("actFcsFile")
-        if(ulFiles.findAll { !it.empty }.size<1){
-            flash.errMsg = 'No file selected!'
-            redirect action: 'expFileCreate', eId: experiment.id, params: [eId: experiment.id]
-            return
-        }
-        else {
-            ulFiles.each { fcsFile ->
-                println fcsFile.originalFilename
-                if (fcsFile.part.fileItem.tempFile.exists()) {
-                    def sha1 = chkSumService.getSha1sum(fcsFile.part.fileItem.tempFile)
-                    def md5 = chkSumService.getMD5sum(fcsFile.part.fileItem.tempFile)
-                    if(ExpFile.findAllByChkSum(sha1)){
-                        println "file with same checksum (${sha1}) already exists"
+        try {
+            Experiment experiment = Experiment.get(params.eId.toLong())
+            String fcsStoragePath = grailsApplication.config.getProperty('fcsFileStoreLocation.path', String)
+            def ulFiles = request.multiFileMap.get("actFcsFile")
+            if(ulFiles.findAll { !it.empty }.size<1){
+                flash.errMsg = 'No file selected!'
+                redirect action: 'expFileCreate', eId: experiment.id, params: [eId: experiment.id]
+                return
+            }
+            else {
+                ulFiles.each { fcsFile ->
+                    println fcsFile.originalFilename
+                    if (fcsFile.part.fileItem.tempFile.exists()) {
+                        if(ExpFile.findAllByFileNameAndExperiment(fcsFile.originalFilename, experiment)) {
+                            throw new Exception("File with same name exist")
+                        } else {
+                            def sha1 = chkSumService.getSha1sum(fcsFile.part.fileItem.tempFile)
+                            def md5 = chkSumService.getMD5sum(fcsFile.part.fileItem.tempFile)
+                            if(ExpFile.findAllByChkSum(sha1)){
+                                println "file with same checksum (${sha1}) already exists"
+                            }
+                            fcsService.readFile(fcsFile.part.fileItem.tempFile, false)
+                            ExpFile expFile = new ExpFile(experiment: experiment, chkSum: sha1, title: fcsFile.originalFilename, fileName: fcsFile.originalFilename, filePath: fcsStoragePath, createdBy: springSecurityService.currentUser).save()
+                            fcsFile.transferTo(new File("${fcsStoragePath}${fcsFile.originalFilename}"))
+                            experiment.expFiles.add(expFile)
+                        }
                     }
-                    fcsService.readFile(fcsFile.part.fileItem.tempFile, false)
-                    ExpFile expFile = new ExpFile(experiment: experiment, chkSum: sha1, title: fcsFile.originalFilename, fileName: fcsFile.originalFilename, filePath: fcsStoragePath, createdBy: springSecurityService.currentUser).save()
-                    fcsFile.transferTo(new File("${fcsStoragePath}${fcsFile.originalFilename}"))
-                    experiment.expFiles.add(expFile)
+                }
+                /*if(Environment.current == Environment.DEVELOPMENT) {
+                    redirect action: 'annotationTbl', id: experiment.id   //, model: [expi: Experiment.get(1), expId2: Experiment.get(1)]
+                }
+                else{
+                    redirect controller: 'experiment', action: 'index', id: experiment.id, params:[eId: experiment.id]
+                }*/
+
+                render (contentType:"text/json") {
+                    success true
                 }
             }
-            if(Environment.current == Environment.DEVELOPMENT) {
-                redirect action: 'annotationTbl', id: experiment.id   //, model: [expi: Experiment.get(1), expId2: Experiment.get(1)]
-            }
-            else{
-                redirect controller: 'experiment', action: 'index', id: experiment.id, params:[eId: experiment.id]
+        } catch (Exception e) {
+            render (contentType:"text/json") {
+                success false
+                msg e.getMessage()
             }
         }
     }

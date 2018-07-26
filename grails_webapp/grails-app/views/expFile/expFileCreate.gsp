@@ -39,14 +39,29 @@
       </div>
     </g:if>
     <div class="form-group">
-      <input type="file" name="actFcsFile" multiple accept=".fcs,.FCS"/>
+      <input id="uploadFile" type="file" name="actFcsFile" multiple/>
 
       <p class="help-block">You can upload single or multiple .fcs file(s).</p>
     </div>
-    <g:submitButton name="fcsUpload" class="save btn btn-primary" value="${message(code: 'default.button.annotate.label', default: 'Upload')}" id="${eId}"/>
-    <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: eId])}" class="btn btn-warning">Back</a>
+    <p>Drag and Drop file in box to upload (Max file size is 1GB) </p>
+    <div id="dropzone" class="well">Drop files here</div>
+    <div id="files" class="files"></div>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <input type="button" class="btn btn-success start" id="uploadFilesBtn" value="${message(code: 'default.button.annotate.label', default: 'Upload')}"/>
+        <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: eId])}" class="btn btn-warning">Back</a>
+      </div>
+    </div>
   </g:uploadForm>
 </div>
+</content>
+<content tag="pgAssets">
+  <asset:javascript src="jquery.ui.widget.js" />
+  <asset:javascript src="fileupload/jquery.fileupload.js"/>
+  <asset:javascript src="fileupload/jquery.fileupload-process.js"/>
+  <asset:javascript src="fileupload/jquery.fileupload-validate.js"/>
+  <asset:javascript src="fileupload/jquery.fileupload-ui.js"/>
+  <asset:javascript src="fileupload/jquery.fileupload-main.js"/>
 </content>
 </body>
 </html>
