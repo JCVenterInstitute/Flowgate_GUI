@@ -66,5 +66,6 @@
 </div>
 <asset:javascript src="application.js"/>
 <g:render template="/layouts/wTreeSidebarScripts"/>
+<g:pageProperty name="page.pgAssets"/>
 </body>
 </html>
