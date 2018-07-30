@@ -212,7 +212,9 @@ class ExperimentController {
     }
 
     def edit(Experiment experiment) {
-        respond experiment
+        ArrayList<Project> projectList = utilsService.getProjectListForUser(springSecurityService.currentUser, params)
+        ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(experiment?.project, true)
+        respond experiment, model: [projectList: projectList, experimentList: experimentList]
     }
 
     @Transactional
@@ -224,7 +226,10 @@ class ExperimentController {
         }
         if (experiment.hasErrors()) {
             //transactionStatus.setRollbackOnly()
-            respond experiment.errors, view:'edit'
+            ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(experiment?.project, true)
+            ArrayList<Project> projectList = utilsService.getProjectListForUser(springSecurityService.currentUser, params)
+            experiment.title = experiment.getPersistentValue("title")
+            respond experiment.errors, view: 'edit', model: [projectList: projectList, experimentList: experimentList]
             return
         }
         experiment.save flush:true

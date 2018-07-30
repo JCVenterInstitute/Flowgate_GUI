@@ -296,23 +296,18 @@ class ProjectController {
             return
         }
         ProjectUser.where { project == project }.deleteAll()
-        Project orphanProject = Project.findByTitle('orphanProject')
-        project.experiments.each {
-            it.project = orphanProject
-            it.save flush:true
+        for(Experiment exp : project.experiments) {
+            ExperimentMetadata.where { experiment == exp }.deleteAll()
+            Analysis.where { experiment == exp }.deleteAll()
+            ExpFile.where { experiment == exp }.deleteAll()
+            Dataset.where { experiment == exp }.deleteAll()
+            ExperimentUser.where { experiment == exp }.deleteAll()
+            exp.delete()
         }
-        project.delete flush:true
-//        flash.message = message(code: 'default.deleted.message', args: [message(code: 'project.label', default: 'Project'), project.id])
-//        redirect view: 'index'
+        project.delete()
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'project.label', default: 'Project'), project.title])
-//                redirect action:"index", method:"GET"
-                redirect view: 'index'
-            }
-            '*'{ render status: NO_CONTENT }
-        }
+        flash.message = message(code: 'default.erased.message', args: [message(code: 'project.label', default: 'Project'), project.title])
+        redirect view: 'list'
     }
 
     protected void notFound() {
