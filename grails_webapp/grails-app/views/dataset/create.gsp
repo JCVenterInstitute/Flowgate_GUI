@@ -44,8 +44,13 @@
     <div class="form-group">
       <label class="col-sm-1 control-label" for="description">Files</label>
       <div class="col-sm-11">
-        <g:each in="${expFileCandidatesList?.sort { it.fileName }}" var="expFile">
+        <g:set var="split" value="${Math.ceil(expFileCandidatesList?.size()/3).toInteger()}" />
+        <g:set var="counter" value="${0}"/>
+        <g:each in="${expFileCandidatesList?.sort { it.fileName }}" var="expFile" status="index">
+          <g:set var="counter" value="${counter + 1}"/>
+          <g:if test="${counter % split == 1}"><div class="col-sm-4"></g:if>
           <p><g:checkBox class="fcs_files" name="file_${expFile.id}" checked="${expFile.id in session.selectedFiles}"/>&nbsp;<span>${expFile.fileName}</span></p>
+          <g:if test="${counter % split == 0 || index+1 == expFileCandidatesList?.size()}"></div></g:if>
         </g:each>
       </div>
     </div>
