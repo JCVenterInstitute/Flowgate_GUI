@@ -344,19 +344,21 @@ class ExpFileController {
                 ulFiles.each { fcsFile ->
                     println fcsFile.originalFilename
                     if (fcsFile.part.fileItem.tempFile.exists()) {
-                        if(ExpFile.findAllByFileNameAndExperiment(fcsFile.originalFilename, experiment)) {
-                            throw new Exception("File with same name exist")
-                        } else {
-                            def sha1 = chkSumService.getSha1sum(fcsFile.part.fileItem.tempFile)
-                            def md5 = chkSumService.getMD5sum(fcsFile.part.fileItem.tempFile)
-                            if(ExpFile.findAllByChkSum(sha1)){
-                                println "file with same checksum (${sha1}) already exists"
-                            }
-                            fcsService.readFile(fcsFile.part.fileItem.tempFile, false)
-                            ExpFile expFile = new ExpFile(experiment: experiment, chkSum: sha1, title: fcsFile.originalFilename, fileName: fcsFile.originalFilename, filePath: fcsStoragePath, createdBy: springSecurityService.currentUser).save()
-                            fcsFile.transferTo(new File("${fcsStoragePath}${fcsFile.originalFilename}"))
-                            experiment.expFiles.add(expFile)
-                        }
+                        if(ExpFile.findAllByFileNameAndExperiment(fcsFile.originalFilename, experiment))
+                            throw new Exception("File with same name already exists")
+
+                        def sha1 = chkSumService.getSha1sum(fcsFile.part.fileItem.tempFile)
+                        def md5 = chkSumService.getMD5sum(fcsFile.part.fileItem.tempFile)
+                        if(ExpFile.findAllByChkSumAndExperiment(sha1, experiment))
+                            throw new Exception("File with same checksum (${sha1}) already exists")
+
+                        fcsService.readFile(fcsFile.part.fileItem.tempFile, false)
+                        String filePath = fcsStoragePath + File.separator + experiment.project.id + File.separator + experiment.id + File.separator
+                        ExpFile expFile = new ExpFile(experiment: experiment, chkSum: sha1, title: fcsFile.originalFilename, fileName: fcsFile.originalFilename, filePath: filePath, createdBy: springSecurityService.currentUser).save()
+                        File file = new File("${filePath}${fcsFile.originalFilename}");
+                        file.getParentFile().mkdirs() // create parent folders if not exist
+                        fcsFile.transferTo(file)
+                        experiment.expFiles.add(expFile)
                     }
                 }
                 /*if(Environment.current == Environment.DEVELOPMENT) {
