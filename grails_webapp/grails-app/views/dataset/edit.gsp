@@ -4,6 +4,7 @@
   <meta name="layout" content="main"/>
   <g:set var="entityName" value="${message(code: 'dataset.label', default: 'Dataset')}"/>
   <title><g:message code="default.edit.label" args="[entityName]"/></title>
+  <asset:javascript src="jquery-2.2.0.min.js"/>
 </head>
 
 <body>
@@ -38,135 +39,49 @@
     </div>
     <div class="form-group">
       <div class="col-sm-offset-1 col-sm-11">
+        <input type="checkbox" id="fcsSelectAll">&nbsp;<span>Select All</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-1 control-label" for="description">Files</label>
+      <div class="col-sm-11">
+        <g:set var="split" value="${Math.ceil(expFileCandidatesList?.size()/3).toInteger()}" />
+        <g:set var="counter" value="${0}"/>
+        <g:each in="${expFileCandidatesList?.sort { it.fileName }}" var="expFile" status="index">
+          <g:set var="counter" value="${counter + 1}"/>
+          <g:if test="${counter % split == 1}"><div class="col-sm-4"></g:if>
+          <p><g:checkBox class="fcs_files" name="file_${expFile.id}" checked="${expFile.id in dataset.expFiles.id}"/>&nbsp;<span>${expFile.fileName}</span></p>
+          <g:if test="${counter % split == 0 || index+1 == expFileCandidatesList?.size()}"></div></g:if>
+        </g:each>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-1 col-sm-11">
         <input class="btn btn-primary" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}"/>
         <a href="${createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" class="btn btn-warning">Back</a>
         <p class="help-block">Update Dataset Information</p>
       </div>
     </div>
   </g:form>
-  <br>
-  <g:form controller="dataset" action="dsExit" params="[experiment: experiment, dsId: dataset.id]" id="${experiment.id}">
-    <div class="form-group">
-      <div id="fcsCandidates" class="col-sm-5">
-        <g:render template="datasetTmpl/fcsFileCandidates" model="[experiment: experiment, ds: dataset, dsId: dataset.id, expFileCandidatesList: expFileCandidatesList, pType: 'cand']"/>
-      </div>
-      <div class="col-sm-2">
-        <div id="datasetBtnPnl" style="padding-top: 125%">
-          <p><g:actionSubmit id="toDs" class="btn btn-default" style="width: 100%" action="assign" value="assign"/></p>
-          <p><g:actionSubmit id="fromDs" class="btn btn-default" style="width: 100%" action="remove" value="remove"/></p>
-          <p class="help-block">Assign/Remove FCS files</p>
-        </div>
-      </div>
-      <div id="fcsAssigned" class="col-sm-5">
-        <g:render template="datasetTmpl/fcsFileAssigned" model="[experiment: experiment, ds: dataset, dsId: dataset.id, expFileAssignedList: dataset.expFiles, pType: 'ass']"/>
-      </div>
-    </div>
-  </g:form>
 </div>
 
 <script type="text/javascript">
-  function selAllCandFcs(dsId) {
-    var eId = ${experiment.id};
-    var dsId = ${dataset.id};
-    $.ajax({
-      url: "${createLink(controller: 'dataset', action: 'axSelAllCandFcs')}",
-      dataType: "json",
-      data: {id: eId, dsId: dsId},
-      type: "get",
-      success: function (data) {
-        $("#fcsCandidates").html(data.fcsCandList);
-      },
-      error: function (request, status, error) {
-        console.log('E: ' + error);
-      },
-      complete: function () {
-        console.log('ajax completed');
-      }
+  $(document).ready(function () {
+    $("#fcsSelectAll").click(function () {
+      $(".fcs_files").prop('checked', $(this).prop('checked'));
     });
-  }
+    $('.fcs_files').change(function(){ //".checkbox" change
+      //uncheck "select all", if one of the listed checkbox item is unchecked
+      if(this.checked == false){ //if this item is unchecked
+        $("#fcsSelectAll")[0].checked = false; //change "select all" checked status to false
+      }
 
-  function deselAllCandFcs(dsId) {
-    var eId = ${experiment.id};
-    var dsId = ${dataset.id};
-    $.ajax({
-      url: "${createLink(controller: 'dataset', action: 'axDeselAllCandFcs')}",
-      dataType: "json",
-      data: {id: eId, dsId: dsId},
-      type: "get",
-      success: function (data) {
-        $("#fcsCandidates").html(data.fcsCandList);
-      },
-      error: function (request, status, error) {
-        console.log('E: ' + error);
-      },
-      complete: function () {
-        console.log('ajax completed');
+      //check "select all" if all checkbox items are checked
+      if ($('.fcs_files:checked').length == $('.fcs_files').length ){
+        $("#fcsSelectAll")[0].checked = true; //change "select all" checked status to true
       }
     });
-  }
-
-  function selAllAssFcs(dsId) {
-    $.ajax({
-      url: "${createLink(controller: 'dataset', action: 'axSelAllAssFcs')}",
-      dataType: "json",
-      data: {id: dsId},
-      type: "get",
-      success: function (data) {
-        $("#fcsAssigned").html(data.fcsAssList);
-      },
-      error: function (request, status, error) {
-        console.log('E: ' + error);
-      },
-      complete: function () {
-        console.log('ajax completed');
-      }
-    });
-  }
-
-  function deselAllAssFcs(dsId) {
-    $.ajax({
-      url: "${createLink(controller: 'dataset', action: 'axDeselAllAssFcs')}",
-      dataType: "json",
-      // data: {id: eId, dsId: dsId},
-      data: {id: dsId},
-      type: "get",
-      success: function (data) {
-        $("#fcsAssigned").html(data.fcsAssList);
-      },
-      error: function (request, status, error) {
-        console.log('E: ' + error);
-      },
-      complete: function () {
-        console.log('ajax completed');
-      }
-    });
-  }
-
-  function dsSelChange(dsId) {
-    $.ajax({
-      url: "${createLink(controller: 'dataset', action: 'axDsChange')}",
-      dataType: "json",
-      type: "get",
-      %{--data: {eId: ${params?.eId}, modId: moduleId},--}%
-      data: {id: dsId},
-      success: function (data) {
-        // alert("ds Changed!");
-        $("#metaData").html(data.metaData);
-        $("#dsPanel").html(data.dsPanel);
-        // $("#fcsCandidates").html(data.fcsCandidates);
-        $("#fcsAssigned").html(data.fcsAssigned);
-        console.log('ds changed');
-      },
-      error: function (request, status, error) {
-        console.log('E: ' + error);
-        // alert("ds Change error");
-      },
-      complete: function () {
-        // alert("ds Change completed");
-        console.log('ajax ds change completed');
-      }
-    });
-  }
+  });
 </script>
 </body>
 </html>

@@ -239,6 +239,15 @@ class DatasetController {
             Dataset ds = Dataset.get(params.id.toLong())
             ds.name = params.name
             ds.description = params.description
+            ds.expFiles = []
+
+            (params.findAll { key, value -> key.startsWith('file_') }).each {
+                if (it.value == 'on') {
+                    def fcsId = (it?.key - 'file_').toLong()
+                    ds.expFiles.add(ExpFile.get(fcsId))
+                }
+            }
+
             ds.save(flush: true)
             flash.message = "Dataset is successfully updated"
         } else {
