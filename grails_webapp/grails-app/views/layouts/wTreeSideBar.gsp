@@ -43,6 +43,15 @@
       margin-top: 0;
     }
   </style>
+  <script>
+    $(function() {
+      $(window).scroll(function() {
+        var scroll = $(window).scrollTop();
+        if(scroll > 52) $(".sidebar").css("top", 0);
+        else $(".sidebar").css("top", 52 - scroll);
+      });
+    });
+  </script>
 </head>
 
 <body>
