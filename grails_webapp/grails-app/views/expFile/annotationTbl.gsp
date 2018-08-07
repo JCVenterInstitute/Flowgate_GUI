@@ -4,7 +4,6 @@
   <meta name="layout" content="main" />
   <g:set var="entityName" value="${message(code: 'expFile.label', default: 'Experiment File')}" />
   <title><g:message code="default.expFile.annotation.label" default="Annotation" args="[entityName]" /></title>
-  <asset:javascript src="jquery-2.2.0.min.js"/>
   <style>
     .noLinkBlack {
       color: black;

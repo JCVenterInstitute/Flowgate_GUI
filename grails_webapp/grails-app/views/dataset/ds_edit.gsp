@@ -5,7 +5,6 @@
   <g:set var="entityName" value="${message(code: 'expFile.label', default: 'Experiment File')}"/>
   %{--<title><g:message code="default.expFile.annotation.label" default="Manage Dataset" args="[entityName]" /></title>--}%
   <title><g:message code="default.expFile.annotation.label" default="Manage Dataset"/></title>
-  <asset:javascript src="jquery-2.2.0.min.js"/>
   <style>
   #toAnno, #toFcs {
     background-color: rgba(122, 122, 122, 0.27);

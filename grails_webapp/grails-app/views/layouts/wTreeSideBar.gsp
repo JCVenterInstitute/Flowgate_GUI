@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <asset:link rel="icon" href="f.ico" type="image/x-ico"/>
   <asset:stylesheet src="application.css"/>
+  <asset:javascript src="jquery-2.2.0.min.js"/>
   <g:layoutHead/>
   <style>
     /* Hide for mobile, show later */

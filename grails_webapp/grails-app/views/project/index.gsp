@@ -4,7 +4,6 @@
   <meta name="layout" content="wTreeSideBar"/>
   <g:set var="entityName" value="${message(code: 'project.label', default: 'Project')}"/>
   <title><g:message code="default.projectView.label" default="Project" args="[entityName]"/></title>
-  <asset:javascript src="jquery-2.2.0.min.js"/>
 </head>
 
 <body>

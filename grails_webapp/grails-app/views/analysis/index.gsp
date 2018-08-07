@@ -4,7 +4,6 @@
   <meta name="layout" content="main"/>
   <g:set var="entityName" value="${message(code: 'analysis.label', default: 'Analysis')}"/>
   <title><g:message code="default.list.label" args="[entityName]"/></title>
-  <asset:javascript src="jquery-2.2.0.min.js"/>
 </head>
 
 <body>
