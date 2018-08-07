@@ -12,7 +12,6 @@
       padding-left: 30px;
     }
   </style>
-  <asset:javascript src="jquery-2.2.0.min.js"/>
 </head>
 
 <body>

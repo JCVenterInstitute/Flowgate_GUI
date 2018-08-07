@@ -5,7 +5,6 @@
   <meta name="layout" content="wTreeSideBar"/>
   <g:set var="entityName" value="${message(code: 'experiment.label', default: 'Experiment')}"/>
   <title><g:message code="default.experiment.label" args="[entityName]" default="${entityName}"/></title>
-  <asset:javascript src="jquery-2.2.0.min.js"/>
 </head>
 
 <body>

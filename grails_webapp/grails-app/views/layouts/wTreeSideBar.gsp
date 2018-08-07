@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <asset:link rel="icon" href="f.ico" type="image/x-ico"/>
   <asset:stylesheet src="application.css"/>
+  <asset:javascript src="jquery-2.2.0.min.js"/>
   <g:layoutHead/>
   <style>
     /* Hide for mobile, show later */
@@ -42,6 +43,27 @@
       margin-top: 0;
     }
   </style>
+  <script>
+    $(function() {
+      checkScroll();
+      $(window).scroll(function() {
+        checkScroll();
+      });
+    });
+
+    function checkScroll() {
+      var scroll = $(window).scrollTop();
+      if(scroll > 52) {
+        $(".sidebar").css("top", 0);
+        $(".sidebar #projTree").css("margin-top", "60px");
+        $("#tree-brand").fadeIn( "100");
+      } else {
+        $(".sidebar").css("top", 52 - scroll);
+        $(".sidebar #projTree").css("margin-top", "0px");
+        $("#tree-brand").hide();
+      }
+    }
+  </script>
 </head>
 
 <body>
@@ -50,6 +72,11 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-3 col-md-2 sidebar">
+        <div id="tree-brand" style="display: none;background-color: #343a40 !important;position: absolute;left:0;right:0;">
+          <a class="navbar-brand" href="${createLink(uri: '/')}" style="padding-left: 20%;">
+            <img src="${assetPath(src: 'logo-dark.png')}" style="height: 40px;" class="img-fluid">
+          </a>
+        </div>
         <g:pageProperty name="page.treeView"/>
       </div>
       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

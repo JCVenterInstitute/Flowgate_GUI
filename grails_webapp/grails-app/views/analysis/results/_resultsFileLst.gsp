@@ -1,4 +1,3 @@
-<asset:javascript src="jquery-2.2.0.min.js"/>
 <hr/>
 <div class="row">
   <div  style="padding-left:30px;" >
