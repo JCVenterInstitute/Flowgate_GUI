@@ -26,6 +26,7 @@ project=${experiment?.project}
     <ul class="breadcrumb">
       <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: experiment?.project?.id])}" title="${experiment?.project?.title}">${experiment?.project?.title}</a></li>
       <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" title="${experiment?.title}">${experiment?.title}</a></li>
+      <li><a href="${createLink(controller: 'analysis', action: 'index', params: [eId: analysis?.experiment?.id])}">List of Analysis Task</a></li>
       <li class="active">Create/Manage subsets for data analysis</li>
     </ul>
 

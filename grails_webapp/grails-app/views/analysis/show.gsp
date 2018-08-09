@@ -12,6 +12,7 @@
   <ul class="breadcrumb">
     <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: analysis?.experiment?.project?.id])}" title="${analysis?.experiment?.project?.title}">${analysis?.experiment?.project?.title}</a></li>
     <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: analysis?.experiment?.id])}" title="${analysis?.experiment?.title}">${analysis?.experiment?.title}</a></li>
+    <li><a href="${createLink(controller: 'analysis', action: 'index', params: [eId: analysis?.experiment?.id])}">List of Analysis Task</a></li>
     <li class="active">Analysis</li>
   </ul>
   <h1><g:message code="default.show.label" args="[entityName]"/></h1>
