@@ -148,8 +148,12 @@ class AnalysisController {
         def connection = fileUrl.openConnection()
         connection.setRequestProperty ("Authorization", utilsService.authHeader(analysis.module.server.userName,analysis.module.server.userPw))
         def dataStream = connection.inputStream
-        response.setContentType("application/octet-stream")
-        response.setHeader("Content-disposition", "Attachment; filename=${outputFile.path}")
+        if(params.download != null && params.download){
+            response.setContentType("application/octet-stream")
+            response.setHeader("Content-disposition", "Attachment; filename=${outputFile.path}")
+        } else {
+            response.setContentType("text/html")
+        }
         response.outputStream << dataStream
         response.outputStream.flush()
 //        String dwnLdMsg = "File '${params?.filename}' successfully downloaded!"

@@ -32,6 +32,7 @@
     <ul class="breadcrumb">
       <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: analysis?.experiment?.project?.id])}" title="${analysis?.experiment?.project?.title}">${analysis?.experiment?.project?.title}</a></li>
       <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: analysis?.experiment?.id])}" title="${analysis?.experiment?.title}">${analysis?.experiment?.title}</a></li>
+      <li><a href="${createLink(controller: 'analysis', action: 'index', params: [eId: analysis?.experiment?.id])}">List of Analysis Task</a></li>
       <li class="active">Analysis Results</li>
     </ul>
     <h1 class="page-header"><g:message code="analysis.showResult.label" args="[entityName]" default="Analysis Results" /></h1>
@@ -68,6 +69,8 @@
 
         <dt>Job Complete Status:</dt>
         <dd><i class=" fa fa-circle" style="color: ${!jobResult?.status?.hasError ? 'lawngreen' : 'red'}"></i>${jobResult?.status?.statusMessage}</dd>
+
+        <g:render template="results/resultsReport" />
       </dl>
     </f:with>
     <div class="row" style="max-width: 100%">
@@ -76,7 +79,6 @@
           <g:render template="results/resultsFileLst" />
         </sec:ifAnyGranted>
         %{--<g:render template="results/resultsGrid" />--}%
-        <g:render template="results/resultsReport" />
       </div>
     </div>
     %{--TODO remove for normal user / change visibility    --}%
