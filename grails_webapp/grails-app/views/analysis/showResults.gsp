@@ -69,6 +69,8 @@
 
         <dt>Job Complete Status:</dt>
         <dd><i class=" fa fa-circle" style="color: ${!jobResult?.status?.hasError ? 'lawngreen' : 'red'}"></i>${jobResult?.status?.statusMessage}</dd>
+
+        <g:render template="results/resultsReport" />
       </dl>
     </f:with>
     <div class="row" style="max-width: 100%">
@@ -77,7 +79,6 @@
           <g:render template="results/resultsFileLst" />
         </sec:ifAnyGranted>
         %{--<g:render template="results/resultsGrid" />--}%
-        <g:render template="results/resultsReport" />
       </div>
     </div>
     %{--TODO remove for normal user / change visibility    --}%
