@@ -1,14 +1,16 @@
 <%@ page import="grails.converters.JSON" %>
 <dt>Available Reports:</dt>
 <dd><g:each in="${jobResult.outputFiles.findAll { (it.kind.contains('html')) }}" var="outputFile" status="i">
-  ${outputFile?.path} <a href="${g.createLink(controller: 'analysis', action: 'downloadFile', params: [analysisId: this?.analysis?.id, filename: outputFile?.path, fileLink: outputFile?.link?.href, outputFile: outputFile])}">
-    %{---- ${outputFile?.path}&nbsp; -- --}%dwnld&nbsp;<i class="fa fa-floppy-o fa-lg"></i>
+  ${outputFile?.path} <a target="_blank" href="${g.createLink(controller: 'analysis', action: 'downloadFile', params: [analysisId: this?.analysis?.id, filename: outputFile?.path, fileLink: outputFile?.link?.href, outputFile: outputFile])}">
+    Display&nbsp;<i class="fa fa-external-link fa-lg"></i>
+  </a> | <a href="${g.createLink(controller: 'analysis', action: 'downloadFile', params: [analysisId: this?.analysis?.id, filename: outputFile?.path, fileLink: outputFile?.link?.href, outputFile: outputFile, download: true])}">
+    %{---- ${outputFile?.path}&nbsp; -- --}%Download&nbsp;<i class="fa fa-floppy-o fa-lg"></i>
   </a><g:if test="${i != jobResult.outputFiles.findAll { (it.kind.contains('html')) }.size() - 1}"></br></g:if>
 </g:each></dd>
 <dt>Job Results Archive:</dt>
 <dd><g:each in="${jobResult.outputFiles.findAll { (it.link.name.contains('Job.')) }}" var="outputFile" status="i">
   ${outputFile?.path} <a href="${g.createLink(controller: 'analysis', action: 'downloadFile', params: [analysisId: this?.analysis?.id, filename: outputFile?.path, fileLink: outputFile?.link?.href, outputFile: outputFile])}">
-    %{---- ${outputFile?.path}&nbsp; -- --}%dwnld&nbsp;<i class="fa fa-floppy-o fa-lg"></i>
+    %{---- ${outputFile?.path}&nbsp; -- --}%Download&nbsp;<i class="fa fa-floppy-o fa-lg"></i>
   </a><g:if test="${i != jobResult.outputFiles.findAll { (it.kind.contains('html')) }.size() - 1}"></br></g:if>
 </g:each></dd>
 %{--<div class="btn btn-default" onclick="alert('not implemented yet');">Download Results as Zip-file</div>--}%
