@@ -15,15 +15,15 @@
 <br/>--}%
 <ul>
   <g:each var="project" in="${projectList}" status="p">
-    <li class="${session?.searchLst?.find { it == project?.id } != null ? 'findSel' : ''} folder" style="cursor: pointer" onclick="projectClick(${project?.id})"><i
-        class="fa fa-${session?.projectOpenId?.toLong() == project?.id ? 'folder-open' : 'folder'}-o"></i>&nbsp;&nbsp;${project?.title.take(20)+'...'}</li>
+    <li class="${session?.searchLst?.find { it == project?.id } != null ? 'findSel' : ''} folder" style="cursor: pointer" onclick="projectClick(${project?.id})" title="${project?.title}"><i
+        class="fa fa-${session?.projectOpenId?.toLong() == project?.id ? 'folder-open' : 'folder'}-o"></i>&nbsp;&nbsp;${project?.title.take(28)+'...'}</li>
     <g:if test="${project?.id == session?.projectOpenId?.toLong()}">
       <ul>
         <g:each var="experiment" in="${experimentList}">
-          <li>
+          <li title="${experiment?.title}">
             <span id="experimentFolder" style="cursor: pointer" onclick="window.location.href = '${createLink(controller:'experiment', action: 'index', params: [pId: project?.id, eId: experiment?.id])}'"><i
                 class="fa fa-${session?.experimentOpenId?.toLong() == experiment?.id ? 'folder-open' : 'folder'}-o"></i>
-              &nbsp;&nbsp;${experiment?.title.take(20) + '...'}
+              &nbsp;&nbsp;${experiment?.title.take(24) + '...'}
               %{--&nbsp;&nbsp;{{ strTruncate(experiment.title, 30, '...') }}--}%
             </span>
             %{--<g:if test="${session?.experimentOpenId == experiment?.id}">

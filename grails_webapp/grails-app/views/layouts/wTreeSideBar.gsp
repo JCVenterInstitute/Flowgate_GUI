@@ -42,6 +42,18 @@
     .main .page-header {
       margin-top: 0;
     }
+
+    #projTree > ul {
+      padding-left: 0px;
+      list-style-type: none;
+      list-style: none;
+    }
+
+    #projTree > ul > ul {
+      padding-left: 20px;
+      list-style-type: none;
+      list-style: none;
+    }
   </style>
   <script>
     $(function() {
