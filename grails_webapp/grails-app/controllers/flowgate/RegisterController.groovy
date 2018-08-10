@@ -45,7 +45,7 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
                 "<b>Email:</b> " + registerCommand.email + "<br/>" +
                 "<b>Comments:</b> " + ((registerCommand.reason == null) ? "" : registerCommand.reason) + "<br/>"
         sendMail {
-            to "mqian@jcvi.org"
+            to "${adminEmail}"
             subject "New alpha release access request"
             html body
         }
@@ -85,7 +85,7 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
         "<b>Reason:</b> " + ((user.reason == null) ? "" : user.reason) + "<br/>" +
         "<b>Go to users page for approval!</b> "
     sendMail {
-      to adminEmail
+      to "${adminEmail}"
       subject "New user registration for approval"
       html body
     }
