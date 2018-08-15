@@ -57,15 +57,15 @@ class AnalysisController {
         def currentUser = springSecurityService.currentUser
         def analysisList
         def jobList
+        Experiment experiment = Experiment.findById(params.eId)
         if(SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")){
-            analysisList = Analysis.findAll(params)
-            jobList = Analysis.findAllByAnalysisStatusNotInList([3])*.jobNumber
+            analysisList = Analysis.findAllByExperiment(experiment, params)
+            jobList = Analysis.findAllByExperimentAndAnalysisStatusNotInList(experiment, [3])*.jobNumber
         }
         else {
-            analysisList = Analysis.findAllByUserAndAnalysisStatusNotInList(currentUser, [-2], params)
-            jobList = Analysis.findAllByUserAndAnalysisStatusNotInList(currentUser, [3,-2])*.jobNumber
+            analysisList = Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, currentUser, [-2], params)
+            jobList = Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment,currentUser, [3,-2])*.jobNumber
         }
-        Experiment experiment = Experiment.findById(params.eId)
         respond analysisList, model:[analysisCount: analysisList.size(), eId: params?.eId, jobList: jobList, experiment: experiment]
     }
 
@@ -230,12 +230,14 @@ class AnalysisController {
         def currentUser = springSecurityService.currentUser
         def analysisList
         def jobList
+        Experiment experiment = Experiment.findById(params.eId)
         if(SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")){
-            analysisList = Analysis.findAll(params)
-            jobList = Analysis.findAllByAnalysisStatusNotInList([3])*.jobNumber
-        } else {
-            analysisList = Analysis.findAllByUserAndAnalysisStatusNotInList(currentUser,[-2], params)
-            jobList = Analysis.findAllByUserAndAnalysisStatusNotInList(currentUser, [3,-2])*.jobNumber
+            analysisList = Analysis.findAllByExperiment(experiment, params)
+            jobList = Analysis.findAllByExperimentAndAnalysisStatusNotInList(experiment, [3])*.jobNumber
+        }
+        else {
+            analysisList = Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, currentUser, [-2], params)
+            jobList = Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment,currentUser, [3,-2])*.jobNumber
         }
         String updChkStr = ""
 //        TODO clear also if no jobs with positiv jobNo
