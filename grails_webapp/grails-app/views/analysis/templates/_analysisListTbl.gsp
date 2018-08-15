@@ -40,7 +40,7 @@
           </td>
         </g:if>
         <g:else>
-          <td>
+          <td <g:if test="${p == 'timestamp'}">style="vertical-align: inherit;"</g:if>>
             <g:if test="${p == 'analysisStatus'}">
               <div id="job-${bean.jobNumber}" class="form-control-plaintext">
                 <i class=" fa fa-circle"
@@ -51,7 +51,7 @@
             </g:if>
             <g:else>
               <g:if test="${p == 'timestamp'}">
-                <div class="form-control-plaintext"><g:formatDate date="${bean.timestamp}" format="dd/MM/yyyy hh:mm:ss"/></div>
+                <g:formatDate date="${bean.timestamp}" format="dd/MM/yyyy hh:mm:ss"/>
               </g:if>
               <g:else>
                   <f:display bean="${bean}"
