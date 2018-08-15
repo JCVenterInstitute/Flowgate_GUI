@@ -1,7 +1,6 @@
 package flowgate
 
 import grails.converters.JSON
-import grails.http.client.*
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.transaction.Transactional
 import org.genepattern.webservice.Parameter
@@ -54,7 +53,7 @@ class AnalysisController {
     }
 
     def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
+        //params.max = Math.min(max ?: 10, 100)
         def currentUser = springSecurityService.currentUser
         def analysisList
         def jobList
