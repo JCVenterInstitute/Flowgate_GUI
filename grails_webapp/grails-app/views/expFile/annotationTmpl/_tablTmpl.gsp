@@ -1,4 +1,5 @@
-<g:each in="${experiment?.expFiles.sort { it.fileName }}" var="expFile" status="i">
+<g:if test="${experiment?.expFiles}" >
+<g:each in="${experiment?.expFiles?.sort { it.fileName }}" var="expFile" status="i">
   <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
     <td>${expFile?.fileName}</td>
     <g:each in="${experiment.expMetadatas.findAll { it.mdCategory == category }.sort { it.dispOrder }}" var="eMeta">
@@ -14,3 +15,4 @@
     <td>%{-- add column field --}%</td>
   </tr>
 </g:each>
+</g:if>

@@ -34,6 +34,7 @@
     <div class="pull-right">
       <g:link class="btn btn-success" controller="experiment" action="index" params="[eId: experiment.id]"><g:message code="submitBtn.label" default="Submit"/></g:link>
     </div>
+    <g:if test="${experiment.expFiles}" >
     <ul class="nav nav-tabs">
       <li class="active"><a href="#tabDemogr" role="tab" data-toggle="tab">Demographics</a></li>
       <li><a href="#tabVisit" role="tab" data-toggle="tab">Visit</a></li>
@@ -59,12 +60,16 @@
       %{--</div>
       --}%
     </div>
+    </g:if>
+    <g:else>
+      <div class="text-center" >No FCS-files uploaded so far, please upload some FCS-files.</div>
+    </g:else>
   </div>
   <div id="colCreateModal">
     <g:render template="annotationTmpl/colCreateModal" model="[experiment: experiment]"/>
   </div>
   <div id="colEditModal">
-    %{--<g:render template="annotationTmpl/colEditModal" model="[experiment: experiment, eMeta: eMeta]"/>--}%
+    <g:render template="annotationTmpl/colEditModal" model="[experiment: experiment, eMeta: eMeta]"/>
   </div>
 
 </div>
@@ -143,6 +148,7 @@
             success:  function (data, status, xhr){
               console.log('success');
               $("#colEditModal").html(data.edModalTmpl);
+              // $("#colEditModal").modal({ show: 'true' });
             },
             error: function(request, status, error){
               console.log('ajxError!');
