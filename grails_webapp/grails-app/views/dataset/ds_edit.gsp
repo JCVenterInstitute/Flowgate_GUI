@@ -40,11 +40,11 @@ project=${experiment?.project}
       </div>
       <p>* All the changes will be automatically saved when you assign or remove fcs files</p>
       <div class="row mt-5">
-        %{--<div class="col-sm-2">
+        <div class="col-sm-2">
           <div id="metaData">
             <g:render template="datasetTmpl/mdFilterPanel" model="[experiment: experiment]"/>
           </div>
-        </div>--}%
+        </div>
 
         <div class="col-sm-4">
           <div id="fcsCandidates">
