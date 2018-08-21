@@ -17,17 +17,17 @@
           </f:with>
           <br/>
           <g:each in="${(expMetaDatValList && expMetaDatValList.size()>0) ? expMetaDatValList : new ExperimentMetadataValue()}" var="expMetaDatVal" >
-          %{-- <g:set var="expMetaDatVal" value="${expMetaDatValList ? new ExperimentMetadataValue()}" /> --}%
-          <f:with bean="${expMetaDatVal}" >
-            <div class="row">
-              <f:field property="mdValue" label="Value" />
-              %{--<f:field property="mdType" label="Type" />--}%
-              <g:hiddenField name="mdType" value="${expMetaDatVal.mdType}" />
-              &nbsp;&nbsp;<f:field property="dispOrder" label="Disp. Order" value="1"/>
-              &nbsp;&nbsp;<div class="btn btn-default" title="add another value"  >Add Value <i class="fa fa-plus" ></i></div>
-            </div>
-          </f:with>
-          <br/>
+            %{-- <g:set var="expMetaDatVal" value="${expMetaDatValList ? new ExperimentMetadataValue()}" /> --}%
+            <f:with bean="${expMetaDatVal}" >
+              <div class="row">
+                <f:field property="mdValue" label="Value" />
+                %{--<f:field property="mdType" label="Type" />--}%
+                <g:hiddenField name="mdType" value="${expMetaDatVal.mdType ?: 'String'}" />
+                &nbsp;&nbsp;<f:field property="dispOrder" label="Disp. Order" value="1"/>
+                &nbsp;&nbsp;<div class="btn btn-default" title="add another value"  >Add Value&nbsp;<i class="fa fa-plus" ></i></div>
+              </div>
+            </f:with>
+            <br/>
           </g:each >
           <input class="btn btn-success" type="submit"  name="addCol" />
         </g:form>

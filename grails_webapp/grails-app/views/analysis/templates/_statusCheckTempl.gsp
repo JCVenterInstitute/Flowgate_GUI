@@ -6,7 +6,7 @@
       url: "${createLink(controller: 'analysis', action: 'checkStatus')}",
       dataType: "json",
       type: "get",
-      data: {"jobs": JSON.stringify(${jobList})},
+      data: {"eId": ${params?.eId}, "jobs": JSON.stringify(${jobList})},
       success: function (data) {
         console.log("status update");
       },
@@ -22,7 +22,7 @@
       url: "${createLink(controller: 'analysis', action: 'checkDbStatus')}",
       dataType: "json",
       type: "get",
-      data: {"jobs": JSON.stringify(${jobList})},
+      data: {"eId": ${params?.eId}, "jobs": JSON.stringify(${jobList})},
       success: function (data) {
         if (data.updChkStatus == "clear") {
           console.log('do reset');
@@ -30,6 +30,13 @@
           clearInterval(intrvalTmr);
         }
         $("#analysisListTabl").html(data.tablTempl);
+
+        $("#analysis-table").DataTable({
+          "columnDefs": [
+            { "type": "date-euro", targets: 2 }
+          ],
+          "order": [[ 2, "desc" ]]
+        });
       },
       error: function (request, status, error) {
         console.log("E: in checkDbStatus! something went wrong!!!")

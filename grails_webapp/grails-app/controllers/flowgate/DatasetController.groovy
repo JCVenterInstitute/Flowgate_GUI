@@ -142,6 +142,15 @@ class DatasetController {
         }
     }
 
+    def ds_edit(Experiment experiment) {
+        Dataset ds = params.dsId ? Dataset.get(params.dsId) :
+            Dataset.findAllByExperiment(experiment) ?
+                Dataset.findAllByExperiment(experiment)?.first() :
+                new Dataset(experiment:experiment, name: 'new dataset', expFiles: [], description: '[]').save(flush: true)
+        def expFileCandidatesList = getFilteredList(experiment)
+        render view: 'ds_edit', model: [experiment: experiment, dsId: ds.id, ds: ds, expFileCandidatesList: expFileCandidatesList], params: params
+    }
+
     def assign() {
         Dataset ds = Dataset.get(params?.dsId.toLong())
         session.fCandSels = []

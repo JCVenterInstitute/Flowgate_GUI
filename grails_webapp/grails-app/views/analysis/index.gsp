@@ -4,6 +4,8 @@
   <meta name="layout" content="main"/>
   <g:set var="entityName" value="${message(code: 'analysis.label', default: 'Analysis')}"/>
   <title><g:message code="default.list.label" args="[entityName]"/></title>
+  <asset:javascript src="jquery/jquery.dataTables.js"/>
+  <asset:stylesheet src="jquery.dataTables.css"/>
 </head>
 
 <body>
@@ -162,7 +164,40 @@
     window.open("${g.createLink(controller: 'experiment', action: 'renderAnalysisHtml2')}", "resultsFrame")
   }
 
+  jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+    "date-euro-pre": function ( a ) {
+      var x;
+
+      if ( $.trim(a) !== '' ) {
+        var frDatea = $.trim(a).split(' ');
+        var frTimea = (undefined != frDatea[1]) ? frDatea[1].split(':') : [00,00,00];
+        var frDatea2 = frDatea[0].split('/');
+        x = (frDatea2[2] + frDatea2[1] + frDatea2[0] + frTimea[0] + frTimea[1] + ((undefined != frTimea[2]) ? frTimea[2] : 0)) * 1;
+      }
+      else {
+        x = Infinity;
+      }
+
+      return x;
+    },
+
+    "date-euro-asc": function ( a, b ) {
+      return a - b;
+    },
+
+    "date-euro-desc": function ( a, b ) {
+      return b - a;
+    }
+  } );
+
   $(document).ready(function () {
+
+    $("#analysis-table").DataTable({
+      "columnDefs": [
+        { "type": "date-euro", targets: 2 }
+      ],
+      "order": [[ 2, "desc" ]]
+    });
 
     /*
     TODO reactivate this code after analysis list test

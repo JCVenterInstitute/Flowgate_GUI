@@ -6,9 +6,9 @@ Modal loaded!
       <div class="modal-body custom-height-modal">
         Edit
         <g:form controller="expFile" action="editColumn">
-          <g:hiddenField name="id" value="${experiment.id}" />
-          <g:hiddenField name="metaId" value="${eMeta.id}" />
-          <g:hiddenField name="metaValId" value="${eMeta?.mdVals.id.join(',')}" />
+          <g:hiddenField name="id" value="${experiment?.id}" />
+          <g:hiddenField name="metaId" value="${eMeta?.id}" />
+          <g:hiddenField name="metaValId" value="${eMeta?.mdVals?.id?.join(',')}" />
 
           <div class="form-group">
             <label for="mdCategory">Tab *</label>
@@ -33,6 +33,7 @@ Modal loaded!
     </div>
   </div>
 </div>
+%{--
 <script>
   $(document).ready(function(){
      // alert('should open modal now');
@@ -41,3 +42,4 @@ Modal loaded!
       });
   });
 </script>
+--}%
