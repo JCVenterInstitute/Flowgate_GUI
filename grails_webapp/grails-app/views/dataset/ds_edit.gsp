@@ -5,6 +5,7 @@
   <g:set var="entityName" value="${message(code: 'expFile.label', default: 'Experiment File')}"/>
   %{--<title><g:message code="default.expFile.annotation.label" default="Manage Dataset" args="[entityName]" /></title>--}%
   <title><g:message code="default.expFile.annotation.label" default="Manage Dataset"/></title>
+  %{--<asset:javascript src="jquery-2.2.0.min.js"/>--}%
   <style>
   #toAnno, #toFcs {
     background-color: rgba(122, 122, 122, 0.27);
@@ -35,9 +36,11 @@ project=${experiment?.project}
     <g:form controller="dataset" action="dsExit" params="[experiment: experiment]" id="${experiment.id}">
       <g:hiddenField name="expId" value="${experiment?.id}"/>
       <g:hiddenField name="projId" value="${experiment?.project?.id}"/>
+
       <div id="dsPanel">
         <g:render template="datasetTmpl/datasetPanel" model="[experiment: experiment, dsMode: params.dsMode]"/>
       </div>
+
       <p>* All the changes will be automatically saved when you assign or remove fcs files</p>
       <div class="row mt-5">
         <div class="col-sm-2">
@@ -49,7 +52,7 @@ project=${experiment?.project}
         <div class="col-sm-4">
           <div id="fcsCandidates">
             <g:render template="datasetTmpl/fcsFileCandidates"
-                      model="[experiment: experiment, ds: ds, dsId: ds.id, expFileCandidatesList: expFileCandidatesList, pType: 'cand']"/>
+                      model="[experiment: experiment, ds: ds, dsId: ds?.id, expFileCandidatesList: expFileCandidatesList, pType: 'cand']"/>
           </div>
         </div>
 
@@ -62,7 +65,7 @@ project=${experiment?.project}
 
         <div class="col-sm-4">
           <div id="fcsAssigned">
-            <g:render template="datasetTmpl/fcsFileAssigned" model="[experiment: experiment, ds: ds, dsId: ds.id, expFileAssignedList: ds.expFiles, pType: 'ass']"/>
+            <g:render template="datasetTmpl/fcsFileAssigned" model="[experiment: experiment, ds: ds, dsId: ds?.id, expFileAssignedList: ds.expFiles, pType: 'ass']"/>
           </div>
         </div>
 
