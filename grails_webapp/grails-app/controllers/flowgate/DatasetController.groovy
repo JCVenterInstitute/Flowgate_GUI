@@ -76,10 +76,10 @@ class DatasetController {
             //TODO check this
             //  if there is no annotation done??? expect empty list here, fill with experiment expfiles
             if (expFileCandidatesList.size() < 1) {
-                expFileCandidatesList = experiment.expFiles
+                expFileCandidatesList = experiment?.expFiles
             }
         }
-        return expFileCandidatesList.unique()
+        return expFileCandidatesList?.unique()
     }
 
     def axDsChange(Dataset dataset) {
@@ -104,7 +104,7 @@ class DatasetController {
         params.dsMode = 'dsCreate'
         render(contentType: 'text/json') {
             success true
-            dsField "${g.render(template: 'datasetTmpl/datasetFieldCreate', model: [dataset: ds, dsMode: 'dsCreate'])}"
+            dsField "${g.render(template: 'datasetTmpl/datasetFieldCreate', model: [experiment: experiment, dataset: ds, dsMode: 'dsCreate'])}"
             fcsAssList "${g.render(template: 'datasetTmpl/fcsFileAssigned', model: [experiment: experiment, ds: ds, dsId: ds.id, expFileAssignedList: []])}"
         }
     }
@@ -146,43 +146,58 @@ class DatasetController {
         Dataset ds = params.dsId ? Dataset.get(params.dsId) :
             Dataset.findAllByExperiment(experiment) ?
                 Dataset.findAllByExperiment(experiment)?.first() :
-                new Dataset(experiment:experiment, name: 'new dataset', expFiles: [], description: '[]').save(flush: true)
+                    new Dataset(experiment:experiment, name: 'new dataset', expFiles: [], description: '[]').save(flush: true)
         def expFileCandidatesList = getFilteredList(experiment)
-        render view: 'ds_edit', model: [experiment: experiment, dsId: ds.id, ds: ds, expFileCandidatesList: expFileCandidatesList], params: params
+        render view: 'ds_edit', model: [experiment: experiment, dsId: ds?.id, ds: ds, expFileCandidatesList: expFileCandidatesList], params: params
     }
 
     def assign() {
-        Dataset ds = Dataset.get(params?.dsId.toLong())
-        session.fCandSels = []
-        session.fAssSels = []
-
-        (params.findAll { key, value -> key.startsWith('cbFcsFileCandId_') }).each {
-            if (it.value == 'on') {
-                def fcsId = (it?.key - 'cbFcsFileCandId_').toLong()
-                ExpFile candidate = ExpFile.get(fcsId)
-                def debugdummy = ds.expFiles.findAll { it.id == candidate.id }
-                if (!(ds.expFiles.findAll { it.id == candidate.id })) {
-                    if (ds.expFiles) {
-                        ds.expFiles.add(candidate)
-                    } else {
-                        ds.expFiles = [candidate]
-                    }
-                } else {
-                    println "already in list, no need to add"
-                }
-                if (session.fAssSels)
-                    session.fAssSels.add(fcsId)
-                else
-                    session.fAssSels = [fcsId]
-            }
+      Experiment experiment = params?.expId ? Experiment.get(params?.expId?.toLong()) : params.eId ? Experiment.get(params?.eId?.toLong()) : null
+      Dataset ds
+      if(params?.formMode == 'dsCreate') {
+        params.experiment = experiment
+        ds = new Dataset(params)
+      }
+      else {
+        if(params?.dsId){
+          ds = Dataset.get(params?.dsId.toLong())
         }
-        ds.save(flush: true)
+      }
 
-        flash.message = "FCS files are successfully assigned"
-        redirect action: 'edit', id: ds.id
+      ds.name = params?.name
+      session.fCandSels = []
+      session.fAssSels = []
+
+      (params.findAll { key, value -> key.startsWith('cbFcsFileCandId_') }).each {
+        if (it.value == 'on') {
+          def fcsId = (it?.key - 'cbFcsFileCandId_').toLong()
+            ExpFile candidate = ExpFile.get(fcsId)
+            def debugdummy = ds.expFiles.findAll { it.id == candidate.id }
+            if (!(ds?.expFiles.findAll { it.id == candidate.id })) {
+              if (ds?.expFiles) {
+                ds?.expFiles?.add(candidate)
+              }
+              else {
+                ds.expFiles = [candidate]
+              }
+            }
+            else {
+              println "already in list, no need to add"
+            }
+            if (session.fAssSels)
+              session.fAssSels.add(fcsId)
+            else
+              session.fAssSels = [fcsId]
+          }
+      }
+      ds.save(flush: true)
+      flash.message = "FCS files are successfully assigned"
+      params.dsId = ds.id
+      redirect action: 'ds_edit', model: [dsId: ds.id, formMode: "dsEdit"], params: [dsId: ds.id], id: params?.expId ? params?.expId : params?.eId ? params?.eId : null
     }
 
     def remove() {
+        Experiment experiment = params?.expId ? Experiment.get(params?.expId?.toLong()) : params.eId ? Experiment.get(params?.eId?.toLong()) : null
         Dataset ds = Dataset.get(params?.dsId.toLong())
         session.fAssSels = []
         session.fCandSels = []
@@ -201,7 +216,8 @@ class DatasetController {
         ds.save(flush: true)
 
         flash.message = "FCS files are successfully removed"
-        redirect action: 'edit', id: ds.id
+//        redirect action: 'edit', id: ds.id
+        redirect action: 'ds_edit', id: experiment?.id, params: [dsId: ds.id]
     }
 
 

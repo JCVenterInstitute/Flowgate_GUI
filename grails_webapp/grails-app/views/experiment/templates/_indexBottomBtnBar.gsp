@@ -90,24 +90,38 @@
       </span>
     </g:isOwnerOrRoles>
 
+    <g:if env="development">
     %{--<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">--}%
-    <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Admin">
-      <span data-toggle="tooltip" title="FCS File Annotation">
-        <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'annotationTbl', id: experiment?.id)}" >
-        <div class="btn btn-default" style="cursor: pointer">
-          <i class="fa fa-adn fa-lg"></i>FCS File Annotation
-        </div>
-      </a>
-      </span>
-    </g:isOwnerOrRoles>
+      <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Admin">
+        <span data-toggle="tooltip" title="FCS File Annotation">
+          <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'annotationTbl', id: experiment?.id)}" >
+          <div class="btn btn-default" style="cursor: pointer">
+            <i class="fa fa-adn fa-lg"></i>FCS File Annotation
+          </div>
+        </a>
+        </span>
+      </g:isOwnerOrRoles>
+    </g:if>
+
+    <g:if env="development">
+      <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
+        <span data-toggle="tooltip" title="Manage Datasets orig">
+          <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'dataset', action: 'ds_edit', params: [id: experiment?.id, eId: experiment?.id])}" >
+            <div class="btn btn-default" style="cursor: pointer">
+              <i class="fa fa-database"></i>Manage Datasets orig
+            </div>
+          </a>
+        </span>
+      </g:isOwnerOrRoles>
+    </g:if>
 
     <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
-      <span data-toggle="tooltip" title="Manage Datasets">
+      <span data-toggle="tooltip" title="Manage Datasets new">
         <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" >
-        <div class="btn btn-default" style="cursor: pointer">
-          <i class="fa fa-database"></i>Manage Datasets
-        </div>
-      </a>
+          <div class="btn btn-default" style="cursor: pointer">
+            <i class="fa fa-database"></i>Manage Datasets
+          </div>
+        </a>
       </span>
     </g:isOwnerOrRoles>
 
