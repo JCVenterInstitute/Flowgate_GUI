@@ -52,7 +52,7 @@
         <g:render template="annMasterTbl" model="[category: 'Stimulation']" />
       </div>
       <div class="tab-pane" role="tabpanel" id="tabReagents">
-        <g:render template="annReagentsMasterTbl" model="[category: 'Reagents']" />
+        %{--<g:render template="annReagentsMasterTbl" model="[category: 'Reagents']" />--}%
       </div>
       %{--
       <div class="tab-pane" role="tabpanel" id="tabPanel">--}%
@@ -66,10 +66,10 @@
     </g:else>
   </div>
   <div id="colCreateModal">
-    <g:render template="annotationTmpl/colCreateModal" model="[experiment: experiment]"/>
+    %{--<g:render template="annotationTmpl/colCreateModal" model="[experiment: experiment, category: category]"/>--}%
   </div>
   <div id="colEditModal">
-    <g:render template="annotationTmpl/colEditModal" model="[experiment: experiment, eMeta: eMeta]"/>
+    %{--<g:render template="annotationTmpl/colEditModal" model="[experiment: experiment, eMeta: eMeta]"/>--}%
   </div>
 
 </div>
@@ -96,6 +96,48 @@
       },
       complete: function(xhr, status){
         console.log('ajxComplete!');
+      }
+    });
+
+  }
+
+  function addColClick(eId, category){
+    $.ajax({
+      url: "${g.createLink(controller: 'expFile', action: 'axAddColumn') }",
+      dataType: 'json',
+      data: {id: eId, category: category},
+      success:  function (data, status, xhr){
+        console.log('success');
+        $("#colCreateModal").html(data.crModalTmpl);
+        $("#addColForm").modal("show");
+      },
+      error: function(request, status, error){
+        console.log('ajxError!');
+      },
+      complete: function(xhr, status){
+        console.log('ajxComplete!');
+      }
+    });
+
+  }
+
+  function addValClick(){
+    // var metaVal = document.getElementById("eMeta_"+mId+".mdVal").value;
+
+    $.ajax({
+      url: "${g.createLink(controller: 'expFile', action: 'axMetaValAdd')}",
+      dataType: 'json',
+      data: {},
+      success:  function (data, status, xhr){
+        console.log('metaValAdd success');
+        $("#oldRow").replaceWith(data.expMetaDatOldRow);
+        $("#newRow").replaceWith(data.expMetaDatNewRow);
+      },
+      error: function(request, status, error){
+        console.log('metaValAdd ajxError!');
+      },
+      complete: function(xhr, status){
+        console.log('metaValAdd ajxComplete!');
       }
     });
 
@@ -148,7 +190,7 @@
             success:  function (data, status, xhr){
               console.log('success');
               $("#colEditModal").html(data.edModalTmpl);
-              // $("#colEditModal").modal({ show: 'true' });
+              $("#editColForm").modal("show");
             },
             error: function(request, status, error){
               console.log('ajxError!');
