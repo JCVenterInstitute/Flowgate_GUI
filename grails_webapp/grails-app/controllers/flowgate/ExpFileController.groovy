@@ -18,6 +18,19 @@ class ExpFileController {
 
     GrailsApplication grailsApplication
 
+    def axMetaValAdd(){
+         /*
+        contentPage "${g.render( template: 'expFileTmpl', model: [experiment: experiment, expFile: expFile])}"
+        */
+        println "in Controller expFile action axMetaValAdd"
+        ExperimentMetadataValue expMetaDatVal = new ExperimentMetadataValue()
+        render (contentType:"text/json"){
+            success true
+            expMetaDatOldRow "${g.render( template: '/expFile/annotationTmpl/expMetaDatValOldRow', model: [expMetaDatVal: expMetaDatVal])}"
+            expMetaDatNewRow "${g.render( template: '/expFile/annotationTmpl/expMetaDatValNewRow', model: [expMetaDatVal: expMetaDatVal])}"
+        }
+    }
+
     def axExpFileToggleClick() {
         Experiment experiment = Experiment.findByIdAndIsActive(params.eId.toLong(), true)
         ExpFile expFile = ExpFile.findByIdAndIsActive(params?.expFileId.toLong(), true)
@@ -100,6 +113,7 @@ class ExpFileController {
         ExperimentMetadataValue eMetaVal = ExperimentMetadataValue.get(params.valId.toLong())
         session["meta_${eMeta.mdKey}"] = eMetaVal.mdValue
         Experiment experiment = eMeta.experiment
+//        TODO check values; index data
         render (contentType:"text/json") {
             success true
             tablTabl "${g.render(template: 'annotationTmpl/tablTmpl', model: [experiment: experiment])}"
@@ -107,7 +121,7 @@ class ExpFileController {
     }
 
     def axMetaActionChange(ExperimentMetadata eMeta){
-      println "axMetaActionChange ${params.colAction}!"
+      println "axMetaActionChange ${params.colAction}  emetaData=${eMeta.dump()}!"
       switch (params.colAction){
         case 'Delete': delCol(eMeta)
                        return
@@ -118,6 +132,7 @@ class ExpFileController {
           break
 
         case 'Edit': Experiment experiment = eMeta.experiment
+                     println "emeta = ${eMeta.dump()}"
                      render (contentType:"text/json") {
                        success true
                        edModalTmpl "${g.render(template: 'annotationTmpl/colEditModal', model: [experiment: experiment, eMeta: eMeta, category: eMeta.mdCategory])}"
@@ -191,6 +206,14 @@ class ExpFileController {
         }
         println 'add metaData column'
         redirect action: 'annotationTbl', id: experiment.id
+    }
+
+    def axAddColumn(Experiment experiment){
+        println " axAddColumn exp=${experiment?.id}"
+        render (contentType:"text/json") {
+            success true
+            crModalTmpl "${g.render (template: 'annotationTmpl/colCreateModal', model: [experiment: experiment, category: params?.category])}"
+        }
     }
 
     def editColumn(Experiment experiment){ //add metaData column in annotation table
