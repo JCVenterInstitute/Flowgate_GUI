@@ -159,7 +159,13 @@ class RestUtilsService {
           String descrFilePrefix = 'description'
           String descrFileSuffix = '.txt'
           File descrFile = File.createTempFile(descrFilePrefix, descrFileSuffix)
-          descrFile.write(params.analysisName+"\n"+params.analysisDescription)
+          descrFile.write(params.analysisName+System.lineSeparator()+params.analysisDescription)
+          def dsParamId = params["mp-meta"]
+          def dsId = params["mp-${dsParamId}-ds"]
+          if(dsId != null) {
+              Dataset ds = Dataset.get(dsId.toLong())
+              descrFile.append(System.lineSeparator() +ds.name)
+          }
           def fileLocation = uploadFileOrDirParams(module, descrFile, descrFilePrefix+descrFileSuffix)
           descrFile.delete()
           paramVars.push(['name': it.pKey, 'values': fileLocation])
