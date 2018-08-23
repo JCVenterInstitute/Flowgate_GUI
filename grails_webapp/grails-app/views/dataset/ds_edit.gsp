@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="layout" content="main"/>
+  <meta name="layout" content="mainWoLoading"/>
   <g:set var="entityName" value="${message(code: 'expFile.label', default: 'Experiment File')}"/>
   %{--<title><g:message code="default.expFile.annotation.label" default="Manage Dataset" args="[entityName]" /></title>--}%
   <title><g:message code="default.expFile.annotation.label" default="Manage Dataset"/></title>
@@ -9,6 +9,9 @@
   <style>
   #toAnno, #toFcs {
     background-color: rgba(122, 122, 122, 0.27);
+  }
+  .container{
+    width: 90%;
   }
   </style>
 </head>
@@ -43,7 +46,7 @@ project=${experiment?.project}
 
       <p>* All the changes will be automatically saved when you assign or remove fcs files</p>
       <div class="row mt-5">
-        <div class="col-sm-2">
+        <div class="col-sm-3">
           <div id="metaData">
             <g:render template="datasetTmpl/mdFilterPanel" model="[experiment: experiment]"/>
           </div>
@@ -69,13 +72,6 @@ project=${experiment?.project}
           </div>
         </div>
 
-        %{--<div class="col-sm-1">
-          <div id="submitBtnPnl" style="padding-top: 150px">
-            <div class="pull-right">
-              <button type="submit" class="btn btn-success">Submit</button>
-            </div>
-          </div>
-        </div>--}%
       </div>
     </g:form>
   </div>
@@ -89,7 +85,7 @@ project=${experiment?.project}
       type: "get",
       data: {id: eId},
       success: function (data) {
-        $("#datasetField").html(data.dsField);
+        $("#datasetNameField").html(data.dsField);
         $("#fcsAssigned").html(data.fcsAssList);
       },
       error: function (request, status, error) {
@@ -108,7 +104,8 @@ project=${experiment?.project}
       type: "get",
       data: {id: dsId},
       success: function (data) {
-        $("#datasetField").html(data.dsField);
+        $("#datasetNameField").html(data.dsField);
+        $("#dsName").focus()
       },
       error: function (request, status, error) {
         console.log('E: ' + error);

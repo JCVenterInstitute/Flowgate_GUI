@@ -89,7 +89,7 @@ class DatasetController {
 
     def renderPanels(ds) {
         def expFileList = ds.expFiles
-        println "render panels ds:${ds.name}"
+        println "render panels ds:${ds.name} files: ${expFileList}"
         render(contentType: 'text/json') {
             success true
             metaData "${g.render(template: 'datasetTmpl/mdFilterPanel', model: [experiment: ds.experiment, ds: ds, dsId: ds.id, expFileList: expFileList])}"
@@ -104,19 +104,19 @@ class DatasetController {
         params.dsMode = 'dsCreate'
         render(contentType: 'text/json') {
             success true
-            dsField "${g.render(template: 'datasetTmpl/datasetFieldCreate', model: [experiment: experiment, dataset: ds, dsMode: 'dsCreate'])}"
+            dsField "${g.render(template: 'datasetTmpl/datasetNameCreate', model: [experiment: experiment, ds: ds, dsMode: 'dsCreate'])}"
             fcsAssList "${g.render(template: 'datasetTmpl/fcsFileAssigned', model: [experiment: experiment, ds: ds, dsId: ds.id, expFileAssignedList: []])}"
         }
     }
 
     def axEditDs(Dataset dataset) {
         params.dsMode = 'dsEdit'
+        println "in axEditDs"
         render(contentType: 'text/json') {
             success true
-            dsField "${g.render(template: 'datasetTmpl/datasetFieldCreate', model: [dataset: dataset, dsMode: 'dsEdit'])}"
+            dsField "${g.render(template: 'datasetTmpl/datasetNameEdit', model: [experiment: dataset.experiment, dsId: dataset.id, ds: dataset, dsMode: 'dsEdit'])}"
         }
     }
-
 
     def index() {
         Experiment experiment = Experiment.findById(params?.eId)
@@ -154,7 +154,7 @@ class DatasetController {
     def assign() {
       Experiment experiment = params?.expId ? Experiment.get(params?.expId?.toLong()) : params.eId ? Experiment.get(params?.eId?.toLong()) : null
       Dataset ds
-      if(params?.formMode == 'dsCreate') {
+      if(params?.dsMode == 'dsCreate') {
         params.experiment = experiment
         ds = new Dataset(params)
       }
@@ -164,7 +164,7 @@ class DatasetController {
         }
       }
 
-      ds.name = params?.name
+      ds.name = params?.name ?: ds.name
       session.fCandSels = []
       session.fAssSels = []
 
@@ -174,6 +174,7 @@ class DatasetController {
             ExpFile candidate = ExpFile.get(fcsId)
             def debugdummy = ds.expFiles.findAll { it.id == candidate.id }
             if (!(ds?.expFiles.findAll { it.id == candidate.id })) {
+              println "expFiles size ${ds?.expFiles?.size()}"
               if (ds?.expFiles) {
                 ds?.expFiles?.add(candidate)
               }
@@ -188,17 +189,27 @@ class DatasetController {
               session.fAssSels.add(fcsId)
             else
               session.fAssSels = [fcsId]
+            flash.message = "FCS files are successfully assigned"
           }
       }
       ds.save(flush: true)
-      flash.message = "FCS files are successfully assigned"
       params.dsId = ds.id
-      redirect action: 'ds_edit', model: [dsId: ds.id, formMode: "dsEdit"], params: [dsId: ds.id], id: params?.expId ? params?.expId : params?.eId ? params?.eId : null
+      redirect action: 'ds_edit', model: [dsId: ds.id, dsMode: "dsEdit"], params: [dsId: ds.id], id: params?.expId ? params?.expId : params?.eId ? params?.eId : null
     }
 
     def remove() {
         Experiment experiment = params?.expId ? Experiment.get(params?.expId?.toLong()) : params.eId ? Experiment.get(params?.eId?.toLong()) : null
-        Dataset ds = Dataset.get(params?.dsId.toLong())
+        Dataset ds
+        if(params?.dsMode == 'dsCreate') {
+            params.experiment = experiment
+            ds = new Dataset(params)
+        }
+        else {
+            if(params?.dsId){
+                ds = Dataset.get(params?.dsId.toLong())
+            }
+        }
+        ds.name = params?.name ?: ds.name
         session.fAssSels = []
         session.fCandSels = []
 
@@ -217,7 +228,8 @@ class DatasetController {
 
         flash.message = "FCS files are successfully removed"
 //        redirect action: 'edit', id: ds.id
-        redirect action: 'ds_edit', id: experiment?.id, params: [dsId: ds.id]
+//        redirect action: 'ds_edit', id: experiment?.id, params: [dsId: ds.id]
+        redirect action: 'ds_edit', model: [dsId: ds.id, dsMode: "dsEdit"], params: [dsId: ds.id], id: params?.expId ? params?.expId : params?.eId ? params?.eId : null
     }
 
 
