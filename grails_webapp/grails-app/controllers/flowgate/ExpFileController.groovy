@@ -180,10 +180,8 @@ class ExpFileController {
       println "delete eMeta ${eMeta.mdKey}"
       Experiment experiment = eMeta.experiment
       String category = eMeta.mdCategory
-      eMeta.mdVals.each{
-        eMeta.mdVals.remove(it)
-        it.delete flush: true
-      }
+      eMeta.mdVals*.delete()
+      eMeta.mdVals.clear()
       eMeta.delete flush: true
       render (contentType:"text/json") {
         success true
