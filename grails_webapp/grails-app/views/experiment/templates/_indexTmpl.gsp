@@ -70,11 +70,14 @@
 %{-- <g:each var="expFile" in="${experiment?.expFiles}"> --}%
   <g:if test="${experiment}" >
   <g:if test="${experiment && ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment?.id?.toLong(), true), true)}" >
+    ${ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment.id.toLong(), true), true).size()} FCS-files already uploaded
+  %{--
   <g:each in="${ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment.id.toLong(), true), true)}" var="expFile" >
     <div id="expFile-${expFile?.id}">
       <g:render template="/expFile/expFileTmpl" model="[experiment: experiment, expFile: expFile]"/>
     </div>
   </g:each>
+  --}%
   </g:if>
   </g:if>
 
