@@ -36,7 +36,8 @@
           <br/>
           <br/>
           <div  style="padding-left:30px;" >
-            <g:if test="${category in ['Demographics','Visit','Stimulation']}">
+            %{--<g:if test="${category in ['Demographics','Visit','Stimulation']}">--}%
+            <g:if test="${category != 'Reagents'}">
               %{--<div class="" data-toggle="modal" data-target="#addColForm"><i title="add column" class="fa fa-plus fa-2x" ></i></div>--}%
               <div class="" onclick="addColClick(${experiment?.id}, '${category}');"><i title="add column" class="fa fa-plus fa-2x" ></i></div>
             </g:if>

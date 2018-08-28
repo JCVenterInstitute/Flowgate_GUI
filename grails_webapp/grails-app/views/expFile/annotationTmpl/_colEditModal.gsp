@@ -22,7 +22,8 @@
           </div>
           <f:with bean="${eMeta}" >
           %{--<f:with bean="${experimentMetaData}" >--}%
-            <f:field property="mdKey" label="Key" value="${eMeta.mdKey}"/>
+            <f:field property="mdKey" label="Key"/>
+            <f:field property="dispOnFilter" label="Show on Filter panel" />
           </f:with>
         %{--<f:with bean="${experimentMetaDataValue}" >--}%
           <f:with bean="${new ExperimentMetadataValue()}" >
@@ -42,7 +43,7 @@
 <script>
   $(document).ready(function(){
      // alert('should open modal now');
-      $("#colEditModal").modal({
+      $("#editColForm").modal({
         show: 'true'
       });
   });

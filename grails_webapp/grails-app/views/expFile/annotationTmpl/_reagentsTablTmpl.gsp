@@ -2,7 +2,7 @@
   <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
     <td>${expFile?.fileName}</td>
   %{--<g:each in="${experiment?.expMetadatas?.sort{it.mdCategory}?.mdCategory?.unique()}" var="catgy">--}%
-    <g:each in="${experiment.expMetadatas.find{ it.mdKey == 'Channel' }.mdVals.sort{it.dispOrder}}" var="eMeta">
+    <g:each in="${experiment.expMetadatas.find{ it.mdKey == 'Channel' }?.mdVals?.sort{it.dispOrder}}" var="eMeta">
       <td class="text-center">
         <div id="tblCell_${expFile.id.toString()}_${eMeta.id.toString()}">
           %{--<g:set var="sessMetaStr" value="meta_${eMeta.mdKey}"/>--}%

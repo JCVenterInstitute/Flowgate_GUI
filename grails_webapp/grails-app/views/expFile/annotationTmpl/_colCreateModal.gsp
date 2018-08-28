@@ -14,6 +14,7 @@
           <f:with bean="${new ExperimentMetadata()}" >
           %{--<f:with bean="${experimentMetaData}" >--}%
             <f:field property="mdKey" label="Key"/>
+            <f:field property="dispOnFilter" label="Show on Filter panel" />
           </f:with>
           <br/>
           %{--emdvList=${expMetaDatValList}--}%

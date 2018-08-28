@@ -353,6 +353,40 @@ class ExpFileController {
     def expFileCreate2(){
     }
 
+
+    def importAnnotation(Experiment experiment){
+        def annotationCsvFile = request.getFile("annotationFile")
+        File annCsvFile = annotationCsvFile.part.fileItem.tempFile
+        if(annCsvFile.size()<1){
+            println "error: no file selected"
+            flash.msg = "Error: No file selected!"
+            doAnnotate(experiment)
+            return
+        }
+        def headers = []
+        def rows = []
+        Integer lineCntr = 0
+        annCsvFile.splitEachLine(','){ fields ->
+            if(lineCntr == 0){
+                headers = fields
+            }
+            else{
+                rows += [fields]
+            }
+            lineCntr += 1
+        }
+//        println "headers ${headers}"
+//        println "rows ${rows}"
+        def myMap = []
+        rows.each { row ->
+            myMap += [[headers, row].transpose().collectEntries()]
+        }
+//        println " myMap = ${myMap}"
+        utilsService.csvMetadataParse(experiment, myMap, headers)
+        doAnnotate(experiment)
+        return
+    }
+
     def uploadFcsFiles(){
         try {
             Experiment experiment = Experiment.get(params.eId.toLong())

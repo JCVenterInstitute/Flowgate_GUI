@@ -190,4 +190,49 @@ class UtilsService {
         }
     }
 
+    def csvMetadataParse(experiment, fileListMap, headers){
+        println fileListMap
+        println "${fileListMap["SID"].unique()}"
+        Integer keyOrder = 1
+        String fcsFileMatchColumn = "FCS File Name"
+        String category = 'Other'
+//        TODO handle category
+//        if(fileListMap.keySet.contains('category')){
+//            category =
+//        }
+        def metaDataKeys = headers - fcsFileMatchColumn
+        metaDataKeys.each{ metadataKey ->
+            ExperimentMetadata metaDat = new ExperimentMetadata(experiment: experiment, mdCategory: category, dispOnFilter: true, visible: true, dispOrder: keyOrder, mdKey: metadataKey).save()
+            println "${metaDat?.hasErrors()}"
+//            if(!metaDat.hasErrors()){}
+            Integer valueOrder = 1
+            fileListMap["${metadataKey}"].unique().each{ metadataValue ->
+                ExperimentMetadataValue metaValue = new ExperimentMetadataValue(expMetaData: metaDat, dispOrder: valueOrder, mdType: 'String', mdValue: metadataValue).save()
+                println "${metaValue?.hasErrors()}"
+                valueOrder += 1
+            }
+            keyOrder += 1
+        }
+        doFileAnnotation(experiment, fileListMap, fcsFileMatchColumn, metaDataKeys)
+        return
+    }
+
+
+    def doFileAnnotation(Experiment experiment, annotationMap, fileNameMatchColumn, metaDataKeys){
+        annotationMap.each{ lineMap ->
+            String searchExpFileName = lineMap["${fileNameMatchColumn}"]
+            def expFiles = experiment.expFiles
+            ExpFile expFile = expFiles.find{ it.fileName == searchExpFileName }
+//            println "${searchExpFileName} == ${expFile.fileName}?"
+            if(expFile){
+                Integer metaValOrder = 1
+                metaDataKeys.each{ metaDataKey ->
+                    ExpFileMetadata expFileMetadata = new ExpFileMetadata(expFile: expFile, mdKey: metaDataKey, mdVal: lineMap["${metaDataKey}"], dispOrder: metaValOrder).save()
+                    metaValOrder += 1
+                }
+            }
+
+        }
+    }
+
 }

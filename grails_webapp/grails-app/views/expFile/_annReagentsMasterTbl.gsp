@@ -8,7 +8,7 @@
       %{--TODO retrieve channels of all fcs-files as list --}%
       %{--<g:each in="${['FL1-A','FL2-A','FL3-A','FL4-A','FL5-A','FL6-A','FL7-A'] }" var="eMeta">--}%
       %{--<g:each in="${experiment.expMetadatas.findAll { it.mdCategory == 'Reagents' }.sort { it.dispOrder }}" var="eMeta">--}%
-      <g:each in="${experiment.expMetadatas.find{ it.mdKey == 'Channel' }.mdVals.sort{it.dispOrder}}" var="channel">
+      <g:each in="${experiment.expMetadatas.find{ it.mdKey == 'Channel' }?.mdVals?.sort{it.dispOrder}}" var="channel">
       %{--<g:each in="${metaDatas.mdVals}" var="eMeta">--}%
         <th class="sortable">
           <p class="text-center">action

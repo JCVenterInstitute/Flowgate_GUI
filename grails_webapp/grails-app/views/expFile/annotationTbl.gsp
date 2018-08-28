@@ -35,30 +35,55 @@
       <g:link class="btn btn-success" controller="experiment" action="index" params="[eId: experiment.id]"><g:message code="submitBtn.label" default="Submit"/></g:link>
     </div>
     <g:if test="${experiment.expFiles}" >
+      <form id="upldForm" action="${g.createLink(controller: 'expFile', action: 'importAnnotation', id: experiment?.id)}" method="post" enctype="multipart/form-data" >
+        <g:hiddenField name="pId" value="${plate?.id}" />
+        <div class="row">
+          <div class="col-sm-offset-1">
+            Annotation CSV-file <input type="file" name="annotationFile" accept=".csv" required="required"/>
+          </div>
+        </div>
+        <div class="col-sm-offset-2" >
+          <input id="submitBtn" class="btn btn-success" type="submit" value="Upload" onclick="submitClick();" />
+        </div>
+        <script>
+
+          function submitClick() {
+            $("#submitBtn").attr("disabled", true);
+            $("#upldForm").submit();
+            $("#clickMsg").html('<p class="alert-info">Uploading annotation file ... </p>');
+          }
+
+        </script>
+      </form>
+    <g:set var="categories" value="${((experiment.expMetadatas*.mdCategory).unique()-'Reagents')}" />
+      %{--cats=${categories}--}%
     <ul class="nav nav-tabs">
-      <li class="active"><a href="#tabDemogr" role="tab" data-toggle="tab">Demographics</a></li>
-      <li><a href="#tabVisit" role="tab" data-toggle="tab">Visit</a></li>
-      <li><a href="#tabStimulation" role="tab" data-toggle="tab">Stimulation</a></li>
+      <g:if test="${categories.size()>0}">
+        <g:each in="${categories}" var="category" status="idx">
+          <li class="${idx==0 ? 'active' : ''}"><a href="#tab${category}" role="tab" data-toggle="tab">${category}</a></li>
+        </g:each>
+      </g:if>
+      <g:else>
+        <li class="active"><a href="#tabOther" role="tab" data-toggle="tab">Other</a></li>
+      </g:else>
       <li><a href="#tabReagents" role="tab" data-toggle="tab">Reagents</a></li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane active" role="tabpanel" id="tabDemogr">
-        <g:render template="annMasterTbl" model="[category: 'Demographics']"/>
-      </div>
-      <div class="tab-pane" role="tabpanel" id="tabVisit" >
-        <g:render template="annMasterTbl" model="[category: 'Visit']" />
-      </div>
-      <div class="tab-pane" role="tabpanel" id="tabStimulation">
-        <g:render template="annMasterTbl" model="[category: 'Stimulation']" />
-      </div>
+      <g:if test="${categories.size()>0}">
+        <g:each in="${categories}" var="category" status="idx">
+          <div class="tab-pane ${idx==0 ? 'active' : ''}" role="tabpanel" id="tab${category}">
+            <g:render template="annMasterTbl" model="[category: category]"/>
+          </div>
+        </g:each>
+      </g:if>
+      <g:else>
+        <div class="tab-pane active" role="tabpanel" id="tabOther">
+          <g:render template="annMasterTbl" model="[category: 'Other']"/>
+        </div>
+      </g:else>
       <div class="tab-pane" role="tabpanel" id="tabReagents">
         %{--<g:render template="annReagentsMasterTbl" model="[category: 'Reagents']" />--}%
       </div>
-      %{--
-      <div class="tab-pane" role="tabpanel" id="tabPanel">--}%
-        %{--<g:render template="annMasterTbl" model="[category: 'Panel']" />--}%
-      %{--</div>
-      --}%
     </div>
     </g:if>
     <g:else>
@@ -190,7 +215,7 @@
             success:  function (data, status, xhr){
               console.log('success');
               $("#colEditModal").html(data.edModalTmpl);
-              $("#editColForm").modal("show");
+              $("#editColForm").modal({ show: 'true' });
             },
             error: function(request, status, error){
               console.log('ajxError!');
