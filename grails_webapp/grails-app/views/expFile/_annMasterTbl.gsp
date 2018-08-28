@@ -1,6 +1,4 @@
 <%@ page import="flowgate.ExpFile; flowgate.ExperimentMetadataValue; flowgate.ExperimentMetadata" %>
-%{--<g:set var="colActions" value="['Sort','Hide','Filter', 'Select All', 'Select None', 'Delete']" />--}%
-<g:set var="colActions" value="['Edit','Hide', 'Delete']" />
 <div id="wholeTbl" >
   <table style="margin-top:0;" cellspacing="0" class="table table-bordered table-responsive table-striped table-hover dataTable" width="100%" >
     <thead>
@@ -12,6 +10,9 @@
           <g:if test="${eMeta.visible}" >
           <th class="sortable">
             <p class="text-center">action
+                <g:set var="filterAction" value="${eMeta.dispOnFilter ? 'HideFromFilter' : 'ShowOnFilter'}" />
+                %{--<g:set var="colActions" value="['Sort','HideColumn','Filter', 'Select All', 'Select None', 'Delete']" />--}%
+                <g:set var="colActions" value="['Edit','HideColumn', filterAction, 'Delete']" />
                 <g:select name="colAction" from="${colActions}" noSelection="['':'']" onchange="eMetaActionChange(${eMeta.id}, this.value);" />
             </p>
             <p class="text-center" >${eMeta.mdKey}</p>

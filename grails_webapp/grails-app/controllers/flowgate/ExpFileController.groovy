@@ -127,9 +127,17 @@ class ExpFileController {
                        return
           break
 
-        case 'Hide': hideCol(eMeta)
+        case 'HideColumn': hideCol(eMeta)
                      return
           break
+
+        case ['HideFromFilter','ShowOnFilter']: toggleShowOnFilter(eMeta)
+                     return
+          break
+
+//        case 'ShowOnFilter': hideCol(eMeta)
+//                     return
+//          break
 
         case 'Edit': Experiment experiment = eMeta.experiment
                      println "emeta = ${eMeta.dump()}"
@@ -158,14 +166,22 @@ class ExpFileController {
       }
     }
 
+    def toggleShowOnFilter(ExperimentMetadata eMeta){
+      println "toggle filter flag ${eMeta.mdKey}"
+      eMeta.dispOnFilter = !eMeta.dispOnFilter
+      eMeta.save flush: true
+      render (contentType:"text/json") {
+        success true
+        tablTabl "${g.render(template: 'annMasterTbl', model: [experiment: eMeta.experiment, category: eMeta.mdCategory])}"
+      }
+    }
+
     def hideCol(ExperimentMetadata eMeta){
       println "hide ${eMeta.mdKey}"
-      Experiment experiment = eMeta.experiment
-      String category = eMeta.mdCategory
       setColVisability(eMeta, false)
       render (contentType:"text/json") {
         success true
-        tablTabl "${g.render(template: 'annMasterTbl', model: [experiment: experiment, category: category])}"
+        tablTabl "${g.render(template: 'annMasterTbl', model: [experiment: eMeta.experiment, category: eMeta.mdCategory])}"
       }
     }
 
@@ -178,14 +194,12 @@ class ExpFileController {
 
     def delCol(ExperimentMetadata eMeta){
       println "delete eMeta ${eMeta.mdKey}"
-      Experiment experiment = eMeta.experiment
-      String category = eMeta.mdCategory
       eMeta.mdVals*.delete()
       eMeta.mdVals.clear()
       eMeta.delete flush: true
       render (contentType:"text/json") {
         success true
-        tablTabl "${g.render(template: 'annMasterTbl', model: [experiment: experiment, category: category])}"
+        tablTabl "${g.render(template: 'annMasterTbl', model: [experiment: eMeta.experiment, category: eMeta.mdCategory])}"
       }
     }
 
