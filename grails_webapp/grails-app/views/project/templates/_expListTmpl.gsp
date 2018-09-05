@@ -36,7 +36,7 @@
             <p class="list-group-item-text">${experiment?.description}</p>
           </a>
         </g:isAffilOrRoles>
-        <g:isNotAffilOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_ExperimentClick,ROLE_ExperimentEdit">
+        <g:isNotAffilOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentClick,ROLE_ExperimentEdit">
           <div class="list-group-item">
             <i class="fa fa-3x fa-file-text-o img-rounded pull-left" style=""></i>
             <h4 class="list-group-item-heading">${experiment?.title}</h4>
