@@ -26,7 +26,7 @@
 
 <div class="row">
   <div id="expContent" class="col-md-12">
-    <g:render template="templates/expListTmpl"/>
+    <g:render template="templates/expListTmpl" model="[experimentList: experimentList]"/>
     %{--<g:if test="${!session?.expCardView ?: true}">
       <g:render template="templates/expCardsTmpl"/>
     </g:if>

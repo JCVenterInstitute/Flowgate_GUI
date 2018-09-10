@@ -22,7 +22,7 @@
 </content>
 <content tag="pgContent">
   <div id="pageContent">
-    <g:render template="templates/indexTmpl" model="[experiment: experiment]"/>
+    <g:render template="templates/indexTmpl" model="[experiment: experiment, experimentList: experimentList]"/>
   </div>
 </content>
 </body>
