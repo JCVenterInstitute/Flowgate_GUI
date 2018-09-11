@@ -1,5 +1,7 @@
 package flowgate
 
+import groovy.json.JsonSlurper
+
 class DatasetController {
 
     def axSelAllCandFcs(Experiment experiment) {
@@ -41,31 +43,20 @@ class DatasetController {
     }
 
     def axSetFilter(Experiment experiment) {
-        String mdQval = params.eMetaVal - 'mValCb_'
-        if (params.ckStatus == "true") {
-            if (session.filters) {
-                if (!session.filters.flatten().contains(mdQval))
-                    session.filters.add(mdQval)
-            } else
-                session.filters = [mdQval]
-        } else {
-            if (session.filters)
-                session.filters.remove(mdQval)
-            else
-                session.filters = [mdQval]
-        }
         def expFileCandidatesList = getFilteredList(experiment)
         Dataset ds = Dataset.get(params?.dsId?.toLong())
+        if(ds == null) ds = new Dataset(params)
         render(contentType: 'text/json') {
             success true
-            fcsList "${g.render(template: 'datasetTmpl/fcsFileCandidates', model: [experiment: experiment, ds: ds, dsId: ds.id, expFileCandidatesList: expFileCandidatesList])}"
+            fcsList "${g.render(template: 'datasetTmpl/fcsFiles', model: [experiment: experiment, dataset: ds, expFileCandidatesList: expFileCandidatesList])}"
         }
     }
 
     def getFilteredList(Experiment experiment) {
         def expFileCandidatesList
-        if (session.filters) {
-            session.filters.each { filterVal ->
+        if (params.filters && !params.filters.equals("[]")) {
+            params.filters = new JsonSlurper().parseText(params.filters)
+            params.filters.each { filterVal ->
                 if (expFileCandidatesList)
                     expFileCandidatesList += ExpFileMetadata.findAll { (mdVal == filterVal) && (expFile.experiment == experiment) }*.expFile
                 else
