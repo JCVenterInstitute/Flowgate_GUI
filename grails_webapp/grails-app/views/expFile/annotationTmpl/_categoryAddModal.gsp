@@ -1,21 +1,18 @@
-<%@ page import="flowgate.ExperimentMetadataCategory; flowgate.ExpFile; flowgate.ExperimentMetadataValue; flowgate.ExperimentMetadata" %>
-<div class="modal fade in" id="editColForm" role="dialog">
+<%@ page import="flowgate.ExpFile; flowgate.ExperimentMetadataValue; flowgate.ExperimentMetadata" %>
+<div class="modal fade in" id="addCategoryForm" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body custom-height-modal">
-        <g:form controller="expFile" action="editColumn">
+        <g:form controller="expFile" action="addCategory">
           <g:hiddenField name="id" value="${experiment?.id}" />
-          <g:hiddenField name="metaId" value="${eMeta?.id}" />
-          <g:hiddenField name="metaValId" value="${eMeta?.mdVals?.id?.join(',')}" />
           <div class="form-group">
             <label for="mdCategory">Tab *</label>
-            %{--<g:select class="form-control" id="mdCategory" name="mdCategory" from="${(ExperimentMetadataCategory.findAllByExperiment(experiment).mdCategory ?: ['Default'])}" value="${category}" required="" />--}%
-            <g:select class="form-control" id="mdCategory" name="mdCategory.id" from="${(ExperimentMetadataCategory.findAllByExperiment(experiment))}" optionKey="id" optionValue="mdCategory" value="${category}" required="" />
+            %{--<g:select class="form-control" id="mdCategory" name="mdCategory" from="${(categories ?: ['Other']) +['Reagents']}" value="${category}" required="" />--}%
+
+            cats = ${experiment.expMetadatas*.mdCategory.mdCategory.unique()}
+            <g:textField class="form-control" name="mdCategory" id="mdCategory" required="" />
           </div>
-          <f:with bean="${eMeta}" >
-            <f:field property="mdKey" label="Key"/>
-            <f:field property="dispOnFilter" label="Show on Filter panel" />
-          </f:with>
+          %{--
           <fg:dynamicBlock itemId="eMetaValue" max="15" mdVals="${eMeta.mdVals*.mdValue}"
                            limitReachedMsg="Sorry, you cannot specify more than 5 customers"
                            removeBtnLabel="Delete">
@@ -32,8 +29,9 @@
               </div>
             </div>
           </fg:dynamicBlock>
+          --}%
           <br/>
-          <input class="btn btn-success" type="submit"  name="addCol" />
+          <input class="btn btn-success" type="submit"  name="addCategory" />
         </g:form>
       </div>
     </div>
