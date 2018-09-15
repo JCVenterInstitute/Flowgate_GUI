@@ -116,7 +116,7 @@ class ExpFileController {
 //        TODO check values; index data
         render (contentType:"text/json") {
             success true
-            tablTabl "${g.render(template: 'annotationTmpl/tablTmpl', model: [experiment: experiment])}"
+            tablTabl "${g.render(template: 'annotationTmpl/tablTmpl', model: [experiment: experiment, category: eMeta.mdCategory])}"
         }
     }
 
@@ -208,15 +208,28 @@ class ExpFileController {
         ExperimentMetadata eMetaData = new ExperimentMetadata(params)
         eMetaData.save(flush: true)
         params.expMetaData = eMetaData
-        ExperimentMetadataValue eMetaValue = new ExperimentMetadataValue(params)
-        eMetaValue.save(flush: true)
-        if(eMetaData?.mdVals){
-          eMetaData?.mdVals?.add(eMetaValue)
+        params.mdValue.each{ pmdValue ->
+            ExperimentMetadataValue eMetaValue = new ExperimentMetadataValue(expMetaData:eMetaData, mdValue: pmdValue, mdType: 'List', dispOrder: 1)
+            eMetaValue.save(flush: true)
+            if(eMetaData?.mdVals){
+              eMetaData?.mdVals?.add(eMetaValue)
+            }
+            else{
+              eMetaData?.mdVals = [eMetaValue]
+            }
         }
-        else{
-          eMetaData?.mdVals = [eMetaValue]
-        }
-        println 'add metaData column'
+        println "add metaData column  ${eMetaData?.mdVals}"
+        redirect action: 'annotationTbl', id: experiment.id
+    }
+
+
+    def addCategory(Experiment experiment){ //add metaData column in annotation table
+        params.experiment = experiment
+        params.visible = true
+        params.dispOnFilter = true
+        params.isDefault = false
+        ExperimentMetadataCategory emCategory = new ExperimentMetadataCategory(params)
+        emCategory.save(flush: true)
         redirect action: 'annotationTbl', id: experiment.id
     }
 
@@ -228,13 +241,38 @@ class ExpFileController {
         }
     }
 
-    def editColumn(Experiment experiment){ //add metaData column in annotation table
+    def axAddCategory(Experiment experiment){
+            println " axAddCategory exp=${experiment?.id}"
+//        println "${g.render (template: 'annotationTmpl/categoryAddModal', model: [experiment: experiment])}"
+            render (contentType:"text/json") {
+                success true
+                catModalTmpl "${g.render (template: 'annotationTmpl/categoryAddModal', model: [experiment: experiment])}"
+            }
+        }
+
+    def editColumn(Experiment experiment){ //edit metaData column in annotation table
+        println "${params.metaValId.value.size()}"
         ExperimentMetadata eMetaData = ExperimentMetadata.get(params?.metaId?.toLong())
+        eMetaData.properties = params
         eMetaData.save(flush: true)
-        ExperimentMetadataValue eMetaValue = ExperimentMetadataValue(params?.metaValId?.toLong())
-        eMetaValue.save(flush: true)
-        eMetaData.mdVals.add(eMetaValue)
-        println 'add metaData column'
+        def mdValList = eMetaData.mdVals
+        eMetaData.mdVals = []
+        mdValList.each{ mdValue ->
+            mdValue.discard()
+            mdValue.delete(flush: true)
+        }
+        params.mdValue.each{ mdValue ->
+            ExperimentMetadataValue eMetaValue = ExperimentMetadataValue.findOrSaveByExpMetaDataAndMdValue(eMetaData, mdValue)
+            params.mdType = params.mdType.size()>1 ? 'List' : 'String'
+            params.mdValue = mdValue
+            eMetaValue.properties = params
+//            eMetaValue.save(flush: true)
+            eMetaValue.save()
+            eMetaData.mdVals.add(eMetaValue)
+
+        }
+//        eMetaData.save(flush: true)
+        println 'edit metaData column'
         redirect action: 'annotationTbl', id: experiment.id
     }
 
@@ -482,9 +520,9 @@ class ExpFileController {
     }
 
     def setCkInitValues(Experiment experiment){
-        println "set session init values "
-        experiment.expMetadatas.sort{it.mdCategory}?.mdCategory?.unique()?.each{ catgy ->
-            experiment.expMetadatas.findAll{it.mdCategory== catgy}.sort{it.dispOrder}.each{ eMeta ->
+//        println "set session init values ${experiment}"
+        experiment.expMetadatas.sort{it.mdCategory?.dispOrder}?.each{ catgy ->
+            experiment.expMetadatas.findAll{it.mdCategory == catgy.mdCategory}?.sort{it.dispOrder}?.each{ eMeta ->
                 if(eMeta.mdVals.size()>1)
                     session["meta_${eMeta.mdKey}"] = eMeta.mdVals.sort{it.dispOrder}.first().mdValue
                 else

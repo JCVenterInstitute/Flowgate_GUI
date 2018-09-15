@@ -4,8 +4,10 @@ class ExperimentMetadata {
 
     static belongsTo = [Experiment, ExpFile]
     static hasMany = [expFiles: ExpFile, mdVals: ExperimentMetadataValue]
+//    static hasOne = [mdCategory: ExperimentMetadataCategory]
     Experiment experiment
-    String mdCategory
+//    String mdCategory
+    ExperimentMetadataCategory mdCategory
     String mdKey
     Integer dispOrder
     Boolean dispOnFilter = true

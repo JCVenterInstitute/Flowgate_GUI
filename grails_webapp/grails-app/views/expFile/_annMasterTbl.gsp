@@ -6,7 +6,7 @@
         <g:sortableColumn property="expFile" title="${message(code: 'expFile.label', default: 'Exp. File')}" >
            <p><br/></p>
         </g:sortableColumn>
-        <g:each in="${experiment.expMetadatas.findAll{it.mdCategory== category}.sort{it.dispOrder} }" var="eMeta">
+        <g:each in="${experiment.expMetadatas.findAll{it.mdCategory == category }.sort{it.dispOrder} }" var="eMeta">
           <g:if test="${eMeta.visible}" >
           <th class="sortable">
             <p class="text-center">action
@@ -17,6 +17,7 @@
             </p>
             <p class="text-center" >${eMeta.mdKey}</p>
             <p class="text-center" >
+              %{--vals=${eMeta.mdVals}--}%
               <g:if test="${eMeta.mdVals.size()>1}" >
                   <g:select id="eMeta_${eMeta.id}.mdVal" name="eMeta_${eMeta.id}.mdVal" from="${eMeta.mdVals.sort{it.dispOrder}}" optionKey="id" optionValue="mdValue" value="" onchange="eMetaValueChange(${eMeta.id}, this.value);"/>
               </g:if>
@@ -55,11 +56,3 @@
     </tbody>
   </table>
 </div>
-%{--<div id="colCreateModal">--}%
-  %{--<g:render template="annotationTmpl/colCreateModal" model="[experiment: experiment]"/>--}%
-%{--</div>--}%
-%{--
-<div class="pagination">
-  <g:paginate total="${plateCount ?: 0}" />
-</div>
---}%

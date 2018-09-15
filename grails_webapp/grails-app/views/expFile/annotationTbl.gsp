@@ -1,3 +1,4 @@
+<%@ page import="flowgate.ExperimentMetadataCategory" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,30 +56,35 @@
 
         </script>
       </form>
-    <g:set var="categories" value="${((experiment.expMetadatas*.mdCategory).unique()-'Reagents')}" />
+    %{--<g:set var="categories" value="${((experiment.expMetadatas*.mdCategory).unique()-'Reagents')}" />--}%
+    <g:set var="categories" value="${ExperimentMetadataCategory.findAllByExperiment(experiment)}" />
       %{--cats=${categories}--}%
     <ul class="nav nav-tabs">
       <g:if test="${categories.size()>0}">
         <g:each in="${categories}" var="category" status="idx">
-          <li class="${idx==0 ? 'active' : ''}"><a href="#tab${category}" role="tab" data-toggle="tab">${category}</a></li>
+          <li class="${idx==0 ? 'active' : ''}"><a href="#tab${category.mdCategory}" role="tab" data-toggle="tab">${category.mdCategory}</a></li>
         </g:each>
       </g:if>
       <g:else>
-        <li class="active"><a href="#tabOther" role="tab" data-toggle="tab">Other</a></li>
+        <li class="active"><a href="#tabDefault" role="tab" data-toggle="tab">Default</a></li>
       </g:else>
+      <li class="text-center">
+        %{--<a href="" onclick="addCategoryClick(${experiment.id});" style="color: black;" role="tab"><i class="fa fa-plus"></i></a>--}%
+        <div class="text-center" onclick="addCategoryClick(${experiment?.id});"  style="color: black;padding-top: 12px;padding-left: 8px;" ><i title="add tab" class="fa fa-plus" ></i></div>
+      </li>
       <li><a href="#tabReagents" role="tab" data-toggle="tab">Reagents</a></li>
     </ul>
     <div class="tab-content">
       <g:if test="${categories.size()>0}">
         <g:each in="${categories}" var="category" status="idx">
-          <div class="tab-pane ${idx==0 ? 'active' : ''}" role="tabpanel" id="tab${category}">
+          <div class="tab-pane ${idx==0 ? 'active' : ''}" role="tabpanel" id="tab${category.mdCategory}">
             <g:render template="annMasterTbl" model="[category: category]"/>
           </div>
         </g:each>
       </g:if>
       <g:else>
-        <div class="tab-pane active" role="tabpanel" id="tabOther">
-          <g:render template="annMasterTbl" model="[category: 'Other']"/>
+        <div class="tab-pane active" role="tabpanel" id="tabEmpty">
+          <g:render template="annMasterTbl" model="[category: null]"/>
         </div>
       </g:else>
       <div class="tab-pane" role="tabpanel" id="tabReagents">
@@ -90,13 +96,9 @@
       <div class="text-center" >No FCS-files uploaded so far, please upload some FCS-files.</div>
     </g:else>
   </div>
-  <div id="colCreateModal">
-    %{--<g:render template="annotationTmpl/colCreateModal" model="[experiment: experiment, category: category]"/>--}%
-  </div>
-  <div id="colEditModal">
-    %{--<g:render template="annotationTmpl/colEditModal" model="[experiment: experiment, eMeta: eMeta]"/>--}%
-  </div>
-
+  <div id="colEditModal"></div>
+  <div id="colCreateModal"></div>
+  <div id="categoryAddModal"></div>
 </div>
 <br/>
 <br/>
@@ -135,6 +137,25 @@
         console.log('success');
         $("#colCreateModal").html(data.crModalTmpl);
         $("#addColForm").modal("show");
+      },
+      error: function(request, status, error){
+        console.log('ajxError!');
+      },
+      complete: function(xhr, status){
+        console.log('ajxComplete!');
+      }
+    });
+  }
+
+  function addCategoryClick(eId){
+    $.ajax({
+      url: "${g.createLink(controller: 'expFile', action: 'axAddCategory') }",
+      dataType: 'json',
+      data: {id: eId},
+      success:  function (data, status, xhr){
+        console.log('success');
+        $("#categoryAddModal").html(data.catModalTmpl);
+        $("#addCategoryForm").modal("show");
       },
       error: function(request, status, error){
         console.log('ajxError!');
