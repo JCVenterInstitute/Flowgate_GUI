@@ -17,7 +17,7 @@
             <f:field property="dispOnFilter" label="Show on Filter panel" />
           </f:with>
           <fg:dynamicBlock itemId="eMetaValue" max="15" mdVals="${eMeta.mdVals*.mdValue}"
-                           limitReachedMsg="Sorry, you cannot specify more than 5 customers"
+                           limitReachedMsg="Sorry, you cannot specify more than 15 values"
                            removeBtnLabel="Delete">
             <g:hiddenField name="mdType" value="${expMetaDatVal?.mdType ?: 'String'}" />
             <div class="form-group col-sm-6" style="padding: 0">
@@ -34,6 +34,7 @@
           </fg:dynamicBlock>
           <br/>
           <input class="btn btn-success" type="submit"  name="addCol" />
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         </g:form>
       </div>
     </div>

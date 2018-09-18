@@ -3,7 +3,7 @@
   <table style="margin-top:0;" cellspacing="0" class="table table-bordered table-responsive table-striped table-hover dataTable" width="100%" >
     <thead>
       <tr>
-        <g:sortableColumn property="expFile" title="${message(code: 'expFile.label', default: 'Exp. File')}" >
+        <g:sortableColumn property="expFile" title="${message(code: 'expFile.label', default: 'FCS File Name')}" >
            <p><br/></p>
         </g:sortableColumn>
         <g:each in="${experiment.expMetadatas.findAll{it.mdCategory == category }.sort{it.dispOrder} }" var="eMeta">
@@ -34,13 +34,11 @@
         </g:each>
         <th class="text-center">
           <br/>
-            <div class="btn btn-default" onclick="showAllHidden(${experiment.id}, '${category}');">Show Hidden Cols</div>
+            <div class="${experiment.expMetadatas.findAll{it.mdCategory == category}.visible.toString().contains('false') ?'':'hidden'} btn btn-default" onclick="showAllHidden(${experiment.id}, '${category.id}');">Show Hidden Cols</div>
           <br/>
           <br/>
           <div  style="padding-left:30px;" >
-            %{--<g:if test="${category in ['Demographics','Visit','Stimulation']}">--}%
-            <g:if test="${category != 'Reagents'}">
-              %{--<div class="" data-toggle="modal" data-target="#addColForm"><i title="add column" class="fa fa-plus fa-2x" ></i></div>--}%
+            <g:if test="${category.mdCategory != 'Reagents'}">
               <div class="" onclick="addColClick(${experiment?.id}, '${category}');"><i title="add column" class="fa fa-plus fa-2x" ></i></div>
             </g:if>
             %{--<g:else>--}%
