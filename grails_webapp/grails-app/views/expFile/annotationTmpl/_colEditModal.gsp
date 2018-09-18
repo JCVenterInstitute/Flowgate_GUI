@@ -34,6 +34,7 @@
           </fg:dynamicBlock>
           <br/>
           <input class="btn btn-success" type="submit"  name="addCol" />
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         </g:form>
       </div>
     </div>

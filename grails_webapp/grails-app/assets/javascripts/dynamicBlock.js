@@ -10,8 +10,8 @@ function addItem(id, elem, min, max, onComplete, limitMessage, removeBtnLabel, m
     $countElem.html(num);
     var myArr = [mdVals.replace('[','').replace(']','').split(', ')];
     var myArrStr = myArr[0][num-1] ? myArr[0][num-1]+ '" ' : '' + '" ';
-    console.log(elem);
-    console.log(myArrStr);
+    // console.log(elem);
+    // console.log(myArrStr);
     elem = elem.replace('id="mdValue"','id="mdValue" value="'+myArrStr);
     // creates new item and adds the index number to it
     // var $newElem = $('<div class="row form-group"></div>').html(elem).attr({'id' : id + num}).css('margin', '5px');

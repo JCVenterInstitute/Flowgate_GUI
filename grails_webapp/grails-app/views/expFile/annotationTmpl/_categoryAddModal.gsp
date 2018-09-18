@@ -9,7 +9,7 @@
             <label for="mdCategory">Tab *</label>
             %{--<g:select class="form-control" id="mdCategory" name="mdCategory" from="${(categories ?: ['Other']) +['Reagents']}" value="${category}" required="" />--}%
 
-            cats = ${experiment.expMetadatas*.mdCategory.mdCategory.unique()}
+            %{--cats = ${experiment.expMetadatas*.mdCategory.mdCategory.unique()}--}%
             <g:textField class="form-control" name="mdCategory" id="mdCategory" required="" />
           </div>
           %{--
@@ -32,6 +32,7 @@
           --}%
           <br/>
           <input class="btn btn-success" type="submit"  name="addCategory" />
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         </g:form>
       </div>
     </div>

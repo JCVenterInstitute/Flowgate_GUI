@@ -157,12 +157,16 @@ class ExpFileController {
 
     def axShowAllCols(Experiment experiment){
       println "showCols "
-      experiment.expMetadatas.each{
-        setColVisability(it, true)
+      experiment.expMetadatas.each{ eMeta ->
+        setColVisability(eMeta, true)
       }
+      println "cat ${params?.category}"
+      ExperimentMetadataCategory categy = ExperimentMetadataCategory.get(params?.category?.toLong())
+      ExperimentMetadata eMeta = ExperimentMetadata.findAllByExperimentAndMdCategory(experiment,categy).first()
+//      println "${g.render(template: 'annMasterTbl', model: [experiment: experiment, category: eMeta.mdCategory])}"
       render (contentType:"text/json") {
         success true
-        tablTabl "${g.render(template: 'annMasterTbl', model: [experiment: experiment, category: params.category])}"
+        tablTabl "${g.render(template: 'annMasterTbl', model: [experiment: experiment, category: eMeta.mdCategory])}"
       }
     }
 
@@ -405,6 +409,8 @@ class ExpFileController {
 
 
     def importAnnotation(Experiment experiment){
+        String separator = params.separator ?: ","
+
         def annotationCsvFile = request.getFile("annotationFile")
         File annCsvFile = annotationCsvFile.part.fileItem.tempFile
         if(annCsvFile.size()<1){
@@ -416,7 +422,7 @@ class ExpFileController {
         def headers = []
         def rows = []
         Integer lineCntr = 0
-        annCsvFile.splitEachLine(','){ fields ->
+        annCsvFile.splitEachLine("${separator}"){ fields ->
             if(lineCntr == 0){
                 headers = fields
             }

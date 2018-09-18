@@ -35,6 +35,7 @@
           <br/>
           <div class="text-center">
             <input class="btn btn-success" type="submit"  name="addCol" />
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           </div>
         </g:form>
       </div>

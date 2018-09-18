@@ -195,7 +195,9 @@ class UtilsService {
         println "${fileListMap["SID"].unique()}"
         Integer keyOrder = 1
         String fcsFileMatchColumn = "FCS File Name"
-        String category = 'Other'
+//        TODO read from config file
+//        String category = 'Basics'
+        ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrCreateByExperimentAndMdCategory(experiment, 'Basics')
 //        TODO handle category
 //        if(fileListMap.keySet.contains('category')){
 //            category =

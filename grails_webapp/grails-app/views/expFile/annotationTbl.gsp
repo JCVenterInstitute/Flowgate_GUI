@@ -40,9 +40,18 @@
         <g:hiddenField name="pId" value="${plate?.id}" />
         <div class="row">
           <div class="col-sm-offset-1">
-            Annotation CSV-file <input type="file" name="annotationFile" accept=".csv" required="required"/>
+            Annotation CSV-file <input type="file" name="annotationFile" accept=".csv,.tsv" required="required"/>
+            File Separator:&nbsp;
+            <g:radioGroup name="separator"
+                          labels="['CSV (,)','TSV (Tab)']"
+                          values="[',','\t']"
+                          value=",">
+              %{--<p>${it.label} ${it.radio}</p>--}%
+              ${it.label}&nbsp;${it.radio}&nbsp;&nbsp;&nbsp;&nbsp;
+            </g:radioGroup>
           </div>
         </div>
+        <br/>
         <div class="col-sm-offset-2" >
           <input id="submitBtn" class="btn btn-success" type="submit" value="Upload" onclick="submitClick();" />
         </div>
@@ -61,33 +70,33 @@
       %{--cats=${categories}--}%
     <ul class="nav nav-tabs">
       <g:if test="${categories.size()>0}">
-        <g:each in="${categories}" var="category" status="idx">
-          <li class="${idx==0 ? 'active' : ''}"><a href="#tab${category.mdCategory}" role="tab" data-toggle="tab">${category.mdCategory}</a></li>
+        <g:each in="${categories}" var="category" status="idx" >
+          <li class="${idx==0 ? 'active' : ''}"><a href="#tab${category.mdCategory}" role="tab" data-toggle="tab" ondblclick="alert('double click');" >${category.mdCategory}</a></li>
         </g:each>
       </g:if>
       <g:else>
-        <li class="active"><a href="#tabDefault" role="tab" data-toggle="tab">Default</a></li>
+        <li class="active"><a href="#tabBasics" role="tab" data-toggle="tab" ondblclick="alert('double click');" >Basics</a></li>
       </g:else>
       <li class="text-center">
         %{--<a href="" onclick="addCategoryClick(${experiment.id});" style="color: black;" role="tab"><i class="fa fa-plus"></i></a>--}%
-        <div class="text-center" onclick="addCategoryClick(${experiment?.id});"  style="color: black;padding-top: 12px;padding-left: 8px;" ><i title="add tab" class="fa fa-plus" ></i></div>
+        <div class="text-center" onclick="addCategoryClick(${experiment?.id});" style="color: black;padding-top: 12px;padding-left: 8px;" ><i title="add tab" class="fa fa-plus" ></i></div>
       </li>
-      <li><a href="#tabReagents" role="tab" data-toggle="tab">Reagents</a></li>
+      %{--<li><a href="#tabReagents" role="tab" data-toggle="tab">Reagents</a></li>--}%
     </ul>
     <div class="tab-content">
       <g:if test="${categories.size()>0}">
         <g:each in="${categories}" var="category" status="idx">
-          <div class="tab-pane ${idx==0 ? 'active' : ''}" role="tabpanel" id="tab${category.mdCategory}">
+          <div class="tab-pane ${idx==0 ? 'active' : ''}" role="tabpanel" id="tab${category.mdCategory}" >
             <g:render template="annMasterTbl" model="[category: category]"/>
           </div>
         </g:each>
       </g:if>
       <g:else>
-        <div class="tab-pane active" role="tabpanel" id="tabEmpty">
+        <div class="tab-pane active" role="tabpanel" id="tabBasics" >
           <g:render template="annMasterTbl" model="[category: null]"/>
         </div>
       </g:else>
-      <div class="tab-pane" role="tabpanel" id="tabReagents">
+      %{--<div class="tab-pane" role="tabpanel" id="tabReagents">--}%
         %{--<g:render template="annReagentsMasterTbl" model="[category: 'Reagents']" />--}%
       </div>
     </div>
@@ -266,11 +275,11 @@
     }
   }
 
-  function showAllHidden(eId, category){
+  function showAllHidden(eId, catId){
     $.ajax({
       url: "${g.createLink(controller: 'expFile', action: 'axShowAllCols') }",
       dataType: 'json',
-      data: {id: eId, category: category},
+      data: {id: eId, category: catId},
       success:  function (data, status, xhr){
         console.log('success');
         $("#wholeTbl").html(data.tablTabl);
