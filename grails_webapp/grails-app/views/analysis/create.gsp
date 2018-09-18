@@ -114,11 +114,12 @@
 
               <script>
                 function moduleChange(moduleId) {
+                  var _data = {eId: ${params?.eId}, modId: moduleId <g:if test="${params?.dsId != null && !params?.dsId.isEmpty()}">, dsId: ${params?.dsId}</g:if> }
                   $.ajax({
                     url: "${createLink(controller: 'analysis', action: 'axModulChange')}",
                     dataType: "json",
                     type: "get",
-                    data: {eId: ${params?.eId}, modId: moduleId},
+                    data: _data,
                     success: function (data) {
                       $("#modParams").html(data.modParams);
                     },
