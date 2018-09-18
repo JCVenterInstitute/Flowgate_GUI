@@ -8,7 +8,6 @@
           <div class="form-group">
             <label for="mdCategory">Tab *</label>
             %{--<g:select class="form-control" id="mdCategory" name="mdCategory" from="${(categories ?: ['Other']) +['Reagents']}" value="${category}" required="" />--}%
-
             %{--cats = ${experiment.expMetadatas*.mdCategory.mdCategory.unique()}--}%
             <g:textField class="form-control" name="mdCategory" id="mdCategory" required="" />
           </div>
