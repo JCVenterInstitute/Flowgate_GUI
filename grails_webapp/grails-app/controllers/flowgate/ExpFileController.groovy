@@ -3,6 +3,7 @@ package flowgate
 import grails.core.GrailsApplication
 import grails.plugin.springsecurity.annotation.Secured
 import grails.util.Environment
+import org.genepattern.server.job.input.choice.ChoiceInfoHelper
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -237,6 +238,46 @@ class ExpFileController {
         redirect action: 'annotationTbl', id: experiment.id
     }
 
+//    def updateCategory(Experiment experiment){ //add metaData column in annotation table
+    def updateCategory(ExperimentMetadataCategory category){ //add metaData column in annotation table
+//        params.experiment = experiment
+        if(category == null){
+            transactionStatus.setRollbackOnly()
+            notFound()
+            return
+        }
+        if(category.hasErrors()){
+            transactionStatus.setRollbackOnly()
+            respond category.errors, action: 'annotationTbl', id: category.experiment.id
+            return
+        }
+        params.visible = true
+        params.dispOnFilter = true
+        params.isDefault = false
+        category.properties = params
+        category.save(flush: true)
+        redirect action: 'annotationTbl', id: category.experiment.id
+    }
+
+    @Transactional
+    def deleteCategory(ExperimentMetadataCategory category ) {
+        if (category == null) {
+            transactionStatus.setRollbackOnly()
+            notFound()
+            return
+        }
+        if (ExperimentMetadata.findAllByMdCategory(category).size()>0){
+            def defaultCategory = ExperimentMetadataCategory.findOrSaveByExperimentAndMdCategory(category.experiment, 'Basics')
+            ExperimentMetadata.findAllByMdCategory(category).each { eMeta ->
+                eMeta.mdCategory = defaultCategory
+                eMeta.mdCategory.visible = true
+                eMeta.save flush: true
+            }
+        }
+        category.delete flush: true
+        redirect action: 'annotationTbl', id: category.experiment.id
+    }
+
     def axAddColumn(Experiment experiment){
         println " axAddColumn exp=${experiment?.id}"
         render (contentType:"text/json") {
@@ -246,13 +287,23 @@ class ExpFileController {
     }
 
     def axAddCategory(Experiment experiment){
-            println " axAddCategory exp=${experiment?.id}"
-//        println "${g.render (template: 'annotationTmpl/categoryAddModal', model: [experiment: experiment])}"
-            render (contentType:"text/json") {
-                success true
-                catModalTmpl "${g.render (template: 'annotationTmpl/categoryAddModal', model: [experiment: experiment])}"
-            }
+        println " axAddCategory exp=${experiment?.id}"
+//      println "${g.render (template: 'annotationTmpl/categoryAddModal', model: [experiment: experiment])}"
+        render (contentType:"text/json") {
+            success true
+            catModalTmpl "${g.render (template: 'annotationTmpl/categoryAddModal', model: [experiment: experiment])}"
         }
+    }
+
+    def axEditCategory(Experiment experiment){
+        ExperimentMetadataCategory category = ExperimentMetadataCategory.get(params.catId.toLong())
+//        println " axEditCategory exp=${experiment?.id}"
+//        println "${g.render (template: 'annotationTmpl/categoryEditModal', model: [experiment: experiment, category: category])}"
+        render (contentType:"text/json") {
+            success true
+            catModalTmpl "${g.render (template: 'annotationTmpl/categoryEditModal', model: [experiment: experiment, category: category])}"
+        }
+    }
 
     def editColumn(Experiment experiment){ //edit metaData column in annotation table
         println "${params.metaValId.value.size()}"

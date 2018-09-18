@@ -17,7 +17,7 @@
           </f:with>
           <br/>
           <fg:dynamicBlock itemId="eMetaValue" min="1" max="15" mdVals="[]"
-                         limitReachedMsg="Sorry, you cannot specify more than 5 customers"
+                         limitReachedMsg="Sorry, you cannot specify more than 15 values"
                          removeBtnLabel="Delete">
               <g:hiddenField name="mdType" value="${expMetaDatVal?.mdType ?: 'String'}" />
                 <div class="form-group col-sm-6" style="padding: 0">

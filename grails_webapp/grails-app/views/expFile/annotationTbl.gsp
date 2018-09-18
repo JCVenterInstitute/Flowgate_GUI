@@ -71,11 +71,11 @@
     <ul class="nav nav-tabs">
       <g:if test="${categories.size()>0}">
         <g:each in="${categories}" var="category" status="idx" >
-          <li class="${idx==0 ? 'active' : ''}"><a href="#tab${category.mdCategory}" role="tab" data-toggle="tab" ondblclick="alert('double click');" >${category.mdCategory}</a></li>
+          <li class="${idx==0 ? 'active' : ''}"><a href="#tab${category.mdCategory}" role="tab" data-toggle="tab" ondblclick="editCategoryClick(${experiment.id}, ${category.id});" >${category.mdCategory}</a></li>
         </g:each>
       </g:if>
       <g:else>
-        <li class="active"><a href="#tabBasics" role="tab" data-toggle="tab" ondblclick="alert('double click');" >Basics</a></li>
+        <li class="active"><a href="#tabBasics" role="tab" data-toggle="tab" ondblclick="editCategoryClick(${experiment.id}, ${category.id});" >Basics</a></li>
       </g:else>
       <li class="text-center">
         %{--<a href="" onclick="addCategoryClick(${experiment.id});" style="color: black;" role="tab"><i class="fa fa-plus"></i></a>--}%
@@ -108,6 +108,7 @@
   <div id="colEditModal"></div>
   <div id="colCreateModal"></div>
   <div id="categoryAddModal"></div>
+  <div id="categoryEditModal"></div>
 </div>
 <br/>
 <br/>
@@ -165,6 +166,26 @@
         console.log('success');
         $("#categoryAddModal").html(data.catModalTmpl);
         $("#addCategoryForm").modal("show");
+      },
+      error: function(request, status, error){
+        console.log('ajxError!');
+      },
+      complete: function(xhr, status){
+        console.log('ajxComplete!');
+      }
+    });
+
+  }
+
+  function editCategoryClick(eId, catId){
+    $.ajax({
+      url: "${g.createLink(controller: 'expFile', action: 'axEditCategory') }",
+      dataType: 'json',
+      data: {id: eId, catId: catId},
+      success:  function (data, status, xhr){
+        console.log('success');
+        $("#categoryEditModal").html(data.catModalTmpl);
+        $("#editCategoryForm").modal("show");
       },
       error: function(request, status, error){
         console.log('ajxError!');
