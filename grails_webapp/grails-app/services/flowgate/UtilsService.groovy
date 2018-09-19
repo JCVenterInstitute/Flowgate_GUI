@@ -240,7 +240,6 @@ class UtilsService {
     def getLowestUniqueDispOrder(Experiment experiment) {
         Integer num = 1
         while (num>0) {
-            println "${experiment.expMetadatas.dispOrder.findAll{it == num}.size()}"
             if(experiment.expMetadatas.dispOrder.findAll{it == num}.size()!=0) {
                 num++
             }
