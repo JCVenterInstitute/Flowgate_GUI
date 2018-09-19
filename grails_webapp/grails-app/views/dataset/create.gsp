@@ -24,6 +24,7 @@
   </g:if>
   <g:form resource="${this.dataset}" action="save" method="PUT" class="form-horizontal">
     <g:hiddenField name="eId" value="${this.eId}"/>
+    <g:hiddenField id="analyze" name="analyze" value="${false}"/>
     <div class="form-group">
       <label class="col-sm-1 control-label" for="description">Name *</label>
       <div class="col-sm-11">
@@ -61,6 +62,7 @@
     <div class="form-group">
       <div class="col-sm-offset-1 col-sm-11">
         <input class="btn btn-primary" type="submit" value="${message(code: 'default.button.create.label', default: 'Create')}"/>
+        <input class="btn btn-info" type="submit" onclick="$('#analyze').val(${true});" value="Create and Analyze"/>
         <a href="${createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" class="btn btn-warning">Back</a>
       </div>
     </div>
