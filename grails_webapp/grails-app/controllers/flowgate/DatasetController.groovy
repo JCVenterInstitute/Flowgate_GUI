@@ -242,7 +242,12 @@ class DatasetController {
             }
             ds.save(flush: true)
             flash.message = "New dataset is successfully created"
-            redirect action: 'index', params: [eId: params?.eId]
+
+            if(params.analyze && params.analyze.equals("true")) {
+                redirect controller: 'analysis', action: 'create', params: [eId: params?.eId, dsId: ds.id]
+            } else {
+                redirect action: 'index', params: [eId: params?.eId]
+            }
             return
         }
 

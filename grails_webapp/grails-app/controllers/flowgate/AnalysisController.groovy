@@ -40,6 +40,8 @@ class AnalysisController {
     def axModulChange(){
         if(params.modId) {
             Module module = Module.get(params.modId.toLong())
+            if(params.dsId)
+                (module.moduleParams.find { it -> it.pType.equals("ds")}).defaultVal = params.dsId
             render(contentType: 'text/json') {
                 success true
                 modParams "${g.render(template: 'templates/moduleParams', model: [module: module])}"

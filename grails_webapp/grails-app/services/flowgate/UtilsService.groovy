@@ -207,11 +207,11 @@ class UtilsService {
             ExperimentMetadata metaDat = new ExperimentMetadata(experiment: experiment, mdCategory: category, dispOnFilter: true, visible: true, dispOrder: keyOrder, mdKey: metadataKey).save()
             println "${metaDat?.hasErrors()}"
 //            if(!metaDat.hasErrors()){}
-            Integer valueOrder = 1
+            Integer valueOrder = 10
             fileListMap["${metadataKey}"].unique().each{ metadataValue ->
                 ExperimentMetadataValue metaValue = new ExperimentMetadataValue(expMetaData: metaDat, dispOrder: valueOrder, mdType: 'String', mdValue: metadataValue).save()
                 println "${metaValue?.hasErrors()}"
-                valueOrder += 1
+                valueOrder += 10
             }
             keyOrder += 1
         }
@@ -227,13 +227,24 @@ class UtilsService {
             ExpFile expFile = expFiles.find{ it.fileName == searchExpFileName }
 //            println "${searchExpFileName} == ${expFile.fileName}?"
             if(expFile){
-                Integer metaValOrder = 1
+                Integer metaValOrder = 10
                 metaDataKeys.each{ metaDataKey ->
                     ExpFileMetadata expFileMetadata = new ExpFileMetadata(expFile: expFile, mdKey: metaDataKey, mdVal: lineMap["${metaDataKey}"], dispOrder: metaValOrder).save()
-                    metaValOrder += 1
+                    metaValOrder += 10
                 }
             }
 
+        }
+    }
+
+    def getLowestUniqueDispOrder(Experiment experiment) {
+        Integer num = 1
+        while (num>0) {
+            println "${experiment.expMetadatas.dispOrder.findAll{it == num}.size()}"
+            if(experiment.expMetadatas.dispOrder.findAll{it == num}.size()!=0) {
+                num++
+            }
+            else return num
         }
     }
 

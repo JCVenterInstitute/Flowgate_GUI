@@ -13,25 +13,44 @@
 
           <f:with bean="${new ExperimentMetadata()}" >
             <f:field property="mdKey" label="Key"/>
+            %{--
+            <g:if env="development">
+              <f:field property="dispOrder" label="Position" />
+            </g:if>
+            --}%
             <f:field property="dispOnFilter" label="Show on Filter panel" />
           </f:with>
           <br/>
           <fg:dynamicBlock itemId="eMetaValue" min="1" max="15" mdVals="[]"
                          limitReachedMsg="Sorry, you cannot specify more than 15 values"
                          removeBtnLabel="Delete">
-              <g:hiddenField name="mdType" value="${expMetaDatVal?.mdType ?: 'String'}" />
-                <div class="form-group col-sm-6" style="padding: 0">
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="mdValue" name="mdValue" placeholder="Value" required>
-                  </div>
-                </div>
-                <div class="form-group col-sm-4" style="padding: 0">
-                  <label class="col-sm-6" for="dispOrder">Disp. Order&nbsp;*&nbsp;&nbsp;</label>
-                  <div class="col-sm-6">
-                    <input style="width: 50px" type="text" class="form-control" id="dispOrder" name="dispOrder" placeholder="Disp. Order" required value="1">
-                  </div>
-                </div>
+            <g:hiddenField name="mdType" value="${expMetaDatVal?.mdType ?: 'String'}" />
+            <g:if env="development">
+            %{--<g:if env="production">--}%
+            <div class="form-group col-sm-6" style="padding: 0">
+              <div class="col-sm-10">
+            </g:if>
+            <g:else>
+            <div class="form-group col-sm-10" style="padding: 0">
+              <div class="col-sm-10">
+            </g:else>
+                <input type="text" class="form-control" id="mdValue" name="mdValue" placeholder="Value" required>
+              </div>
+            </div>
+            <g:if env="development">
+            %{--<g:if env="production">--}%
+            <div class="form-group col-sm-4" style="padding: 0">
+              <label class="col-sm-6" for="dispOrder">Disp. Order&nbsp;*&nbsp;&nbsp;</label>
+              <div class="col-sm-6">
+                <input style="width: 50px" type="text" class="form-control" id="dispOrder" name="dispOrder" placeholder="Disp. Order" required value="1">
+              </div>
+            </div>
+            </g:if>
+            <g:else>
+              <g:hiddenField name="dispOrder" value="1" />
+            </g:else>
           </fg:dynamicBlock>
+          <br/>
           <br/>
           <div class="text-center">
             <input class="btn btn-success" type="submit"  name="addCol" />

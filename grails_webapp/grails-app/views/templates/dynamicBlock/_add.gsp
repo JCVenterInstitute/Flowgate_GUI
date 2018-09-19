@@ -11,11 +11,11 @@
   function initializeTag(addButton, id, elem, min, max, onComplete, limitReachedMsg, removeBtnLabel, mdVals, ms) {
     // binds event handler to the "click" JS event of the "Add" button
     addButton.click(function() {
+      // alert('add clicked!');
       addItem(id, elem, min, max, onComplete, limitReachedMsg, removeBtnLabel, mdVals);
     });
 
     // adds the initial number of items
-    // alert(mdVals);
     // for (var i = 0; i < min; i++) {
     for (var i = 0; i < ms; i++) {
       addButton.click();
@@ -24,7 +24,6 @@
 
   $(function () {
     // gets the "Add" button
-    %{--var addButton = ${addBtnId ?  "\$('#$addBtnId')" : "\$('#add_$id')"};--}%
     var addButton = $("#add_${addBtnId ? addBtnId : id}");
 
       // imports the dynamicBlock.js file if it has not been imported yet
