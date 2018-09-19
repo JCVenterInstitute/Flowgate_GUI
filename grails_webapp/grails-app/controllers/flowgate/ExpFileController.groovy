@@ -211,7 +211,6 @@ class ExpFileController {
     def addColumn(Experiment experiment){ //add metaData column in annotation table
         params.experiment = experiment
         params.dispOrder = utilsService.getLowestUniqueDispOrder(experiment)
-        println "lowest=  ${params.dispOrder}"
         ExperimentMetadata eMetaData = new ExperimentMetadata(params)
         eMetaData.save(flush: true)
         params.expMetaData = eMetaData
