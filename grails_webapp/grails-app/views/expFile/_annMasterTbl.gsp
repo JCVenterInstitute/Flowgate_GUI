@@ -34,7 +34,7 @@
         </g:each>
         <th class="text-center">
           <br/>
-            <div class="${experiment.expMetadatas.findAll{it.mdCategory == category}.visible.toString().contains('false') ?'':'hidden'} btn btn-default" onclick="showAllHidden(${experiment.id}, '${category.id}');">Show Hidden Cols</div>
+            <div class="${experiment.expMetadatas.findAll{it.mdCategory == category}.visible.toString().contains('false') ?'':'hidden'} btn btn-default" onclick="showAllHidden(${experiment.id}, '${category?.id}');">Show Hidden Cols</div>
           <br/>
           <br/>
           <div  style="padding-left:30px;" >

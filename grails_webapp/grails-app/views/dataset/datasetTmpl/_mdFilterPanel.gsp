@@ -9,8 +9,6 @@
 </style>
 <div id="metaBox">
   <g:each in="${experiment?.expMetadatas?.findAll{it.dispOnFilter}?.sort{it.mdCategory}?.mdCategory?.unique()}" var="catgy">
-
-    %{--<p>${catgy}</p>--}%
     <g:each in="${experiment?.expMetadatas?.findAll{it.mdCategory == catgy && it.dispOnFilter}?.sort{it.dispOrder} }" var="catGy">
       <div class="col-sm-3">
         <p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>${catGy.mdKey}</strong></p>

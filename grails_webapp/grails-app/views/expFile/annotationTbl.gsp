@@ -69,9 +69,10 @@
     <g:set var="categories" value="${ExperimentMetadataCategory.findAllByExperiment(experiment)}" />
       %{--cats=${categories}--}%
     <ul class="nav nav-tabs">
-      <g:if test="${categories.size()>0}">
+      <g:if test="${categories && categories.size()>0}">
         <g:each in="${categories}" var="category" status="idx" >
-          <li class="${idx==0 ? 'active' : ''}"><a href="#tab${category.mdCategory}" role="tab" data-toggle="tab" ondblclick="editCategoryClick(${experiment.id}, ${category.id});" >${category.mdCategory}</a></li>
+          %{--<li class="${idx==0 ? 'active' : ''}"><a href="#tab${category?.mdCategory ?: 'Basics'}" role="tab" data-toggle="tab" ondblclick="editCategoryClick(${experiment.id}, ${category.id});" >${category.mdCategory}</a></li>--}%
+          <li class="${idx==0 ? 'active' : ''}"><a href="#tab${category?.mdCategory}" role="tab" data-toggle="tab" ondblclick="editCategoryClick(${experiment.id}, ${category?.id});" >${category?.mdCategory}</a></li>
         </g:each>
       </g:if>
       <g:else>
@@ -86,7 +87,7 @@
     <div class="tab-content">
       <g:if test="${categories.size()>0}">
         <g:each in="${categories}" var="category" status="idx">
-          <div class="tab-pane ${idx==0 ? 'active' : ''}" role="tabpanel" id="tab${category.mdCategory}" >
+          <div class="tab-pane ${idx==0 ? 'active' : ''}" role="tabpanel" id="tab${category?.mdCategory}" >
             <g:render template="annMasterTbl" model="[category: category]"/>
           </div>
         </g:each>
