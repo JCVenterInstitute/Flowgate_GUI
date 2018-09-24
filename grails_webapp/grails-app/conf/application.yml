@@ -19,7 +19,7 @@ fcsFileStoreLocation:
     path: /Users/flowGate/tmp/fcsUploads/
 
 #adminEmailAddr: flowgate.noreply@gmail.com
-adminEmailAddr: mqian@jcvi.org
+adminEmailAddr: flowgate_helpdesk@jcvi.org
 
 grails:
     plugin:
