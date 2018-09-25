@@ -34,11 +34,11 @@
         </g:each>
         <th class="text-center">
           <br/>
-            <div class="${experiment.expMetadatas.findAll{it.mdCategory == category}.visible.toString().contains('false') ?'':'hidden'} btn btn-default" onclick="showAllHidden(${experiment.id}, '${category.id}');">Show Hidden Cols</div>
+            <div class="${experiment.expMetadatas.findAll{it.mdCategory == category}.visible.toString().contains('false') ?'':'hidden'} btn btn-default" onclick="showAllHidden(${experiment.id}, '${category?.id}');">Show Hidden Cols</div>
           <br/>
           <br/>
           <div  style="padding-left:30px;" >
-            <g:if test="${category.mdCategory != 'Reagents'}">
+            <g:if test="${category?.mdCategory != 'Reagents'}">
               <div class="" onclick="addColClick(${experiment?.id}, '${category}');"><i title="add column" class="fa fa-plus fa-2x" ></i></div>
             </g:if>
             %{--<g:else>--}%
