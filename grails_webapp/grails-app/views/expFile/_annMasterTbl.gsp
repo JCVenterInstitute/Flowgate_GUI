@@ -38,7 +38,7 @@
           <br/>
           <br/>
           <div  style="padding-left:30px;" >
-            <g:if test="${category.mdCategory != 'Reagents'}">
+            <g:if test="${category?.mdCategory != 'Reagents'}">
               <div class="" onclick="addColClick(${experiment?.id}, '${category}');"><i title="add column" class="fa fa-plus fa-2x" ></i></div>
             </g:if>
             %{--<g:else>--}%
