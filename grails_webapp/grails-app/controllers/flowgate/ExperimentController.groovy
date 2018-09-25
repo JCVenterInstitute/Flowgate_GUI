@@ -199,6 +199,9 @@ class ExperimentController {
             respond experiment.errors, view:'create', model: [projectList: projectList, pId: params?.pId, experimentList: experimentList]
             return
         }
+//        TODO replace hardcoded 'Basics' with config value
+        def mdCat = new ExperimentMetadataCategory(mdCategory: 'Basics', experiment: experiment, visible: true, dispOnFilter: true, isDefault: false)
+        mdCat.save()
         experiment.save flush:true
         ExperimentUser.create(experiment, springSecurityService.currentUser, 'owner').save(flush: true)
         request.withFormat {
