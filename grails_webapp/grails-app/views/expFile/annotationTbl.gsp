@@ -10,14 +10,6 @@
       color: black;
       text-decoration: none;
     }
-    /* table with horizontal scroll */
-    /*
-    table {
-      !*width: 100%;*!
-      display: block;
-      overflow-x: auto;
-    }
-    */
     .annotationTable{
       padding-left: 40px;
       padding-right: 40px;
@@ -28,12 +20,26 @@
 <body>
 <g:render template="/shared/nav" />
 <div class="nav" role="navigation"></div>
-<h2 class="text-center"><g:message code="annotation.table.label" default="Annotation Table" /></h2>
+<h2 class="text-center"><g:message code="annotation.table.label" default="Annotate Uploaded FCS Files with Experiment Metadata" /></h2>
+<br/>
+<div class="infoBlock">
+  <p>The annotation is based on individual FCS files by user providing attribute categories, attribute names, and attribute values. The procedure consists of two steps:</p>
+  <p>Annotation CSV-file … -> Step 1: Upload a CSV (comma-delimited) or a TSV (tab-delimited) file that contains the metadata. Each row is one FCS file and each column is one attribute. The first column is the name of the FCS file. The name of the first column must be “FCS File Name”, and the names of the attributes in the rest of the header. If the metadata table is small, you can also skip the Step 1 and manually create the metadata table in Step 2.</p>
+  <p>Choose File                         Upload</p>
+  <br/>
+  <p>Step 2: Create a new or edit an existing metadata table (e.g., from user-uploaded metadata table)</p>
+  <p>By clicking “+” on the tab, a new attribute category will be created. The user can specify the category of an attribute when creating an attribute</p>
+  <p>By clicking “+” in the annotation table, a new attribute will be created. The user can specify its name, category, and possible values</p>
+  <p>After providing the possible values of an attribute, the user does not need to type in its value in the table, but just select the value from the drop down list and check/uncheck the corresponding checkbox for the FCS file.</p>
+</div>
 <br/>
 <div class="row" style="max-width: none">
   <div class="col-sm-12 annotationTable">
+    <div class="pull-left">
+      export template&nbsp;<a class="fa fa-save" href="${createLink(controller: 'expFile', action: 'exportAnnotationTempl', id: experiment?.id)}" ></a>
+    </div>
     <div class="pull-right">
-      <g:link class="btn btn-success" controller="experiment" action="index" params="[eId: experiment.id]"><g:message code="submitBtn.label" default="Submit"/></g:link>
+      <g:link class="btn btn-success" controller="experiment" action="index" params="[eId: experiment.id]"><g:message code="submitBtn.label" default="Save and Return"/></g:link>
     </div>
     <g:if test="${experiment.expFiles}" >
       <form id="upldForm" action="${g.createLink(controller: 'expFile', action: 'importAnnotation', id: experiment?.id)}" method="post" enctype="multipart/form-data" >
@@ -46,7 +52,6 @@
                           labels="['CSV (,)','TSV (Tab)']"
                           values="[',','\t']"
                           value=",">
-              %{--<p>${it.label} ${it.radio}</p>--}%
               ${it.label}&nbsp;${it.radio}&nbsp;&nbsp;&nbsp;&nbsp;
             </g:radioGroup>
           </div>
@@ -113,8 +118,7 @@
 <br/>
 <br/>
 <div class="text-center">
-  %{--<g:link controller="expFile" action="doneAnnotation" id="${experiment.id}"><div class="btn btn-success">Submit</div></g:link>--}%
-  <g:link controller="experiment" action="index" id="${experiment.id}" params="[eId: experiment.id]"><div class="btn btn-success">Submit</div></g:link>
+  <g:link controller="experiment" action="index" id="${experiment.id}" params="[eId: experiment.id]"><div class="btn btn-success">Save and Return</div></g:link>
 </div>
 <script>
   function eMetaClick(id,checked, mId){
