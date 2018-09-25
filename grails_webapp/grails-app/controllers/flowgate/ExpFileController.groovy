@@ -228,6 +228,16 @@ class ExpFileController {
         redirect action: 'annotationTbl', id: experiment.id
     }
 
+    def exportAnnotationTempl(Experiment experiment) {
+        String separator = ","
+        String expFileName = "annotationTempl_${experiment?.id}_${new Date().format('yy-MM-dd__hh_mm')}.csv"
+        String expTempl = "FCS File Name${separator}\n"
+        experiment?.expFiles?.sort { it.fileName }?.each { fcsFile ->
+            expTempl += "${fcsFile?.fileName}${separator}\n"
+        }
+        response.setHeader("Content-disposition", "attachment; filename=${expFileName}")
+        render contentType: "text/csv", text: "${expTempl}"
+    }
 
     def addCategory(Experiment experiment){ //add metaData column in annotation table
         params.experiment = experiment
