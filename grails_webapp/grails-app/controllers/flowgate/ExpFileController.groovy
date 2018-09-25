@@ -214,7 +214,7 @@ class ExpFileController {
         ExperimentMetadata eMetaData = new ExperimentMetadata(params)
         eMetaData.save(flush: true)
         params.expMetaData = eMetaData
-        params.mdValue.each{ pmdValue ->
+        params.list('mdValue').each{ pmdValue ->
             ExperimentMetadataValue eMetaValue = new ExperimentMetadataValue(expMetaData:eMetaData, mdValue: pmdValue, mdType: 'List', dispOrder: 1)
             eMetaValue.save(flush: true)
             if(eMetaData?.mdVals){
