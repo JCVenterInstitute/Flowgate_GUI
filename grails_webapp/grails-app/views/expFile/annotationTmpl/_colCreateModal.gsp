@@ -6,19 +6,18 @@
         <g:form controller="expFile" action="addColumn">
           <g:hiddenField name="id" value="${experiment?.id}" />
           <div class="form-group">
-            <label for="mdCategory">Tab *</label>
-            %{--<g:select class="form-control" id="mdCategory" name="mdCategory" from="${(categories ?: ['Other']) +['Reagents']}" value="${category}" required="" />--}%
+            <label for="mdCategory">Attribute Category *</label>
             <g:select class="form-control" id="mdCategory" name="mdCategory.id" from="${(ExperimentMetadataCategory.findAllByExperiment(experiment))}" optionKey="id" optionValue="mdCategory" value="${category}" required="" />
           </div>
 
           <f:with bean="${new ExperimentMetadata()}" >
-            <f:field property="mdKey" label="Key"/>
+            <f:field property="mdKey" label="Attribute Name"/>
             %{--
             <g:if env="development">
               <f:field property="dispOrder" label="Position" />
             </g:if>
             --}%
-            <f:field property="dispOnFilter" label="Show on Filter panel" />
+            <f:field property="dispOnFilter" label="For filtering out fcs files or creating cohorts for statistical comparison " />
           </f:with>
           <br/>
           <fg:dynamicBlock itemId="eMetaValue" min="1" max="15" mdVals="[]"

@@ -9,17 +9,17 @@
         <g:each in="${experiment.expMetadatas.findAll{it.mdCategory == category }.sort{it.dispOrder} }" var="eMeta">
           <g:if test="${eMeta.visible}" >
           <th class="sortable">
+            <p class="text-center" >${eMeta.mdKey}</p>
             <p class="text-center">action
                 <g:set var="filterAction" value="${eMeta.dispOnFilter ? 'HideFromFilter' : 'ShowOnFilter'}" />
                 %{--<g:set var="colActions" value="['Sort','HideColumn','Filter', 'Select All', 'Select None', 'Delete']" />--}%
                 <g:set var="colActions" value="['Edit','HideColumn', filterAction, 'Delete']" />
-                <g:select name="colAction" from="${colActions}" noSelection="['':'']" onchange="eMetaActionChange(${eMeta.id}, this.value);" />
+                <g:select name="colAction" from="${colActions}" noSelection="['':'']" optionValue="${ {action -> g.message(code:'annotationPage.action.'+action+'.label') } }" onchange="eMetaActionChange(${eMeta.id}, this.value);" />
             </p>
-            <p class="text-center" >${eMeta.mdKey}</p>
             <p class="text-center" >
               %{--vals=${eMeta.mdVals}--}%
               <g:if test="${eMeta.mdVals.size()>1}" >
-                  <g:select id="eMeta_${eMeta.id}.mdVal" name="eMeta_${eMeta.id}.mdVal" from="${eMeta.mdVals.sort{it.dispOrder}}" optionKey="id" optionValue="mdValue" value="" onchange="eMetaValueChange(${eMeta.id}, this.value);"/>
+                Candidate Values&nbsp;<g:select id="eMeta_${eMeta.id}.mdVal" name="eMeta_${eMeta.id}.mdVal" from="${eMeta.mdVals.sort{it.dispOrder}}" optionKey="id" optionValue="mdValue" value="" onchange="eMetaValueChange(${eMeta.id}, this.value);"/>
               </g:if>
               <g:else>
                   <g:hiddenField id="eMeta_${eMeta.id}.mdVal" name="eMeta_${eMeta.id}.mdVal" value="${eMeta?.mdVals.id.join(',')}" />
@@ -34,7 +34,7 @@
         </g:each>
         <th class="text-center">
           <br/>
-            <div class="${experiment.expMetadatas.findAll{it.mdCategory == category}.visible.toString().contains('false') ?'':'hidden'} btn btn-default" onclick="showAllHidden(${experiment.id}, '${category?.id}');">Show Hidden Cols</div>
+            <div class="${experiment.expMetadatas.findAll{it.mdCategory == category}.visible.toString().contains('false') ?'':'hidden'} btn btn-default" onclick="showAllHidden(${experiment.id}, '${category?.id}');">Show All Hidden Attributes</div>
           <br/>
           <br/>
           <div  style="padding-left:30px;" >

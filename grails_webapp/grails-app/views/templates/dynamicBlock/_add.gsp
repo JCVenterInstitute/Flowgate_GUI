@@ -5,7 +5,7 @@
   </div>
 </div>
 <g:if test="${!addBtnId}">
-  <input id="add_${id}" type="button" value="Add"/>
+  <input id="add_${id}" type="button" value="Add possible values for this attribute"/>
 </g:if>
 <script>
   function initializeTag(addButton, id, elem, min, max, onComplete, limitReachedMsg, removeBtnLabel, mdVals, ms) {

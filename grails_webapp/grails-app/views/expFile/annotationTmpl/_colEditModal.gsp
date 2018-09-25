@@ -8,16 +8,15 @@
           <g:hiddenField name="metaId" value="${eMeta?.id}" />
           <g:hiddenField name="metaValId" value="${eMeta?.mdVals?.id?.join(',')}" />
           <div class="form-group">
-            <label for="mdCategory">Tab *</label>
-            %{--<g:select class="form-control" id="mdCategory" name="mdCategory" from="${(ExperimentMetadataCategory.findAllByExperiment(experiment).mdCategory ?: ['Default'])}" value="${category}" required="" />--}%
+            <label for="mdCategory">Attribute Category *</label>
             <g:select class="form-control" id="mdCategory" name="mdCategory.id" from="${(ExperimentMetadataCategory.findAllByExperiment(experiment))}" optionKey="id" optionValue="mdCategory" value="${category}" required="" />
           </div>
           <f:with bean="${eMeta}" >
-            <f:field property="mdKey" label="Key"/>
+            <f:field property="mdKey" label="Attribute Name"/>
             <g:if env="development">
               <f:field property="dispOrder" label="Position" />
             </g:if>
-            <f:field property="dispOnFilter" label="Show on Filter panel" />
+            <f:field property="dispOnFilter" label="For filtering out fcs files or creating cohorts for statistical comparison " />
           </f:with>
           <fg:dynamicBlock itemId="eMetaValue" max="15" mdVals="${eMeta.mdVals*.mdValue}"
                            limitReachedMsg="Sorry, you cannot specify more than 15 values"
