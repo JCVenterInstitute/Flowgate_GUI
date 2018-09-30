@@ -15,7 +15,7 @@
     <h2 class="text-center my-4">Registration</h2>
   </div>
   <div class="row justify-content-center">
-    <h4 class="text-center col-md-8 my-4">FlowGate is being alpha-tested. Before its formal release, the account registration is invitation-only. Plesae send us your comments. We sincerely appreciate your support.</ s>
+    <h4 class="text-center col-md-8 my-4">FlowGate is being alpha-tested. Before its formal release, the account registration is invitation-only. Please send us your comments. We sincerely appreciate your support.</h4>
   </div>
   <div class="row justify-content-center">
     <div class="col-lg-8">
