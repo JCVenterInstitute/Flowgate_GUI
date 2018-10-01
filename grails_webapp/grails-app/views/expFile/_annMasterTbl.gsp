@@ -32,7 +32,7 @@
               <g:set var="colActions" value="['Edit', 'HideColumn', filterAction, 'Delete']"/>
               <div class="input-group input-group-sm">
                 <span class="input-group-addon">Action</span>
-                <g:select class="form-control" name="colAction" from="${colActions}" noSelection="['': '']"
+                <g:select class="form-control" name="colAction" from="${colActions}" noSelection="['': '']" style="min-width: 30px"
                           optionValue="${{ action -> g.message(code: 'annotationPage.action.' + action + '.label') }}" onchange="eMetaActionChange(${eMeta.id}, this.value);"/>
               </div>
             </p>

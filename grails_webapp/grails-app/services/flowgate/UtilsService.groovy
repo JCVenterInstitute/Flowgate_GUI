@@ -204,12 +204,26 @@ class UtilsService {
 //        }
         def metaDataKeys = headers - fcsFileMatchColumn
         metaDataKeys.each{ metadataKey ->
-            ExperimentMetadata metaDat = new ExperimentMetadata(experiment: experiment, mdCategory: category, dispOnFilter: true, visible: true, dispOrder: keyOrder, mdKey: metadataKey).save()
+            ExperimentMetadata metaDat = ExperimentMetadata.findByExperimentAndMdCategoryAndMdKey(experiment, category, metadataKey)
+            if(!metaDat){
+                metaDat = new ExperimentMetadata(experiment: experiment, mdCategory: category, dispOnFilter: true, visible: true, dispOrder: keyOrder, mdKey: metadataKey).save(flush: true)
+            }
+            else {
+                metaDat.properties = [dispOnFilter: true, visible: true, dispOrder: keyOrder, mdKey: metadataKey]
+                metaDat.save(flush: true)
+            }
             println "${metaDat?.hasErrors()}"
 //            if(!metaDat.hasErrors()){}
             Integer valueOrder = 10
             fileListMap["${metadataKey}"].unique().each{ metadataValue ->
-                ExperimentMetadataValue metaValue = new ExperimentMetadataValue(expMetaData: metaDat, dispOrder: valueOrder, mdType: 'String', mdValue: metadataValue).save()
+                ExperimentMetadataValue metaValue = ExperimentMetadataValue.findByExpMetaDataAndMdValue(metaDat, metadataValue)
+                if(!metaValue){
+                    metaValue = new ExperimentMetadataValue(expMetaData: metaDat, dispOrder: valueOrder, mdType: 'String', mdValue: metadataValue).save(flush: true)
+                }
+                else{
+                    metaValue.properties = ['dispOrder': valueOrder, 'mdType': 'String']
+                    metaValue.save(flush: true)
+                }
                 println "${metaValue?.hasErrors()}"
                 valueOrder += 10
             }
@@ -219,17 +233,23 @@ class UtilsService {
         return
     }
 
-
-    def doFileAnnotation(Experiment experiment, annotationMap, fileNameMatchColumn, metaDataKeys){
+   def doFileAnnotation(Experiment experiment, annotationMap, fileNameMatchColumn, metaDataKeys){
         annotationMap.each{ lineMap ->
             String searchExpFileName = lineMap["${fileNameMatchColumn}"]
             def expFiles = experiment.expFiles
             ExpFile expFile = expFiles.find{ it.fileName == searchExpFileName }
-//            println "${searchExpFileName} == ${expFile.fileName}?"
             if(expFile){
                 Integer metaValOrder = 10
                 metaDataKeys.each{ metaDataKey ->
-                    ExpFileMetadata expFileMetadata = new ExpFileMetadata(expFile: expFile, mdKey: metaDataKey, mdVal: lineMap["${metaDataKey}"], dispOrder: metaValOrder).save()
+                    ExpFileMetadata expFileMetadata = ExpFileMetadata.findByExpFileAndMdKey(expFile, metaDataKey, lineMap["${metaDataKey}"])
+                    if(!expFileMetadata){
+                        expFileMetadata = new ExpFileMetadata(expFile: expFile, mdKey: metaDataKey, mdVal: lineMap["${metaDataKey}"], dispOrder: metaValOrder).save(flush:true)
+                    }
+                    else {
+                        expFileMetadata.properties =  [dispOrder: metaValOrder]
+                        expFileMetadata.save(flush:true)
+                    }
+                    println "${expFileMetadata.hasErrors()}"
                     metaValOrder += 10
                 }
             }
