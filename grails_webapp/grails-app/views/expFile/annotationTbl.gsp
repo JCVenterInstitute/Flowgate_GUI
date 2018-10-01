@@ -125,6 +125,22 @@
           </ul>
 
           <div class="tab-content">
+          <script>
+            $(function () {
+              $(".scroll-wrapper").width($("#wholeTbl").width());
+              $(".scroll-top").width($("#annotation-table").width());
+              $(".scroll-wrapper").scroll(function () {
+                $("#wholeTbl").scrollLeft($(".scroll-wrapper").scrollLeft());
+              });
+              $("#wholeTbl").scroll(function () {
+                $(".scroll-wrapper").scrollLeft($("#wholeTbl").scrollLeft());
+              });
+            });
+          </script>
+
+          <div class="scroll-wrapper" style="overflow-x: scroll; overflow-y:hidden;">
+            <div class="scroll-top" style="height: 1px;"></div>
+          </div>
             <g:if test="${categories.size() > 0}">
               <g:each in="${categories}" var="category" status="idx">
                 <div class="tab-pane ${idx == 0 ? 'active' : ''}" role="tabpanel" id="tab${category?.mdCategory}">
