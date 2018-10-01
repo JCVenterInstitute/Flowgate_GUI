@@ -99,8 +99,9 @@
     <b>Grant Number:</b> U01TR001801<br/>
     <b>Funding Period:</b> September 2016 to June 2021<br/>
   </p>
-
   <sec:ifLoggedIn>
+    <p><b>Instructions: </b> <a target="_blank" href="${resource(dir: 'files', file: 'Instructions_using_flowgate_v1.pdf')}">Download</a></p>
+
     <br>
     <p>Click <button class="btn btn-primary btn-xs"
                      onclick='window.location = "${createLink(controller: 'project', action: 'list')}"'>here</button> to create or view your projects.</p>
