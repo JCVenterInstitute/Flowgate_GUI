@@ -11,6 +11,8 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
 
   def register(RegisterCommand registerCommand) {
 
+    println "in register registerCommand"
+
     if (!request.post) {
       return [registerCommand: new RegisterCommand()]
     }
@@ -19,7 +21,8 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
       return [registerCommand: registerCommand]
     }
 
-    /*def user = uiPropertiesStrategy.setProperties(
+    /* */
+    def user = uiPropertiesStrategy.setProperties(
         email: registerCommand.email, username: registerCommand.username, affiliation: registerCommand.affiliation,
         reason: registerCommand.reason, accountLocked: true, enabled: true, User, null)
 
@@ -32,7 +35,8 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
       return [registerCommand: registerCommand]
     }
 
-    sendVerifyRegistrationMail registrationCode, user, registerCommand.email*/
+    sendVerifyRegistrationMail registrationCode, user, registerCommand.email
+    /* */
 
     sendAlphaAccessRequest registerCommand
 
@@ -92,8 +96,54 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
     redirect uri: registerPostRegisterUrl ?: successHandlerDefaultTargetUrl
   }
 
+
+
+  def forgotPassword(ForgotPasswordCommand forgotPasswordCommand) {
+
+    if (!request.post) {
+      return [forgotPasswordCommand: new ForgotPasswordCommand()]
+    }
+
+    if (forgotPasswordCommand.hasErrors()) {
+      return [forgotPasswordCommand: forgotPasswordCommand]
+    }
+
+//    def user = findUserByUsername(forgotPasswordCommand.username)
+    User user = User.findByUsername(forgotPasswordCommand.username)
+    if (!user) {
+      forgotPasswordCommand.errors.rejectValue 'username',
+          'spring.security.ui.forgotPassword.user.notFound'
+      return [forgotPasswordCommand: forgotPasswordCommand]
+    }
+
+    String email = uiPropertiesStrategy.getProperty(user, 'email')
+    if (!email) {
+      forgotPasswordCommand.errors.rejectValue 'username',
+          'spring.security.ui.forgotPassword.noEmail'
+      return [forgotPasswordCommand: forgotPasswordCommand]
+    }
+
+    RegistrationCode registrationCode = uiRegistrationCodeStrategy.sendForgotPasswordMail(
+        forgotPasswordCommand.username, email) { String registrationCodeToken ->
+
+      String url = generateLink('resetPassword', [t: registrationCodeToken])
+      String body = forgotPasswordEmailBody
+      if (body.contains('$')) {
+        body = evaluate(body, [user: user, url: url])
+      }
+
+      body
+    }
+    [emailSent: true, forgotPasswordCommand: forgotPasswordCommand]
+  }
+
+
   void afterPropertiesSet() {
     //super.afterPropertiesSet()
+
+    println "username Property name = ${usernamePropertyName}"
+
+    usernamePropertyName = 'username'
 
     RegisterCommand.User = User
     RegisterCommand.usernamePropertyName = usernamePropertyName
@@ -110,6 +160,10 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
     passwordValidationRegex = conf.ui.password.validationRegex ?: '^.*(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&]).*$'
   }
 
+}
+
+class ForgotPasswordCommand implements CommandObject {
+  String username
 }
 
 class RegisterCommand implements CommandObject {
@@ -130,9 +184,11 @@ class RegisterCommand implements CommandObject {
         return
       }
 
-      /*if (User.findWhere((usernamePropertyName): value)) {
+      /* * /
+      if (User.findWhere((usernamePropertyName): value)) {
         return 'registerCommand.username.unique'
-      }*/
+      }
+      / * */
     }
     email email: true
     password  nullable: true

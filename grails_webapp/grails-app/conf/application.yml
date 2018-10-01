@@ -62,6 +62,7 @@ grails:
             userLookup:
                 userDomainClassName: flowgate.User
                 authorityJoinClassName: flowgate.UserRole
+                usernamePropertyName: username
             authority:
                 className: flowgate.Role
 
