@@ -1,16 +1,17 @@
-<div class="row">
-  <div class="col-sm-12 form-inline">
-    <div id="count_${id}" style="display: none;">0</div>
-    <div id="parent_${id}"></div>
-  </div>
+<div class="form-horizontal">
+  <div id="count_${id}" style="display: none;">0</div>
+
+  <div id="parent_${id}"></div>
 </div>
 <g:if test="${!addBtnId}">
-  <input id="add_${id}" type="button" value="Add possible values for this attribute"/>
+  <div class="text-center" style="margin-top: 10px;">
+    <input id="add_${id}" type="button" value="Add possible values for this attribute" class="btn btn-primary"/>
+  </div>
 </g:if>
 <script>
   function initializeTag(addButton, id, elem, min, max, onComplete, limitReachedMsg, removeBtnLabel, mdVals, ms) {
     // binds event handler to the "click" JS event of the "Add" button
-    addButton.click(function() {
+    addButton.click(function () {
       // alert('add clicked!');
       addItem(id, elem, min, max, onComplete, limitReachedMsg, removeBtnLabel, mdVals);
     });
@@ -23,19 +24,19 @@
   }
 
   $(function () {
-    // gets the "Add" button
-    var addButton = $("#add_${addBtnId ? addBtnId : id}");
+        // gets the "Add" button
+        var addButton = $("#add_${addBtnId ? addBtnId : id}");
 
-      // imports the dynamicBlock.js file if it has not been imported yet
-    if (!window["addItem"]) {
-      $.getScript("${resource(dir: "javascripts", file: "dynamicBlock.js")}", function() {
-        initializeTag(addButton, "${id}", "${elem}", ${min}, ${max}, "${onComplete}",
-          "${limitReachedMsg}", "${removeBtnLabel}", "${mdVals}", ${mdVals.size()} );
-      });
-    } else {
-      initializeTag(addButton, "${id}", "${elem}", ${min}, ${max}, "${onComplete}",
-        "${limitReachedMsg}", "${removeBtnLabel}", "${mdVals}", ${mdVals.size()} );
-    }
-  }
+        // imports the dynamicBlock.js file if it has not been imported yet
+        if (!window["addItem"]) {
+          $.getScript("${resource(dir: "javascripts", file: "dynamicBlock.js")}", function () {
+            initializeTag(addButton, "${id}", "${elem}", ${min}, ${max}, "${onComplete}",
+                "${limitReachedMsg}", "${removeBtnLabel}", "${mdVals}", ${mdVals.size()});
+          });
+        } else {
+          initializeTag(addButton, "${id}", "${elem}", ${min}, ${max}, "${onComplete}",
+              "${limitReachedMsg}", "${removeBtnLabel}", "${mdVals}", ${mdVals.size()});
+        }
+      }
   );
 </script>

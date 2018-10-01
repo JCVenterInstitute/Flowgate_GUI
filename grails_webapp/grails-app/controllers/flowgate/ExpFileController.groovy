@@ -244,14 +244,13 @@ class ExpFileController {
         params.visible = true
         params.dispOnFilter = true
         params.isDefault = false
-        ExperimentMetadataCategory emCategory = new ExperimentMetadataCategory(params)
+        ExperimentMetadataCategory emCategory = ExperimentMetadataCategory.findOrSaveByExperimentAndMdCategory(experiment, params.mdCategory)
+        emCategory.properties = params
         emCategory.save(flush: true)
         redirect action: 'annotationTbl', id: experiment.id
     }
 
-//    def updateCategory(Experiment experiment){ //add metaData column in annotation table
     def updateCategory(ExperimentMetadataCategory category){ //add metaData column in annotation table
-//        params.experiment = experiment
         if(category == null){
             transactionStatus.setRollbackOnly()
             notFound()
@@ -626,7 +625,7 @@ class ExpFileController {
                 params.checked = false
                 ExpFileMetadata efMetaData = expFile.metaDatas.find{it.mdKey==eMeta.mdKey}
                 expFile.metaDatas.remove (efMetaData)
-                efMetaData.save( flush: true)
+                efMetaData.delete()
             }
         }
 
