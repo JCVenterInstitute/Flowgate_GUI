@@ -199,6 +199,12 @@ class ExpFileController {
 
     def delCol(ExperimentMetadata eMeta){
       println "delete eMeta ${eMeta.mdKey}"
+      eMeta.experiment.expFiles.each{ expFile ->
+          expFile.metaDatas.findAll{ it.mdKey == eMeta.mdKey }.sort{it.id}.each { expFileMd ->
+              expFileMd.expFile.metaDatas.remove(expFileMd)
+              expFileMd.delete flush: true
+          }
+      }
       eMeta.mdVals*.delete()
       eMeta.mdVals.clear()
       eMeta.delete flush: true
