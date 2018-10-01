@@ -1,21 +1,4 @@
 <%@ page import="flowgate.ExpFile; flowgate.ExperimentMetadataValue; flowgate.ExperimentMetadata" %>
-<script>
-  $(function () {
-    $(".scroll-wrapper").width($("#wholeTbl").width());
-    $(".scroll-top").width($("#annotation-table").width());
-    $(".scroll-wrapper").scroll(function () {
-      $("#wholeTbl").scrollLeft($(".scroll-wrapper").scrollLeft());
-    });
-    $("#wholeTbl").scroll(function () {
-      $(".scroll-wrapper").scrollLeft($("#wholeTbl").scrollLeft());
-    });
-  });
-</script>
-
-<div class="scroll-wrapper" style="overflow-x: scroll; overflow-y:hidden;">
-  <div class="scroll-top" style="height: 1px;"></div>
-</div>
-
 <div id="wholeTbl" style="overflow-y: auto;margin-bottom: 100px;">
   <table id="annotation-table" cellspacing="0" class="table table-bordered table-responsive table-striped table-hover dataTable" width="100%">
     <thead>
