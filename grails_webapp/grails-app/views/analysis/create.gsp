@@ -80,7 +80,7 @@
                 <label for="module" class="col-sm-2 control-label">Analysis Module<span class="required-indicator">*</span></label>
 
                 <div class="col-sm-10">
-                  <g:select id="module" required="" class="form-control" name="module.id" from="${Module.list()}" optionValue="title"
+                  <g:select id="module" required="" class="form-control" name="module.id" from="${Module.list()}" optionValue="${{ module -> "${module.label ? module.label : module.title}" }}"
                             optionKey="id" noSelection="${['': 'Select a module']}" onchange="moduleChange(this.value);"/>
                 </div>
               </div>
@@ -100,6 +100,7 @@
                   <textarea type="text" name="analysisDescription" id="analysisDescription" class="form-control" rows="2" cols="290" maxlength="250"></textarea>
                 </div>
               </div>
+
 
               <div id="modParams">
                 <g:render template="templates/moduleParams" model="[module: module]"/>
@@ -122,6 +123,7 @@
                     data: _data,
                     success: function (data) {
                       $("#modParams").html(data.modParams);
+                      $('#infoBoxModal').hide();
                     },
                     error: function (request, status, error) {
                       console.log('E: ' + error);
