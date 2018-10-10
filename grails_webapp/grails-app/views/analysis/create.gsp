@@ -77,7 +77,7 @@
 
             <div class="tab-content m-5">
               <div class="form-group">
-                <label for="module" class="col-sm-2 control-label">Analysis Module<span class="required-indicator">*</span></label>
+                <label for="module" class="col-sm-2 control-label"><g:message code="analysis.module.label" default="Analysis Pipeline" /><span class="required-indicator">*</span></label>
 
                 <div class="col-sm-10">
                   <g:select id="module" required="" class="form-control" name="module.id" from="${Module.list()}" optionValue="${{ module -> "${module.label ? module.label : module.title}" }}"

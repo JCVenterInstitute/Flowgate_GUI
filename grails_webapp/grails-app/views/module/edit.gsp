@@ -35,21 +35,13 @@
   <g:form resource="${this.module}" method="PUT">
     <g:hiddenField name="version" value="${this.module?.version}"/>
     <div class="col-sm-4">
-      <div class="form-group">
         <f:with bean="module">
-          <f:field property="server" label="Server" required="true"/>
+            <f:field property="server" label="Server" required="true"/>
+            <f:field property="label" label="Label" required="false"/>
+            <f:field property="title" label="Title" required="true"/>
+            <f:field property="name" label="Module or URN" required="true"/>
+            <f:field property="descript" label="Module Description" required="false"/>
         </f:with>
-      </div>
-
-      <div class="form-group">
-        <label for="title">Module Title *</label>
-        <input type="text" class="form-control" id="title" name="title" placeholder="Module Title" required value="${module.title}">
-      </div>
-
-      <div class="form-group">
-        <label for="name">Module or URN *</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="Module or URN" value="${module.name}">
-      </div>
       <input class="save btn btn-primary" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}"/>
     </div>
     <div class="col-sm-8">
@@ -60,7 +52,7 @@
   </g:form>
 </div>
 <script type="text/javascript">
-  document.getElementById("server").className = "form-control";
+  document.getElementById("Oserver").className = "form-control";
 </script>
 </body>
 </html>

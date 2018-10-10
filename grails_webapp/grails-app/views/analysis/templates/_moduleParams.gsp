@@ -1,8 +1,7 @@
 <%@ page import="flowgate.Experiment; flowgate.Dataset" %>
-%{--<asset:javascript src="jquery-2.2.0.min.js" />--}%
 <g:if test="${module}">
   <div class="pull-right">
-    <div class="btn btn-default" onclick="$('#infoBoxModal').show();"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;Module Information</div>
+    <div class="btn btn-default" onclick="$('#infoBoxModal').show();"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;<g:message code="module.information.button.label" default="Pipeline Information" /></div>
   </div>
   <div class="modal fade in" id="infoBoxModal" role="dialog">
     <div class="modal-dialog">
@@ -46,6 +45,9 @@
           <g:if test="${moduleParam?.pType == 'file'}">
             <input class="form-control" multiple type="file" style="width: 40%;display:inline" id="mp-${moduleParam?.id}"
                    name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}"/>
+          </g:if>
+          <g:if test="${moduleParam?.exampleFile && moduleParam?.exampleFile !='' }">
+            &nbsp;&nbsp;<b>Example:</b>&nbsp;&nbsp;<a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}" )}"><i class="glyphicon glyphicon-floppy-disk"></i> ${moduleParam?.exampleFile}</a>
           </g:if>
           <p>${moduleParam?.descr}</p>
         </div>
@@ -99,6 +101,9 @@
             <g:if test="${moduleParam?.pType == 'file'}">
               <input multiple type="file" style="width: 40%;display:inline" id="mp-${moduleParam?.id}"
                      name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}"/>
+            </g:if>
+            <g:if test="${moduleParam?.exampleFile && moduleParam?.exampleFile !='' }">
+              &nbsp;&nbsp;<b>Example:</b>&nbsp;&nbsp;<a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}" )}"><i class="glyphicon glyphicon-floppy-disk"></i> ${moduleParam?.exampleFile}</a>
             </g:if>
             <p>${moduleParam?.descr}</p>
           </div>
