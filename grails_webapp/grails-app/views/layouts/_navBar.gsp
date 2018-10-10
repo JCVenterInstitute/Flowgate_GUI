@@ -22,6 +22,17 @@
           <li class="nav-item">
             <a class="nav-link" href="${createLink(uri: '/about')}"><g:message code="about.link.label" default="About" /></a>
           </li>
+          <g:if env="development">
+            <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
+              <li class="dropdown" style="min-width: 100px;">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-gear" style="margin-right: 5px;"></i> Settings <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><g:link controller="module" action="index">Modules</g:link></li>
+                </ul>
+              </li>
+            </sec:ifAnyGranted>
+          </g:if>
           <li class="dropdown" style="min-width: 100px;">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                aria-expanded="false"><i class="fa fa-user" style="margin-right: 5px;"></i> <sec:username/> <span class="caret"></span></a>

@@ -91,19 +91,19 @@
   </ul>
 </div>--}%
 
-<div id="list-module" class="container" role="main">
-  <h1 class="page-header"><g:message code="default.list.label" args="[entityName]"/></h1>
-  <g:if test="${flash.message}">
-    <div class="message" role="status">${flash.message}</div>
-  </g:if>
-  <div class="row">
-    <div class="col-sm-12">
-      <f:table collection="${moduleList}" properties="${['name', 'server']}"/>
-      <div class="pagination">
-        <g:paginate total="${moduleCount ?: 0}"/>
+  <div id="list-module" class="container" role="main">
+    <h1 class="page-header"><g:message code="default.list.label" args="[entityName]"/></h1>
+    <g:if test="${flash.message}">
+      <div class="message" role="status">${flash.message}</div>
+    </g:if>
+    <div class="row">
+      <div class="col-sm-12">
+        <f:table collection="${moduleList}" properties="${['label','name', 'server']}"/>
+        <div class="pagination">
+          <g:paginate total="${moduleCount ?: 0}"/>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </body>
 </html>
