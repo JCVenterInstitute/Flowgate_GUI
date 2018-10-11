@@ -86,7 +86,7 @@
               </div>
 
               <div class="form-group">
-                <label for="analysisName" class="col-sm-2 control-label">Analysis Name<span class="required-indicator">*</span></label>
+                <label for="analysisName" class="col-sm-2 control-label"><g:message code="analysis.name.label" default="Task Name" /><span class="required-indicator">*</span></label>
 
                 <div class="col-sm-10">
                   <input type="text" name="analysisName" id="analysisName" class="form-control" required>
@@ -94,7 +94,7 @@
               </div>
 
               <div class="form-group">
-                <label for="analysisDescription" class="col-sm-2 control-label">Analysis Description</label>
+                <label for="analysisDescription" class="col-sm-2 control-label"><g:message code="analysis.description.label" default="Task Description" /></label>
 
                 <div class="col-sm-10">
                   <textarea type="text" name="analysisDescription" id="analysisDescription" class="form-control" rows="2" cols="290" maxlength="250"></textarea>
