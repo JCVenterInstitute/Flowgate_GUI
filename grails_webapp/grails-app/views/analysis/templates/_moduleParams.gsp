@@ -4,7 +4,7 @@
     <div class="btn btn-default" onclick="$('#infoBoxModal').show();"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;<g:message code="module.information.button.label" default="Pipeline Information" /></div>
   </div>
   <div class="modal fade in" id="infoBoxModal" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="overflow-y: scroll; max-height:85%;  margin-top: 50px; margin-bottom:50px;">
       <div class="modal-content">
         <div class="modal-body custom-height-modal">
           <br/>
