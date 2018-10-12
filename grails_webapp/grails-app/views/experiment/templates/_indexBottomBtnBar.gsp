@@ -116,7 +116,7 @@
     </g:if>
 
     <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
-      <span data-toggle="tooltip" title="Manage Datasets new">
+      <span data-toggle="tooltip" title="Manage Datasets">
         <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" >
           <div class="btn btn-default" style="cursor: pointer">
             <i class="fa fa-database"></i>Manage Datasets
