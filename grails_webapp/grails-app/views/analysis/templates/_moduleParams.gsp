@@ -23,12 +23,19 @@
       <div class="form-group">
         <label for="mp-${moduleParam?.id}-ds" class="col-sm-2 control-label">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</label>
         <div class="col-sm-10">
-          <g:if test="${moduleParam?.pType == 'ds'}">
-            <g:hiddenField name="mp-meta" value="${moduleParam?.id}" />
-            <g:select class="form-control" style="width: 40%;display:inline;" id="mp-${moduleParam?.id}-ds"
-                      from="${Dataset.findAllByExperiment(Experiment.get(params.eId))}" name="mp-${moduleParam?.id}-ds"
-                      optionKey="id" optionValue="name" value="${moduleParam?.defaultVal}" required="required" />
-          </g:if>
+          <g:hiddenField name="mp-meta" value="${moduleParam?.id}" />
+          <g:select class="form-control" style="width: 40%;display:inline;" id="mp-${moduleParam?.id}-ds"
+                    from="${Dataset.findAllByExperiment(Experiment.get(params.eId))}" name="mp-${moduleParam?.id}-ds"
+                    optionKey="id" optionValue="name" value="${moduleParam?.defaultVal}" required="required" />
+          <g:isOwnerOrRoles object="experiment" objectId="${params.eId}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">&nbsp;&nbsp;
+            <span data-toggle="tooltip" title="Manage Datasets">
+              <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'dataset', action: 'index', params: [eId: params.eId])}" >
+                <div class="btn btn-default" style="cursor: pointer">
+                  &nbsp;<i class="fa fa-database"></i>&nbsp;Manage Datasets&nbsp;
+                </div>
+              </a>
+            </span>
+          </g:isOwnerOrRoles>
           <p>${moduleParam?.descr}</p>
         </div>
       </div>
@@ -79,12 +86,19 @@
           %{--<label for="mp-${moduleParam?.id}-ds" class="col-sm-2 control-label">${moduleParam?.pKey} [dataset]</label>--}%
           <label for="mp-${moduleParam?.id}-ds" class="col-sm-2 control-label">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</label>
           <div class="col-sm-10">
-            <g:if test="${moduleParam?.pType == 'ds'}">
               <g:hiddenField name="mp-meta" value="${moduleParam?.id}" />
               <g:select style="width: 40%;display:inline" id="mp-${moduleParam?.id}-ds"
                         from="${Dataset.findAllByExperiment(Experiment.get(params.eId))}" name="mp-${moduleParam?.id}-ds"
-                        optionKey="id" optionValue="name" value="${moduleParam?.defaultVal}"/>
-            </g:if>
+                        optionKey="id" optionValue="name" value="${moduleParam?.defaultVal}"/>&nbsp;&nbsp;
+              <g:isOwnerOrRoles object="experiment" objectId="${params.eId}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
+                <span data-toggle="tooltip" title="Manage Datasets">
+                  <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'dataset', action: 'index', params: [eId: params.eId])}" >
+                    <div class="btn btn-default" style="cursor: pointer">
+                      &nbsp;<i class="fa fa-database"></i>&nbsp;Manage Datasets&nbsp;
+                    </div>
+                  </a>
+                </span>
+              </g:isOwnerOrRoles>
             <p>${moduleParam?.descr}</p>
           </div>
         </div>
