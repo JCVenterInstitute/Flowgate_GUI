@@ -17,26 +17,34 @@
   </ul>--}%
 </div>
 
-<div id="edit-moduleParam" class="content scaffold-edit" role="main">
-  <h1><g:message code="default.edit.label" args="[entityName]"/></h1>
+<div id="edit-moduleParam" class="container" role="main">
+  <h1 class="page-header"><g:message code="default.edit.label" args="[entityName]"/></h1>
   <g:if test="${flash.message}">
-    <div class="message" role="status">${flash.message}</div>
+    <div class="row justify-content-center ">
+      <div class="alert alert-info text-center" role="alert">${flash.message}</div>
+    </div>
   </g:if>
   <g:hasErrors bean="${this.moduleParam}">
     <ul class="errors" role="alert">
-      <g:eachError bean="${this.moduleParam}" var="error">
-        <li<g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-      </g:eachError>
+    <g:eachError bean="${this.moduleParam}" var="error">
+      <li<g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+    </g:eachError>
     </ul>
   </g:hasErrors>
-  <g:form resource="${this.moduleParam}" method="PUT">
+  <g:form resource="${this.moduleParam}" method="PUT" class="form-horizontal">
     <g:hiddenField name="version" value="${this.moduleParam?.version}"/>
-    <fieldset class="form">
-      <f:all bean="moduleParam"/>
-    </fieldset>
-    <fieldset class="buttons">
-      <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}"/>
-    </fieldset>
+    <div class="col-sm-4" style="padding-left: 0; margin-bottom: 5px;">
+      <fieldset class="form">
+        <f:all bean="moduleParam"/>
+      </fieldset>
+
+      <div class="col-sm-offset-4">
+        <fieldset class="buttons">
+          <input class="save btn btn-primary" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}"/>
+          <a href="${createLink(controller: 'module', action: 'edit', params: [id: moduleParam.module.id])}" class="btn btn-warning">Back</a>
+        </fieldset>
+      </div>
+    </div>
   </g:form>
 </div>
 </body>
