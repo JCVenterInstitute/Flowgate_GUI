@@ -1,3 +1,4 @@
+<%@ page import="flowgate.Module" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,22 +21,47 @@
 <div id="edit-moduleParam" class="container" role="main">
   <h1 class="page-header"><g:message code="default.edit.label" args="[entityName]"/></h1>
   <g:if test="${flash.message}">
-    <div class="row justify-content-center ">
-      <div class="alert alert-info text-center" role="alert">${flash.message}</div>
+    <div class="row">
+      <div class="alert alert-info" role="alert">${flash.message}</div>
     </div>
   </g:if>
   <g:hasErrors bean="${this.moduleParam}">
-    <ul class="errors" role="alert">
-    <g:eachError bean="${this.moduleParam}" var="error">
-      <li<g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-    </g:eachError>
-    </ul>
+    <div class="row">
+      <div class="alert alert-danger" role="alert">
+        <g:eachError bean="${this.moduleParam}" var="error">
+          <li<g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+        </g:eachError>
+      </div>
+    </div>
   </g:hasErrors>
   <g:form resource="${this.moduleParam}" method="PUT" class="form-horizontal">
     <g:hiddenField name="version" value="${this.moduleParam?.version}"/>
     <div class="col-sm-4" style="padding-left: 0; margin-bottom: 5px;">
       <fieldset class="form">
-        <f:all bean="moduleParam"/>
+        <f:with bean="moduleParam">
+          <div class="form-group">
+            <label for="module" class="col-sm-4 control-label">Module *</label>
+
+            <div class="col-sm-8">
+              <g:select name="module.id" class="form-control" id="module" required="required"
+                        from="${Module.list()}"
+                        optionValue="title"
+                        optionKey="id"
+                        value="${moduleParam.module.id}"/>
+            </div>
+          </div>
+          <f:field property="pKey"/>
+          <div class="form-group">
+            <label for="pBasic" class="col-sm-4 control-label">Basic Param.</label>
+
+            <div class="col-sm-8"><div style="margin: 6px 0 0;"><f:input property='pBasic' /></div></div>
+          </div>
+          <f:field property="defaultVal"/>
+          <f:field property="pType"/>
+          <f:field property="pLabel"/>
+          <f:field property="descr" label="Description"/>
+          <f:field property="exampleFile"/>
+        </f:with>
       </fieldset>
 
       <div class="col-sm-offset-4">
