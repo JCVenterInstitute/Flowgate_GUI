@@ -100,6 +100,11 @@
         <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" title="${experiment?.title}">${experiment?.title}</a></li>
         <li class="active">List of Analysis Task</li>
       </ul>
+      <g:if env="development">
+        <a class="noLinkBlack text-center" href="${g.createLink(controller: 'analysis', action: 'd3demo')}" >
+          <div class="btn btn-default">D3-Demo</div>
+        </a>
+      </g:if>
       <h1 class="page-header">List of Analysis Task</h1>
 
       <div id="analysisListTabl">

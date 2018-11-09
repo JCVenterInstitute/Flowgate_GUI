@@ -16,7 +16,7 @@ import static org.springframework.http.HttpStatus.*
 //@Transactional(readOnly = true)
 class AnalysisController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", axSelectAllFcs: "GET", axUnselectAllFcs: "GET", del: ["DELETE","GET"]]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", axSelectAllFcs: "GET", axUnselectAllFcs: "GET", d3data: "GET", del: ["DELETE","GET"]]
 
     def springSecurityService
     def genePatternService
@@ -178,6 +178,19 @@ class AnalysisController {
         }
     }
     */
+
+    def d3demo(){
+
+    }
+
+    def d3data() {
+        def jFile = new File('/Users/acs/Sources/DAFi-gating/Python/af700_cd3__pe_cd56_wPop_small.json')
+        String jsonTxt = jFile.text
+        render(contentType: 'text/json') {
+            success true
+            jsonFile jsonTxt
+        }
+    }
 
 
     def getImage(){
