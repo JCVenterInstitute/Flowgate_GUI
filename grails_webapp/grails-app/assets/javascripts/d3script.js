@@ -1,4 +1,3 @@
-// var dataArray = [5,11,18];
 
 
 // global vars
@@ -36,16 +35,12 @@ var dragger = d3.behavior.drag()
   });
 
 d3.json("d3data", function(error, data){
-// d3.json("file://Users/acs/Sources/Flowgate_GUI/grails_webapp/grails-app/assets/files/af700_cd3__pe_cd56.json", function(error, data){
-// d3.csv("file://Users/acs/Sources/Flowgate_GUI/grails_webapp/grails-app/assets/files/dSet.tsv", function(error, data){
   if(error) throw error;
   console.log(data);
-  // console.log(data.jsonFile);
   if(data){
     jsonData = JSON.parse(data.jsonFile);
     dataset = data.dataset;
     console.log('jsonDat ', jsonData);
-    console.log('serverData: ', dataset);
     doDraw(jsonData);
   }
 // }, 'jsonp');
@@ -53,8 +48,6 @@ d3.json("d3data", function(error, data){
 
 
 var svg = d3.select('body').append('svg')
-  // .attr("width", width + margin.left + margin.right)
-  // .attr("height", height + margin.top + margin.bottom);
   .attr("width", width+margin.left+margin.right  )
   .attr("height", height+margin.bottom+margin.top);
   // .append("g")
@@ -71,57 +64,45 @@ svg.append('rect')
   // .attr('fill','#ddd')
   // .attr('stroke', '#ddd');
 
-// We're passing in a function in d3.max to tell it what we're maxing (x value)
 var xScale = d3.scale.linear()
   // .domain([0, d3.max(jsonData.datap, function (d) { return d.x + 10; })])
   .domain([0, 4106])
   .range([margin.left, margin.left+width]);  // Set margins for x specific
-// console.log('max xs ',d3.max(jsonData.datap, function(d){ return d.x; }));
 
-// We're passing in a function in d3.max to tell it what we're maxing (y value)
 var yScale = d3.scale.linear()
   // .domain([0, d3.max(jsonData.datap, function (d) { return d.y + 10; })])
   .domain([0, 4096])
-  // .range([height - margin.bottom,margin.top]);  // Set margins for y specific
-  // .ticks(4)
   .range([height, margin.top]);  // Set margins for y specific
 
-// Add a X and Y Axis (Note: orient means the direction that ticks go, not position)
+// Axes
 var xAxis = d3.svg.axis().scale(xScale).tickValues([0,1024,2048,3072,4096]).orient("bottom");
 var yAxis = d3.svg.axis().scale(yScale).tickValues([0,1024,2048,3072,4096]).orient("left");
 
-
-
+// should get the color information from server
 function colorCirc(data){
-  console.log('in colorCirc');
   if(data === 1) {return '#ffffff'; } else { return '#e51a22'; }
 }
 
-function revXScale(data){
-  return data-margin.left;
-}
+// function revXScale(data){
+//   return data-margin.left;
+// }
 
-function revYScale(data){
-  return
-}
+// function revYScale(data){
+//   return data;
+//
 
 function doDraw(datap) {
 
   var xmarker = jsonData.marker['x-title'];
   var ymarker = jsonData.marker['x-title'];
-  console.log('firstDs = ',jsonData.datap[0]["AF700_CD3"], jsonData.datap[0]["PE_CD56"]);
-
 
   var circleAttrs = {
-    // cx: function(d) { return xScale(d.x); },
-    // cy: function(d) { return yScale(d.y); },
     cx: function(d) { return xScale(d["AF700_CD3"]); },
     cy: function(d) { return yScale(d["PE_CD56"]); },
     fill: function(d) { return colorCirc(d["pop8"]) },
     stroke: function(d) { return colorCirc(d["pop8"]) },
     r: radius,
     class: 'dot'
-    // r: 4
   };
 
 
@@ -147,6 +128,8 @@ function doDraw(datap) {
       .on("mouseout", handleMouseOut);
   });
 
+
+  // Axes labels
   svg.append("text")
     .attr('class','x-axis-title')
     .attr('x', 50+(width/2))
@@ -158,16 +141,12 @@ function doDraw(datap) {
     .attr('x', 20)
     .attr('y', height/2)
     .style('text-anchor','end')
-    // .attr('translate','(20,'+height/2+')')
     .attr('transform', 'rotate(-90,20,200)')
     .text(ymarker);
 
 
-
-
-
   // final uncommend
- /* */
+ /* * /
   svg.selectAll("circle")
     // .data(dataset)
     .data(jsonData.datap)
@@ -176,10 +155,7 @@ function doDraw(datap) {
     .attr(circleAttrs)  // Get attributes from circleAttrs var
     .on("mouseover", handleMouseOver)
     .on("mouseout", handleMouseOut);
-  /* */
-
-
-
+  / * */
 
 
   // Adds X-Axis as a 'g' element
@@ -207,7 +183,7 @@ function doDraw(datap) {
   var xend = jsonData.gate['x-end'];
   var yend = jsonData.gate['y-end'];
 
-  svg.append('rect')
+  svg.append('gate')
     .attr('class','gate')
     .attr('width',xScale(margin.left + xend - xstart ))
     .attr('height',yScale((ystart * 20.48) + margin.top ))
