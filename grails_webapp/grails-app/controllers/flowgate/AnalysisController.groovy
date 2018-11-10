@@ -4,6 +4,7 @@ import grails.converters.JSON
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.transaction.Transactional
 import org.genepattern.webservice.Parameter
+import org.grails.core.io.ResourceLocator
 
 import java.util.zip.ZipOutputStream
 import java.util.zip.ZipEntry
@@ -22,6 +23,9 @@ class AnalysisController {
     def genePatternService
     def restUtilsService
     def utilsService
+
+    ResourceLocator grailsResourceLocator
+
 
     def axSelectAllFcs(){
         render(contentType: 'text/json') {
@@ -184,7 +188,7 @@ class AnalysisController {
     }
 
     def d3data() {
-        def jFile = new File('/Users/acs/Sources/DAFi-gating/Python/af700_cd3__pe_cd56_wPop_small.json')
+        def jFile = new File('/Users/flowGate/tmp/af700_cd3__pe_cd56_wPop_small.json')
         String jsonTxt = jFile.text
         render(contentType: 'text/json') {
             success true

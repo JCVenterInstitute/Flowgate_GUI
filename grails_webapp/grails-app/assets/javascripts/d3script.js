@@ -94,11 +94,11 @@ function colorCirc(data){
 function doDraw(datap) {
 
   var xmarker = jsonData.marker['x-title'];
-  var ymarker = jsonData.marker['x-title'];
+  var ymarker = jsonData.marker['y-title'];
 
   var circleAttrs = {
-    cx: function(d) { return xScale(d["AF700_CD3"]); },
-    cy: function(d) { return yScale(d["PE_CD56"]); },
+    cx: function(d) { return xScale(d[xmarker]); },
+    cy: function(d) { return yScale(d[ymarker]); },
     fill: function(d) { return colorCirc(d["pop8"]) },
     stroke: function(d) { return colorCirc(d["pop8"]) },
     r: radius,
