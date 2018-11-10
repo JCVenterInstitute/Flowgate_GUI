@@ -146,7 +146,7 @@ function doDraw(datap) {
 
 
   // final uncommend
- /* * /
+ /* */
   svg.selectAll("circle")
     // .data(dataset)
     .data(jsonData.datap)
@@ -155,7 +155,7 @@ function doDraw(datap) {
     .attr(circleAttrs)  // Get attributes from circleAttrs var
     .on("mouseover", handleMouseOver)
     .on("mouseout", handleMouseOut);
-  / * */
+  /* */
 
 
   // Adds X-Axis as a 'g' element
@@ -183,7 +183,7 @@ function doDraw(datap) {
   var xend = jsonData.gate['x-end'];
   var yend = jsonData.gate['y-end'];
 
-  svg.append('gate')
+  svg.append('rect')
     .attr('class','gate')
     .attr('width',xScale(margin.left + xend - xstart ))
     .attr('height',yScale((ystart * 20.48) + margin.top ))

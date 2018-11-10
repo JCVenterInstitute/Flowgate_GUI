@@ -23,6 +23,9 @@ class AnalysisController {
     def restUtilsService
     def utilsService
 
+//    ResourceLocator grailsResourceLocator
+
+
     def axSelectAllFcs(){
         render(contentType: 'text/json') {
             success true
@@ -184,7 +187,12 @@ class AnalysisController {
     }
 
     def d3data() {
-        def jFile = new File('/Users/acs/Sources/DAFi-gating/Python/af700_cd3__pe_cd56_wPop_small.json')
+
+        def assetResourceLocator
+
+        def myJsonFile = assetResourceLocator.findAssetForURI('af700_cd3__pe_cd56_wPop_small.json')
+
+        def jFile = new File('/Users/acs/Sources/Flowgate_GUI/grails_webapp/grails-app/af700_cd3__pe_cd56_wPop_small.json')
         String jsonTxt = jFile.text
         render(contentType: 'text/json') {
             success true
