@@ -39,15 +39,19 @@ d3.json("d3data", function(error, data){
   console.log(data);
   if(data){
     jsonData = JSON.parse(data.jsonFile);
+    jsonData2 = JSON.parse(data.jsonFile2);
     dataset = data.dataset;
     console.log('jsonDat ', jsonData);
+    console.log('jsonDat2 ', jsonData2);
     doDraw(jsonData);
+    doDraw2(jsonData2);
   }
 // }, 'jsonp');
 });
 
 
-var svg = d3.select('body').append('svg')
+// var svg = d3.select('body').append('svg')
+var svg = d3.select('.svg').append('svg')
   .attr("width", width+margin.left+margin.right  )
   .attr("height", height+margin.bottom+margin.top);
   // .append("g")
@@ -185,8 +189,8 @@ function doDraw(datap) {
 
   svg.append('rect')
     .attr('class','gate')
-    .attr('width',xScale(margin.left + xend - xstart ))
-    .attr('height',yScale((ystart * 20.48) + margin.top ))
+    .attr('width', xScale(xend * 20.48)-xScale(xstart * 20.48) )
+    .attr('height',yScale(ystart * 20.48)-yScale(yend * 20.48))
     .attr('x',xScale(xstart * 20.48))
     .attr('y',yScale(yend * 20.48))
     .attr('stroke',2)
@@ -380,4 +384,248 @@ function handleMouseOut(d, i) {
 
   // Select text by id and then remove
   d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
+}
+
+
+//********************************************************************************
+
+// var svg1 = d3.select('body').append('svg1')
+var svg1 = d3.select('.svg1').append('svg')
+  .attr("width", width+margin.left+margin.right  )
+  .attr("height", height+margin.bottom+margin.top);
+  // .append("g")
+  // .attr("class", "mycanvas");
+  // .attr("transform", "translate(" + width + ", " + height + ")");
+//   .attr('transform', 'translate(' + margin.left + ',' + margin.top +')');
+
+svg1.append('rect')
+  .attr('class','graph-background')
+  .attr('x',margin.left)
+  .attr('y', margin.top)
+  .attr('width', width)
+  .attr('height', height-margin.top);
+  // .attr('fill','#ddd')
+  // .attr('stroke', '#ddd');
+
+// var xScale = d3.scale.linear()
+  // .domain([0, d3.max(jsonData.datap, function (d) { return d.x + 10; })])
+  // .domain([0, 4106])
+  // .range([margin.left, margin.left+width]);  // Set margins for x specific
+
+// var yScale = d3.scale.linear()
+  // .domain([0, d3.max(jsonData.datap, function (d) { return d.y + 10; })])
+  // .domain([0, 4096])
+  // .range([height, margin.top]);  // Set margins for y specific
+
+// Axes
+// var xAxis = d3.svg.axis().scale(xScale).tickValues([0,1024,2048,3072,4096]).orient("bottom");
+// var yAxis = d3.svg.axis().scale(yScale).tickValues([0,1024,2048,3072,4096]).orient("left");
+
+// should get the color information from server
+// function colorCirc(data){
+//   if(data === 1) {return '#ffffff'; } else { return '#e51a22'; }
+// }
+
+// function revXScale(data){
+//   return data-margin.left;
+// }
+
+// function revYScale(data){
+//   return data;
+//
+
+function doDraw2(datap) {
+
+  var xmarker = jsonData2.marker['x-title'];
+  var ymarker = jsonData2.marker['y-title'];
+
+  var circleAttrs = {
+    cx: function(d) { return xScale(d[xmarker]); },
+    cy: function(d) { return yScale(d[ymarker]); },
+    fill: function(d) { return colorCirc(d["pop9"]) },
+    stroke: function(d) { return colorCirc(d["pop9"]) },
+    r: radius,
+    class: 'dot'
+  };
+
+
+  svg1.on("click", function() {
+    var coords = d3.mouse(this);
+
+    // Normally we go from data to pixels, but here we're doing pixels to data
+    var newData= {
+      x: Math.round( xScale.invert(coords[0])),  // Takes the pixel number to convert to number
+      y: Math.round( yScale.invert(coords[1]))
+    };
+
+    dataset.push(newData);   // Push data to our array
+
+    svg1.selectAll("circle")  // For new circle, go through the update process
+      .data(jsonData2.datap)
+      .enter()
+      .append("circle")
+      .attr(circleAttrs)  // Get attributes from circleAttrs var
+      .attr('class', 'dot')
+      .on("mouseover", handleMouseOver)
+      .on("mouseout", handleMouseOut);
+  });
+
+
+  // Axes labels
+  svg1.append("text")
+    .attr('class','x-axis-title')
+    .attr('x', 50+(width/2))
+    .attr('y', height+40)
+    .text(xmarker);
+
+  svg1.append("text")
+    .attr('class','y-axis-title')
+    .attr('x', 20)
+    .attr('y', height/2)
+    .style('text-anchor','end')
+    .attr('transform', 'rotate(-90,20,200)')
+    .text(ymarker);
+
+
+  // final uncommend
+ /* */
+  svg1.selectAll("circle")
+    .data(jsonData2.datap)
+    .enter()
+    .append("circle")
+    .attr(circleAttrs)  // Get attributes from circleAttrs var
+    .on("mouseover", handleMouseOver)
+    .on("mouseout", handleMouseOut);
+  /* */
+
+
+  // Adds X-Axis as a 'g' element
+  svg1.append("g").attr({
+    "class": "xAxis",  // Give class so we can style it
+    transform: "translate(" + [0, height] + ")"
+  }).call(xAxis);  // Call the xAxis function on the group
+
+  // Adds Y-Axis as a 'g' element
+  svg1.append("g").attr({
+    "class": "yAxis",
+    transform: "translate(" + [margin.left, margin.top-margin.top] + ")"  // Translate just moves it down into position (or will be on top)
+  }).call(yAxis);  // Call the yAxis function on the group
+
+  // svg.append("g").attr('class', 'gate').attr();
+
+
+  var xstart = jsonData2.gate['x-start'];
+  var ystart = jsonData2.gate['y-start'];
+
+  var xend = jsonData2.gate['x-end'];
+  var yend = jsonData2.gate['y-end'];
+
+  svg1.append('rect')
+    .attr('class','gate')
+    .attr('width', xScale(xend * 20.48)-xScale(xstart * 20.48) )
+    .attr('height',yScale(ystart * 20.48)-yScale(yend * 20.48))
+    .attr('x',xScale(xstart * 20.48))
+    .attr('y',yScale(yend * 20.48))
+    .attr('stroke',2)
+    .attr('fill','none');
+    // .moveToFront();
+
+
+} //end of doDraw()
+
+
+svg1.on('mouseup', function(){
+  console.log('svg mouseup');
+  if(dragging) return;
+  drawing = true;
+  startPoint = [d3.mouse(this)[0], d3.mouse(this)[1]];
+  // if(svg.select('g.drawPoly').empty()) g = svg.append('g').attr('class', 'drawPoly');
+  if(svg1.select('g.drawPoly').empty()) g = svg1.append('g').attr('class', 'drawPoly');
+  console.log(g);
+  // if(svg.select('g.drawPoly').empty()) g = svg.append('g').attr('class', 'drawPoly').attr("transform", "translate(" + margin.left + " " + margin.top + ")");
+  if(d3.event.target.hasAttribute('is-handle')) {
+    closePolygon();
+    return;
+  }
+  points.push(d3.mouse(this));
+  g.select('polyline').remove();
+  var polyline = g.append('polyline').attr('points', points)
+    .style('fill', 'none')
+    .attr('stroke', '#000');
+  for(var i = 0; i < points.length; i++) {
+    g.append('circle')
+      .attr('cx', points[i][0])
+      .attr('cy', points[i][1])
+      .attr('r', 3)
+      .attr('fill', 'yellow')
+      .attr('stroke', '#000')
+      .attr('is-handle', 'true')
+      .style({cursor: 'pointer'});
+  }
+});
+
+function closePolygon() {
+  svg1.select('g.drawPoly').remove();
+  var g = svg1.append('g');
+  g.append('polygon')
+    .attr('points', points)
+    .style('fill', getRandomColor());
+  for(var i = 0; i < points.length; i++) {
+    console.log('poly points ',xScale.invert(points[i][0]), yScale.invert(points[i][1]));
+    var circle = g.selectAll('circles')
+      .data([points[i]])
+      .enter()
+      .append('circle')
+      .attr('cx', points[i][0])
+      .attr('cy', points[i][1])
+      .attr('r', 3)
+      .attr('fill', '#FDBC07')
+      .attr('stroke', '#000')
+      .attr('is-handle', 'true')
+      .style({cursor: 'move'})
+      .call(dragger);
+  }
+  points.splice(0);
+  drawing = false;
+}
+
+svg1.on('mousemove', function() {
+  if(!drawing) return;
+  var g = d3.select('g.drawPoly');
+  g.select('line').remove();
+  var line = g.append('line')
+    .attr('x1', startPoint[0])
+    .attr('y1', startPoint[1])
+    .attr('x2', d3.mouse(this)[0] + 2)
+    .attr('y2', d3.mouse(this)[1])
+    .attr('stroke', '#53DBF3')
+    .attr('stroke-width', 3);
+});
+
+
+function handleDrag() {
+  if(drawing) return;
+  var dragCircle = d3.select(this), newPoints = [], circle;
+  dragging = true;
+  var poly = d3.select(this.parentNode).select('polygon');
+  var circles = d3.select(this.parentNode).selectAll('circle');
+  dragCircle
+    .attr('cx', d3.event.x)
+    .attr('cy', d3.event.y);
+  for (var i = 0; i < circles[0].length; i++) {
+    circle = d3.select(circles[0][i]);
+    newPoints.push([circle.attr('cx'), circle.attr('cy')]);
+  }
+  poly.attr('points', newPoints);
+}
+
+
+function getRandomColor() {
+  console.log('polygonClosed getRandomColor');
+  var letters = '0123456789ABCDEF'.split('');
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 }

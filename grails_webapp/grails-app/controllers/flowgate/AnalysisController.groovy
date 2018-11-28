@@ -188,11 +188,14 @@ class AnalysisController {
     }
 
     def d3data() {
-        def jFile = new File('/Users/flowGate/tmp/af700_cd3__pe_cd56_wPop_small.json')
+        def jFile = new File('/Users/acs/Sources/Flowgate_GUI/grails_webapp/grails-app/assets/files/af700_cd3__pe_cd56_wPop_small.json')
+        def jFile2 = new File('/Users/acs/Sources/Flowgate_GUI/grails_webapp/grails-app/assets/files/af700_cd3__pe_cd56_wPop9_reduced.json')
         String jsonTxt = jFile.text
+        String jsonTxt2 = jFile2.text
         render(contentType: 'text/json') {
             success true
             jsonFile jsonTxt
+            jsonFile2 jsonTxt2
         }
     }
 
