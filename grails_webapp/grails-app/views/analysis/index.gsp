@@ -6,6 +6,101 @@
   <title><g:message code="default.list.label" args="[entityName]"/></title>
   <asset:javascript src="jquery/jquery.dataTables.js"/>
   <asset:stylesheet src="jquery.dataTables.css"/>
+
+
+  <style>
+      .div-as-link{
+        cursor: pointer;
+        text-decoration: underline;
+        color: #337ab7;
+      }
+
+
+    /*modal full screen  */
+
+
+    .modal {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow: hidden;
+    }
+
+    .modal-dialog {
+      position: fixed;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+    }
+
+    .modal-content {
+      /*
+      height: auto;
+      min-height: 100%;
+      */
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border: 2px solid #3c7dcf;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .modal-header {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 50px;
+      padding: 10px;
+      background: #6598d9;
+      border: 0;
+    }
+
+    .modal-title {
+      font-weight: 300;
+      font-size: 2em;
+      color: #fff;
+      line-height: 30px;
+    }
+
+    .modal-body {
+      position: absolute;
+      top: 50px;
+      bottom: 60px;
+      width: 100%;
+      font-weight: 300;
+      overflow: auto;
+    }
+
+    .modal-footer {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 60px;
+      padding: 10px;
+      background: #f1f3f5;
+    }
+
+    ::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 10px;
+      background: #f1f3f5;
+      border-left: 1px solid darken(#f1f3f5, 10%);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: darken(#f1f3f5, 20%);
+    }
+
+
+</style>
 </head>
 
 <body>
@@ -100,6 +195,13 @@
         <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" title="${experiment?.title}">${experiment?.title}</a></li>
         <li class="active">List of Analysis Task</li>
       </ul>
+      %{--
+      <g:if env="development">
+        <a class="noLinkBlack text-center" href="${g.createLink(controller: 'analysis', action: 'd3demo')}" >
+          <div class="btn btn-default">D3-Demo</div>
+        </a>
+      </g:if>
+      --}%
       <h1 class="page-header">List of Analysis Task</h1>
 
       <div id="analysisListTabl">
@@ -146,16 +248,50 @@
     </div>
   </div>
 </g:if>
-<div class="modal fade in" id="resultModal" role="dialog">
-  <div class="modal-dialog">
+%{--<div class="modal fade in" id="resultModal" role="dialog">--}%
+  %{--<div class="modal-dialog">--}%
+    %{--<div class="modal-content">--}%
+      %{--<div class="modal-body custom-height-modal">--}%
+        %{--<div class="loading" id="loadingMessage" style="position:absolute; top: 50%; left: 50%">loading...</div>--}%
+        %{--<iframe class="iframe-placeholder" src="" id="resultsFrame" name="resultsFrame" width="100%" height="100%" frameborder="0"></iframe>--}%
+      %{--</div>--}%
+    %{--</div>--}%
+  %{--</div>--}%
+%{--</div>--}%
+
+%{--<div class="modal fade" tabindex="-1" id="aux${moduleParam?.id}" style="width:90%;" role="dialog">--}%
+%{--
+<div class="modal fade" tabindex="-1" id="resultModal" aria-labelledby="myModalLabel" aria-hidden="true" role="dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div id="myModalLabel">
+          <h4 class="modal-title" style="text-align: left;">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</h4>
+        </div>
+      </div>
+
       <div class="modal-body custom-height-modal">
         <div class="loading" id="loadingMessage" style="position:absolute; top: 50%; left: 50%">loading...</div>
-        <iframe class="iframe-placeholder" src="" id="resultsFrame" name="resultsFrame" width="100%" height="100%" frameborder="0"></iframe>
+        --}%
+%{--<object style="width: 100%;height:800px;" data="${g.createLink(controller: 'analysis', action: 'downloadFile', params: [analysisId: this?.analysis?.id, filename: outputFile?.path, fileLink: outputFile?.link?.href, outputFile: outputFile])}" ></object>--}%%{--
+
+        <object style="width: 100%;height:100%;" data="${g.createLink(controller: 'analysis', action: 'downloadResultReport', params: [analysisId: this?.analysis?.id, filename: outputFile?.path, fileLink: outputFile?.link?.href, outputFile: outputFile])}" ></object>
+        --}%
+%{--
+          <iframe src="/assets/gating/index.html" style="width: 90%; height: 300px" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"></iframe>
+        --}%%{--
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="aux${moduleParam?.id}SaveBtn" style="display: none" class="left btn btn-success" >Save</button>
+        <button type="button" id="aux${moduleParam?.id}CloseBtn" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
+--}%
 
 
 
@@ -209,10 +345,14 @@
 //  var intrvalTmr = setInterval(checkTimer, 3000);
 //  setInterval(checkTimer(), 3000);
 
-    $("iframe#resultsFrame").load(function () {
+    /*$("iframe#resultsFrame").load(function () {
       $("#loadingMessage").hide();
     });
-
+*/
+  /*  $("object#resultsFrame").load(function () {
+      $("#loadingMessage").hide();
+    });
+*/
   });
 </script>
 </body>

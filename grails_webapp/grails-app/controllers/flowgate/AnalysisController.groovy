@@ -4,6 +4,7 @@ import grails.converters.JSON
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.transaction.Transactional
 import org.genepattern.webservice.Parameter
+import org.grails.core.io.ResourceLocator
 
 import java.util.zip.ZipOutputStream
 import java.util.zip.ZipEntry
@@ -16,12 +17,15 @@ import static org.springframework.http.HttpStatus.*
 //@Transactional(readOnly = true)
 class AnalysisController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", axSelectAllFcs: "GET", axUnselectAllFcs: "GET", del: ["DELETE","GET"]]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", axSelectAllFcs: "GET", axUnselectAllFcs: "GET", d3data: "GET", del: ["DELETE","GET"]]
 
     def springSecurityService
     def genePatternService
     def restUtilsService
     def utilsService
+
+    ResourceLocator grailsResourceLocator
+
 
     def axSelectAllFcs(){
         render(contentType: 'text/json') {
@@ -68,6 +72,7 @@ class AnalysisController {
             analysisList = Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, currentUser, [-2], params)
             jobList = Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment,currentUser, [3,-2])*.jobNumber
         }
+//        def renderResultLst = jobList.each{ }
         respond analysisList, model:[analysisCount: analysisList.size(), eId: params?.eId, jobList: jobList, experiment: experiment]
     }
 
@@ -76,6 +81,24 @@ class AnalysisController {
     }
 
     def showResults(Analysis analysis) {
+        def jobResult
+        if(analysis.jobNumber!= -1){
+            try {
+                jobResult = restUtilsService.jobResult(analysis)
+            }
+            catch (all){
+                println 'Error! No job result (maybe deleted on server)!' + all.dump()
+            }
+        }
+        if(jobResult.statusCode.value != 200 && jobResult.statusCode.value != 201){
+            String dummy = jobResult?.statusCode?.toString()
+            flash.resultMsg = jobResult?.statusCode?.toString() + " - " + jobResult?.statusCode?.reasonPhrase
+        }
+        respond analysis, model: [jobResult: jobResult]
+    }
+
+
+    def displayResults(Analysis analysis) {
         def jobResult
         if(analysis.jobNumber!= -1){
             try {
@@ -142,9 +165,68 @@ class AnalysisController {
         */
     }
 
+    /*
+     File myFile = new File('/Users/acs/Sources/flowgate/grails-app/views/analysis/results/UCSD_CLL_New.html')
+//        render file: myFile, contentType: 'text/html'
+        Analysis analysis = Analysis.get(params?.analysisId)
+        def outputFile = JSON.parse(params.outputFile)
+        def fileUrl = new URL(outputFile.link.href)
+        def connection = fileUrl.openConnection()
+        connection.setRequestProperty ("Authorization", utilsService.authHeader(analysis.module.server.userName,analysis.module.server.userPw))
+        def dataStream = connection.inputStream
+        if(params.download != null && params.download){
+            response.setContentType("application/octet-stream")
+            response.setHeader("Content-disposition", "Attachment; filename=${outputFile.path}")
+        } else {
+            response.setContentType("text/html")
+        }
+        response.outputStream << dataStream
+        response.outputStream.flush()
+//        //String dwnLdMsg = "File '${params?.filename}' successfully downloaded!"
+    */
+
     def downloadFile() {
         Analysis analysis = Analysis.get(params?.analysisId)
         def outputFile = JSON.parse(params.outputFile)
+        def fileUrl = new URL(outputFile.link.href)
+        def connection = fileUrl.openConnection()
+        connection.setRequestProperty ("Authorization", utilsService.authHeader(analysis.module.server.userName,analysis.module.server.userPw))
+        def dataStream = connection.inputStream
+        if(params.download != null && params.download){
+            response.setContentType("application/octet-stream")
+            response.setHeader("Content-disposition", "Attachment; filename=${outputFile.path}")
+        } else {
+            response.setContentType("text/html")
+        }
+        response.outputStream << dataStream
+        response.outputStream.flush()
+//        //String dwnLdMsg = "File '${params?.filename}' successfully downloaded!"
+    }
+
+    def downloadResultReport() {
+//        File myFile = new File('/Users/acs/Sources/flowgate/grails-app/views/analysis/results/UCSD_CLL_New.html')
+//        render file: myFile, contentType: 'text/html'
+        def jobResult
+        Analysis analysis = Analysis.get(params?.analysisId)
+        if(analysis.jobNumber!= -1){
+            try {
+                jobResult = restUtilsService.jobResult(analysis)
+            }
+            catch (all){
+                println 'Error! No job result (maybe deleted on server)!' + all.dump()
+            }
+        }
+        if(jobResult.statusCode.value != 200 && jobResult.statusCode.value != 201){
+            String dummy = jobResult?.statusCode?.toString()
+            flash.resultMsg = jobResult?.statusCode?.toString() + " - " + jobResult?.statusCode?.reasonPhrase
+        }
+//        def fileUrl = jobResult.outputFiles.find{ it.path == 'Reports/AutoReport.html'}.link.href
+        println "outputFile found? ${jobResult.outputFiles.find{ it.path == 'Reports/AutoReport.html'}}"
+        def outputFile = jobResult.outputFiles.find{ it.path == 'Reports/AutoReport.html'}
+        println "outputFile ${outputFile}"
+
+
+//        def outputFile = JSON.parse(params.outputFile)
         def fileUrl = new URL(outputFile.link.href)
         def connection = fileUrl.openConnection()
         connection.setRequestProperty ("Authorization", utilsService.authHeader(analysis.module.server.userName,analysis.module.server.userPw))
@@ -178,6 +260,22 @@ class AnalysisController {
         }
     }
     */
+
+    def d3demo(){
+
+    }
+
+    def d3data() {
+        def jFile = new File('/Users/acs/Sources/Flowgate_GUI/grails_webapp/grails-app/assets/files/af700_cd3__pe_cd56_wPop_small.json')
+        def jFile2 = new File('/Users/acs/Sources/Flowgate_GUI/grails_webapp/grails-app/assets/files/af700_cd3__pe_cd56_wPop9_reduced.json')
+        String jsonTxt = jFile.text
+        String jsonTxt2 = jFile2.text
+        render(contentType: 'text/json') {
+            success true
+            jsonFile jsonTxt
+            jsonFile2 jsonTxt2
+        }
+    }
 
 
     def getImage(){
