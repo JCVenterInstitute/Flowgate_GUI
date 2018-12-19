@@ -12,6 +12,92 @@
   .fade.in {
     display:block;
   }
+
+
+   /*modal full screen  */
+
+
+    .modal {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow: hidden;
+    }
+
+    .modal-dialog {
+      position: fixed;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+    }
+
+    .modal-content {
+      /*
+      height: auto;
+      min-height: 100%;
+      */
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border: 2px solid #3c7dcf;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .modal-header {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 50px;
+      padding: 10px;
+      background: #6598d9;
+      border: 0;
+    }
+
+    .modal-title {
+      font-weight: 300;
+      font-size: 2em;
+      color: #fff;
+      line-height: 30px;
+    }
+
+    .modal-body {
+      position: absolute;
+      top: 50px;
+      bottom: 60px;
+      width: 100%;
+      font-weight: 300;
+      overflow: auto;
+    }
+
+    .modal-footer {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 60px;
+      padding: 10px;
+      background: #f1f3f5;
+    }
+
+    ::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 10px;
+      background: #f1f3f5;
+      border-left: 1px solid darken(#f1f3f5, 10%);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: darken(#f1f3f5, 20%);
+    }
+
+
   </style>
 </head>
 
@@ -64,6 +150,9 @@
         <g:hiddenField name="analysisStatus" value="${1}"/>
         <g:hiddenField name="eId" value="${params?.eId}"/>
         <g:hiddenField name="timestamp" value="${new Date().format('yyyy-MM-dd hh:mm:ss')}"/>
+        %{-- TODO remove after testing --}%
+        <input id="acs" style="display: none;width: 1200px;" name="acsVal" value="['APC_CD14','SSC_A','pop6','AF700_CD3','PE_Cy7_CD19','pop7','AF700_CD3','PE_CD56','pop8','APC_eF780_CD4','BV650_CD8a','pop12','APC_eF780_CD4','FITC_CD25','pop14']" />
+
         <f:with bean="analysis">
           <div class="panel with-nav-tabs panel-default">
             <ul class="nav nav-tabs tabs-3" role="tablist" id="paramsTabs">
@@ -123,7 +212,8 @@
                     data: _data,
                     success: function (data) {
                       $("#modParams").html(data.modParams);
-                      $('#infoBoxModal').hide();
+                      // $('#infoBoxModal').hide();
+                      // $('#aux20').hide();
                     },
                     error: function (request, status, error) {
                       console.log('E: ' + error);
