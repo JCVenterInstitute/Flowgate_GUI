@@ -104,8 +104,8 @@ dependencies {
 //    runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.14.2"
     runtime "com.h2database:h2"
 //    runtime "mysql:mysql-connector-java:5.1.29"
-//    runtime "mysql:mysql-connector-java:5.1.46"
-    runtime "mysql:mysql-connector-java:8.0.12"
+    runtime "mysql:mysql-connector-java:5.1.46"
+//    runtime "mysql:mysql-connector-java:8.0.12"
 //    compile 'org.grails:grails-datastore-rest-client:5.0.0.RC2'
     compile 'org.grails:grails-datastore-rest-client'
 
