@@ -72,6 +72,7 @@ class AnalysisController {
             analysisList = Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, currentUser, [-2], params)
             jobList = Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment,currentUser, [3,-2])*.jobNumber
         }
+//        def renderResultLst = jobList.each{ }
         respond analysisList, model:[analysisCount: analysisList.size(), eId: params?.eId, jobList: jobList, experiment: experiment]
     }
 
@@ -80,6 +81,24 @@ class AnalysisController {
     }
 
     def showResults(Analysis analysis) {
+        def jobResult
+        if(analysis.jobNumber!= -1){
+            try {
+                jobResult = restUtilsService.jobResult(analysis)
+            }
+            catch (all){
+                println 'Error! No job result (maybe deleted on server)!' + all.dump()
+            }
+        }
+        if(jobResult.statusCode.value != 200 && jobResult.statusCode.value != 201){
+            String dummy = jobResult?.statusCode?.toString()
+            flash.resultMsg = jobResult?.statusCode?.toString() + " - " + jobResult?.statusCode?.reasonPhrase
+        }
+        respond analysis, model: [jobResult: jobResult]
+    }
+
+
+    def displayResults(Analysis analysis) {
         def jobResult
         if(analysis.jobNumber!= -1){
             try {
@@ -146,9 +165,68 @@ class AnalysisController {
         */
     }
 
+    /*
+     File myFile = new File('/Users/acs/Sources/flowgate/grails-app/views/analysis/results/UCSD_CLL_New.html')
+//        render file: myFile, contentType: 'text/html'
+        Analysis analysis = Analysis.get(params?.analysisId)
+        def outputFile = JSON.parse(params.outputFile)
+        def fileUrl = new URL(outputFile.link.href)
+        def connection = fileUrl.openConnection()
+        connection.setRequestProperty ("Authorization", utilsService.authHeader(analysis.module.server.userName,analysis.module.server.userPw))
+        def dataStream = connection.inputStream
+        if(params.download != null && params.download){
+            response.setContentType("application/octet-stream")
+            response.setHeader("Content-disposition", "Attachment; filename=${outputFile.path}")
+        } else {
+            response.setContentType("text/html")
+        }
+        response.outputStream << dataStream
+        response.outputStream.flush()
+//        //String dwnLdMsg = "File '${params?.filename}' successfully downloaded!"
+    */
+
     def downloadFile() {
         Analysis analysis = Analysis.get(params?.analysisId)
         def outputFile = JSON.parse(params.outputFile)
+        def fileUrl = new URL(outputFile.link.href)
+        def connection = fileUrl.openConnection()
+        connection.setRequestProperty ("Authorization", utilsService.authHeader(analysis.module.server.userName,analysis.module.server.userPw))
+        def dataStream = connection.inputStream
+        if(params.download != null && params.download){
+            response.setContentType("application/octet-stream")
+            response.setHeader("Content-disposition", "Attachment; filename=${outputFile.path}")
+        } else {
+            response.setContentType("text/html")
+        }
+        response.outputStream << dataStream
+        response.outputStream.flush()
+//        //String dwnLdMsg = "File '${params?.filename}' successfully downloaded!"
+    }
+
+    def downloadResultReport() {
+//        File myFile = new File('/Users/acs/Sources/flowgate/grails-app/views/analysis/results/UCSD_CLL_New.html')
+//        render file: myFile, contentType: 'text/html'
+        def jobResult
+        Analysis analysis = Analysis.get(params?.analysisId)
+        if(analysis.jobNumber!= -1){
+            try {
+                jobResult = restUtilsService.jobResult(analysis)
+            }
+            catch (all){
+                println 'Error! No job result (maybe deleted on server)!' + all.dump()
+            }
+        }
+        if(jobResult.statusCode.value != 200 && jobResult.statusCode.value != 201){
+            String dummy = jobResult?.statusCode?.toString()
+            flash.resultMsg = jobResult?.statusCode?.toString() + " - " + jobResult?.statusCode?.reasonPhrase
+        }
+//        def fileUrl = jobResult.outputFiles.find{ it.path == 'Reports/AutoReport.html'}.link.href
+        println "outputFile found? ${jobResult.outputFiles.find{ it.path == 'Reports/AutoReport.html'}}"
+        def outputFile = jobResult.outputFiles.find{ it.path == 'Reports/AutoReport.html'}
+        println "outputFile ${outputFile}"
+
+
+//        def outputFile = JSON.parse(params.outputFile)
         def fileUrl = new URL(outputFile.link.href)
         def connection = fileUrl.openConnection()
         connection.setRequestProperty ("Authorization", utilsService.authHeader(analysis.module.server.userName,analysis.module.server.userPw))

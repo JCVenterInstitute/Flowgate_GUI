@@ -16,11 +16,14 @@ class Analysis {
   Date dateCreated
   Integer analysisStatus
   Integer jobNumber
+  // TODO check different types! currently using the result file path/name to render in the modal
+  String renderResult
 
   static constraints = {
     analysisName blank: false
     analysisDescription nullable: true, blank: true, blankable: true
     jobNumber nullable: true, blank: true, blankable: true
+    renderResult blank: true, nullable: true
   }
 
   static mapping = {

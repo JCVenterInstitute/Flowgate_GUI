@@ -77,8 +77,8 @@
       <div class="col-sm-12">
         <sec:ifAnyGranted roles="ROLE_Administrator">
           <g:render template="results/resultsFileLst" />
-        </sec:ifAnyGranted>
         %{--<g:render template="results/resultsGrid" />--}%
+        </sec:ifAnyGranted>
       </div>
     </div>
     %{--TODO remove for normal user / change visibility    --}%

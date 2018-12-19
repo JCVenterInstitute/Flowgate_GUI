@@ -9,7 +9,7 @@
         <div class="modal-body custom-height-modal">
 
           <g:each in="${jobResult.outputFiles}" var="outputFile" status="i">
-            <li class="">${outputFile?.path}
+            <li class="">oPaht=${outputFile?.path} oLh=${outputFile?.link?.href} of=${outputFile}
               <a href="${g.createLink(controller: 'analysis', action: 'downloadFile', params: [analysisId: this?.analysis?.id, filename: outputFile?.path, fileLink: outputFile?.link?.href, outputFile: outputFile])}">
                dwnld&nbsp;<i class="fa fa-floppy-o fa-lg"></i>
               </a>&nbsp;/&nbsp;
