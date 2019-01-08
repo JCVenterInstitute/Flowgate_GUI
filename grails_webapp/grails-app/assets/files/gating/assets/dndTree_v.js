@@ -571,29 +571,6 @@ function draw_tree(error, treeData) {
       .attr("r", 0)
       .style("fill", colorNode);
 
-    nodeEnter.append("text")
-      // .attr("x", function(d) {
-      .attr("y", function(d) {
-        // return d.children || d._children ? -18 : 18;
-        return d.children || d._children ? -20 : 20;
-      })
-      .attr("dy", ".35em")
-      .attr('class', 'nodeText')
-      .attr("text-anchor", "middle")
-      // .attr("text-anchor", function(d) {
-        // return d.children || d._children ? "end" : "start";
-      // })
-      .text(function(d) {
-        if((d.xM && d.xM !=='undefined') && (d.yM && d.yM !=='undefined')) {
-          // console.log('text out ', d.xM, d.yM);
-          return d.name + ' (x=' + d.xM + '; y=' + d.yM + '; p=' + d.pop + ')';
-        }
-        else {
-          return d.name;
-        }
-      })
-      .style("fill-opacity", 0);
-
     // phantom node to give us mouseover in a radius around it
     nodeEnter.append("circle")
       .attr('class', 'ghostCircle')
@@ -608,28 +585,126 @@ function draw_tree(error, treeData) {
         outCircle(node);
       });
 
+
+
+    nodeEnter.append("text")
+      // .attr("x", function(d) {
+      .attr("y", function(d) {
+        // return d.children || d._children ? -18 : 18;
+        return d.children || d._children ? -35 : 15;
+      })
+      .attr("dy", ".35em")
+      .attr('class', 'nodeText')
+      .attr("text-anchor", "middle")
+      // .attr("text-anchor", function(d) {
+        // return d.children || d._children ? "end" : "start";
+      // })
+      .text(function(d) {
+        // if((d.xM && d.xM !=='undefined') && (d.yM && d.yM !=='undefined')) {
+          // return d.name + ' (x=' + d.xM + '; y=' + d.yM + '; p=' + d.pop + ')';
+        // }
+        // else {
+          return d.name;
+        // }
+      })
+      .style("fill-opacity", 0)
+      .append("tspan")
+      .attr("y", function(d) {
+        return d.children || d._children ? -25 : 25;
+      })
+      .attr("x",  0)
+      .attr("text-anchor","middle")
+      .text(function(d) {
+        if((d.xM && d.xM !=='undefined') && (d.yM && d.yM !=='undefined')) {
+          return 'x: ' + d.xM;
+        }
+      })
+      .append("tspan")
+      .attr("y", function(d) {
+        return d.children || d._children ? -15 : 35;
+      })
+      // .attr("y",  0)
+      .attr("x",  0)
+      .attr("dy",".35em")
+      .attr("text-anchor","middle")
+      .text(function(d) {
+        if((d.xM && d.xM !=='undefined') && (d.yM && d.yM !=='undefined')) {
+          // return d.pop;
+          return 'y: ' + d.yM;
+        }
+        // else {
+        //   return d.name;
+        // }
+      });
+
+
+
+
+
+
+
     // Update the text to reflect whether node has children or not.
     node.select('text')
       // .attr("x", function(d) {
       .attr("y", function(d) {
         // return d.children || d._children ? -10 : 10;
-        return d.children || d._children ? -20 : 20;
-      })
-      .attr("text-anchor", function(d) {
-        return d.children || d._children ? "end" : "start";
-      })
-      // .text(function(d) {
-      //     return d.name ;
-      // })
-      .text(function(d) {
         if((d.xM && d.xM !=='undefined') && (d.yM && d.yM !=='undefined')) {
-          // console.log('text out ', d.xM, d.yM);
-          return d.name + ' (x=' + d.xM + '; y=' + d.yM + '; p=' + d.pop + ')';
+          return d.children || d._children ? -35 : 15;
         }
         else {
-          return d.name;
+          return -15;
         }
+      })
+      .attr("dy",".35em")
+      // .attr("text-anchor", function(d) {
+        // return d.children || d._children ? "end" : "start";
+      // })
+      .attr("text-anchor","middle")
+      .text(function(d) {
+        // if((d.xM && d.xM !=='undefined') && (d.yM && d.yM !=='undefined')) {
+          // return d.name + ' (x=' + d.xM + '; y=' + d.yM + '; p=' + d.pop + ')';
+        // }
+        // else {
+          return d.name;
+        // return d.children || d._children ? -35 : 15;
+        // }
+      })
+      .append("tspan")
+      .attr("y", function(d) {
+        // return d.children || d._children ? -18 : 18;
+        return d.children || d._children ? -25 : 25;
+      })
+      .attr("x",  0)
+      .attr("dy",".35em")
+      .attr("text-anchor","middle")
+      .text(function(d) {
+        if((d.xM && d.xM !=='undefined') && (d.yM && d.yM !=='undefined')) {
+        // return ' (x:' + d.xM + '; y:' + d.yM + ')';
+          return 'x: ' + d.xM;
+          // return d.children || d._children ? -25 : 25;
+        }
+      })
+      .append("tspan")
+      .attr("y", function(d) {
+        return d.children || d._children ? -15 : 35;
+        // return d.children || d._children ? 0 : 40;
+      })
+      // .attr("y",  0)
+      .attr("x",  0)
+      .attr("dy",".35em")
+      .attr("text-anchor","middle")
+      .text(function(d) {
+        if((d.xM && d.xM !=='undefined') && (d.yM && d.yM !=='undefined')) {
+        // return d.pop;
+          return 'y: ' + d.yM;
+          // return d.children || d._children ? -15 : 35;
+        }
+        // else {
+        //   return d.name;
+        // }
       });
+
+
 
     // Change the circle fill depending on whether it has children and is collapsed
     node.select("circle.nodeCircle")
