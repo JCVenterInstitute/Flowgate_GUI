@@ -5,8 +5,7 @@
       <i class="glyphicon glyphicon-info-sign"></i>&nbsp;<g:message code="module.information.button.label" default="Pipeline Information"/>
     </button>
   </div>
-
-  <div class="modal fade in" id="infoBoxModal" role="dialog">
+  <div class="modal fade" id="infoBoxModal" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -24,7 +23,67 @@
       </div>
     </div>
   </div>
-  <g:each in="${module.moduleParams.sort { it.id }.findAll { it.pBasic == true }}" var="moduleParam">
+  <g:each in="${module?.moduleParams?.sort { (it.pOrder ?: it.id)+(it.pKey ?: it.id) }?.findAll { it.pBasic == true }}" var="moduleParam">
+    %{-- aux --}%
+    <g:if test="${moduleParam?.pType == 'aux'}">
+      <label for="mp-${moduleParam?.id}-ds" class="col-sm-2 control-label">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}
+        <g:if test="${moduleParam?.descr != null && !moduleParam?.descr?.isEmpty()}">
+          <i class="fa fa-info-circle" data-toggle="tooltip" title="${moduleParam?.descr}"></i>
+        </g:if>
+      </label>
+
+      <div class="col-sm-offset-2" style="padding-left: 5px;">
+        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#aux${moduleParam?.id}">
+          %{--<i class="glyphicon glyphicon-info-sign"></i>&nbsp;--}%<g:message code="module.information.button.label" default="${moduleParam?.pKey}"/>
+        </button>
+      </div>
+
+      %{--<div class="modal fade" tabindex="-1" id="aux${moduleParam?.id}" style="width:90%;" role="dialog">--}%
+      <div class="modal fade" tabindex="-1" id="aux${moduleParam?.id}" aria-labelledby="myModalLabel" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <div id="myModalLabel">
+                <h4 class="modal-title" style="text-align: left;">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</h4>
+              </div>
+            </div>
+
+            <div class="modal-body custom-height-modal">
+              %{--<object style="width: 100%;height:800px;" data="/assets/gating/index.html" ></object>--}%
+              <object style="width: 100%;height:100%;" data="/assets/${moduleParam?.defaultVal}" ></object>
+              %{--
+                <iframe src="/assets/gating/index.html" style="width: 90%; height: 300px"
+                        scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0">
+                </iframe>
+              --}%
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" id="aux${moduleParam?.id}SaveBtn" style="display: none" class="left btn btn-success" >Save</button>
+              <button type="button" id="aux${moduleParam?.id}CloseBtn" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+      %{--<div class="form-group">--}%
+        %{--<label class="col-sm-2"></label>--}%
+        %{--<div class="col-sm-offset-2 col-sm-10">--}%
+          %{--<object style="width: 100%;height:300px;" data="/assets/gating/index.html" ></object>--}%
+          %{--
+            <iframe src="/assets/gating/index.html" style="width: 90%; height: 300px"
+                    scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0">
+            </iframe>
+          --}%
+        %{--</div>--}%
+      %{--</div>--}%
+    </g:if>
+    %{-- dataset --}%
     <g:if test="${moduleParam?.pType == 'ds'}">
       <div class="form-group">
         <label for="mp-${moduleParam?.id}-ds" class="col-sm-2 control-label">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}
@@ -48,6 +107,7 @@
         </g:isOwnerOrRoles>
       </div>
     </g:if>
+    %{-- either dir or file --}%
     <g:if test="${moduleParam?.pType == 'dir' || moduleParam?.pType == 'file'}">
       <div class="form-group">
         %{--<label for="mp-${moduleParam?.id}" class="col-sm-2 control-label">${moduleParam?.pKey} [dir/file]</label>--}%
@@ -73,7 +133,8 @@
         </g:if>
       </div>
     </g:if>
-    <g:if test="${moduleParam?.pType != 'dir' && moduleParam?.pType != 'file' && moduleParam?.pType != 'ds' && moduleParam?.pType != 'meta' && moduleParam?.pType != 'field'}">
+    %{-- not dir, not file, not ds, not meta, not field  --}%
+    <g:if test="${moduleParam?.pType != 'dir' && moduleParam?.pType != 'file' && moduleParam?.pType != 'ds' && moduleParam?.pType != 'meta' && moduleParam?.pType != 'field' && moduleParam?.pType != 'aux'}">
       <div class="form-group">
         %{--<label for="mp-${moduleParam?.id}" class="col-sm-2 control-label">${moduleParam?.pKey}</label>--}%
         <label for="mp-${moduleParam?.id}" class="col-sm-2 control-label">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}
@@ -92,11 +153,24 @@
     %{--BASIC OPTIONS--}%
     %{-- Always displayed ! --}%
   </div>
-
+  %{--******************************************************************************************************************************************************************************--}%
   <div class="tab-pane fade" id="advanced">
   %{--ADVANCED OPTIONS--}%
-    <g:each in="${module.moduleParams.sort { it.id }.findAll { it.pBasic == false }}" var="moduleParam">
-
+    <g:each in="${module.moduleParams.sort { it.pOrder ?: it.id }.findAll { it.pBasic == false }}" var="moduleParam">
+    %{-- aux --}%
+      <g:if test="${moduleParam?.pType == 'aux'}">
+        <div class="form-group">
+          <label class="col-sm-2"></label>
+          <div class="col-sm-4">
+            <object style="width: 100%" data="/assets/gating/index.html" ></object>
+            %{--
+              <iframe src="/assets/gating/index.html" style="width: 90%; height: 300px"
+                      scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0">
+              </iframe>
+            --}%
+          </div>
+        </div>
+      </g:if>
       <g:if test="${moduleParam?.pType == 'ds'}">
         <div class="form-group">
           %{--<label for="mp-${moduleParam?.id}-ds" class="col-sm-2 control-label">${moduleParam?.pKey} [dataset]</label>--}%
@@ -144,7 +218,7 @@
           </g:if>
         </div>
       </g:if>
-      <g:if test="${moduleParam?.pType != 'dir' && moduleParam?.pType != 'file' && moduleParam?.pType != 'ds' && moduleParam?.pType != 'meta' && moduleParam?.pType != 'field'}">
+      <g:if test="${moduleParam?.pType != 'dir' && moduleParam?.pType != 'file' && moduleParam?.pType != 'ds' && moduleParam?.pType != 'meta' && moduleParam?.pType != 'field' && moduleParam?.pType != 'aux'}">
         <div class="form-group">
           %{--<label for="mp-${moduleParam?.id}" class="col-sm-2 control-label">${moduleParam?.pKey}</label>--}%
           <label for="mp-${moduleParam?.id}" class="col-sm-2 control-label">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}
