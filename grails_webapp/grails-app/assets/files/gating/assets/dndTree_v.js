@@ -58,7 +58,7 @@ function rename_node() {
 
     name = $('#RenameNodeName').val();
     xM = $('#RenameNodeXM').val();
-    yM = $('#RenameNodeXM').val();
+    yM = $('#RenameNodeYM').val();
     pop = $('#RenameNodePop').val();
     node_to_rename.name = name;
     node_to_rename.xM = xM;
