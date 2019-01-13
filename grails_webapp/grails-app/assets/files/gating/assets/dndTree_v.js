@@ -34,7 +34,9 @@ function create_node() {
     yM = $('#CreateNodeYM').val();
     pop = $('#CreateNodePop').val();
     new_node = { 'name': name,
-      'id' :  id,
+      'id': id,
+      'xM': xM,
+      'yM': yM,
       'depth': create_node_parent.depth + 1,
       'children': [],
       '_children':null
