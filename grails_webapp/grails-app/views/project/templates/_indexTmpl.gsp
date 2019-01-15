@@ -13,16 +13,16 @@
   </f:with>
 </g:if>
 
-<div class="pull-right pt-3">
-  <a href="${createLink(controller: 'experiment', action: 'create', params: [pId: project?.id])}" class="btn btn-info">
-    <i class="glyphicon glyphicon-plus"></i>Create Experiment
-  </a>
-  %{--<a href="/experiment/createFromTemplate?pId=${project?.id}" class="btn btn-info">
-    <i class="glyphicon glyphicon-plus"></i>Add From Template
-  </a>--}%
-</div>
-
-<h1 class="sub-header">Experiments</h1>
+<h1 class="sub-header">Experiments
+  <div class="pull-right">
+    <a href="${createLink(controller: 'experiment', action: 'create', params: [pId: project?.id])}" class="btn btn-primary">
+      <i class="glyphicon glyphicon-plus"></i>Create Experiment
+    </a>
+    %{--<a href="/experiment/createFromTemplate?pId=${project?.id}" class="btn btn-info">
+      <i class="glyphicon glyphicon-plus"></i>Add From Template
+    </a>--}%
+  </div>
+</h1>
 
 <div class="row">
   <div id="expContent" class="col-md-12">
