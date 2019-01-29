@@ -40,26 +40,6 @@
       %{-- </g:link> --}%
     %{--<g:if test="${experiment?.id == session.experimentEditModeId?.toLong()}"> --}%
     %{--<sec:ifAnyGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_AddFcs">--}%
-      <sec:ifAnyGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentEdit">
-        <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'expFileCreate', params: [eId: experiment?.id])}">
-          <div class="pull-right btn btn-info" style="cursor: pointer">
-            <i class="fa fa-plus"></i>&nbsp;Add/Upload FCS
-          </div>
-        </a>
-      </sec:ifAnyGranted>
-      <sec:ifNotGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentEdit">
-        <g:if test="${utilsService.isAffil('experiment', experiment?.id)}">
-        %{-- <div class="pull-right btn btn-info" onclick="btnAddExpFileClick(${experiment?.id})"><i class="glyphicon glyphicon-plus"></i> Add/Upload File</div> --}%
-          <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'expFileCreate', params: [eId: experiment?.id])}">
-            <div class="pull-right btn btn-info" style="cursor: pointer">
-              <i class="fa fa-plus"></i>&nbsp;Add/Upload FCS
-            </div>
-          </a>
-        </g:if>
-        <g:else>
-          <br/><br/>
-        </g:else>
-      </sec:ifNotGranted>
     </div>
   </div>
   <br/>
@@ -69,16 +49,19 @@
 %{-- TODO move to controller --}%
 %{-- <g:each var="expFile" in="${experiment?.expFiles}"> --}%
   <g:if test="${experiment}" >
-  <g:if test="${experiment && ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment?.id?.toLong(), true), true)}" >
-    This experiment currently contains <b>${ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment.id.toLong(), true), true).size()}</b> FCS files.
-  %{--
-  <g:each in="${ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment.id.toLong(), true), true)}" var="expFile" >
-    <div id="expFile-${expFile?.id}">
-      <g:render template="/expFile/expFileTmpl" model="[experiment: experiment, expFile: expFile]"/>
-    </div>
-  </g:each>
-  --}%
-  </g:if>
+    <g:if test="${experiment && ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment?.id?.toLong(), true), true)}" >
+      This experiment currently contains <b>${ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment.id.toLong(), true), true).size()}</b> FCS files.
+    %{--
+    <g:each in="${ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment.id.toLong(), true), true)}" var="expFile" >
+      <div id="expFile-${expFile?.id}">
+        <g:render template="/expFile/expFileTmpl" model="[experiment: experiment, expFile: expFile]"/>
+      </div>
+    </g:each>
+    --}%
+    </g:if>
+    <g:else>
+      This experiment doesn't have any FCS file.
+    </g:else>
   </g:if>
 
 %{--

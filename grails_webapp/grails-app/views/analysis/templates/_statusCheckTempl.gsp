@@ -6,6 +6,7 @@
       url: "${createLink(controller: 'analysis', action: 'checkStatus')}",
       dataType: "json",
       type: "get",
+      global: false,
       data: {"eId": ${params?.eId}, "jobs": JSON.stringify(${jobList})},
       success: function (data) {
         console.log("status update");
@@ -22,6 +23,7 @@
       url: "${createLink(controller: 'analysis', action: 'checkDbStatus')}",
       dataType: "json",
       type: "get",
+      global: false,
       data: {"eId": ${params?.eId}, "jobs": JSON.stringify(${jobList})},
       success: function (data) {
         if (data.updChkStatus == "clear") {

@@ -5,7 +5,7 @@
   </g:if>
   <g:else>
     <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentEdit">
-      <a class="btn btn-info edit noLinkBlack" href="${createLink(controller: 'experiment', action: 'edit', params: [id: experiment?.id])}">
+      <a class="btn btn-warning edit noLinkBlack" href="${createLink(controller: 'experiment', action: 'edit', params: [id: experiment?.id])}">
         <i class="glyphicon glyphicon-edit"></i>&nbsp;&nbsp;Edit
       </a>
     </g:isOwnerOrRoles>
@@ -29,7 +29,7 @@
         <i class="glyphicon glyphicon-trash"></i>&nbsp;Delete
     </g:link>
     --}%
-      <a class="btn btn-info" href="${createLink(controller: 'experiment', action: 'delete', params: [id: experiment?.id])}"
+      <a class="btn btn-danger" href="${createLink(controller: 'experiment', action: 'delete', params: [id: experiment?.id])}"
          onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');">
         <i class="glyphicon glyphicon-trash"></i>&nbsp;Delete
       </a>

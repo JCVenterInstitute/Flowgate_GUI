@@ -8,20 +8,7 @@
 
 <body>
 <g:render template="/shared/nav"/>
-<content tag="topBtnBar">
-  <div class="row">
-    <div id="topBtnBar" >
-      %{--<g:render template="templates/indexTopBtnBar" model="[project: this.project]" />--}%
-      <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectCreate">
-        <a class="btn btn-primary create noLinkBlack" href="${createLink(controller: 'project', action: 'create')}">
-          <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Create Project
-        </a>
-      </sec:ifAnyGranted>
-
-    </div>
-    <g:render template="/shared/errorsMsgs" model="[bean: this.project]" />
-  </div>
-</content>
+<g:render template="/shared/errorsMsgs" model="[bean: this.project]" />
 
 %{--TODO remove after testing, just for testing purpose!!!!--}%
 <sec:ifAnyGranted roles="ROLE_Acs">
@@ -48,7 +35,16 @@
 </sec:ifAnyGranted>
 
 <div class="container">
-  <h1 class="page-header">Projects</h1>
+  <h1 class="page-header">Projects
+    <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectCreate">
+      <div class="pull-right">
+        <a class="btn btn-primary create" href="${createLink(controller: 'project', action: 'create')}">
+          <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Create Project
+        </a>
+      </div>
+    </sec:ifAnyGranted>
+  </h1>
+
   <div id="pageContent">
     <g:if test="${session?.projCardView}">
       <g:render template="templates/projCardsTmpl"/>

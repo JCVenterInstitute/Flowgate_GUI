@@ -47,4 +47,7 @@
       </g:each>
     </div>
   </div>
+  <g:if test="${experimentList == null || experimentList.isEmpty()}">
+    There is no experiment for this project.
+  </g:if>
 </div>
