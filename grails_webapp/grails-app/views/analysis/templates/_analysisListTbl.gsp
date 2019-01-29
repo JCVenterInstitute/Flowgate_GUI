@@ -2,7 +2,7 @@
   <thead>
   <tr>
     <th>Task Name</th>
-    <th>Task Result Files</th>
+    <th>Reports</th>
     <th>Task Status</th>
     <th>Submitted on</th>
     <th>Creator</th>
@@ -17,9 +17,7 @@
           %{-- TODO when results ready redirect to show results page --}%
             <g:if test="${bean?.analysisStatus != 3 && bean?.analysisStatus != 4}">
               <g:link action="edit" resource="${bean}">
-                <f:display bean="${bean}"
-                           property="analysisName"
-                           displayStyle="${displayStyle ?: 'table'}"/>%{-- &nbsp;Job=${bean.jobNumber} --}%
+                <f:display bean="${bean}" property="analysisName" displayStyle="${displayStyle ?: 'table'}"/>%{-- &nbsp;Job=${bean.jobNumber} --}%
               </g:link>
             </g:if>
             <g:else>
@@ -31,11 +29,10 @@
                 %{--</div>--}%
               %{--</g:if>--}%
               %{--<g:else>--}%
-                <div class="div-as-link" style="cursor: pointer;" data-toggle="modal" data-target="#resultModal-${bean.jobNumber}">
-                  <f:display bean="${bean}"
-                             property="analysisName"
-                             displayStyle="${displayStyle ?: 'table'}"/>%{-- &nbsp;Job=${bean.jobNumber} --}%
-                </div>
+
+                %{--<div class="div-as-link" style="cursor: pointer;" data-toggle="modal" data-target="#resultModal-${bean.jobNumber}">--}%
+                  <f:display bean="${bean}" property="analysisName" displayStyle="${displayStyle ?: 'table'}"/>%{-- &nbsp;Job=${bean.jobNumber} --}%
+                %{--</div>--}%
               %{--</g:else>--}%
             </g:else>
           </td>
@@ -46,28 +43,26 @@
             %{-- TODO when results ready redirect to show results page --}%
               <g:if test="${bean?.analysisStatus != 3 && bean?.analysisStatus != 4}">
                 <g:link action="edit" resource="${bean}">
-                  <f:display bean="${bean}"
-                             property="analysisName"
-                             displayStyle="${displayStyle ?: 'table'}"/>%{-- &nbsp;Job=${bean.jobNumber} --}%
+                  <f:display bean="${bean}" property="analysisName" displayStyle="${displayStyle ?: 'table'}"/>%{-- &nbsp;Job=${bean.jobNumber} --}%
                 </g:link>
               </g:if>
               <g:else>
                 <g:if test="${bean?.analysisStatus == 4}">
                   <div class="div-as-link" onclick="javascript:showResult()" data-toggle="modal" data-target="#resultModal">
-                    <f:display bean="${bean}"
-                               property="analysisName"
-                               displayStyle="${displayStyle ?: 'table'}"/>%{--&nbsp;Job=${bean.jobNumber}--}%
+                    %{--<f:display bean="${bean}" property="analysisName" displayStyle="${displayStyle ?: 'table'}"/>--}%%{--&nbsp;Job=${bean.jobNumber}--}%
+                    <i class="glyphicon glyphicon-eye-open"></i>&nbsp;<g:message code="analysis.display.report.label" default="display" />
                   </div>
                 </g:if>
                 <g:else>
-                  <g:link action="showResults" resource="${bean}">
-                    <div class="div-as-link form-control-plaintext">
-                    ${bean.analysisName.take(20)}... - result Files
-                    %{--<f:display bean="${bean}"--}%
-                               %{--property="analysisName"--}%
-                               %{--displayStyle="${displayStyle ?: 'table'}"/>--}%%{-- &nbsp;Job=${bean.jobNumber} --}%
+                  <div class="row form-control-plaintext" >
+                    <div class="div-as-link" style="cursor: pointer;" data-toggle="modal" data-target="#resultModal-${bean.jobNumber}">
+                      <i class="glyphicon glyphicon-eye-open"></i>&nbsp;<g:message code="analysis.display.report.label" default="display" />
                     </div>
-                  </g:link>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="${g.createLink(controller: 'analysis', action: 'downloadResultReport', params: [analysisId: bean?.id, jobNr: bean?.jobNumber, download: true])}">
+                      <i class="fa fa-floppy-o fa-lg"></i>&nbsp;<g:message code="analysis.download.report.label" default="download" />
+                    </a>
+                  </div>
                 </g:else>
               </g:else>
             </td>
@@ -78,12 +73,12 @@
                 <div id="job-${bean.jobNumber}" class="form-control-plaintext">
                   %{--jobnr${bean.jobNumber}--}%
                   %{--<div class="div-as-link" onclick="javascript:showResult()" data-toggle="modal" data-target="#resultModal">--}%
-                  <div class="div-as-link" data-toggle="modal" data-target="#resultModal-${bean.jobNumber}">
+                  %{--<div class="div-as-link" data-toggle="modal" data-target="#resultModal-${bean.jobNumber}">--}%
                     <i class=" fa fa-circle"
                        style="color: ${bean.analysisStatus == 1 ? 'lightgrey' : bean.analysisStatus == 2 ? 'orange' : bean.analysisStatus == 3 ? 'lawngreen' : bean.analysisStatus == -1 ? 'red' : 'brown'}"></i>
                     %{--&nbsp;&nbsp;&nbsp;--}%
                     ${bean.analysisStatus == 1 ? 'init' : bean.analysisStatus == 2 ? 'pending' : bean.analysisStatus == 3 ? 'results ready' : bean.analysisStatus == -1 ? 'error' : 'done'}
-                  </div>
+                  %{--</div>--}%
                 </div>
                 <div class="modal fade" tabindex="-1" id="resultModal-${bean.jobNumber}" aria-labelledby="myModalLabel" aria-hidden="true" role="dialog">
                   <div class="modal-dialog modal-lg">
@@ -120,9 +115,7 @@
                   <g:formatDate date="${bean.timestamp}" format="dd/MM/yyyy hh:mm:ss"/>
                 </g:if>
                 <g:else>
-                    <f:display bean="${bean}"
-                               property="${p}"
-                               displayStyle="${displayStyle ?: 'table'}"/>
+                    <f:display bean="${bean}" property="${p}" displayStyle="${displayStyle ?: 'table'}"/>
                 </g:else>
               </g:else>
             </td>

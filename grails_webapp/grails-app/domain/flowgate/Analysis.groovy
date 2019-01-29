@@ -17,7 +17,8 @@ class Analysis {
   Integer analysisStatus
   Integer jobNumber
   // TODO check different types! currently using the result file path/name to render in the modal
-  String renderResult
+  // TODO current default resultReportFileName = Reports/AutoReport.html; remove after testing
+  String renderResult = 'Reports/AutoReport.html'
 
   static constraints = {
     analysisName blank: false
