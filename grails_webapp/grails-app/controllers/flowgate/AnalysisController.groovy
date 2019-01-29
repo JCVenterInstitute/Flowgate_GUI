@@ -204,8 +204,11 @@ class AnalysisController {
     }
 
     def downloadResultReport() {
-//        File myFile = new File('/Users/acs/Sources/flowgate/grails-app/views/analysis/results/UCSD_CLL_New.html')
-//        render file: myFile, contentType: 'text/html'
+        /*
+        params.download .... switch to either download the file or open in browser
+        download=true .... downloads file
+        download=null or false .... opens file in browser
+         */
         def jobResult
         Analysis analysis = Analysis.get(params?.analysisId)
         if(analysis.jobNumber!= -1){
@@ -220,51 +223,31 @@ class AnalysisController {
             String dummy = jobResult?.statusCode?.toString()
             flash.resultMsg = jobResult?.statusCode?.toString() + " - " + jobResult?.statusCode?.reasonPhrase
         }
-//        def fileUrl = jobResult.outputFiles.find{ it.path == 'Reports/AutoReport.html'}.link.href
-        println "outputFile found? ${jobResult.outputFiles.find{ it.path == 'Reports/AutoReport.html'}}"
-        def outputFile = jobResult.outputFiles.find{ it.path == 'Reports/AutoReport.html'}
-        println "outputFile ${outputFile}"
-
-
-//        def outputFile = JSON.parse(params.outputFile)
-        def fileUrl = new URL(outputFile.link.href)
-        def connection = fileUrl.openConnection()
-        connection.setRequestProperty ("Authorization", utilsService.authHeader(analysis.module.server.userName,analysis.module.server.userPw))
-        def dataStream = connection.inputStream
-        if(params.download != null && params.download){
-            response.setContentType("application/octet-stream")
-            response.setHeader("Content-disposition", "Attachment; filename=${outputFile.path}")
-        } else {
-            response.setContentType("text/html")
-        }
-        response.outputStream << dataStream
-        response.outputStream.flush()
-//        String dwnLdMsg = "File '${params?.filename}' successfully downloaded!"
-    }
-
-    /*
-    // moved into taglib: fg:render
-    def downloadReport() {
-        AnalysisServer analysisServer = AnalysisServer.get(params?.analysisServerId?.toLong())
-        if(params.href && params.href!='' && analysisServer) {
-            def fileUrl = new URL(params.href)
+        def outputFile = jobResult.outputFiles.find{ it.path == analysis?.renderResult}  // 'Reports/AutoReport.html'
+        if(outputFile){
+            def fileUrl = new URL(outputFile.link.href)
             def connection = fileUrl.openConnection()
-            connection.setRequestProperty ("Authorization", utilsService.authHeader(analysisServer.userName, analysisServer.userPw))
+            connection.setRequestProperty ("Authorization", utilsService.authHeader(analysis.module.server.userName,analysis.module.server.userPw))
             def dataStream = connection.inputStream
-            response.setContentType("text/html")
+            if(params.download != null && params.download){
+                response.setContentType("application/octet-stream")
+                response.setHeader("Content-disposition", "Attachment; filename=${outputFile.path}")
+            }
+            else {
+                response.setContentType("text/html")
+            }
             response.outputStream << dataStream
             response.outputStream.flush()
         }
         else {
-           render 'Error: no report file found!'
+            render "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
         }
     }
-    */
 
-    def d3demo(){
+//    TODO remove! was just for testing purpose only
+    def d3demo(){ }
 
-    }
-
+//    TODO remove! was just for testing purpose only
     def d3data() {
         def jFile = new File('/Users/acs/Sources/Flowgate_GUI/grails_webapp/grails-app/assets/files/af700_cd3__pe_cd56_wPop_small.json')
         def jFile2 = new File('/Users/acs/Sources/Flowgate_GUI/grails_webapp/grails-app/assets/files/af700_cd3__pe_cd56_wPop9_reduced.json')

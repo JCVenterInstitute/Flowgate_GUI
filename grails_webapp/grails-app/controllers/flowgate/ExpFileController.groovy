@@ -122,7 +122,7 @@ class ExpFileController {
     }
 
     def axMetaActionChange(ExperimentMetadata eMeta){
-      println "axMetaActionChange ${params.colAction}  emetaData=${eMeta.dump()}!"
+//      println "axMetaActionChange ${params.colAction}  emetaData=${eMeta.dump()}!"
       switch (params.colAction){
         case 'Delete': delCol(eMeta)
                        return

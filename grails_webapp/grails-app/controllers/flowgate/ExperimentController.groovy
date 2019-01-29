@@ -23,6 +23,7 @@ class ExperimentController {
         File myFile = new File('/Users/acs/Sources/flowgate/grails-app/views/analysis/results/DAFI-tsne.html')
         render file: myFile, contentType: 'text/html'
     }
+
     def renderAnalysisHtml2(){
         File myFile = new File('/Users/acs/Sources/flowgate/grails-app/views/analysis/results/UCSD_CLL_New.html')
         render file: myFile, contentType: 'text/html'

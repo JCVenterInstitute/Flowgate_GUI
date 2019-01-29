@@ -60,9 +60,9 @@ grails:
             auth:
                 loginFormUrl: /
             userLookup:
-                userDomainClassName: flowgate.User
-                authorityJoinClassName: flowgate.UserRole
-                usernamePropertyName: username
+                userDomainClassName: 'flowgate.User'
+                authorityJoinClassName: 'flowgate.UserRole'
+                usernamePropertyName: 'username'
             authority:
                 className: flowgate.Role
 
