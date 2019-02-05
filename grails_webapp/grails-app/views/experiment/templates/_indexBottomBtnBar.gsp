@@ -140,6 +140,24 @@
       </span>
     </g:isOwnerOrRoles>
 
+    <sec:ifAnyGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentEdit">
+      <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'expFileCreate', params: [eId: experiment?.id])}">
+        <div class="pull-right btn btn-primary" style="cursor: pointer">
+          <i class="fa fa-plus"></i>&nbsp;Add/Upload FCS
+        </div>
+      </a>
+    </sec:ifAnyGranted>
+    <sec:ifNotGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentEdit">
+      <g:if test="${utilsService.isAffil('experiment', experiment?.id)}">
+      %{-- <div class="pull-right btn btn-info" onclick="btnAddExpFileClick(${experiment?.id})"><i class="glyphicon glyphicon-plus"></i> Add/Upload File</div> --}%
+        <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'expFileCreate', params: [eId: experiment?.id])}">
+          <div class="pull-right btn btn-primary" style="cursor: pointer">
+            <i class="fa fa-plus"></i>&nbsp;Add/Upload FCS
+          </div>
+        </a>
+      </g:if>
+    </sec:ifNotGranted>
+
   %{--<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentEdit">
   <span data-toggle="tooltip" title="Notifications" >
       <div  style="cursor: pointer" class="btn btn-default " data-toggle="modal" data-target="#experimentNotificationsModal">

@@ -47,7 +47,7 @@
   <div id="files" class="files"></div>
   <div class="row mt-3">
     <div class="col-md-12">
-      <input type="button" class="btn btn-success start" id="uploadFilesBtn" value="${message(code: 'default.button.annotate.label', default: 'Upload')}"/>
+      <input type="button" class="btn btn-primary start" id="uploadFilesBtn" value="${message(code: 'default.button.annotate.label', default: 'Upload')}"/>
       <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: eId])}" class="btn btn-warning">Back</a>
     </div>
   </div>
