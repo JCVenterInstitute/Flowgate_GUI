@@ -4,6 +4,8 @@ import groovy.json.JsonSlurper
 
 class DatasetController {
 
+    def utilsService
+
     def axSelAllCandFcs(Experiment experiment) {
         def expFileCandidatesList = getFilteredList(experiment)
         Dataset ds = Dataset.get(params?.dsId?.toLong())
@@ -231,6 +233,8 @@ class DatasetController {
             flash.error = "Dataset with " + params.name + " is already exist in this experiment"
         } else if(params.name == null || params.name.toString().equals("")) {
             flash.error = "Name is required!"
+        } else if(!utilsService.containsKeyStartsWith(params, 'file_')) {
+            flash.error = "You should select at least one FCS file!"
         } else {
             Dataset ds = new Dataset(experiment: experiment, name: params.name, description: params.description, expFiles: [])
             (params.findAll { key, value -> key.startsWith('file_') }).each {
