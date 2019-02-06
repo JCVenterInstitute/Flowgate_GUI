@@ -2,6 +2,7 @@ package flowgate
 
 import grails.converters.JSON
 import grails.transaction.Transactional
+import grails.web.servlet.mvc.GrailsParameterMap
 import org.apache.commons.codec.binary.Base64
 import org.grails.web.util.WebUtils
 
@@ -265,6 +266,15 @@ class UtilsService {
             }
             else return num
         }
+    }
+
+    boolean containsKeyStartsWith(GrailsParameterMap map, String val) {
+        for (String key : map.keySet()) {
+            if (key.startsWith(val)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
