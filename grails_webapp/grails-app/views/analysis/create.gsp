@@ -17,7 +17,7 @@
    /*modal full screen  */
 
 
-    .modal {
+    /*.modal {
       position: fixed;
       top: 0;
       right: 0;
@@ -35,10 +35,10 @@
     }
 
     .modal-content {
-      /*
+      !*
       height: auto;
       min-height: 100%;
-      */
+      *!
       position: absolute;
       top: 0;
       right: 0;
@@ -96,7 +96,7 @@
     ::-webkit-scrollbar-thumb {
       background: darken(#f1f3f5, 20%);
     }
-
+*/
 
   </style>
 </head>
@@ -170,7 +170,7 @@
 
                 <div class="col-sm-10">
                   <g:select id="module" required="" class="form-control" name="module.id" from="${Module.list()}" optionValue="${{ module -> "${module.label ? module.label : module.title}" }}"
-                            optionKey="id" noSelection="${['': 'Select a module']}" onchange="moduleChange(this.value);"/>
+                            optionKey="id" noSelection="${['': 'Select a Pipeline']}" onchange="moduleChange(this.value);"/>
                 </div>
               </div>
 
@@ -212,7 +212,7 @@
                     data: _data,
                     success: function (data) {
                       $("#modParams").html(data.modParams);
-                      // $('#infoBoxModal').hide();
+                      $('#infoBoxModal').hide();
                       // $('#aux20').hide();
                     },
                     error: function (request, status, error) {
