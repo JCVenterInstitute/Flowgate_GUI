@@ -326,9 +326,10 @@
     }
   } );
 
+  var analysisTable;
   $(document).ready(function () {
 
-    $("#analysis-table").DataTable({
+    analysisTable = $("#analysis-table").DataTable({
       "columnDefs": [
         { "type": "date-euro", targets: 2 }
       ],
