@@ -1,5 +1,5 @@
 <script>
-  var intrvalTmr = setInterval(checkTimer, 3000);
+  //var intrvalTmr = setInterval(checkTimer, 3000);
 
   function checkTimer() {
     if ($('.modal.in').length <= 0) {
@@ -43,6 +43,7 @@
           });
 
           analysisTable.page(pageNumber).draw('page');
+          setCurrentTime();
         },
         error: function (request, status, error) {
           console.log("E: in checkDbStatus! something went wrong!!!")
