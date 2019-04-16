@@ -177,17 +177,30 @@ class UtilsService {
         }
     }
 
-    def getProjectListForUser(User user, Map paginateParams) {
+    def getProjectListForUser(User user, Map paginateParams, Boolean showInactive) {
+
         if(user.username.equals("admin"))
-            return Project.findAllByIsActive(true, [params: paginateParams])
+            if(showInactive)
+              return Project.findAll([params: paginateParams])
+            else
+              return Project.findAllByIsActive(true, [params: paginateParams])
         else {
-            def projectUserList = ProjectUser.findAllByUser(user, [params: paginateParams]);
+            def projectUserList = ProjectUser.findAllByUser(user, [params: paginateParams])
             List<Project> projectList = new ArrayList<Project>(projectUserList.size())
             for (def projectUser : projectUserList) {
                 projectList.add(projectUser.project)
             }
 
             return projectList
+        }
+    }
+
+    List<Experiment> getExperimentListForProject(Project project, Boolean showInactive){
+        if(showInactive){
+            return Experiment.findAllByProject(project)
+        }
+        else {
+            return Experiment.findAllByProjectAndIsActive(project, true)
         }
     }
 

@@ -36,13 +36,18 @@
 
 <div class="container">
   <h1 class="page-header">Projects
-    <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectCreate">
       <div class="pull-right">
-        <a class="btn btn-primary create" href="${createLink(controller: 'project', action: 'create')}">
-          <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Create Project
-        </a>
+        <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_ProjectShowActive">
+          <span style="font-size: x-small">
+            <g:checkBox name="showInactive" value="${session?.showInactive ? true : false}" onclick="document.location=\'${createLink( controller:'project',  action:'toggleShowinctive')}\'" />&nbsp;Show Inactive&nbsp;&nbsp;
+          </span>
+        </sec:ifAnyGranted>
+        <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectCreate">
+          <a class="btn btn-primary create" href="${createLink(controller: 'project', action: 'create')}">
+            <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Create Project
+          </a>
+        </sec:ifAnyGranted>
       </div>
-    </sec:ifAnyGranted>
   </h1>
 
   <div id="pageContent">
