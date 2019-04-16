@@ -22,7 +22,7 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
       return [registerCommand: registerCommand]
     }
 
-    /* */
+    /*
     def user = uiPropertiesStrategy.setProperties(
         email: registerCommand.email, username: registerCommand.username, affiliation: registerCommand.affiliation,
         reason: registerCommand.reason, accountLocked: true, enabled: true, User, null)
@@ -37,7 +37,7 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
     }
 
     sendVerifyRegistrationMail registrationCode, user, registerCommand.email
-    /* */
+     */
 
     sendAlphaAccessRequest registerCommand
 
