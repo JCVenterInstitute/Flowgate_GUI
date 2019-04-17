@@ -20,7 +20,7 @@ class ProjectController {
     def axToggleView(){
         session?.projCardView = !session?.projCardView ?: false
         User user = springSecurityService.currentUser
-        def projectList = utilsService.getProjectListForUser(user, params)
+        def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
         if(session?.projCardView){
             render (contentType:"text/json"){
                 success true
@@ -58,7 +58,7 @@ class ProjectController {
         def project = Project.findByIdAndIsActive(session?.projectOpenId?.toLong(), true)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(project, true)
         User user = springSecurityService.currentUser
-        def projectList = utilsService.getProjectListForUser(user, params)
+        def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
         def searchLst =  projectList.findAll{it.title.toLowerCase().contains(params?.filterString.toLowerCase()) || it.description.toLowerCase().contains(params?.filterString.toLowerCase())}
         /*if(params?.filterString != ''){
             session.filterString = params?.filterString
@@ -83,7 +83,7 @@ class ProjectController {
         def project = Project.findByIdAndIsActive(session?.projectOpenId?.toLong(), true)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(project, true)
         User user = springSecurityService.currentUser
-        def projectList = utilsService.getProjectListForUser(user, params)
+        def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
         def searchLst = []
 //        projectList.findAll{it.title.contains(params?.filterString) ? searchLst.push(it.id) : '' }
         params.filterString = ''
@@ -109,7 +109,7 @@ class ProjectController {
         def project = Project.findByIdAndIsActive(session?.projectOpenId?.toLong(), true)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(project, true)
         User user = springSecurityService.currentUser
-        def projectList = utilsService.getProjectListForUser(user, params)
+        def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
         def searchLst = []
         projectList.findAll{it.title.contains(params?.filterString) ? searchLst.push(it.id) : '' }
         if(params?.filterString != ''){
@@ -127,7 +127,7 @@ class ProjectController {
         def project = Project.findByIdAndIsActive(session?.projectOpenId?.toLong(), true)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(project, true)
         User user = springSecurityService.currentUser
-        def projectList = utilsService.getProjectListForUser(user, params)
+        def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
         def searchLst = []
 //        projectList.findAll{it.title.contains(params?.filterString) ? searchLst.push(it.id) : '' }
         params.filterString = ''
@@ -145,7 +145,7 @@ class ProjectController {
         Project openProject = Project.findByIdAndIsActive(session.projectOpenId?.toLong(), true)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(openProject, true)
         User user = springSecurityService.currentUser
-        def projectList = utilsService.getProjectListForUser(user, params)
+        def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
         render (contentType:"text/json"){
             success true
             contentTree "${g.render(template: '/shared/treeView', model: [projectList: projectList, experimentList: experimentList])}"
@@ -158,7 +158,7 @@ class ProjectController {
         Project sourceProject = Project.findByIdAndIsActive(params.projId.toLong(), true)
         utilsService.clone('project', sourceProject, null, true, '-clone')
         User user = springSecurityService.currentUser
-        def projectList = utilsService.getProjectListForUser(user, params)
+        def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(sourceProject, true)
         render (contentType:"text/json"){
             success true
@@ -187,10 +187,20 @@ class ProjectController {
         User user = springSecurityService.currentUser
         if(params?.pId)
             session.projectOpenId = params?.pId
-        Project openProject = Project.findByIdAndIsActive(session.projectOpenId, true)
-        ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params)
-        ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(openProject, true)
+        Project openProject
+        if(session?.showInactive)
+            openProject = Project.findById(session.projectOpenId)
+        else
+            openProject = Project.findByIdAndIsActive(session.projectOpenId, true)
+        ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
+        ArrayList<Experiment> experimentList = utilsService.getExperimentListForProject(openProject, session?.showInactive ?: false)
         respond projectList, model:[project: openProject, projectCount: projectList.size(), experimentList: experimentList]
+    }
+
+    def toggleShowinctive(){
+        println "this.checked = ${params.checked}"
+        session?.showInactive = !session?.showInactive ?: false
+        redirect action: 'list'
     }
 
 //    @Secured(['ROLE_Admin','ROLE_User','ROLE_NewUser','ROLE_Guest','IS_AUTHENTICATED_ANONYMOUSLY', 'ROLE_ANONYMOUS','permitAll'])
@@ -198,8 +208,7 @@ class ProjectController {
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         User user = springSecurityService.currentUser
-
-        def projectList = utilsService.getProjectListForUser(user, params)
+        def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
 
         respond projectList, model: [projectCount: projectList.size()]
     }
@@ -210,7 +219,7 @@ class ProjectController {
 
     def create() {
         User user = springSecurityService.currentUser
-        def projectList = utilsService.getProjectListForUser(user, params)
+        def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
         Project project = new Project(params)
         respond project, model: [projectList: projectList, projectCount: projectList.size(), experimentList:[] ]
     }
@@ -225,7 +234,7 @@ class ProjectController {
         }
         if (project.hasErrors()) {
             //transactionStatus.setRollbackOnly()
-            def projectList = utilsService.getProjectListForUser(owner, params)
+            def projectList = utilsService.getProjectListForUser(owner, params, session?.showInactive ?: false)
             respond project.errors, view:'create', model: [projectList: projectList, projectCount: projectList.size(), experimentList:[] ]
             return
         }
@@ -242,7 +251,7 @@ class ProjectController {
 
     def edit(Project project) {
         User user = springSecurityService.currentUser
-        def projectList = utilsService.getProjectListForUser(user, params)
+        def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
         respond project, model: [projectList: projectList]
     }
 
