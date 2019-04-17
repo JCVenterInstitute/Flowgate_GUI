@@ -216,7 +216,8 @@
       <a class="noLinkBlack text-center" style="background-color: transparent" href="${g.createLink(controller: 'analysis', action: 'create', params: [eId: params?.eId])}">
         <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbspNew Analysis</button>
       </a>
-      <button class="btn btn-info" onclick="checkTimer()"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Update task status</button> <label style="margin-left: 5px" id="lastUpdatedTime"></label>
+      <button id="updateStatusBtn" class="btn btn-info" onclick="updateStatus()" <g:if test="${jobList == null || jobList.size() == 0}">disabled</g:if> />
+      <span class="glyphicon glyphicon-refresh"></span>&nbsp;Update task status</button> <label style="margin-left: 5px" id="lastUpdatedTime"></label>
       <sec:ifAnyGranted roles="ROLE_Tester,ROLE_Acs">
         <a class="noLinkBlack text-center" style="background-color: transparent" href="${g.createLink(controller: 'analysis', action: 'heatM')}">
           <button class="btn btn-default">GenePattern Heatmap</button>
@@ -335,6 +336,8 @@
     var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    seconds = seconds < 10 ? '0'+seconds : seconds;
 
     $("#lastUpdatedTime").text("Last updated on " + hours + ":" + minutes + ":" + seconds + " " + ampm);
   }

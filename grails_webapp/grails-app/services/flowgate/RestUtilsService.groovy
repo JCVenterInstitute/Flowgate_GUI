@@ -1,6 +1,5 @@
 package flowgate
 
-import grails.http.client.*
 import grails.plugins.rest.client.RestBuilder
 
 import grails.plugins.rest.client.RestResponse
@@ -214,9 +213,13 @@ class RestUtilsService {
   }
 
   def jobResult(Analysis analysis) {
+    jobResult(analysis, false)
+  }
+
+  def jobResult(Analysis analysis, boolean onlyStatus) {
     RestBuilder rest = new RestBuilder()
     RestResponse resp
-    String serverApiUrl = analysis.module.server.url + "/gp/rest/v1/jobs/${analysis.jobNumber.toString()}"
+    String serverApiUrl = analysis.module.server.url + "/gp/rest/v1/jobs/${analysis.jobNumber.toString()}" + (onlyStatus ? "/status.json" : "")
     try {
       resp = rest.get(serverApiUrl) {
         contentType "application/json"
@@ -231,12 +234,12 @@ class RestUtilsService {
   }
 
   Boolean isComplete(Analysis analysis) {
-    Boolean dummy = jobResult(analysis).status.isFinished
+    Boolean dummy = jobResult(analysis, true).isFinished
     dummy
   }
 
   Boolean isPending(Analysis analysis) {
-    jobResult(analysis).status.isPending
+    jobResult(analysis, true).isPending
   }
 
 }

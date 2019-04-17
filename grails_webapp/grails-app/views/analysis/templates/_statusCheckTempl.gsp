@@ -1,52 +1,35 @@
 <script>
-  //var intrvalTmr = setInterval(checkTimer, 3000);
-
-  function checkTimer() {
+  function updateStatus() {
     if ($('.modal.in').length <= 0) {
       $.ajax({
-        url: "${createLink(controller: 'analysis', action: 'checkStatus')}",
+        url: "${createLink(controller: 'analysis', action: 'updateStatus')}",
         dataType: "json",
         type: "get",
         global: false,
         data: {"eId": ${params?.eId}, "jobs": JSON.stringify(${jobList})},
         success: function (data) {
-          console.log("status update");
-        },
-        error: function (request, status, error) {
-          console.log("E: in checkStatus! something went wrong!!!")
-        },
-        complete: function () {
-          console.log('ajax completed');
-        }
-      });
-
-      $.ajax({
-        url: "${createLink(controller: 'analysis', action: 'checkDbStatus')}",
-        dataType: "json",
-        type: "get",
-        global: false,
-        data: {"eId": ${params?.eId}, "jobs": JSON.stringify(${jobList})},
-        success: function (data) {
-          if (data.updChkStatus == "clear") {
-            console.log('do reset');
-//                    window.clearInterval(intrvalTmr);
-            clearInterval(intrvalTmr);
+          var disableUpdate = true;
+          for(var key in data.status) {
+            var result = data.status[key]
+            if(result != 2) {
+              var $html = $.parseHTML(result);
+              var row = analysisTable.row('#job'+key);
+              var rData = row.data();
+              var tds = $($html[0]).find("td")
+              rData[0] = tds.eq(0).html();
+              rData[1] = tds.eq(1).html();
+              rData[2] = tds.eq(2).html();
+              rData[3] = tds.eq(3).html();
+              rData[4] = tds.eq(4).html();
+              row.data(rData).invalidate();
+            } else {
+              disableUpdate = false;
+            }
           }
-          var pageNumber = analysisTable.page();
-          $("#analysisListTabl").html(data.tablTempl);
-
-          analysisTable = $("#analysis-table").DataTable({
-            "columnDefs": [
-              {"type": "date-euro", targets: 2}
-            ],
-            "order": [[2, "desc"]]
-          });
-
-          analysisTable.page(pageNumber).draw('page');
-          setCurrentTime();
+          if(disableUpdate) $("#updateStatusBtn").attr("disabled", true);
         },
         error: function (request, status, error) {
-          console.log("E: in checkDbStatus! something went wrong!!!")
+          console.log("E: in updateStatus!")
         },
         complete: function () {
           console.log('ajax completed');

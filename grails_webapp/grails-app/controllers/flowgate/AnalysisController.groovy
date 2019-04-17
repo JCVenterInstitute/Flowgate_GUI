@@ -8,7 +8,6 @@ import org.grails.core.io.ResourceLocator
 
 import java.util.zip.ZipOutputStream
 import java.util.zip.ZipEntry
-import java.nio.channels.FileChannel
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 
@@ -66,13 +65,16 @@ class AnalysisController {
         Experiment experiment = Experiment.findById(params.eId)
         if(SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")){
             analysisList = Analysis.findAllByExperiment(experiment, params)
-            jobList = Analysis.findAllByExperimentAndAnalysisStatusNotInList(experiment, [3])*.jobNumber
+            for(Analysis analysis : analysisList)
+                if(analysis.analysisStatus == 2) fetchStatus(analysis)
+            jobList = Analysis.findAllByExperimentAndAnalysisStatusNotInList(experiment, [3, -1])*.jobNumber
         }
         else {
             analysisList = Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, currentUser, [-2], params)
-            jobList = Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment,currentUser, [3,-2])*.jobNumber
+            for(Analysis analysis : analysisList)
+                if(analysis.analysisStatus == 2) fetchStatus(analysis)
+            jobList = Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment,currentUser, [3,-2, -1])*.jobNumber
         }
-//        def renderResultLst = jobList.each{ }
         respond analysisList, model:[analysisCount: analysisList.size(), eId: params?.eId, jobList: jobList, experiment: experiment]
     }
 
@@ -288,50 +290,29 @@ class AnalysisController {
         respond analysis, model: [eId: params.eId, experiment: experiment, dsCount: dsList.size()]
     }
 
-    def checkStatus(){
-        def jobsList = JSON.parse(params?.jobs)
-        Boolean pCheckNeeded = utilsService.periodicCheckNeeded(jobsList)
-        if(pCheckNeeded){
-            jobsList.each {
-                Integer jobNumber = it.toInteger()
-                Analysis analysis = Analysis.findByJobNumber(jobNumber)
-                if(jobNumber > 0){
-                    Boolean completed = restUtilsService.isComplete(analysis)
-                    analysis.analysisStatus = jobNumber > 0 ? completed ? 3 : 2 : jobNumber
-                    analysis.save flush: true
-                }
+    def updateStatus() {
+        def jobList = JSON.parse(params?.jobs)
+        def statusMap = [:]
+        jobList.each {
+            Integer jobNumber = it.toInteger()
+            Analysis analysis = Analysis.findByJobNumber(jobNumber)
+            if(jobNumber > 0){
+                boolean completed = fetchStatus(analysis)
+
+                statusMap[it] = completed ? "${g.render(template:'templates/analysisListRow', model: [bean: analysis])}" : 2
             }
         }
-//        TODO report errors!
         render(contentType: 'text/json') {
-            success true
+            status statusMap
         }
     }
 
-    def checkDbStatus(){ //refresh dataTable
-//        TODO move to service
-        def currentUser = springSecurityService.currentUser
-        def analysisList
-        def jobList
-        Experiment experiment = Experiment.findById(params.eId)
-        if(SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")){
-            analysisList = Analysis.findAllByExperiment(experiment, params)
-            jobList = Analysis.findAllByExperimentAndAnalysisStatusNotInList(experiment, [3])*.jobNumber
-        }
-        else {
-            analysisList = Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, currentUser, [-2], params)
-            jobList = Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment,currentUser, [3,-2])*.jobNumber
-        }
-        String updChkStr = ""
-//        TODO clear also if no jobs with positiv jobNo
-        if(!utilsService.periodicCheckNeeded(jobList)){
-            updChkStr = "clear"
-        }
-        render(contentType: 'text/json') {
-            success true
-            updChkStatus updChkStr
-            tablTempl "${g.render(template:'templates/analysisListTbl', model: [analysisList: analysisList, analysisCount: analysisList.size(), jobList: jobList])}"
-        }
+    def fetchStatus(Analysis analysis) {
+        boolean completed = restUtilsService.isComplete(analysis)
+        analysis.analysisStatus = analysis.jobNumber > 0 ? completed ? 3 : 2 : analysis.jobNumber
+        analysis.save flush: true
+
+        return completed
     }
 
     @Transactional
