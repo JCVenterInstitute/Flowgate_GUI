@@ -454,7 +454,7 @@ class ExpFileController {
         Experiment experiment = Experiment.findByIdAndIsActive(params?.eId?.toLong(), true)
         if(experiment) {
             User user = springSecurityService.currentUser
-            ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params)
+            ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
             ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(experiment?.project, true)
             respond Experiment.get(params?.eId), model: [owner: springSecurityService.currentUser, eId: params?.eId, projectList: projectList, experimentList: experimentList]
         } else {

@@ -234,7 +234,7 @@ class ProjectController {
         }
         if (project.hasErrors()) {
             //transactionStatus.setRollbackOnly()
-            def projectList = utilsService.getProjectListForUser(owner, params, session?.showInactive)
+            def projectList = utilsService.getProjectListForUser(owner, params, session?.showInactive ?: false)
             respond project.errors, view:'create', model: [projectList: projectList, projectCount: projectList.size(), experimentList:[] ]
             return
         }
@@ -251,7 +251,7 @@ class ProjectController {
 
     def edit(Project project) {
         User user = springSecurityService.currentUser
-        def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive)
+        def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
         respond project, model: [projectList: projectList]
     }
 

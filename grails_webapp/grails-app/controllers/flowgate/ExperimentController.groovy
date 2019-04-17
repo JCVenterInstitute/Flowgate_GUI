@@ -143,7 +143,7 @@ class ExperimentController {
 //            experiment.save(failOnSafe: true, flush: true)
             ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(experiment?.project, true)
             User user = springSecurityService.currentUser
-            ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params)
+            ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
             params.max = Math.min(max ?: 10, 100)
             request.withFormat {
                 'html' { render view: 'index', model: [project: experiment?.project, projectList: projectList, experiment: experiment, experimentList: experimentList]   }
@@ -179,7 +179,7 @@ class ExperimentController {
 
     def create() {
         User user = springSecurityService.currentUser
-        ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params)
+        ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(Project.get(params?.pId?.toLong()), true)
         respond new Experiment(params), model: [owner: springSecurityService.currentUser, projectList: projectList, pId: params?.pId, experimentList: experimentList]
     }
@@ -195,7 +195,7 @@ class ExperimentController {
         }
         if (experiment.hasErrors()) {
             //transactionStatus.setRollbackOnly()
-            ArrayList<Project> projectList = utilsService.getProjectListForUser(springSecurityService.currentUser, params)
+            ArrayList<Project> projectList = utilsService.getProjectListForUser(springSecurityService.currentUser, params, session?.showInactive ?: false)
             ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(Project.get(params?.pId?.toLong()), true)
             respond experiment.errors, view:'create', model: [projectList: projectList, pId: params?.pId, experimentList: experimentList]
             return
@@ -215,7 +215,7 @@ class ExperimentController {
     }
 
     def edit(Experiment experiment) {
-        ArrayList<Project> projectList = utilsService.getProjectListForUser(springSecurityService.currentUser, params)
+        ArrayList<Project> projectList = utilsService.getProjectListForUser(springSecurityService.currentUser, params, session?.showInactive ?: false)
         ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(experiment?.project, true)
         respond experiment, model: [projectList: projectList, experimentList: experimentList]
     }
@@ -230,7 +230,7 @@ class ExperimentController {
         if (experiment.hasErrors()) {
             //transactionStatus.setRollbackOnly()
             ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(experiment?.project, true)
-            ArrayList<Project> projectList = utilsService.getProjectListForUser(springSecurityService.currentUser, params)
+            ArrayList<Project> projectList = utilsService.getProjectListForUser(springSecurityService.currentUser, params, session?.showInactive ?: false)
             experiment.title = experiment.getPersistentValue("title")
             respond experiment.errors, view: 'edit', model: [projectList: projectList, experimentList: experimentList]
             return
