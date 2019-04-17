@@ -64,7 +64,7 @@
         <div>
           <s2ui:linkButton elementId='register' controller='register' messageCode='spring.security.ui.login.register'/> or <g:link controller="register" action="forgotPassword"><g:message code="spring.security.ui.login.forgotPw" default="Reset password"/></g:link>
         </div>
-        <p class="mt-5 mb-3 text-muted">FlowGate &copy; 2018 | <g:link uri="/about" ><g:message code="about.link.label" default="About" /></g:link> | <g:link uri="mailto:${grailsApplication.config.adminEmailAddr}" >Contact Us</g:link></p>
+        <p class="mt-5 mb-3 text-muted">FlowGate &copy; 2019 | <g:link uri="/about" ><g:message code="about.link.label" default="About" /></g:link> | <g:link uri="mailto:${grailsApplication.config.adminEmailAddr}" >Contact Us</g:link></p>
       </s2ui:form>
     </div>
   </div>
