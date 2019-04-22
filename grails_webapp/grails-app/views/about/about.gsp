@@ -14,7 +14,7 @@
 
   <p><img class="img-fluid" style="height:500px;display: block;margin: auto;" src="${assetPath(src: 'flowgate_architecture.png')}"></p>
 
-  <p>Design of the FlowGate architecture consists of a front-end user interface, a middle-tier management of data processing and analysis pipelines, and a back-end parallel computing environment. The back-end infrastructure is built upon a large cluster computer at San Diego Supercomputer Center - Comet, which has 1,944 compute nodes with 24 cores/28G DRAM/320G SSD memory on each node. Managed by the GenePattern (GP) platform, computational modules and pipelines on FlowGate can be easily expanded, with data/analysis provenance and software versioning. A GP Notebook environment, leveraging the Jupyter Notebook platform, is implemented in FlowGate to support interactive analytics, which is integrated with the front-end Java applications for customizable generation and download of data analysis results. Result visualization (e.g., 2D dot plots, 3D rotation, and t-SNE map) and statistical tables are included in a single HTML page for both on-line browsing and off-line sharing. Singularity/Docker containers are used to disseminate FlowGate software components for deployment on different computing platforms. Compared with other flow data analysis tools or platforms, the main features of FlowGate include:</p>
+  <p>Design of the FlowGate architecture consists of a front-end user interface, a middle-tier management of data processing and analysis pipelines, and a back-end parallel computing environment. The back-end infrastructure is built upon a large cluster computer at San Diego Supercomputer Center - Comet, which has 1,944 compute nodes with 24 cores/28G DRAM/320G SSD memory on each node. Managed by the GenePattern (GP) platform, computational modules and pipelines on FlowGate can be easily expanded, with data/analysis provenance and software versioning. A GP Notebook environment, leveraging the Jupyter Notebook platform, is implemented in FlowGate to support interactive analytics, which is integrated with the front-end Java applications for customizable generation and download of data analysis results. Result visualization and statistical tables are included in a single HTML page for both on-line browsing and off-line sharing. Docker/Singularity containers are used to disseminate FlowGate software components for deployment on different computing platforms. Compared with other flow data analysis tools or platforms, the main features of FlowGate include:</p>
 
   <p><ul>
   <li>Extensible and scalable web-based analytics for each access to multiple computational methods and pipelines for reproducible data-driven analytics</li>
@@ -31,9 +31,9 @@
       <ul style="padding-left: 15px;">
         <li>Richard H. Scheuermann (PI)</li>
         <li>Yu “Max” Qian (co-PI)</li>
+        <li>Mehmet Kuscuoglu</li>
         <li>Ivan Chang</li>
         <li>Aishwarya Mandava</li>
-        <li>Mehmet Kuscuoglu</li>
       </ul>
     </div>
 
@@ -71,6 +71,7 @@
       <ul>
         <li>Padhraic Smyth (site PI)</li>
         <li>Disi Ji</li>
+        <li>Preston Putzel</li>
         <li>Eric Nalisnick</li>
       </ul>
       <h5>Department of Pediatrics:</h5>
