@@ -29,8 +29,8 @@
     <div class="col-md-3">
       <h5><b>J. Craig Venter Institute</b></h5>
       <ul style="padding-left: 15px;">
-        <li>Richard H. Scheuermann (PI)</li>
-        <li>Yu “Max” Qian (co-PI)</li>
+        <li>Yu “Max” Qian (PI)</li>
+        <li>Richard H. Scheuermann (co-PI)</li>
         <li>Mehmet Kuscuoglu</li>
         <li>Ivan Chang</li>
         <li>Aishwarya Mandava</li>
