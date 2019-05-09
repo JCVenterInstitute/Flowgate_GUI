@@ -1,14 +1,12 @@
 package flowgate
 
 import grails.converters.JSON
-import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.transaction.Transactional
 import org.genepattern.webservice.Parameter
 import org.grails.core.io.ResourceLocator
 
 import java.util.zip.ZipOutputStream
 import java.util.zip.ZipEntry
-import java.nio.channels.FileChannel
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 
@@ -286,9 +284,8 @@ class AnalysisController {
                 }
             }
         }
-//        TODO report errors!
         render(contentType: 'text/json') {
-            success true
+            status statusMap
         }
     }
     */

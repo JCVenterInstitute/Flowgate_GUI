@@ -241,6 +241,8 @@
     var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    seconds = seconds < 10 ? '0'+seconds : seconds;
 
     $("#lastUpdatedTime").text("Last updated on " + hours + ":" + minutes + ":" + seconds + " " + ampm);
   }
@@ -260,7 +262,6 @@
 
 <script type="text/javascript">
 
-  // $(function() {
   var socket = new SockJS("${createLink(uri: '/stomp')}");
   var client = Stomp.over(socket);
   var interval = null;
@@ -283,7 +284,6 @@
       }
     });
   });
-  // });
 
   function gotStatusChange() {
     clearInterval(interval);
