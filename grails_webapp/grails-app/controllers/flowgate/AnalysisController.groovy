@@ -23,6 +23,7 @@ class AnalysisController {
     def genePatternService
     def restUtilsService
     def utilsService
+    def scheduledTaskService
 
     ResourceLocator grailsResourceLocator
 
@@ -59,22 +60,21 @@ class AnalysisController {
     }
 
     def index(Integer max) {
-        //params.max = Math.min(max ?: 10, 100)
-        def currentUser = springSecurityService.currentUser
-        def analysisList
-        def jobList
         Experiment experiment = Experiment.findById(params.eId)
-        if(SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")){
-            analysisList = Analysis.findAllByExperiment(experiment, params)
-            jobList = Analysis.findAllByExperimentAndAnalysisStatusNotInList(experiment, [3])*.jobNumber
-        }
-        else {
-            analysisList = Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, currentUser, [-2], params)
-            jobList = Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment,currentUser, [3,-2])*.jobNumber
-        }
-//        def renderResultLst = jobList.each{ }
-        respond analysisList, model:[analysisCount: analysisList.size(), eId: params?.eId, jobList: jobList, experiment: experiment]
+        scheduledTaskService.jobList = utilsService.getUnfinishedJobsListOfUser(experiment)
+        def analysisList = utilsService.getAnalysisListByUser(experiment, params)
+        respond analysisList, model: [analysisCount: analysisList.size(), eId: params?.eId, experiment: experiment]
     }
+
+    /*
+    // deprecated: used to update the table row when status gets changed
+    def renderJobRow() {
+        Integer jobNo = params?.jobNo?.toInteger()
+        Analysis bean = Analysis.findByJobNumber(jobNo)
+        println "in renderJobRow ${jobNo} bn_status: ${bean.analysisStatus}"
+        render(contentType:"text/json", [success: true, tablRow: "${g.render( template: 'templates/analysisListTablRow', model: [bean: bean] )}" ] as JSON)
+    }
+    */
 
     def show(Analysis analysis) {
         respond analysis
@@ -244,23 +244,6 @@ class AnalysisController {
         }
     }
 
-//    TODO remove! was just for testing purpose only
-    def d3demo(){ }
-
-//    TODO remove! was just for testing purpose only
-    def d3data() {
-        def jFile = new File('/Users/acs/Sources/Flowgate_GUI/grails_webapp/grails-app/assets/files/af700_cd3__pe_cd56_wPop_small.json')
-        def jFile2 = new File('/Users/acs/Sources/Flowgate_GUI/grails_webapp/grails-app/assets/files/af700_cd3__pe_cd56_wPop9_reduced.json')
-        String jsonTxt = jFile.text
-        String jsonTxt2 = jFile2.text
-        render(contentType: 'text/json') {
-            success true
-            jsonFile jsonTxt
-            jsonFile2 jsonTxt2
-        }
-    }
-
-
     def getImage(){
         def path = params.filepath
         //returns an image to display
@@ -288,6 +271,7 @@ class AnalysisController {
         respond analysis, model: [eId: params.eId, experiment: experiment, dsCount: dsList.size()]
     }
 
+    /*
     def checkStatus(){
         def jobsList = JSON.parse(params?.jobs)
         Boolean pCheckNeeded = utilsService.periodicCheckNeeded(jobsList)
@@ -307,7 +291,9 @@ class AnalysisController {
             success true
         }
     }
+    */
 
+    /*
     def checkDbStatus(){ //refresh dataTable
 //        TODO move to service
         def currentUser = springSecurityService.currentUser
@@ -333,6 +319,7 @@ class AnalysisController {
             tablTempl "${g.render(template:'templates/analysisListTbl', model: [analysisList: analysisList, analysisCount: analysisList.size(), jobList: jobList])}"
         }
     }
+    */
 
     @Transactional
     def save(Analysis analysis) {

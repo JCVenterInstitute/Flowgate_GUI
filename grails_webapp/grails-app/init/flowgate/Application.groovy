@@ -2,7 +2,7 @@ package flowgate
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
-//import org.springframework.scheduling.annotation.EnableScheduling
+import org.springframework.scheduling.annotation.EnableScheduling
 //import grails.io.IOUtils
 
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean
@@ -17,7 +17,7 @@ import org.springframework.core.io.Resource
 
 
 //TODO uncomment this for execution of scheduledTask in ScheduledTaskService
-//@EnableScheduling
+@EnableScheduling
 //class Application extends GrailsAutoConfiguration {
 class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 

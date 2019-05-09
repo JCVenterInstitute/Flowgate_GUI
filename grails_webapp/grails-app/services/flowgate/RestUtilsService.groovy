@@ -1,8 +1,8 @@
 package flowgate
 
-import grails.http.client.*
+import grails.async.Promise
+//import grails.http.client.*
 import grails.plugins.rest.client.RestBuilder
-
 import grails.plugins.rest.client.RestResponse
 import grails.transaction.Transactional
 import grails.web.servlet.mvc.GrailsParameterMap
@@ -11,9 +11,12 @@ import groovy.json.JsonOutput
 import org.apache.commons.codec.binary.Base64
 import org.grails.web.util.WebUtils
 
-//import grails.async.*
+import grails.async.*
 import static groovyx.net.http.ContentType.BINARY
 import java.io.File
+
+
+import static grails.async.Promises.*
 
 @Transactional
 class RestUtilsService {
@@ -179,6 +182,7 @@ class RestUtilsService {
     paramVars
   }
 
+
   def uploadFileOrDirParams(Module module, File fileOrDirPath, String fName) {
     def ulResult = [:]
     def ulFiles = []
@@ -188,29 +192,32 @@ class RestUtilsService {
         println "Error uploading file!"
         return
       }
-      ulFiles.add(ulResult.location)
+      ulFiles.add( ulResult?.location )
     }
     ulFiles
   }
 
   def doUploadFile(AnalysisServer server, File pathAndFile, String fName) {
     String uploadApiPath = server.url + "/gp/rest/v1/data/upload/job_input?name=${fName}"
-    def response = [:]
-    withRest(uri: uploadApiPath, ignoreSSLIssues: true) {
-      def resp = post(
-          headers: [Authorization: utilsService.authHeader(server.userName, server.userPw)],
-          body: pathAndFile.bytes,
-          requestContentType: BINARY
-      )
-      if (!(resp.responseBase.h.original.code >= 201 && resp.responseBase.h.original.code < 300)) {
-        println "Error uploading file!"
-        response = [code: resp.responseBase.h.original.code, location: '']
-      }
-      else {
-        response = [code: 200, location: resp.responseData.str]
+    RestBuilder rest = new RestBuilder()
+    RestResponse resp
+    try {
+      resp = rest.post(uploadApiPath){
+        auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
+        contentType "application/octet-stream"
+        body pathAndFile.bytes
       }
     }
-    response
+    catch (all) {
+      println all?.message
+    }
+    if (!(resp?.responseEntity?.statusCodeValue >= 201 && resp?.responseEntity?.statusCodeValue < 300)) {
+      log.error "Error uploading file!"
+      return [code: resp.responseEntity.statusCodeValue, location: '']
+    }
+    else {
+      return [code: 200, location: resp.responseEntity.body]
+    }
   }
 
   def jobResult(Analysis analysis) {
@@ -231,8 +238,7 @@ class RestUtilsService {
   }
 
   Boolean isComplete(Analysis analysis) {
-    Boolean dummy = jobResult(analysis).status.isFinished
-    dummy
+    jobResult(analysis)?.status?.isFinished
   }
 
   Boolean isPending(Analysis analysis) {

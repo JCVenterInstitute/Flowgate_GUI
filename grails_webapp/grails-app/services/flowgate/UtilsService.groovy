@@ -1,6 +1,7 @@
 package flowgate
 
 import grails.converters.JSON
+import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.transaction.Transactional
 import grails.web.servlet.mvc.GrailsParameterMap
 import org.apache.commons.codec.binary.Base64
@@ -10,6 +11,8 @@ import org.grails.web.util.WebUtils
 class UtilsService {
 
     def springSecurityService
+    def restUtilsService
+    def wsService
 
     def getSession(){
         WebUtils.retrieveGrailsWebRequest().getCurrentRequest().session
@@ -150,17 +153,6 @@ class UtilsService {
         return "Basic "+authEncoded(username, password)
     }
 
-    def periodicCheckNeeded(List<Integer> jobList){
-        Boolean result = false
-        if(jobList.size()>0){
-            jobList.each {
-                if(it.toInteger()>0 && Analysis.findByJobNumber(it.toInteger()).analysisStatus!=3){
-                    result = true
-                }
-            }
-        }
-        return result
-    }
 
     def addIdToSession(Long id, String sVar){
         def session = getSession()
@@ -211,7 +203,8 @@ class UtilsService {
         String fcsFileMatchColumn = "FCS File Name"
 //        TODO read from config file
 //        String category = 'Basics'
-        ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrCreateByExperimentAndMdCategory(experiment, 'Basics')
+//        ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrCreateByExperimentAndMdCategory(experiment, 'Basics')
+        ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrSaveByExperimentAndMdCategory(experiment, 'Basics')
 //        TODO handle category
 //        if(fileListMap.keySet.contains('category')){
 //            category =
@@ -220,7 +213,8 @@ class UtilsService {
         metaDataKeys.each{ metadataKey ->
             ExperimentMetadata metaDat = ExperimentMetadata.findByExperimentAndMdCategoryAndMdKey(experiment, category, metadataKey)
             if(!metaDat){
-                metaDat = new ExperimentMetadata(experiment: experiment, mdCategory: category, dispOnFilter: true, visible: true, dispOrder: keyOrder, mdKey: metadataKey).save(flush: true)
+//                metaDat = new ExperimentMetadata(experiment: experiment, mdCategory: category, dispOnFilter: true, visible: true, dispOrder: keyOrder, mdKey: metadataKey).save(flush: true)
+                metaDat = new ExperimentMetadata(experiment: experiment, mdCategory: category, dispOnFilter: true, visible: true, dispOrder: keyOrder, mdKey: metadataKey).save()
             }
             else {
                 metaDat.properties = [dispOnFilter: true, visible: true, dispOrder: keyOrder, mdKey: metadataKey]
@@ -271,23 +265,56 @@ class UtilsService {
         }
     }
 
-    def getLowestUniqueDispOrder(Experiment experiment) {
-        Integer num = 1
-        while (num>0) {
-            if(experiment.expMetadatas.dispOrder.findAll{it == num}.size()!=0) {
-                num++
-            }
-            else return num
-        }
-    }
+   def getLowestUniqueDispOrder(Experiment experiment) {
+     Integer num = 1
+     while (num>0) {
+       if(experiment.expMetadatas.dispOrder.findAll{it == num}.size()!=0) {
+         num++
+       }
+       else return num
+     }
+   }
 
-    boolean containsKeyStartsWith(GrailsParameterMap map, String val) {
-        for (String key : map.keySet()) {
-            if (key.startsWith(val)) {
-                return true;
-            }
-        }
-        return false;
+   boolean containsKeyStartsWith(GrailsParameterMap map, String val) {
+     for (String key : map.keySet()) {
+       if (key.startsWith(val)) {
+         return true
+       }
+     }
+     return false
+   }
+
+   List<Analysis> getAnalysisListByUser(Experiment experiment, params){
+     if(SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")){
+       return Analysis.findAllByExperiment(experiment, params)
+     }
+     else {
+       return Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, springSecurityService.currentUser, [-2], params)
+     }
+   }
+
+  def getUnfinishedJobsListOfUser(Experiment experiment) {
+    if(SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")){
+      return Analysis.findAllByExperimentAndAnalysisStatusNotInList(experiment, [3,-1])*.jobNumber
     }
+    else {
+      return Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, springSecurityService.currentUser, [3,-2,-1])*.jobNumber
+    }
+  }
+
+  def checkJobStatus(def jobLst){
+    jobLst.each { jobId ->
+      Analysis analysis = Analysis.findByJobNumber(jobId.toInteger())
+      if(jobId.toInteger() > 0){
+        Boolean completed = restUtilsService.isComplete(analysis)
+        if(completed){
+          analysis.analysisStatus = jobId.toInteger() > 0 ? completed ? 3 : 2 : jobId.toInteger()
+          analysis.save flush: true
+          wsService.tcMsg(jobId.toString())
+        }
+      }
+    }
+  }
+
 
 }

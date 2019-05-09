@@ -26,6 +26,7 @@
         type: "get",
         global: false,
         data: {"eId": ${params?.eId}, "jobs": JSON.stringify(${jobList})},
+        async: true,
         success: function (data) {
           if (data.updChkStatus == "clear") {
             console.log('do reset');

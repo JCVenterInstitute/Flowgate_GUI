@@ -9,7 +9,7 @@
           <label for="mdCategory" class="col-sm-4 control-label">Attribute Category *</label>
 
           <div class="col-sm-8">
-            <g:select class="form-control" id="mdCategory" name="mdCategory.id" from="${(ExperimentMetadataCategory.findAllByExperiment(experiment))}" optionKey="id"
+            <g:select class="form-control" id="mdCategory" name="mdCategory.id" from="${(ExperimentMetadataCategory.findAllByExperiment(experiment))?:ExperimentMetadataCategory.findOrSaveByExperimentAndMdCategory(experiment, 'Basics')}" optionKey="id"
                       optionValue="mdCategory" value="${category}" required=""/>
           </div>
         </div>
