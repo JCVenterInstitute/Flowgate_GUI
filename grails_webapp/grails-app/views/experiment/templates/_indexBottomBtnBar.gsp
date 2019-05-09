@@ -64,6 +64,48 @@
 
 <div class="row mt-4 mb-4">
   <div class="col-sm-12">
+    <sec:ifAnyGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentEdit">
+      <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'expFileCreate', params: [eId: experiment?.id])}">
+%{--        <div class="pull-right btn btn-primary" style="cursor: pointer">--}%
+        <div class="btn btn-primary" style="cursor: pointer">
+          <i class="fa fa-plus"></i>&nbsp;Add/Upload FCS
+        </div>
+      </a>
+    </sec:ifAnyGranted>
+    <sec:ifNotGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentEdit">
+      <g:if test="${utilsService.isAffil('experiment', experiment?.id)}">
+      %{-- <div class="pull-right btn btn-info" onclick="btnAddExpFileClick(${experiment?.id})"><i class="glyphicon glyphicon-plus"></i> Add/Upload File</div> --}%
+        <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'expFileCreate', params: [eId: experiment?.id])}">
+%{--          <div class="pull-right btn btn-primary" style="cursor: pointer">--}%
+          <div class="btn btn-primary" style="cursor: pointer">
+            <i class="fa fa-plus"></i>&nbsp;Add/Upload FCS
+          </div>
+        </a>
+      </g:if>
+    </sec:ifNotGranted>
+
+
+    %{--<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">--}%
+    <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
+      <span data-toggle="tooltip" title="FCS File Annotation">
+        <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'annotationTbl', id: experiment?.id)}" >
+        <div class="btn btn-default" style="cursor: pointer">
+          <i class="fa fa-adn fa-lg"></i>FCS File Annotation
+        </div>
+      </a>
+      </span>
+    </g:isOwnerOrRoles>
+
+    <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
+      <span data-toggle="tooltip" title="Manage Datasets">
+        <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" >
+          <div class="btn btn-default" style="cursor: pointer">
+            <i class="fa fa-database"></i>Manage Datasets
+          </div>
+        </a>
+      </span>
+    </g:isOwnerOrRoles>
+
   %{-- <g:if test="${experiment?.id == session?.experimentEditModeId?.toLong()}">
        <div class="btn btn-info" onclick="toggleExpEditMode(${experiment?.id})">done</div>
    </g:if>
@@ -90,19 +132,7 @@
       </span>
     </g:isOwnerOrRoles>
 
-
-    %{--<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">--}%
-    <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
-      <span data-toggle="tooltip" title="FCS File Annotation">
-        <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'annotationTbl', id: experiment?.id)}" >
-        <div class="btn btn-default" style="cursor: pointer">
-          <i class="fa fa-adn fa-lg"></i>FCS File Annotation
-        </div>
-      </a>
-      </span>
-    </g:isOwnerOrRoles>
-
-
+    %{--
     <g:if env="development">
       <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
         <span data-toggle="tooltip" title="Manage Datasets orig">
@@ -114,16 +144,8 @@
         </span>
       </g:isOwnerOrRoles>
     </g:if>
+    --}%
 
-    <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
-      <span data-toggle="tooltip" title="Manage Datasets">
-        <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" >
-          <div class="btn btn-default" style="cursor: pointer">
-            <i class="fa fa-database"></i>Manage Datasets
-          </div>
-        </a>
-      </span>
-    </g:isOwnerOrRoles>
 
     <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentEdit,ROLE_ExperimentManageUsers">
       <span data-toggle="tooltip" title="Manage Users">
@@ -133,13 +155,14 @@
         </div>
         --}%
         %{--<div style="cursor: pointer" data-toggle="modal" data-target="#manageExperimentUsersModal-${experiment?.id}">--}%
-        <div style="cursor: pointer" class="btn btn-default " data-toggle="modal" data-target="#manageExperimentUsersModal-${experiment?.id}">
+        <div style="cursor: pointer" class="pull-right btn btn-default " data-toggle="modal" data-target="#manageExperimentUsersModal-${experiment?.id}">
           <i class="fa fa-user"></i>Manage Users
         </div>
         %{--</div>--}%
       </span>
     </g:isOwnerOrRoles>
 
+%{--
     <sec:ifAnyGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentEdit">
       <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'expFileCreate', params: [eId: experiment?.id])}">
         <div class="pull-right btn btn-primary" style="cursor: pointer">
@@ -149,7 +172,9 @@
     </sec:ifAnyGranted>
     <sec:ifNotGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentEdit">
       <g:if test="${utilsService.isAffil('experiment', experiment?.id)}">
-      %{-- <div class="pull-right btn btn-info" onclick="btnAddExpFileClick(${experiment?.id})"><i class="glyphicon glyphicon-plus"></i> Add/Upload File</div> --}%
+      --}%
+%{-- <div class="pull-right btn btn-info" onclick="btnAddExpFileClick(${experiment?.id})"><i class="glyphicon glyphicon-plus"></i> Add/Upload File</div> --}%%{--
+
         <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'expFileCreate', params: [eId: experiment?.id])}">
           <div class="pull-right btn btn-primary" style="cursor: pointer">
             <i class="fa fa-plus"></i>&nbsp;Add/Upload FCS
@@ -157,6 +182,7 @@
         </a>
       </g:if>
     </sec:ifNotGranted>
+--}%
 
   %{--<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentEdit">
   <span data-toggle="tooltip" title="Notifications" >

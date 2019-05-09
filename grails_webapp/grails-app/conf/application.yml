@@ -132,6 +132,9 @@ grails:
                     - pattern: /shutdown
                       access:
                         - 'permitAll'
+                    - pattern: /gp/**
+                      access:
+                        - 'permitAll'
                     - pattern: /assets/**
                       access:
                         - 'permitAll'
@@ -177,6 +180,9 @@ grails:
 #	                    [pattern: '/project/list',	 filters: 'none'],
                     - pattern: /api/**
                       filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter'
+                    - pattern: /gp/**
+                      filters: 'none'
+#                      filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter'
                     - pattern: /**
                       filters: 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'
 
