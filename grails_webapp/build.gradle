@@ -79,6 +79,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.grails:grails-dependencies"
     compile "org.grails:grails-web-boot"
+    compile 'org.grails.plugins:grails-spring-websocket:2.4.1'
 
     compile 'org.jsoup:jsoup:1.7.1'
 

@@ -10,7 +10,9 @@
   </thead>
   <tbody>
   <g:each in="${analysisList}" var="bean" status="i">
-    <g:render template="templates/analysisListRow" model="[bean: bean]"/>
+    <tr id="${bean?.jobNumber}"
+      <g:render template="templates/analysisListTablRow" model="[bean: bean]"  />
+    </tr>
   </g:each>
   </tbody>
 </table>
