@@ -30,7 +30,7 @@ class UserController {
 
     }
 
-    def newUsers() {
+    def list() {
         def newUsers = UserRole.findAllByRole(Role.findByAuthority('ROLE_NewUser')).user
 //        def newUsers = User.list()
         newUsers += UserRole.findAllByRole(Role.findByAuthority('ROLE_User')).user
