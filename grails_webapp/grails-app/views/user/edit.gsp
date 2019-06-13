@@ -7,7 +7,6 @@
 </head>
 
 <body>
-<g:render template="/shared/nav"/>
 <div class="nav" role="navigation"></div>
 <div class="row">
   <div class="col-sm-offset-1 col-sm-10">

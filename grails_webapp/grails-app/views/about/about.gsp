@@ -7,7 +7,6 @@
 
 <body>
 <div class="container">
-  <g:render template="/shared/nav"/>
   <h1 class="my-4">About</h1>
 
   <p>To realize data-driven reproducible cytometry analysis and accelerate the adoption of computational analysis methods by both translational and clinical researchers, the US National Center for Advancing Translational Sciences (NCATS) funded a 5-year project in 2016 to develop a web-based computational infrastructure – FlowGate – to improve the accessibility and usability of the cutting-edge data analytical approaches to cytometry data processing and analysis. The main goals include creating an advanced user interface to support both bioinformaticians and also wet-lab translational and clinical investigators, making an analysis environment that is extensible to new methods and scalable to data size, and providing education and training for the appropriate use of the resulting data analysis pipelines.</p>

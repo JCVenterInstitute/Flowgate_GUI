@@ -7,7 +7,6 @@
 </head>
 
 <body>
-<g:render template="/shared/nav"/>
 <content tag="treeView">
   <div id="projTree">
     <g:render template="/shared/treeView" model="[projectList: projectList, experimentList: experimentList]"/>

@@ -12,7 +12,6 @@
 </head>
 
 <body>
-<g:render template="/shared/nav"/>
 
 %{--
 experiment=${experiment} id=${experiment?.id} ${experiment == null}

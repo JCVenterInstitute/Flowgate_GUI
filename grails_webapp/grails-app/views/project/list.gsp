@@ -7,7 +7,6 @@
 </head>
 
 <body>
-<g:render template="/shared/nav"/>
 <g:render template="/shared/errorsMsgs" model="[bean: this.project]" />
 
 %{--TODO remove after testing, just for testing purpose!!!!--}%

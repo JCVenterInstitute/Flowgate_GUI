@@ -17,7 +17,6 @@
 </head>
 
 <body>
-<g:render template="/shared/nav"/>
 <div class="nav" role="navigation">
 </div>
 %{--

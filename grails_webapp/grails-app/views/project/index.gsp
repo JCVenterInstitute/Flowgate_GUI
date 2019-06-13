@@ -7,7 +7,6 @@
 </head>
 
 <body>
-<g:render template="/shared/nav"/>
 <content tag="topBtnBar">
   <g:if test="${flash.message}">
     <div class="row justify-content-center ">
