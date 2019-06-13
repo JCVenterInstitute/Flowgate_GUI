@@ -29,15 +29,15 @@
           <g:each in="${newUserLst}" var="nu" status="i">
             <tr>
               <td class="text-center">
-                <sec:ifAnyGranted roles="ROLE_Administrator">
+                <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
                 %{--  Show User method  --}%
-                  <g:link method="GET" resource="${nu}">
+                  <g:link method="GET" resource="${nu}" action="edit">
                     <f:display bean="${nu}"
                                property="username"
                                displayStyle="${displayStyle ?: 'table'}"/>
                   </g:link>
                 </sec:ifAnyGranted>
-                <sec:ifNotGranted roles="ROLE_Administrator">
+                <sec:ifNotGranted roles="ROLE_Administrator,ROLE_Admin">
                   <f:display bean="${nu}"
                              property="${'username'}"
                              displayStyle="${displayStyle ?: 'table'}"/>
@@ -49,7 +49,7 @@
                            displayStyle="${displayStyle ?: 'table'}"/>
               </td>
               <td class="text-center">
-                <div id="nu-act-${nu.id}" onclick="activate(${nu.id})"><g:render template="activateField" model="[user: nu]"/></div>
+                <div id="nu-act-${nu.id}" %{--onclick="activate(${nu.id})"--}%><g:render template="activateField" model="[user: nu]"/></div>
               </td>
             </tr>
           </g:each>
