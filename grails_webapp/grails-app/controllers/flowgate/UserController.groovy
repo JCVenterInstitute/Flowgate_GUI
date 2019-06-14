@@ -61,8 +61,6 @@ class UserController {
         String newPass = params?.newpass
         String confirmPass = params?.confirmpass
 
-        String userPass = user.password
-
         if(!newPass.equals(confirmPass)) {
             flash.passError = "Confirm Password does not match!"
         } else if(!customUserDetailsService.isValidOldPassword(oldPass, user.password)) {
