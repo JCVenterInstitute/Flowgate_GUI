@@ -47,6 +47,15 @@ class CustomUserDetailsService extends GormUserDetailsService{
         }
     }
 
+    def createUser(User user) {
+        try {
+            user.save flush:true
+            activateUser(user, user.enabled)
+        } catch (Exception e) {
+            ex.printStackTrace();
+        }
+    }
+
     def activateUser(User user, boolean activate) {
         if(activate) {
             UserRole.remove user, Role.findByAuthority('ROLE_NewUser')

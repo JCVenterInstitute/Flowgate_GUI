@@ -6,7 +6,6 @@ import grails.transaction.Transactional
 @Secured(['ROLE_Admin','ROLE_Administrator'])
 class UserController {
 
-    def springSecurityService
     def customUserDetailsService
 
     def axActivateUser(){
@@ -35,6 +34,29 @@ class UserController {
 
     def index() {
         respond User.list(), model:[userCount: User.count()]
+    }
+
+    def create() {
+        respond new User(params)
+    }
+
+    def save(User user) {
+        if (user == null) {
+            notFound()
+            return
+        }
+
+        if (user.hasErrors()) {
+            //transactionStatus.setRollbackOnly()
+            respond user.errors, view:'create', model:[user: user]
+            return
+        }
+
+        customUserDetailsService.createUser(user)
+
+        flash.message = "User " + user.username + " created!"
+
+        redirect action: 'list'
     }
 
     def edit() {

@@ -13,9 +13,7 @@
     <div class="row">
       <div class="col-sm-offset-1 col-sm-10">
         <h1 class="page-header"><g:message code="default.list.label" args="[entityName]"/></h1>
-        <g:if test="${flash.message}">
-          <div class="message" role="status">${flash.message}</div>
-        </g:if>
+        <g:link class="btn btn-primary" style="margin-bottom: 10px;" action="create">New User</g:link>
         <table class="table table-bordered table-responsive table-striped table-hover dataTable">
           <thead>
           <tr>
