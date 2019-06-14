@@ -9,6 +9,7 @@ class AnalysisServer {
     String userPw
 
     static constraints = {
-        userPw nullable: true, blank: true
+        userPw type: EncryptedString, nullable: true, blank: true
+        user nullable: true, blank: true
     }
 }
