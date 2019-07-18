@@ -16,11 +16,11 @@
     <g:hiddenField name="version" value="${this.experiment?.version}"/>
     <div class="form-group">
       <label for="title">Title *</label>
-      <input type="text" class="form-control" id="title" name="title" placeholder="Title" required value="${experiment.title}">
+      <textarea class="form-control" id="title" name="title" placeholder="Title" rows="5" required>${experiment.title}</textarea>
     </div>
     <div class="form-group">
       <label for="description">Description *</label>
-      <input type="text" class="form-control" id="description" name="description" placeholder="Description" required value="${experiment.description}">
+      <textarea class="form-control" id="description" name="description" placeholder="Description" rows="10" required>${experiment.description}</textarea>
     </div>
     <div class="form-group">
       <label for="experimentMeta">Experiment Meta</label>

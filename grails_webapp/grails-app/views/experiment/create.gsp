@@ -7,7 +7,6 @@
 </head>
 
 <body>
-<g:render template="/shared/nav"/>
 <content tag="topBtnBar">
   <div id="topBtnBar" class="row">
     %{--

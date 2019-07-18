@@ -209,7 +209,6 @@ class ProjectController {
         params.max = Math.min(max ?: 10, 100)
         User user = springSecurityService.currentUser
         def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
-
         respond projectList, model: [projectCount: projectList.size()]
     }
 

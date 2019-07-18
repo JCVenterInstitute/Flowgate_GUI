@@ -4,7 +4,7 @@ class UrlMappings {
 
   static mappings = {
     "/register/index"(controller: 'register', action: 'register')
-    "/user/newUsers"(controller: 'user', action: 'newUsers')
+    "/user/list"(controller: 'user', action: 'list')
     "/login/$action?"(controller: "login")
     "/api/login"(controller: "login")
     "/logout/$action?"(controller: "logout")

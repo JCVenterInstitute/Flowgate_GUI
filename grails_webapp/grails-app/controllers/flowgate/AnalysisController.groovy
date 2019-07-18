@@ -1,6 +1,7 @@
 package flowgate
 
 import grails.converters.JSON
+import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
 import org.genepattern.webservice.Parameter
 import org.grails.core.io.ResourceLocator
@@ -13,6 +14,7 @@ import javax.imageio.ImageIO
 import static org.springframework.http.HttpStatus.*
 
 //@Transactional(readOnly = true)
+@Secured(['isAuthenticated()'])
 class AnalysisController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", axSelectAllFcs: "GET", axUnselectAllFcs: "GET", d3data: "GET", del: ["DELETE","GET"]]

@@ -17,7 +17,6 @@
     %{--</ul>--}%
   </div>
 </sec:ifAnyGranted>
-<g:render template="/shared/nav"/>
 <div id="list-user" class="content scaffold-list" role="main">
   <h1 class="text-center"><g:message code="default.list.label" args="[entityName]"/></h1>
   <g:if test="${flash.message}">

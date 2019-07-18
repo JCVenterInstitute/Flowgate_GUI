@@ -12,7 +12,6 @@
 </head>
 
 <body>
-<g:render template="/shared/nav"/>
 
 %{--
 experiment=${experiment} id=${experiment?.id} ${experiment == null}
@@ -22,13 +21,6 @@ project=${experiment?.project}
 <g:if test="${experiment}">
   <div class="container">
     <h4>${experiment?.title} - Annotation</h4>
-%{--<content tag="topBtnBar">--}%
-%{--<div id="topBtnBar">--}%
-%{--<g:render template="templates/indexTopBtnBar" model="[project: this.project]" />--}%
-%{--</div>--}%
-%{--<g:render template="/shared/errorsMsgs" model="[bean: this.project]" />--}%
-%{--</content>--}%
-%{--TODO use layout file--}%
   <g:form controller="expFile" action="doAnnotate" params="[experiment1: experiment]" id="${experiment.id}">
     <g:hiddenField name="expId" value="${experiment?.id}"/>
     <g:hiddenField name="projId" value="${experiment?.project?.id}"/>

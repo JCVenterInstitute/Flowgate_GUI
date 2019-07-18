@@ -4,7 +4,7 @@ import grails.converters.JSON
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.transaction.Transactional
 import grails.web.servlet.mvc.GrailsParameterMap
-import org.apache.commons.codec.binary.Base64
+//import org.apache.commons.codec.binary.Base64
 import org.grails.web.util.WebUtils
 
 @Transactional
@@ -146,7 +146,8 @@ class UtilsService {
     }
 
     String authEncoded(String username, String password){
-        return new String(Base64.encodeBase64((username+':'+password).getBytes()), "UTF-8")
+//        return new String(Base64.encodeBase64((username+':'+password).getBytes()), "UTF-8")
+      return "${username}:${password}".encodeAsBase64()
     }
 
     String authHeader(String username, String password){

@@ -17,7 +17,7 @@
           %{--<li><g:link controller="experiment" action="manageUsers">Manage Users</g:link></li>--}%
         %{--</sec:ifAnyGranted>--}%
         <sec:ifAnyGranted roles="ROLE_Admin,ROLE_Administrator,ROLE_UsersList">
-          <li><g:link controller="user" action="newUsers">Users</g:link></li>
+          <li><g:link controller="user" action="list">Users</g:link></li>
         </sec:ifAnyGranted>
       </ul>
     </li>

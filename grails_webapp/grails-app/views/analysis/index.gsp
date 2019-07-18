@@ -121,19 +121,6 @@
 </head>
 
 <body>
-<content tag="nav">
-
-  <sec:ifAnyGranted roles="ROLE_NewUser,ROLE_User,ROLE_Admin,ROLE_Administrator">
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>
-      <ul class="dropdown-menu">
-        <g:link controller="analysisServer" action="index">Analysis Servers</g:link>
-        <g:link controller="module" action="index">Moduls List</g:link>
-      </ul>
-    </li>
-  </sec:ifAnyGranted>
-</content>
-
 <div class="nav" role="navigation"></div>
 
 <div class="row">

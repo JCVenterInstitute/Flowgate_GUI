@@ -54,7 +54,6 @@
             <div class="col-sm-offset-2 col-sm-8">
               <form id="upldForm" action="${g.createLink(controller: 'expFile', action: 'importAnnotation', id: experiment?.id)}" method="post" enctype="multipart/form-data">
                 <div class="form-row" style="display: flex;align-items: center;">
-                  <g:hiddenField name="pId" value="${plate?.id}"/>
                   <label>File Type:&nbsp;</label>
                   <div class="input-group input-group-sm">
                     <g:radioGroup name="separator"

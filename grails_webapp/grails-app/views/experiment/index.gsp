@@ -8,7 +8,6 @@
 </head>
 
 <body>
-<g:render template="/shared/nav"/>
 <content tag="topBtnBar">
   <div id="topBtnBar">
     <g:render template="templates/indexTopBtnBar" model="[experiment: experiment]"/>

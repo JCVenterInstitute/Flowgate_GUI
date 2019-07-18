@@ -17,7 +17,7 @@ class ScheduledTaskService {
         if(jobList.size() > 0) {
             println "Scheduled Service: session jobList ${jobList} "
             log.info 'Executing scheduled job...'
-            utilsService.checkJobStatus(jobList)
+//            utilsService.checkJobStatus(jobList)
         }
     }
 

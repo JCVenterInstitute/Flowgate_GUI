@@ -1,19 +1,6 @@
 server:
     contextPath: /
     port: 8585
----
-gpServer:
-    url: http://127.0.0.1:8585
-    userName: flowGate
-gpServer2:
-    url: http://flowgate.sdsc.edu:8080
-    userName: flowGate
-    userPw: flowGate
-
-gpServer3:
-    url: https://genepattern.broadinstitute.org
-    userName: flowGate
-    userPw: flowGate
 
 fcsFileStoreLocation:
     path: /Users/flowGate/tmp/fcsUploads/
@@ -54,6 +41,7 @@ grails:
 #               gsp:
 #                   layoutRegister: main
 
+            useBasicAuth: true
 
 # Added by the Spring Security Core plugin:
 

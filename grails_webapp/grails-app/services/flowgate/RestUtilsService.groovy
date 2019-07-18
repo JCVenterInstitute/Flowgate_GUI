@@ -4,9 +4,9 @@ import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 import grails.transaction.Transactional
 import grails.web.servlet.mvc.GrailsParameterMap
-import groovy.io.FileType
+//import groovy.io.FileType
 import groovy.json.JsonOutput
-import org.apache.commons.codec.binary.Base64
+//import org.apache.commons.codec.binary.Base64
 import org.grails.web.util.WebUtils
 
 import grails.async.*
@@ -50,6 +50,13 @@ class RestUtilsService {
     }
     if (lsidOrTaskName != '') {
       RestBuilder rest = new RestBuilder()
+      // TODO remove after debug
+      println "url: ${module.server.url}/gp/rest/v1/jobs"
+      println "un: ${module.server.userName}"
+      println "pw: ${module.server.userPw}"
+      println "auth: Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
+
+
       RestResponse resp = rest.post(module.server.url + "/gp/rest/v1/jobs") {
         contentType "application/json"
         auth "Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"

@@ -7,16 +7,13 @@
 </head>
 
 <body>
-<g:render template="/shared/nav"/>
 <div class="nav" role="navigation"></div>
 <div id="list-user" class="content scaffold-list" role="main">
   <g:if test="${newUserLst.size() > 0}">
     <div class="row">
       <div class="col-sm-offset-1 col-sm-10">
         <h1 class="page-header"><g:message code="default.list.label" args="[entityName]"/></h1>
-        <g:if test="${flash.message}">
-          <div class="message" role="status">${flash.message}</div>
-        </g:if>
+        <g:link class="btn btn-primary" style="margin-bottom: 10px;" action="create">New User</g:link>
         <table class="table table-bordered table-responsive table-striped table-hover dataTable">
           <thead>
           <tr>
@@ -29,15 +26,15 @@
           <g:each in="${newUserLst}" var="nu" status="i">
             <tr>
               <td class="text-center">
-                <sec:ifAnyGranted roles="ROLE_Administrator">
+                <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
                 %{--  Show User method  --}%
-                  <g:link method="GET" resource="${nu}">
+                  <g:link method="GET" resource="${nu}" action="edit">
                     <f:display bean="${nu}"
                                property="username"
                                displayStyle="${displayStyle ?: 'table'}"/>
                   </g:link>
                 </sec:ifAnyGranted>
-                <sec:ifNotGranted roles="ROLE_Administrator">
+                <sec:ifNotGranted roles="ROLE_Administrator,ROLE_Admin">
                   <f:display bean="${nu}"
                              property="${'username'}"
                              displayStyle="${displayStyle ?: 'table'}"/>
@@ -49,7 +46,7 @@
                            displayStyle="${displayStyle ?: 'table'}"/>
               </td>
               <td class="text-center">
-                <div id="nu-act-${nu.id}" onclick="activate(${nu.id})"><g:render template="activateField" model="[user: nu]"/></div>
+                <div id="nu-act-${nu.id}" %{--onclick="activate(${nu.id})"--}%><g:render template="activateField" model="[user: nu]"/></div>
               </td>
             </tr>
           </g:each>

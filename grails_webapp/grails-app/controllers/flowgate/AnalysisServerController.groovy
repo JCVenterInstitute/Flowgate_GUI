@@ -3,10 +3,12 @@ package flowgate
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
-@Transactional(readOnly = true)
+@Transactional
 class AnalysisServerController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    def springSecurityService
+
+    static allowedMethods = [save: "POST", update: "PUT"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -29,21 +31,18 @@ class AnalysisServerController {
             return
         }
 
+        analysisServer.user = springSecurityService.currentUser
         if (analysisServer.hasErrors()) {
             //transactionStatus.setRollbackOnly()
-            respond analysisServer.errors, view:'create'
+            respond analysisServer.errors, view:'create', model:[analysisServer: analysisServer]
             return
         }
 
         analysisServer.save flush:true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'analysisServer.label', default: 'AnalysisServer'), analysisServer.id])
-                redirect analysisServer
-            }
-            '*' { respond analysisServer, [status: CREATED] }
-        }
+        flash.message = "Server " + analysisServer.name + " created!"
+
+        redirect action: 'index'
     }
 
     def edit(AnalysisServer analysisServer) {
@@ -65,14 +64,7 @@ class AnalysisServerController {
         }
 
         analysisServer.save flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'analysisServer.label', default: 'AnalysisServer'), analysisServer.id])
-                redirect analysisServer
-            }
-            '*'{ respond analysisServer, [status: OK] }
-        }
+        redirect action: 'edit', params: [id: analysisServer.id]
     }
 
     @Transactional
@@ -86,13 +78,24 @@ class AnalysisServerController {
 
         analysisServer.delete flush:true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'analysisServer.label', default: 'AnalysisServer'), analysisServer.id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
+        flash.message = "Server deleted!"
+        redirect action: 'index'
+    }
+
+    def updatePassword(AnalysisServer server) {
+        String oldPass = params?.oldpass
+        String newPass = params?.newpass
+
+//        if(!oldPass.equals(server.userPw)) {
+//            flash.passError = "Old Password does not match!"
+//        } else {
+            server.userPw = newPass
+            server.save flush:true
+
+            flash.passSuccess = "Password has been updated!"
+//        }
+
+        redirect action: 'edit', params: [id: server.id]
     }
 
     protected void notFound() {

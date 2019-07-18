@@ -65,7 +65,7 @@
           <g:link controller="user">Manage Users</g:link>
         </sec:ifAnyGranted>
         <sec:ifAnyGranted roles="ROLE_Admin,ROLE_Administrator">
-          <g:link controller="user" action="newUsers">Users</g:link>
+          <g:link controller="user" action="list">Users</g:link>
         </sec:ifAnyGranted>
       </ul>
     </li>

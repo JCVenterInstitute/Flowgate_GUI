@@ -1,3 +1,5 @@
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+
 // Place your Spring DSL code here
 // import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
 
@@ -6,4 +8,6 @@ beans = {
     userDetailsService(flowgate.CustomUserDetailsService) {
         grailsApplication = ref('grailsApplication')
     }
+
+    passwordEncoder(BCryptPasswordEncoder)
 }

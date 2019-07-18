@@ -54,7 +54,7 @@
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
                       <div id="myModalLabel">
-                        <h4 class="modal-title" style="text-align: left;"><div class="text-center">Results</div>></h4>
+                        <h4 class="modal-title" style="text-align: left;"><div class="text-center">Results</div></h4>
                       </div>
                     </div>
 

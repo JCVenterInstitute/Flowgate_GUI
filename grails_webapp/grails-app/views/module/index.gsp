@@ -35,24 +35,6 @@
         <li><a href="#">Tag Libraries: ${grailsApplication.tagLibClasses.size()}</a></li>
     </ul>
 </li>--}%
-
-  <sec:ifAnyGranted roles="ROLE_NewUser,ROLE_User,ROLE_Admin,ROLE_Administrator">
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-         aria-expanded="false">Settings <span class="caret"></span></a>
-      <ul class="dropdown-menu">
-        %{--<li><a href="#"><g:link controller="asyncProject" action="index" ></g:link></a></li>--}%
-        %{--<g:link controller="asyncProject" action="index" >Async Projects</g:link>--}%
-        <g:link controller="analysisServer" action="index">Analysis Servers</g:link>
-        <g:link controller="module" action="index">Moduls List</g:link>
-        %{--<g:link controller="experiment" action="index" >Experiments</g:link>--}%
-
-        %{--<li><a href="#">Domains: ${grailsApplication.domainClasses.size()}</a></li>--}%
-        %{--<li><a href="#">Services: ${grailsApplication.serviceClasses.size()}</a></li>--}%
-        %{--<li><a href="#">Tag Libraries: ${grailsApplication.tagLibClasses.size()}</a></li>--}%
-      </ul>
-    </li>
-  </sec:ifAnyGranted>
 %{--<sec:ifAnyGranted roles="ROLE_Admin,ROLE_Administrator">
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i> Settings <span class="caret"></span></a>
