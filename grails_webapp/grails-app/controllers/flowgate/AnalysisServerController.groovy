@@ -1,8 +1,12 @@
 package flowgate
 
+import grails.plugin.springsecurity.annotation.Secured
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
+
+@Secured(["ROLE_Administrator","ROLE_Admin"])
 @Transactional
 class AnalysisServerController {
 
@@ -15,9 +19,11 @@ class AnalysisServerController {
         respond AnalysisServer.list(params), model:[analysisServerCount: AnalysisServer.count()]
     }
 
+    /*
     def show(AnalysisServer analysisServer) {
         respond analysisServer
     }
+    */
 
     def create() {
         respond new AnalysisServer(params)

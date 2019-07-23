@@ -13,6 +13,7 @@ import javax.imageio.ImageIO
 
 import static org.springframework.http.HttpStatus.*
 
+@Secured(["IS_AUTHENTICATED_FULLY"])
 //@Transactional(readOnly = true)
 @Secured(['isAuthenticated()'])
 class AnalysisController {
@@ -76,9 +77,11 @@ class AnalysisController {
     }
     */
 
+    /*
     def show(Analysis analysis) {
         respond analysis
     }
+    */
 
     def showResults(Analysis analysis) {
         def jobResult
