@@ -1,6 +1,7 @@
 package flowgate
 
 import grails.converters.JSON
+import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
 import org.genepattern.webservice.Parameter
 import org.grails.core.io.ResourceLocator
@@ -12,6 +13,7 @@ import javax.imageio.ImageIO
 
 import static org.springframework.http.HttpStatus.*
 
+@Secured(["IS_AUTHENTICATED_FULLY"])
 //@Transactional(readOnly = true)
 class AnalysisController {
 
@@ -74,9 +76,11 @@ class AnalysisController {
     }
     */
 
+    /*
     def show(Analysis analysis) {
         respond analysis
     }
+    */
 
     def showResults(Analysis analysis) {
         def jobResult

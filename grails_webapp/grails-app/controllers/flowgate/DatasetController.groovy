@@ -1,7 +1,9 @@
 package flowgate
 
+import grails.plugin.springsecurity.annotation.Secured
 import groovy.json.JsonSlurper
 
+@Secured(["IS_AUTHENTICATED_FULLY"])
 class DatasetController {
 
     def utilsService

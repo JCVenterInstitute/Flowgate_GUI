@@ -1,8 +1,11 @@
 package flowgate
 
+import grails.plugin.springsecurity.annotation.Secured
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
+@Secured(["ROLE_Administrator","ROLE_Admin"])
 @Transactional(readOnly = true)
 class ModuleParamController {
 

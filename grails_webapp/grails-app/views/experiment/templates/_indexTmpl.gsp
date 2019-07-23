@@ -67,5 +67,5 @@
 %{--
 --}%
 </g:if>
-<g:render template="/shared/manageUsers" model="[objectType: 'Experiment', object: experiment]"/>
 </g:form>
+<g:render template="/shared/manageUsers" model="[objectType: 'Experiment', object: experiment]"/>

@@ -213,9 +213,11 @@ class ProjectController {
         respond projectList, model: [projectCount: projectList.size()]
     }
 
+    /*
     def show(Project project) {
         respond project
     }
+    */
 
     def create() {
         User user = springSecurityService.currentUser
@@ -251,6 +253,13 @@ class ProjectController {
 
     def edit(Project project) {
         User user = springSecurityService.currentUser
+        if(grails.plugin.springsecurity.SpringSecurityUtils.ifNotGranted('ROLE_Administrator,ROLE_Admin') ){
+            def projList = ProjectUser.findAllByUser(user)*.project
+            if (!(projList.contains(project))) {
+//                TODO first and active
+                project = projList.first()
+            }
+        }
         def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
         respond project, model: [projectList: projectList]
     }
