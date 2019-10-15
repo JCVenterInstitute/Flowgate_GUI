@@ -14,7 +14,7 @@ class DummyGpController {
         Map tStatus = ['isFinished': false, "isPending": true]
         println "----------------------------- called / checking ----------------------------------"
         println "params ${params}"
-        if(params.jobId=='1_358'){
+        if(params.jobId=='36'){
           tStatus = ['isFinished': true, "isPending": false]
         }
         render (contentType: 'application/json', [success: false, responseStatus: serverResponse, status: tStatus] as JSON)

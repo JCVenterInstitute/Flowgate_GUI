@@ -22,13 +22,15 @@
           </g:if>
           <g:else>
             <g:if test="${bean?.analysisStatus == 4}">
-              <div class="div-as-link" onclick="javascript:showResult()" data-toggle="modal" data-target="#resultModal">
+%{--              <div class="div-as-link" onclick="javascript:showResult()" data-toggle="modal" data-target="#resultModal">--}%
+              <div class="div-as-link" style="cursor: pointer;" onclick="openModal(${bean?.jobNumber});" >
                 <i class="glyphicon glyphicon-eye-open"></i>&nbsp;<g:message code="analysis.display.report.label" default="display" />
               </div>
             </g:if>
             <g:else>
               <div class="row form-control-plaintext" >
-                <div class="div-as-link" style="cursor: pointer;" data-toggle="modal" data-target="#resultModal-${bean.jobNumber}">
+%{--                <div class="div-as-link" style="cursor: pointer;" data-toggle="modal" data-target="#resultModal-${bean?.jobNumber}">--}%
+                <div class="div-as-link" style="cursor: pointer;" onclick="openModal(${bean?.jobNumber});" >
                   <i class="glyphicon glyphicon-eye-open"></i>&nbsp;<g:message code="analysis.display.report.label" default="display" />
                 </div>
                 &nbsp;&nbsp;&nbsp;&nbsp;
@@ -45,10 +47,12 @@
           <g:if test="${p == 'analysisStatus'}">
             <div id="job-${bean.jobNumber}" class="form-control-plaintext">
               <i class=" fa fa-circle" style="color: ${bean.analysisStatus == 1 ? 'lightgrey' : bean.analysisStatus == 2 ? 'orange' : bean.analysisStatus == 3 ? 'lawngreen' : bean.analysisStatus == -1 ? 'red' : 'brown'}"></i>
-              ${bean.analysisStatus == 1 ? 'init' : bean.analysisStatus == 2 ? 'pending' : bean.analysisStatus == 3 ? 'results ready' : bean.analysisStatus == -1 ? 'error' : 'done'}
+              ${bean?.analysisStatus == 1 ? 'init' : bean?.analysisStatus == 2 ? 'pending' : bean?.analysisStatus == 3 ? 'results ready' : bean?.analysisStatus == -1 ? 'error' : 'done'}
             </div>
-            <g:if test="${bean.analysisStatus == 3}">
-              <div class="modal fade" tabindex="-1" id="resultModal-${bean.jobNumber}" aria-labelledby="myModalLabel" aria-hidden="true" role="dialog">
+            <g:if test="${bean?.analysisStatus == 3}">
+              <div id="resultModal_${bean?.jobNumber}"></div>
+              %{--
+              <div class="modal fade" tabindex="-1" id="resultModal-${bean?.jobNumber}" aria-labelledby="myModalLabel" aria-hidden="true" role="dialog">
                 <div class="modal-dialog modal-lg">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -69,6 +73,7 @@
                   </div>
                 </div>
               </div>
+              --}%
             </g:if>
           </g:if>
           <g:else>
@@ -84,3 +89,29 @@
     </g:else>
   </g:each>
 </tr>
+%{--
+<asset:javascript>
+  function openModal(jobId){
+     console.log("got click with id ", jobId);
+--}%
+%{--  var metaVal = document.getElementById("eMeta_" + mId + ".mdVal").value;--}%%{--
+
+    $.ajax({
+      url: "${g.createLink(controller: 'expFile', action: 'axMetaSelect')}",
+      dataType: 'json',
+      data: {jobId: jobId},
+      success: function (data, status, xhr) {
+        console.log('success');
+        $("#resultModal_" + jobId.toString()).html(data.modalData);
+      },
+      error: function (request, status, error) {
+        console.log('ajxError!');
+      },
+      complete: function (xhr, status) {
+         console.log('ajxComplete!');
+      }
+    });
+  }
+
+</asset:javascript>
+--}%

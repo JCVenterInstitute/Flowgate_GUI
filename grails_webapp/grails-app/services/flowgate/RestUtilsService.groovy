@@ -50,13 +50,13 @@ class RestUtilsService {
     }
     if (lsidOrTaskName != '') {
       RestBuilder rest = new RestBuilder()
-      // TODO remove after debug
+      // TODO remove after debugging!!!!!
       println "url: ${module.server.url}/gp/rest/v1/jobs"
-      println "un: ${module.server.userName}"
-      println "pw: ${module.server.userPw}"
+//      println "un: ${module.server.userName}"
+//      println "pw: ${module.server.userPw}"
       println "auth: Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
 
-
+      println "json: ${JsonOutput.toJson(['lsid': lsidOrTaskName, 'params': paramVars])}"
       RestResponse resp = rest.post(module.server.url + "/gp/rest/v1/jobs") {
         contentType "application/json"
         auth "Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
@@ -96,7 +96,7 @@ class RestUtilsService {
     ds.expFiles.each{ expFile ->
       def lineFields = []
       fields.each{ metaDataKey ->
-        lineFields << expFile.metaDatas.find{it.mdKey == metaDataKey}.mdVal
+        lineFields << expFile.metaDatas.find{it.mdKey == metaDataKey}?.mdVal
       }
 
       bodyStr += lineFields.join(separator) + "\n"
@@ -203,12 +203,18 @@ class RestUtilsService {
   }
 
   def doUploadFile(AnalysisServer server, File pathAndFile, String fName) {
+    if(!server.url || server.url==""){
+      log.error "Error no server url!"
+      return [code: 500, location: '']
+    }
     String uploadApiPath = server.url + "/gp/rest/v1/data/upload/job_input?name=${fName}"
     RestBuilder rest = new RestBuilder()
     RestResponse resp
+    String authStr="Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
+    //    == Basic Zmxvd2dhdGU6Zmxvd0dhdGU=  ???
     try {
       resp = rest.post(uploadApiPath){
-        auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
+        auth authStr
         contentType "application/octet-stream"
         body pathAndFile.bytes
       }
@@ -217,8 +223,8 @@ class RestUtilsService {
       println all?.message
     }
     if (!(resp?.responseEntity?.statusCodeValue >= 201 && resp?.responseEntity?.statusCodeValue < 300)) {
-      log.error "Error uploading file!"
-      return [code: resp.responseEntity.statusCodeValue, location: '']
+      log.error "Error uploading file! ${resp?.responseEntity?.statusCodeValue.toString()}"
+      return [code: resp?.responseEntity?.statusCodeValue, location: '']
     }
     else {
       return [code: 200, location: resp.responseEntity.body]
