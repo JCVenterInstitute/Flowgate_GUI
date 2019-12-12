@@ -233,6 +233,24 @@ class ExpFileController {
               eMetaData?.mdVals = [eMetaValue]
             }
         }
+
+        /*
+//      does not work 100%
+        params.mdValue.each{ mdValue ->
+            ExperimentMetadataValue eMetaValue = ExperimentMetadataValue.findOrSaveByExpMetaDataAndMdValue(eMetaData, mdValue)
+            params.mdType = params.mdType.size()>1 ? 'List' : 'String'
+            params.mdValue = mdValue
+            eMetaValue.properties = params
+            eMetaValue.save()
+            if(eMetaData?.mdVals){
+                eMetaData?.mdVals?.add(eMetaValue)
+            }
+            else{
+                eMetaData?.mdVals = [eMetaValue]
+            }
+        }
+        */
+
         println "add metaData column  ${eMetaData?.mdVals}"
         redirect action: 'annotationTbl', id: experiment.id
     }
@@ -335,6 +353,7 @@ class ExpFileController {
             mdValue.discard()
             mdValue.delete(flush: true)
         }
+<<<<<<< HEAD
         List<String> valueList = params.list('mdValue')
 //        println "addColumn valueList ${valueList} size ${valueList.size()}"
         Integer vListSize = valueList.size()
@@ -348,6 +367,36 @@ class ExpFileController {
                 eMetaData?.mdVals = [eMetaValue]
             }
         }
+=======
+        /*
+        params.mdValue.each{ mdValue ->
+            ExperimentMetadataValue eMetaValue = ExperimentMetadataValue.findOrSaveByExpMetaDataAndMdValue(eMetaData, mdValue)
+            params.mdType = params.mdType.size()>1 ? 'List' : 'String'
+            params.mdValue = mdValue
+            eMetaValue.properties = params
+//            eMetaValue.save(flush: true)
+            eMetaValue.save()
+            eMetaData.mdVals.add(eMetaValue)
+
+        }
+        */
+        List<String> valueList = params.list('mdValue')
+        println "addColumn valueList ${valueList} size ${valueList.size()}"
+        Integer vListSize = valueList.size()
+        valueList.each{ pmdValue ->
+            ExperimentMetadataValue eMetaValue = new ExperimentMetadataValue(expMetaData:eMetaData, mdValue: pmdValue, mdType: vListSize>1 ? 'List' : 'String', dispOrder: 1)
+            eMetaValue.save(flush: true)
+            if(eMetaData?.mdVals){
+                eMetaData?.mdVals?.add(eMetaValue)
+            }
+            else{
+                eMetaData?.mdVals = [eMetaValue]
+            }
+        }
+
+
+//        eMetaData.save(flush: true)
+>>>>>>> b20350a948e3142f0950a3b1edf7ffc64d7fb3f5
         println 'edit metaData column'
         redirect action: 'annotationTbl', id: experiment.id
     }
