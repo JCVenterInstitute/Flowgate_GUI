@@ -43,6 +43,16 @@ class RestUtilsService {
     return [jobNo: jobNumber, eMsg: eMsg]
   }
 
+  /*
+  callback snip
+
+      postData = urlencode({'notificationUrl': badCallback })
+      postData = postData.encode('utf-8')
+      url = gpUrl + "/rest/v1/jobs/"+job_id +"/setNotificationCallback"
+
+   */
+
+
   def submitJob(Module module, ArrayList paramVars) {
     String lsidOrTaskName = module.name
     if (!lsidOrTaskName.startsWith('urn')) {
