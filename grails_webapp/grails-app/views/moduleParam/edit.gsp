@@ -6,72 +6,59 @@
   <g:set var="entityName" value="${message(code: 'moduleParam.label', default: 'ModuleParam')}"/>
   <title><g:message code="default.edit.label" args="[entityName]"/></title>
 </head>
-
 <body>
-%{--<a href="#edit-moduleParam" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>--}%
-
-<div class="nav" role="navigation">
-  %{--<ul>
-    <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-    <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]"/></g:link></li>
-    <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]"/></g:link></li>
-  </ul>--}%
-</div>
-
-<div id="edit-moduleParam" class="container" role="main">
-  <h1 class="page-header"><g:message code="default.edit.label" args="[entityName]"/></h1>
-  <g:if test="${flash.message}">
-    <div class="row">
-      <div class="alert alert-info" role="alert">${flash.message}</div>
+<h2><g:message code="default.edit.label" args="[entityName]"/></h2>
+<g:hasErrors bean="${this.moduleParam}">
+  <g:eachError var="err" bean="${this.moduleParam}">
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        M.toast({
+          html: '<span><g:message error="${err}"/></span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+          displayLength: Infinity,
+          classes: 'red'
+        });
+      });
+    </script>
+  </g:eachError>
+</g:hasErrors>
+<g:form resource="${this.moduleParam}" method="PUT" class="col s6">
+  <g:hiddenField name="version" value="${this.moduleParam?.version}"/>
+  <f:with bean="moduleParam">
+    <div class="input-field col s12">
+      <g:select name="module.id" id="module" required="required"
+                from="${Module.list()}"
+                optionValue="title"
+                optionKey="id"
+                value="${moduleParam.module.id}"/>
+      <label>Module *</label>
     </div>
-  </g:if>
-  <g:hasErrors bean="${this.moduleParam}">
-    <div class="row">
-      <div class="alert alert-danger" role="alert">
-        <g:eachError bean="${this.moduleParam}" var="error">
-          <li<g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-        </g:eachError>
-      </div>
+    <f:field property="pKey"/>
+    <div class="col s12">
+      <p>
+        <label>
+          <f:input property='pBasic'/>
+          <span>Basic Parameter</span>
+        </label>
+      </p>
     </div>
-  </g:hasErrors>
-  <g:form resource="${this.moduleParam}" method="PUT" class="form-horizontal">
-    <g:hiddenField name="version" value="${this.moduleParam?.version}"/>
-    <div class="col-sm-4" style="padding-left: 0; margin-bottom: 5px;">
-      <fieldset class="form">
-        <f:with bean="moduleParam">
-          <div class="form-group">
-            <label for="module" class="col-sm-4 control-label">Module *</label>
+    <f:field property="defaultVal"/>
+    <f:field property="pType"/>
+    <f:field property="pLabel"/>
+    <f:field property="descr"/>
+    <f:field property="exampleFile"/>
+  </f:with>
 
-            <div class="col-sm-8">
-              <g:select name="module.id" class="form-control" id="module" required="required"
-                        from="${Module.list()}"
-                        optionValue="title"
-                        optionKey="id"
-                        value="${moduleParam.module.id}"/>
-            </div>
-          </div>
-          <f:field property="pKey"/>
-          <div class="form-group">
-            <label for="pBasic" class="col-sm-4 control-label">Basic Param.</label>
+  <div class="input-field col s12">
+    <button type="submit" class="btn waves-effect waves-light">${message(code: 'default.button.update.label', default: 'Update')}</button>
+    <a href="${createLink(controller: 'module', action: 'edit', params: [id: moduleParam.module.id])}" class="btn-flat">Return to Module</a>
+  </div>
+</g:form>
 
-            <div class="col-sm-8"><div style="margin: 6px 0 0;"><f:input property='pBasic' /></div></div>
-          </div>
-          <f:field property="defaultVal"/>
-          <f:field property="pType"/>
-          <f:field property="pLabel"/>
-          <f:field property="descr" label="Description"/>
-          <f:field property="exampleFile"/>
-        </f:with>
-      </fieldset>
-
-      <div class="col-sm-offset-4">
-        <fieldset class="buttons">
-          <input class="save btn btn-primary" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}"/>
-          <a href="${createLink(controller: 'module', action: 'edit', params: [id: moduleParam.module.id])}" class="btn btn-warning">Back</a>
-        </fieldset>
-      </div>
-    </div>
-  </g:form>
-</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems);
+  });
+</script>
 </body>
 </html>

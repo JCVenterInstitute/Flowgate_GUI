@@ -238,7 +238,7 @@ class AnalysisController {
             response.outputStream.flush()
         }
         else {
-            render "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
+            render "<p><strong style='color:red;'>Error:</strong> No result file found to download!</p>"
         }
     }
 

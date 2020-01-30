@@ -1,8 +1,5 @@
 %{--templatesWrapper--}%
-<div class="form-group">
-  <label for="${property}" class="col-sm-4 control-label">${label} ${required ? '*' : ''}</label>
-
-  <div class="col-sm-8">
-    <input type="text" class="form-control" id="${property}" name="${property}" value="${value}" placeholder="${label}" ${required}>
-  </div>
+<div class="input-field col s12">
+  <input type="text" name="${property}" value="${value}" ${required}>
+  <label for="${property}">${label} ${required ? '*' : ''}</label>
 </div>

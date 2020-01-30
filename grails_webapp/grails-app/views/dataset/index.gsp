@@ -7,23 +7,25 @@
 </head>
 
 <body>
-<div class="container">
-  <ul class="breadcrumb">
-    <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: experiment?.project?.id])}" title="${experiment?.project?.title}">${experiment?.project?.title}</a></li>
-    <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" title="${experiment?.title}">${experiment?.title}</a></li>
-    <li class="active">List of Datasets for Analysis</li>
-  </ul>
 
-  <h1>List of Datasets for Analysis</h1>
-
-  <div class="row">
-    <div class="col-md-offset-9 col-md-3 mb-2" style="text-align: right;">
-      <a href="${createLink(controller: 'dataset', action: 'create', params: [eId: experiment?.id])}"  class="btn btn-primary"><i class="fa fa-plus"></i>Create New Dataset</a>
-      <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="btn btn-warning">Back</a>
-    </div>
+<div class="navigation nav-wrapper">
+  <div class="col s12">
+    <a href="${createLink(controller: 'project', action: 'index', params: [pId: experiment?.project?.id])}" class="breadcrumb dark tooltipped" data-position="bottom"
+       data-tooltip="${experiment?.project?.title}">Project</a>
+    <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="breadcrumb dark tooltipped" data-position="bottom"
+       data-tooltip="${experiment?.title}">Experiment</a>
+    <a href="#!" class="breadcrumb dark">Datasets</a>
   </div>
+</div>
 
-  <table class="table table-bordered table-responsive table-striped table-hover dataTable" width="100%">
+<h2>List of Datasets for Analysis</h2>
+
+<g:if test="${datasetCount == 0}">
+  <p>There is no dataset defined in this experiment. You need to <a
+      href="${createLink(controller: 'dataset', action: 'create', params: [eId: experiment?.id])}">create a dataset</a> first.</p>
+</g:if>
+<g:else>
+  <table class="highlight responsive-table">
     <thead>
     <tr>
       <g:sortableColumn class="text-center" property="name" title="Name"/>
@@ -32,19 +34,32 @@
     </tr>
     </thead>
     <tbody>
-      <g:each in="${datasetList}" var="bean">
-        <tr>
-          <td><a href="edit/${bean?.id}">${bean?.name}</a></td>
-          <td>${bean?.description}</td>
-          <td><g:each in="${bean?.expFiles}" var="file">${file?.fileName}<br></g:each></td>
-        </tr>
-      </g:each>
+    <g:each in="${datasetList}" var="bean">
+      <tr>
+        <td><a href="edit/${bean?.id}">${bean?.name}</a></td>
+        <td>${bean?.description}</td>
+        <td><g:each in="${bean?.expFiles}" var="file">${file?.fileName}<br></g:each></td>
+      </tr>
+    </g:each>
     </tbody>
   </table>
+</g:else>
 
-  <div class="pagination">
-    <g:paginate total="${datasetCount ?: 0}"/>
-  </div>
+<div class="pagination">
+  <g:paginate total="${datasetCount ?: 0}"/>
 </div>
+
+<div class="fixed-action-btn">
+  <a href="${createLink(controller: 'dataset', action: 'create', params: [eId: experiment?.id])}" class="btn-floating btn-large waves-effect waves-light tooltipped"
+     data-tooltip="Create a new dataset" data-position="left"><i class="material-icons">add</i>
+  </a>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var tooltipElems = document.querySelectorAll('.tooltipped');
+    M.Tooltip.init(tooltipElems);
+  });
+</script>
 </body>
 </html>

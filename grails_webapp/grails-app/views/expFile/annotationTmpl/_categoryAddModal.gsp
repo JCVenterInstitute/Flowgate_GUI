@@ -1,19 +1,19 @@
 <%@ page import="flowgate.ExpFile; flowgate.ExperimentMetadataValue; flowgate.ExperimentMetadata" %>
-<div class="modal fade in" id="addCategoryForm" role="dialog">
-  <div class="modal-dialog">
+<div id="add-new-category" class="modal modal-fixed-footer">
+  <g:form controller="expFile" action="addCategory">
     <div class="modal-content">
-      <div class="modal-body custom-height-modal">
-        <g:form controller="expFile" action="addCategory">
-          <g:hiddenField name="id" value="${experiment?.id}" />
-          <div class="form-group">
-            <label for="mdCategory">Attribute Category *</label>
-            <g:textField class="form-control" name="mdCategory" id="mdCategory" required="" />
-          </div>
-          <br/>
-          <input class="btn btn-success" type="submit"  name="addCategory" />
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        </g:form>
+      <g:hiddenField name="id" value="${experiment?.id}"/>
+      <h4>Add a new annotation category</h4>
+
+      <div class="input-field">
+        <g:textField name="mdCategory" required=""/>
+        <label for="mdCategory">Attribute Category</label>
       </div>
     </div>
-  </div>
+
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
+      <button type="submit" class="waves-effect waves-light btn-flat">Submit</button>
+    </div>
+  </g:form>
 </div>

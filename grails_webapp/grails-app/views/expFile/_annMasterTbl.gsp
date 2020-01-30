@@ -1,57 +1,61 @@
 <%@ page import="flowgate.ExpFile; flowgate.ExperimentMetadataValue; flowgate.ExperimentMetadata" %>
-<div id="wholeTbl" style="overflow-y: auto;margin-bottom: 100px;">
-  <table id="annotation-table" cellspacing="0" class="table table-bordered table-responsive table-striped table-hover dataTable" width="100%">
+<div id="wholeTbl" style="overflow-y: auto;">
+  <table id="annotation-table" cellspacing="0" class="highlight responsive-table small" width="100%">
     <thead>
-    <tr >
-      <g:sortableColumn property="expFile" title="${message(code: 'expFile.label', default: 'FCS File Name')}">
-        <p><br/></p>
-      </g:sortableColumn>
+    <tr>
+      <g:sortableColumn property="expFile" title="${message(code: 'expFile.label', default: 'FCS File Name')}"/>
       <g:each in="${experiment.expMetadatas.findAll { it.mdCategory == category }.sort { it.dispOrder }}" var="eMeta">
         <g:if test="${eMeta.visible}">
           <th class="sortable">
-            <p class="text-center" >${eMeta.mdKey}</p>
-            <p class="text-center">
+            <div onclick="toggleActions(this, ${eMeta.id})" style="cursor: pointer;">${eMeta.mdKey}<i class="material-icons tiny" >expand_more</i></div>
+            <div class="attribute-action" id="attribute-action-${eMeta.id}" style="display: none;">
               <g:set var="filterAction" value="${eMeta.dispOnFilter ? 'HideFromFilter' : 'ShowOnFilter'}"/>
-              <g:set var="colActions" value="['Edit', 'HideColumn', filterAction, 'Delete']"/>
-              <div class="input-group input-group-sm">
-                <span class="input-group-addon">Action</span>
-                <g:select class="form-control" name="colAction" from="${colActions}" noSelection="['': '']" style="min-width: 30px"
-                          optionValue="${{ action -> g.message(code: 'annotationPage.action.' + action + '.label') }}" onchange="eMetaActionChange(${eMeta.id}, this.value);"/>
+              <button type="button" id="Edit" class="btn-tiny waves-effect waves-light tooltipped" onclick="eMetaActionChange(${eMeta.id}, this.id);
+              return false;"
+                      data-tooltip="Edit attribute" data-position="bottom">
+                <i class="material-icons">edit</i>
+              </button>
+              <button type="button" id="HideColumn" class="btn-tiny waves-effect waves-light tooltipped" onclick="eMetaActionChange(${eMeta.id}, this.id);
+              return false;"
+                      data-tooltip="Hide attribute" data-position="bottom">
+                <i class="material-icons">visibility_off</i>
+              </button>
+              <button type="button" id="${filterAction}" class="btn-tiny waves-effect waves-light tooltipped" onclick="eMetaActionChange(${eMeta.id}, this.id);
+              return false;"
+                      data-tooltip="<g:if test="${filterAction == 'HideFromFilter'}">Hide</g:if><g:else>Show</g:else> attribute in Dataset" data-position="bottom">
+                <i class="material-icons"><g:if test="${filterAction == 'HideFromFilter'}">grid_off</g:if><g:else>grid_on</g:else></i>
+              </button>
+              <button type="button" id="Delete" class="btn-tiny waves-effect waves-light tooltipped" onclick="eMetaActionChange(${eMeta.id}, this.id);
+              return false;"
+                      data-tooltip="Delete attribute" data-position="bottom">
+                <i class="material-icons">delete</i>
+              </button>
+            </div>
+            <g:if test="${eMeta.mdVals.size() > 1}">
+              <div class="input-field">
+                <g:select id="eMeta_${eMeta.id}.mdVal" name="eMeta_${eMeta.id}.mdVal" from="${eMeta.mdVals.sort { it.dispOrder }}"
+                          optionKey="id"
+                          optionValue="mdValue" value="" onchange="eMetaValueChange(${eMeta.id}, this.value);"/>
               </div>
-            </p>
-            <p class="text-center">
-              <g:if test="${eMeta.mdVals.size() > 1}">
-                <div class="input-group input-group-sm">
-                  <span class="input-group-addon">Candidate Values</span>
-                  <g:select style="width:auto;" class="form-control" id="eMeta_${eMeta.id}.mdVal" name="eMeta_${eMeta.id}.mdVal" from="${eMeta.mdVals.sort { it.dispOrder }}" optionKey="id"
-                            optionValue="mdValue" value="" onchange="eMetaValueChange(${eMeta.id}, this.value);"/>
-                </div>
-              </g:if>
-              <g:else>
+            </g:if>
+            <g:else>
+              <div class="input-field">
                 <g:hiddenField id="eMeta_${eMeta.id}.mdVal" name="eMeta_${eMeta.id}.mdVal" value="${eMeta?.mdVals.id.join(',')}"/>
                 ${eMeta.mdVals.mdValue.join(',')}
-              </g:else>
-            </p>
+              </div>
+            </g:else>
           </th>
         </g:if>
       </g:each>
-      <th class="text-center">
-        <br/>
+      <th>
+        <a href="#" class="${experiment.expMetadatas.findAll { it.mdCategory == category }.visible.toString().contains('false') ? '' : 'hidden'}"
+           onclick="showAllHidden(${experiment.id}, '${category?.id}');">Show All Hidden Attributes</a>
 
-        <div class="${experiment.expMetadatas.findAll { it.mdCategory == category }.visible.toString().contains('false') ? '' : 'hidden'} btn btn-default"
-             onclick="showAllHidden(${experiment.id}, '${category?.id}');">Show All Hidden Attributes</div>
-        <br/>
-        <br/>
-
-        <div style="padding-left:30px;">
-          <g:if test="${category?.mdCategory != 'Reagents'}">
-            <div class="" onclick="addColClick(${experiment?.id}, '${category}');"><i title="add column" class="fa fa-plus fa-2x"></i></div>
-          </g:if>
-        %{--<g:else>--}%
-        %{-- add panel reagent --}%
-        %{--</g:else>--}%
-        </div>
-        <br/>
+        <g:if test="${category?.mdCategory != 'Reagents'}">
+          <a href="#add-new-attribute" class="modal-trigger tooltipped" data-tooltip="Add a new column" data-position="right">
+            <i class="material-icons">add</i>
+          </a>
+        </g:if>
       </th>
     </tr>
     </thead>
@@ -60,3 +64,21 @@
     </tbody>
   </table>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var selectElems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(selectElems);
+  });
+
+  function toggleActions(e, id) {
+    var div = document.getElementById("attribute-action-"+id);
+    if (div.style.display === "none") {
+      div.style.display = "block";
+      e.firstElementChild.textContent = "expand_less";
+    } else {
+      div.style.display = "none";
+      e.firstElementChild.textContent = "expand_more";
+    }
+  }
+</script>

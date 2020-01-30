@@ -7,19 +7,28 @@
 </head>
 
 <body>
+<h2><g:message code="default.list.label" args="[entityName]"/></h2>
 
-<div id="list-analysisServer" class="content scaffold-list" role="main">
-  <div class="row">
-    <div class="col-sm-offset-1 col-sm-10">
-      <h3 class="page-header"><g:message code="default.list.label" args="[entityName]"/></h3>
-
-      <g:link class="btn btn-primary" style="margin-bottom: 10px;" action="create">New Server</g:link>
-      <f:table collection="${analysisServerList}" properties="['name', 'url', 'userName']"/>
-      <div class="pagination">
-        <g:paginate total="${analysisServerCount ?: 0}"/>
-      </div>
-    </div>
-  </div>
+<f:table collection="${analysisServerList}" properties="['name', 'url', 'userName']"/>
+<div class="pagination">
+  <g:paginate total="${analysisServerCount ?: 0}"/>
 </div>
+
+<div class="fixed-action-btn">
+  <g:link class="btn-floating btn-large waves-effect waves-light tooltipped" action="create" data-tooltip="Add a new server" data-position="left">
+    <i class="material-icons">add</i>
+  </g:link>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $("nav .nav-wrapper li").removeClass("active");
+    $("nav #nav-analysis").addClass("active");
+  });
+  document.addEventListener('DOMContentLoaded', function () {
+    var tooltipElems = document.querySelectorAll('.tooltipped');
+    M.Tooltip.init(tooltipElems);
+  });
+</script>
 </body>
 </html>

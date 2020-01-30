@@ -36,9 +36,6 @@
       <li class="active">Analysis Results</li>
     </ul>
     <h1 class="page-header"><g:message code="analysis.showResult.label" args="[entityName]" default="Analysis Results" /></h1>
-    <g:if test="${flash.message}">
-      <div class="message" role="status">${flash.message}</div>
-    </g:if>
     <f:with bean="analysis">
       <dl class="dl-horizontal">
         <dt>Experiment:</dt>

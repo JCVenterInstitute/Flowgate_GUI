@@ -294,23 +294,6 @@ class ExpFileController {
         redirect action: 'annotationTbl', id: category.experiment.id
     }
 
-    def axAddColumn(Experiment experiment){
-        println " axAddColumn exp=${experiment?.id}"
-        render (contentType:"text/json") {
-            success true
-            crModalTmpl "${g.render (template: 'annotationTmpl/colCreateModal', model: [experiment: experiment, category: params?.category])}"
-        }
-    }
-
-    def axAddCategory(Experiment experiment){
-        println " axAddCategory exp=${experiment?.id}"
-//      println "${g.render (template: 'annotationTmpl/categoryAddModal', model: [experiment: experiment])}"
-        render (contentType:"text/json") {
-            success true
-            catModalTmpl "${g.render (template: 'annotationTmpl/categoryAddModal', model: [experiment: experiment])}"
-        }
-    }
-
     def axEditCategory(Experiment experiment){
         ExperimentMetadataCategory category = ExperimentMetadataCategory.get(params.catId.toLong())
 //        println " axEditCategory exp=${experiment?.id}"
@@ -525,12 +508,12 @@ class ExpFileController {
                     println fcsFile.originalFilename
                     if (fcsFile.part.fileItem.tempFile.exists()) {
                         if(ExpFile.findAllByFileNameAndExperiment(fcsFile.originalFilename, experiment))
-                            throw new Exception("File with same name already exists")
+                            throw new Exception("File with the same name already exists")
 
                         def sha1 = chkSumService.getSha1sum(fcsFile.part.fileItem.tempFile)
                         def md5 = chkSumService.getMD5sum(fcsFile.part.fileItem.tempFile)
                         if(ExpFile.findAllByChkSumAndExperiment(sha1, experiment))
-                            throw new Exception("File with same checksum (${sha1}) already exists")
+                            throw new Exception("File with the same checksum (${sha1}) already exists")
 
                         fcsService.readFile(fcsFile.part.fileItem.tempFile, false)
                         String filePath = fcsStoragePath + File.separator + experiment.project.id + File.separator + experiment.id + File.separator

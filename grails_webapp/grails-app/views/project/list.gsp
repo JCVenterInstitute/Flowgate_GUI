@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<g:render template="/shared/errorsMsgs" model="[bean: this.project]" />
+<g:render template="/shared/errorsMsgs" model="[bean: this.project]"/>
 
 %{--TODO remove after testing, just for testing purpose!!!!--}%
 <sec:ifAnyGranted roles="ROLE_Acs">
@@ -19,7 +19,7 @@
       <li><g:link class="btn btn-default" controller="analysis" action="index" params="[eId: 1]"><g:message code="analysis.index.label" default="Analyses"/></g:link></li>
     </ul>
     <ul>
-        <li><g:link class="btn btn-default" controller="dataset" action="ds_edit" params="[id: 1]" ><g:message code="manage.ds.label" default="Manage Datasets" /></g:link></li>
+      <li><g:link class="btn btn-default" controller="dataset" action="ds_edit" params="[id: 1]"><g:message code="manage.ds.label" default="Manage Datasets"/></g:link></li>
     </ul>
     <ul>
       <li><g:link class="btn btn-default" controller="expFile" action="expFileCreate" params="[eId: 1]"><g:message code="create.expFile.label" default="Upload FCS"/></g:link></li>
@@ -28,26 +28,16 @@
       <li><g:link class="btn btn-default" controller="expFile" action="annotation" params="[id: 1]"><g:message code="create.expFile.label" default="Annotation V1"/></g:link></li>
     </ul>
     <ul>
-      <li><g:link class="btn btn-default" controller="expFile" action="annotationTbl" params="[id: 1]"><g:message code="create.expFile.label" default="Annotation V2"/></g:link></li>
+      <li><g:link class="btn btn-default" controller="expFile" action="annotationTbl" params="[id: 1]"><g:message code="create.expFile.label"
+                                                                                                                  default="Annotation V2"/></g:link></li>
     </ul>
   </div>
 </sec:ifAnyGranted>
 
-<div class="container">
-  <h1 class="page-header">Projects
-      <div class="pull-right">
-        <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_ProjectShowActive">
-          <span style="font-size: x-small">
-            <g:checkBox name="showInactive" value="${session?.showInactive ? true : false}" onclick="document.location=\'${createLink( controller:'project',  action:'toggleShowinctive')}\'" />&nbsp;Show Inactive&nbsp;&nbsp;
-          </span>
-        </sec:ifAnyGranted>
-        <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectCreate">
-          <a class="btn btn-primary create" href="${createLink(controller: 'project', action: 'create')}">
-            <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Create Project
-          </a>
-        </sec:ifAnyGranted>
-      </div>
-  </h1>
+<div class="row">
+  <div class="col s12 m6 l6">
+    <h2>Projects</h2>
+  </div>
 
   <div id="pageContent">
     <g:if test="${session?.projCardView}">
@@ -59,24 +49,10 @@
   </div>
 </div>
 <script>
-  $('[data-toggle="tooltip"]').tooltip();
-
-  function toggleProjView() {
-    $.ajax({
-      url: "${createLink(controller: 'project', action: 'axToggleView')}",
-      dataType: 'json',
-      type: "get",
-      success: function (data) {
-        $("#pageContent").html(data.contentPage);
-      },
-      error: function (request, status, error) {
-        alert(error)
-      },
-      complete: function () {
-        console.log('ajax completed');
-      }
-    });
-  }
+  $(document).ready(function () {
+    $("nav .nav-wrapper li").removeClass("active");
+    $("nav #nav-projects").addClass("active");
+  });
 
   function setFilter() {
     var filterString = document.getElementById("filterInput").value;

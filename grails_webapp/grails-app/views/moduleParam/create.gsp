@@ -7,37 +7,47 @@
 </head>
 
 <body>
-%{--<a href="#create-moduleParam" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>--}%
-
-<div class="nav" role="navigation">
-  %{--<ul>
-    <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-    <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]"/></g:link></li>
-  </ul>--}%
-</div>
-
-<div id="create-moduleParam" class="container" role="main">
-  <h1 class="page-header"><g:message code="default.create.label" args="[entityName]"/></h1>
-  <g:if test="${flash.message}">
-    <div class="row justify-content-center ">
-      <div class="alert alert-info text-center" role="alert">${flash.message}</div>
+<h2><g:message code="default.create.label" args="[entityName]"/></h2>
+<g:hasErrors bean="${this.moduleParam}">
+  <g:eachError var="err" bean="${this.moduleParam}">
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        M.toast({
+          html: '<span><g:message error="${err}"/></span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+          displayLength: Infinity,
+          classes: 'red'
+        });
+      });
+    </script>
+  </g:eachError>
+</g:hasErrors>
+<g:form action="save" class="col s6">
+  <f:with bean="moduleParam">
+    <div class="input-field col s12">
+      <input type="text" value="${moduleParam.module.title}" disabled>
+      <label>Module *</label>
     </div>
-  </g:if>
-  <g:hasErrors bean="${this.moduleParam}">
-    <ul class="errors" role="alert">
-      <g:eachError bean="${this.moduleParam}" var="error">
-        <li<g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-      </g:eachError>
-    </ul>
-  </g:hasErrors>
-  <g:form action="save">
-    <fieldset class="form">
-      <f:all bean="moduleParam"/>
-    </fieldset>
-    <fieldset class="buttons">
-      <g:submitButton name="create" class="save btn btn-primary" value="${message(code: 'default.button.create.label', default: 'Create')}"/>
-    </fieldset>
-  </g:form>
-</div>
+    <f:field property="pKey"/>
+    <div class="col s12">
+      <p>
+        <label>
+          <f:input property='pBasic'/>
+          <span>Basic Parameter</span>
+        </label>
+      </p>
+    </div>
+    <f:field property="defaultVal"/>
+    <f:field property="pType"/>
+    <f:field property="pLabel"/>
+    <f:field property="pOrder"/>
+    <f:field property="descr"/>
+    <f:field property="exampleFile"/>
+  </f:with>
+
+  <div class="input-field col s12">
+    <button type="submit" class="btn waves-effect waves-light">${message(code: 'default.button.create.label', default: 'Create')}</button>
+    <a href="${createLink(controller: 'module', action: 'edit', params: [id: moduleParam.module.id])}" class="btn-flat">Return to Module</a>
+  </div>
+</g:form>
 </body>
 </html>

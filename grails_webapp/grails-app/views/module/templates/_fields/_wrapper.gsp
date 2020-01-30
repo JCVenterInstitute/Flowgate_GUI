@@ -1,5 +1,5 @@
 %{--fieldsWrapper--}%
-<div class="form-group">
-  <label for="${property}">${label} ${required ? '*' : ''}</label>
-  <input type="text" class="form-control" id="${property}" name="${property}" placeholder="${label}" ${required}>
+<div class="input-field col s12">
+  <input type="text" name="${property}" required>
+  <label for="${property}">${label}</label>
 </div>

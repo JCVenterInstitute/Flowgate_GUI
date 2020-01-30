@@ -1,71 +1,117 @@
-<%@ page import="flowgate.ExpFile; flowgate.Experiment" %>
+<%@ page import="flowgate.ExpFile; flowgate.Experiment; flowgate.User; flowgate.ExperimentUser" %>
 <% def utilsService = grailsApplication.mainContext.getBean("utilsService") %>
-<g:if test="${flash.message}">
-  <div class="row justify-content-center ">
-    <div class="alert alert-info text-center" role="alert">${flash.message}</div>
+
+<div class="navigation nav-wrapper">
+  <div class="col s12">
+    <a href="${createLink(controller: 'project', action: 'index', params: [pId: experiment?.project?.id])}" class="breadcrumb dark tooltipped" data-position="bottom"
+       data-tooltip="${experiment?.project?.title}">Project</a>
+    <a href="#!" class="breadcrumb dark">${experiment?.title}</a>
   </div>
-</g:if>
-<g:form name="updateExperiment" method="PUT" controller="experiment" action="update" id="${experiment?.id}">
-<g:if test="${experiment?.id == session?.experimentOpenId?.toLong()}">
-  <g:if test="${experiment?.id == session?.experimentEditModeId?.toLong()}">
-    <div class="form-group">
-      <label for="title">Experiment Title</label>
-      <input class="form-control" id="title" name="title" value="${experiment?.title}" style="width: 75%;">
-    </div>
-  </g:if>
-  <g:else><h1 class="page-header">${experiment?.title}</h1></g:else>
+</div>
 
-  <g:if test="${experiment?.id == session.experimentEditModeId?.toLong()}">
-    <div class="form-group">
-      <label for="title">Experiment Description</label>
-      <textarea id="experimentDescription" name="description" class="form-control" rows="10" cols="130" onfocus="this.select()">${experiment?.description}</textarea>
-    </div>
-  </g:if>
-  <g:else>
-    <textarea class="form-control" readonly="true" rows="10" cols="130">${experiment?.description}</textarea>
-  </g:else>
+<h2>${experiment?.title}</h2>
 
-  <div id="bottomBtnBar">
-    <g:render template="/experiment/templates/indexBottomBtnBar" model="[experiment: experiment]"/>
-  </div>
+<ul class="tabs">
+  <li class="tab col s3"><a class="active" href="#description">Experiment Description</a></li>
+  <li class="tab col s3"><a href="#fcs-files">FCS Files</a></li>
+  <li class="tab col s3"><a href="#manage-users">Users</a></li>
+</ul>
 
+<div id="description">
   <div class="row">
-    <div class="col-sm-12">
-      %{-- TODO disable collapseAll or expandAll if all are already collapsed or expanded --}%
-      %{-- <g:link controller="expFile" action="collapseAll" params="[eId: experiment?.id]" > --}%
-      %{-- <div class="btn btn-info" onclick="expFileCollapseAllClick(${experiment?.id})">collapse all</div> --}%
-      %{-- </g:link> --}%
-      %{-- <g:link controller="expFile" action="expandAll" params="[eId: experiment?.id]" > --}%
-      %{-- <div class="btn btn-info" onclick="expFileExpandAllClick(${experiment?.id})">expand all</div> --}%
-      %{-- </g:link> --}%
-    %{--<g:if test="${experiment?.id == session.experimentEditModeId?.toLong()}"> --}%
-    %{--<sec:ifAnyGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_AddFcs">--}%
+    <div class="input-field col s12">
+      <p>${experiment?.description}</p>
     </div>
   </div>
-  <br/>
+</div>
 
-%{-- ${experiment?.expFiles.dump()} --}%
-%{-- <app-el-box *ngIf="experiment" [experiment]="experiment"></app-el-box> --}%
-%{-- TODO move to controller --}%
-%{-- <g:each var="expFile" in="${experiment?.expFiles}"> --}%
-  <g:if test="${experiment}" >
-    <g:if test="${experiment && ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment?.id?.toLong(), true), true)}" >
-      This experiment currently contains <b>${ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment.id.toLong(), true), true).size()}</b> FCS files.
-    %{--
-    <g:each in="${ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment.id.toLong(), true), true)}" var="expFile" >
-      <div id="expFile-${expFile?.id}">
-        <g:render template="/expFile/expFileTmpl" model="[experiment: experiment, expFile: expFile]"/>
+<div id="fcs-files">
+  <div class="row">
+    <div class="input-field col s12">
+      <sec:ifAnyGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentEdit">
+        <a class="btn waves-effect waves-light" href="${g.createLink(controller: 'expFile', action: 'expFileCreate', params: [eId: experiment?.id])}">Upload FCS File</a>
+      </sec:ifAnyGranted>
+      <sec:ifNotGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentEdit">
+        <g:if test="${utilsService.isAffil('experiment', experiment?.id)}">
+          <a class="btn waves-effect waves-light" href="${g.createLink(controller: 'expFile', action: 'expFileCreate', params: [eId: experiment?.id])}">Upload FCS File</a>
+        </g:if>
+      </sec:ifNotGranted>
+      <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
+        <a class="btn waves-effect waves-light" href="${g.createLink(controller: 'expFile', action: 'annotationTbl', id: experiment?.id)}">FCS File Annotation</a>
+      </g:isOwnerOrRoles>
+    </div>
+
+    <div class="input-field col s12">
+    <p>
+      <g:if test="${experiment && ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment?.id?.toLong(), true), true)}">
+        This experiment currently contains <b>${ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment.id.toLong(), true), true).size()}</b> FCS files.
+
+        <ul class="collection">
+          <g:each in="${ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment.id.toLong(), true), true)}" var="expFile">
+            <li class="collection-item">${expFile?.title}</li>
+          </g:each>
+        </ul>
+      %{--
+      <g:each in="${ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment.id.toLong(), true), true)}" var="expFile" >
+        <div id="expFile-${expFile?.id}">
+          <g:render template="/expFile/expFileTmpl" model="[experiment: experiment, expFile: expFile]"/>
+        </div>
+      </g:each>
+      --}%
+      </g:if>
+      <g:else>
+        This experiment doesn't have any FCS file.
+      </g:else>
+    </p>
+    </div>
+  </div>
+</div>
+
+<div id="manage-users">
+  <div class="row">
+    <g:form name="manageUsers" controller="experiment" action="manageUsers" id="${experiment?.id}">
+      <div class="col s12">
+        <div class="input-field col s6">
+          <g:select id="owners-${experiment?.id}"
+                    name="owners"
+                    value="${ExperimentUser?.findAllByExperimentAndExpRole(experiment, 'owner')*.user*.id}"
+                    from="${User.list()}"
+                    optionKey="id"
+                    optionValue="username"
+                    multiple=""/>
+          <label>Owner(s)</label>
+        </div>
       </div>
-    </g:each>
-    --}%
-    </g:if>
-    <g:else>
-      This experiment doesn't have any FCS file.
-    </g:else>
-  </g:if>
 
-%{--
---}%
-</g:if>
-<g:render template="/shared/manageUsers" model="[objectType: 'Experiment', object: experiment]"/>
-</g:form>
+      <div class="col s12">
+        <div class="input-field col s6">
+          <g:select id="members-${experiment?.id}"
+                    name="members"
+                    value="${ExperimentUser?.findAllByExperimentAndExpRole(experiment, 'member')*.user*.id}"
+                    from="${User.list()}"
+                    optionKey="id"
+                    optionValue="username"
+                    multiple=""/>
+          <label>Member(s)</label>
+        </div>
+      </div>
+
+      <div class="input-field col s12">
+        <div class="col s6">
+          <button type="submit" class="btn waves-effect waves-light">Save</button>
+        </div>
+      </div>
+    </g:form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var tabElems = document.querySelectorAll('.tabs');
+    M.Tabs.init(tabElems);
+
+    var selectElems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(selectElems);
+
+  });
+</script>

@@ -19,9 +19,15 @@
   </div>
 </g:ifPageProperty>
 <g:if test="${flash.message}">
-  <div class="row justify-content-center ">
-    <div class="alert alert-info text-center" role="alert">${flash.message}</div>
-  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var successToastHTML = '<span>${flash.message}</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>';
+      M.toast({
+        html: successToastHTML,
+        displayLength: 8000
+      });
+    });
+  </script>
 </g:if>
 <g:layoutBody/>
 
@@ -33,9 +39,6 @@
 </footer>
 
 <div id="screen-locker" style="display: none;"></div>
-%{--<div id="spinner" class="spinner" style="display:none;">--}%
-  %{--<g:message code="spinner.alt" default="Loading&hellip;"/>--}%
-%{--</div>--}%
 
 <asset:javascript src="application.js"/>
 </body>

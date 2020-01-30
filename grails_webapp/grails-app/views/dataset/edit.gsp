@@ -7,67 +7,62 @@
 </head>
 
 <body>
-<div class="container">
-  <ul class="breadcrumb">
-    <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: experiment?.project?.id])}" title="${experiment?.project?.title}">${experiment?.project?.title}</a></li>
-    <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" title="${experiment?.title}">${experiment?.title}</a></li>
-    <li><a href="${createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}">List of Datasets for Analysis</a></li>
-    <li class="active">Edit Dataset</li>
-  </ul>
-
-  <h1><g:message code="default.edit.label" args="[entityName]"/></h1>
-  <g:hasErrors bean="${this.dataset}">
-    <ul class="errors" role="alert">
-      <g:eachError bean="${this.dataset}" var="error">
-        <li<g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-      </g:eachError>
-    </ul>
-  </g:hasErrors>
-  <g:form resource="${this.dataset}" params="[eId: experiment.id]" method="PUT" class="form-horizontal">
-    <g:hiddenField name="version" value="${this.dataset?.version}"/>
-    <div class="form-group">
-      <label class="col-sm-1 control-label" for="description">Name</label>
-      <div class="col-sm-11">
-        <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="${this.dataset?.name}">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-1 control-label" for="description">Description</label>
-      <div class="col-sm-11">
-        <input type="text" class="form-control" id="description" name="description" placeholder="Description" value="${this.dataset?.description}">
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-1 col-sm-11">
-        <div class="col-sm-12">
-          <a class="s_h_filter" style="color:#333333; cursor: pointer;">
-            <p><strong>Filter</strong>
-              <i class="fa fa-angle-up"></i></p>
-          </a>
-          <div id="metaData">
-            <g:render template="datasetTmpl/mdFilterPanel" model="[experiment: experiment]"/>
-          </div>
-        </div>
-        <div class="col-sm-2">
-          <input type="checkbox" id="fcsSelectAll">&nbsp;<span>Select All</span>
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-1 control-label" for="description">Files</label>
-      <div class="col-sm-11">
-        <g:render template="datasetTmpl/fcsFiles" model="[experiment: experiment, expFileCandidatesList: expFileCandidatesList, dataset: dataset]"/>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-1 col-sm-11">
-        <input class="btn btn-primary" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}"/>
-        <a href="${createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" class="btn btn-warning">Back</a>
-        <p class="help-block">Update Dataset Information</p>
-      </div>
-    </div>
-  </g:form>
+<div class="navigation nav-wrapper">
+  <div class="col s12">
+    <a href="${createLink(controller: 'project', action: 'index', params: [pId: experiment?.project?.id])}" class="breadcrumb dark tooltipped" data-position="bottom"
+       data-tooltip="${experiment?.project?.title}">Project</a>
+    <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="breadcrumb dark tooltipped" data-position="bottom"
+       data-tooltip="${experiment?.title}">Experiment</a>
+    <a href="${g.createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" class="breadcrumb dark">Datasets</a>
+    <a href="#!" class="breadcrumb dark">Create Dataset</a>
+  </div>
 </div>
+
+<h2><g:message code="default.edit.label" args="[entityName]"/></h2>
+
+<g:hasErrors bean="${this.dataset}">
+  <g:eachError var="err" bean="${this.dataset}">
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        M.toast({
+          html: '<span><g:message error="${err}"/></span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+          displayLength: Infinity,
+          classes: 'red'
+        });
+      });
+    </script>
+  </g:eachError>
+</g:hasErrors>
+
+<g:form resource="${this.dataset}" params="[eId: experiment.id]" method="PUT">
+  <g:hiddenField name="version" value="${this.dataset?.version}"/>
+
+  <div class="input-field col s12">
+    <input type="text" name="name" value="${this.dataset?.name}" required>
+    <label for="name">Name</label>
+  </div>
+
+  <div class="input-field col s12">
+    <textarea name="description" value="${this.description}" required class="materialize-textarea">${this.dataset?.description}</textarea>
+    <label for="description">Description</label>
+  </div>
+
+  <div class="col s12">
+    <g:render template="datasetTmpl/mdFilterPanel" model="[experiment: experiment]"/>
+
+    <p><label><input type="checkbox" id="fcsSelectAll" class="filled-in">&nbsp;<span>Select all files</span></label></p>
+  </div>
+
+  <div class="col s12">
+    <label for="fcsFiles">Files</label>
+    <g:render template="datasetTmpl/fcsFiles" model="[experiment: experiment, expFileCandidatesList: expFileCandidatesList, dataset: dataset]"/>
+  </div>
+
+  <div class="input-field col s8">
+    <button type="submit" class="btn waves-effect waves-light">${message(code: 'default.button.update.label', default: 'Update')}</button>
+    <a href="${createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" class="btn-flat">Return to Datasets</a>
+  </div>
+</g:form>
 
 <script type="text/javascript">
   function setFilter() {
