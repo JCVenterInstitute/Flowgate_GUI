@@ -71,7 +71,12 @@ dependencyManagement {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    // Add the Grails Plugin to the runtime dependencies
+    runtime "com.bertramlabs.plugins:asset-pipeline-grails:$assetPipelineVersion"
+
+    // Define needed asset-pipeline plugins with the special assets-scope
     assets "com.bertramlabs.plugins:less-asset-pipeline:$assetPipelineVersion"
+    assets 'com.bertramlabs.plugins:sass-asset-pipeline:3.0.10'
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
@@ -169,16 +174,5 @@ bootRun {
     jvmArgs('-Dspring.output.ansi.enabled=always')
 }
 
-assets {
-    minifyJs = true
-    minifyCss = true
-    excludes = ['**/*.less', '**/analysisExample/*', '**/font-awesome/*']
-    includes = ['application.less', 'fonts/*']
-    configOptions = [
-      less: [
-        compiler: 'less4j' // or standard
-      ]
-    ]
-}
 
 apply from: 'gradle/docker.gradle'
