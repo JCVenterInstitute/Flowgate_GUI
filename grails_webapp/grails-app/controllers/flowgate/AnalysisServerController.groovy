@@ -64,6 +64,7 @@ class AnalysisServerController {
         }
 
         analysisServer.save flush:true
+        flash.message = "Server " + analysisServer.name + " has been updated!"
         redirect action: 'edit', params: [id: analysisServer.id]
     }
 
@@ -92,7 +93,7 @@ class AnalysisServerController {
             server.userPw = newPass
             server.save flush:true
 
-            flash.passSuccess = "Password has been updated!"
+            flash.success = "Password has been updated!"
         }
 
         redirect action: 'edit', params: [id: server.id]
