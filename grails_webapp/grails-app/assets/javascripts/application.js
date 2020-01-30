@@ -5,27 +5,31 @@
 // You're free to add application-wide JavaScript to this file, but it's generally better
 // to create separate JavaScript files as needed.
 //
-//= require select2/select2.min
-//= require bootstrap-all
-// = require bootcards/bootcards.min //just needed for offcanvas, automatic portrait mode
+//= require materialize/js/bin/materialize
 // = require_tree .
 //= require_self
 
 if (typeof jQuery !== 'undefined') {
   (function ($) {
     $(document).ajaxStart(function () {
-      $('#spinner, #screen-locker').fadeIn();
+      $('.preload-background').css('display', 'flex');
     }).ajaxStop(function () {
-      $('#spinner, #screen-locker').fadeOut();
+      $('.preload-background').fadeOut();
     });
   })(jQuery);
 
   $(document).ready(function () {
-    $(".breadcrumb a").each(function () {
+    $(".dropdown-trigger").dropdown({ hover: false });
+    $("a.breadcrumb").each(function () {
       $(this).text(shorten($(this).text(), 50));
     });
   });
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  var tooltipElems = document.querySelectorAll('.tooltipped');
+  M.Tooltip.init(tooltipElems);
+});
 
 function shorten(text, count) {
   return text.slice(0, count) + (text.length > count ? "..." : "");
