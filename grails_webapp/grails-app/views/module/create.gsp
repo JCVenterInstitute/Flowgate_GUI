@@ -29,10 +29,9 @@
         <g:select name="server" from="${flowgate.AnalysisServer.list()}" required="" optionKey="id" optionValue="name"/>
         <label>Server *</label>
       </div>
-      <f:field property="server" label="Server" required="true"/>
       <f:field property="title" label="Title" required="true"/>
-      <f:field property="name" label="Module or URN" required="true"/>
       <f:field property="label" label="Label" required="false"/>
+      <f:field property="name" label="Module or URN" required="true"/>
     </div>
 
     <div class="col s8">
