@@ -46,9 +46,9 @@
       <g:if test="${experiment && ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment?.id?.toLong(), true), true)}">
         This experiment currently contains <b>${ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment.id.toLong(), true), true).size()}</b> FCS files.
 
-        <ul class="collection">
+        <ul class="collapsible">
           <g:each in="${ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment.id.toLong(), true), true)}" var="expFile">
-            <li class="collection-item">${expFile?.title}</li>
+            <g:render template="/expFile/expFileTmpl" model="[experiment: experiment, expFile: expFile]"/>
           </g:each>
         </ul>
       %{--
@@ -113,5 +113,14 @@
     var selectElems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(selectElems);
 
+    var elems = document.querySelectorAll('.collapsible');
+    var instances = M.Collapsible.init(elems, {
+      onOpenStart: function (e) {
+        e.querySelector("i").textContent = "expand_less";
+      },
+      onCloseEnd: function (e) {
+        e.querySelector("i").textContent = "expand_more";
+      },
+    });
   });
 </script>
