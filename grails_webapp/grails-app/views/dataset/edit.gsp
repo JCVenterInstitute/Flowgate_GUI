@@ -37,30 +37,32 @@
 <g:form resource="${this.dataset}" params="[eId: experiment.id]" method="PUT">
   <g:hiddenField name="version" value="${this.dataset?.version}"/>
 
-  <div class="input-field col s12">
-    <input type="text" name="name" value="${this.dataset?.name}" required>
-    <label for="name">Name</label>
-  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input type="text" name="name" value="${this.dataset?.name}" required>
+      <label for="name">Name</label>
+    </div>
 
-  <div class="input-field col s12">
-    <textarea name="description" value="${this.description}" required class="materialize-textarea">${this.dataset?.description}</textarea>
-    <label for="description">Description</label>
-  </div>
+    <div class="input-field col s12">
+      <textarea name="description" value="${this.description}" required class="materialize-textarea">${this.dataset?.description}</textarea>
+      <label for="description">Description</label>
+    </div>
 
-  <div class="col s12">
-    <g:render template="datasetTmpl/mdFilterPanel" model="[experiment: experiment]"/>
+    <div class="col s12">
+      <g:render template="datasetTmpl/mdFilterPanel" model="[experiment: experiment]"/>
 
-    <p><label><input type="checkbox" id="fcsSelectAll" class="filled-in">&nbsp;<span>Select all files</span></label></p>
-  </div>
+      <p><label><input type="checkbox" id="fcsSelectAll" class="filled-in">&nbsp;<span>Select all files</span></label></p>
+    </div>
 
-  <div class="col s12">
-    <label for="fcsFiles">Files</label>
-    <g:render template="datasetTmpl/fcsFiles" model="[experiment: experiment, expFileCandidatesList: expFileCandidatesList, dataset: dataset]"/>
-  </div>
+    <div class="col s12">
+      <label for="fcsFiles">Files</label>
+      <g:render template="datasetTmpl/fcsFiles" model="[experiment: experiment, expFileCandidatesList: expFileCandidatesList, dataset: dataset]"/>
+    </div>
 
-  <div class="input-field col s8">
-    <button type="submit" class="btn waves-effect waves-light">${message(code: 'default.button.update.label', default: 'Update')}</button>
-    <a href="${createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" class="btn-flat">Return to Datasets</a>
+    <div class="input-field col s8">
+      <button type="submit" class="btn waves-effect waves-light">${message(code: 'default.button.update.label', default: 'Update')}</button>
+      <a href="${createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" class="btn-flat">Return to Datasets</a>
+    </div>
   </div>
 </g:form>
 

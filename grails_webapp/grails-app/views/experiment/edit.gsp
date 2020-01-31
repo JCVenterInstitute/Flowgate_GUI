@@ -17,33 +17,37 @@
     </div>
   </div>
 </g:hasErrors>
-<g:form resource="${this.experiment}" method="PUT" class="col s12">
-  <g:hiddenField name="version" value="${this.experiment?.version}"/>
+<div class="row">
+  <g:form resource="${this.experiment}" method="PUT" class="col s12">
+    <g:hiddenField name="version" value="${this.experiment?.version}"/>
 
-  <div class="input-field col s12">
-    <input type="text" name="title" required value="${experiment.title}"/>
-    <label for="title">Title</label>
-  </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input type="text" name="title" required value="${experiment.title}"/>
+        <label for="title">Title</label>
+      </div>
 
-  <div class="input-field col s12">
-    <textarea name="description" class="materialize-textarea" required>${experiment.description}</textarea>
-    <label for="description">Description</label>
-  </div>
+      <div class="input-field col s12">
+        <textarea name="description" class="materialize-textarea" required>${experiment.description}</textarea>
+        <label for="description">Description</label>
+      </div>
 
-  <div class="input-field col s12">
-    <textarea name="experimentHypothesis" class="materialize-textarea" required>${experiment.experimentHypothesis}</textarea>
-    <label for="experimentHypothesis">Experiment Hypothesis</label>
-  </div>
+      <div class="input-field col s12">
+        <textarea name="experimentHypothesis" class="materialize-textarea" required>${experiment.experimentHypothesis}</textarea>
+        <label for="experimentHypothesis">Experiment Hypothesis</label>
+      </div>
 
-  <div class="input-field col s12">
-    <textarea name="experimentMeta" class="materialize-textarea">${experiment.experimentMeta}</textarea>
-    <label for="experimentMeta">Experiment Meta</label>
-  </div>
+      <div class="input-field col s12">
+        <textarea name="experimentMeta" class="materialize-textarea">${experiment.experimentMeta}</textarea>
+        <label for="experimentMeta">Experiment Meta</label>
+      </div>
 
-  <div class="input-field col s12">
-    <button type="submit" class="btn waves-effect waves-light">Update Experiment</button>
-    <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="btn-flat">Return to Experiment</a>
-  </div>
-</g:form>
+      <div class="input-field col s12">
+        <button type="submit" class="btn waves-effect waves-light">Update Experiment</button>
+        <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="btn-flat">Return to Experiment</a>
+      </div>
+    </div>
+  </g:form>
+</div>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<div id="fcsFiles">
+<div id="fcsFiles" class="row">
   <g:set var="split" value="${Math.ceil(expFileCandidatesList?.size() / 3).toInteger()}"/>
   <g:set var="counter" value="${0}"/>
   <g:each in="${expFileCandidatesList?.sort { it.fileName }}" var="expFile" status="index">

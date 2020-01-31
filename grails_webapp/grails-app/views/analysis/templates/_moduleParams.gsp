@@ -59,46 +59,48 @@
   %{-- either dir or file --}%
     <g:if test="${moduleParam?.pType == 'dir' || moduleParam?.pType == 'file'}">
       <div class="col s12">
-        <div class="col s6">
-          <label for="mp-${moduleParam?.id}">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</label>
-          <g:if test="${moduleParam?.pType == 'dir'}">
-            <div class="file-field input-field">
-              <div class="btn">
-                <span>Choose File(s)</span>
-                <input type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}" webkitdirectory directory multiple/>
-              </div>
+        <div class="row">
+          <div class="col s6">
+            <label for="mp-${moduleParam?.id}">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</label>
+            <g:if test="${moduleParam?.pType == 'dir'}">
+              <div class="file-field input-field">
+                <div class="btn">
+                  <span>Choose File(s)</span>
+                  <input type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}" webkitdirectory directory multiple/>
+                </div>
 
-              <div class="file-path-wrapper">
-                <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                </div>
               </div>
-            </div>
-          </g:if>
-          <g:if test="${moduleParam?.pType == 'file'}">
-            <div class="file-field input-field">
-              <div class="btn">
-                <span>Choose File(s)</span>
-                <input multiple type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}"/>
-              </div>
+            </g:if>
+            <g:if test="${moduleParam?.pType == 'file'}">
+              <div class="file-field input-field">
+                <div class="btn">
+                  <span>Choose File(s)</span>
+                  <input multiple type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}"/>
+                </div>
 
-              <div class="file-path-wrapper">
-                <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                </div>
               </div>
-            </div>
-          </g:if>
-        </div>
+            </g:if>
+          </div>
 
-        <div class="col s6">
-          <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
-            <div class="btn-floating waves-effect waves-light">
-              <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="top">info</i>
-            </div>
-          </g:if>
-          <g:if test="${moduleParam?.exampleFile && moduleParam?.exampleFile != ''}">
-            <a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}")}" class="btn-floating waves-effect waves-light tooltipped"
-               data-tooltip="Download example file: ${moduleParam?.exampleFile}" data-position="top">
-              <i class="material-icons">file_download</i>
-            </a>
-          </g:if>
+          <div class="col s6">
+            <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
+              <div class="btn-floating waves-effect waves-light">
+                <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="top">info</i>
+              </div>
+            </g:if>
+            <g:if test="${moduleParam?.exampleFile && moduleParam?.exampleFile != ''}">
+              <a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}")}" class="btn-floating waves-effect waves-light tooltipped"
+                 data-tooltip="Download example file: ${moduleParam?.exampleFile}" data-position="top">
+                <i class="material-icons">file_download</i>
+              </a>
+            </g:if>
+          </div>
         </div>
       </div>
     </g:if>
@@ -143,46 +145,48 @@
       </g:if>
       <g:if test="${moduleParam?.pType == 'dir' || moduleParam?.pType == 'file'}">
         <div class="col s12">
-          <div class="col s6">
-            <label for="mp-${moduleParam?.id}">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</label>
-            <g:if test="${moduleParam?.pType == 'dir'}">
-              <div class="file-field input-field">
-                <div class="btn">
-                  <span>Choose File(s)</span>
-                  <input type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}" webkitdirectory directory multiple/>
-                </div>
+          <div class="row">
+            <div class="col s6">
+              <label for="mp-${moduleParam?.id}">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</label>
+              <g:if test="${moduleParam?.pType == 'dir'}">
+                <div class="file-field input-field">
+                  <div class="btn">
+                    <span>Choose File(s)</span>
+                    <input type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}" webkitdirectory directory multiple/>
+                  </div>
 
-                <div class="file-path-wrapper">
-                  <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                  </div>
                 </div>
-              </div>
-            </g:if>
-            <g:if test="${moduleParam?.pType == 'file'}">
-              <div class="file-field input-field">
-                <div class="btn">
-                  <span>Choose File(s)</span>
-                  <input multiple type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}"/>
-                </div>
+              </g:if>
+              <g:if test="${moduleParam?.pType == 'file'}">
+                <div class="file-field input-field">
+                  <div class="btn">
+                    <span>Choose File(s)</span>
+                    <input multiple type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}"/>
+                  </div>
 
-                <div class="file-path-wrapper">
-                  <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                  </div>
                 </div>
-              </div>
-            </g:if>
-          </div>
+              </g:if>
+            </div>
 
-          <div class="col s6">
-            <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
-              <div class="btn-floating waves-effect waves-light">
-                <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="top">info</i>
-              </div>
-            </g:if>
-            <g:if test="${moduleParam?.exampleFile && moduleParam?.exampleFile != ''}">
-              <a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}")}" class="btn-floating waves-effect waves-light tooltipped"
-                 data-tooltip="Download example file: ${moduleParam?.exampleFile}" data-position="top">
-                <i class="material-icons">file_download</i>
-              </a>
-            </g:if>
+            <div class="col s6">
+              <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
+                <div class="btn-floating waves-effect waves-light">
+                  <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="top">info</i>
+                </div>
+              </g:if>
+              <g:if test="${moduleParam?.exampleFile && moduleParam?.exampleFile != ''}">
+                <a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}")}" class="btn-floating waves-effect waves-light tooltipped"
+                   data-tooltip="Download example file: ${moduleParam?.exampleFile}" data-position="top">
+                  <i class="material-icons">file_download</i>
+                </a>
+              </g:if>
+            </div>
           </div>
         </div>
       </g:if>

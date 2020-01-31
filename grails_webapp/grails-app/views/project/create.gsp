@@ -21,16 +21,22 @@
 
 
 <h2><g:message code="default.create.label" args="[entityName]"/></h2>
-<g:form action="save" class="col s12">
-  <f:with bean="project">
-    <f:field property="title"/>
-    <f:field property="description" type="textarea"/>
-  </f:with>
 
-  <div class="input-field col s12">
-    <button type="submit" class="btn waves-effect waves-light">Create Project</button>
-    <a href="${createLink(controller: 'project', action: 'list')}" class="btn-flat">Return to Project List</a>
-  </div>
-</g:form>
+<div class="row">
+  <g:form action="save" class="col s12">
+    <f:with bean="project">
+      <div class="row">
+        <f:field property="title"/>
+        <f:field property="description" type="textarea"/>
+      </div>
+    </f:with>
+    <div class="row">
+      <div class="input-field col s12">
+        <button type="submit" class="btn waves-effect waves-light">Create Project</button>
+        <a href="${createLink(controller: 'project', action: 'list')}" class="btn-flat">Return to Project List</a>
+      </div>
+    </div>
+  </g:form>
+</div>
 </body>
 </html>

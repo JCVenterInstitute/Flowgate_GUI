@@ -27,14 +27,16 @@
     </script>
   </g:eachError>
 </g:hasErrors>
-<g:form resource="${this.module}" method="PUT">
+<g:form resource="${this.module}" method="PUT" class="row">
   <g:hiddenField name="version" value="${this.module?.version}"/>
   <f:with bean="module">
     <div class="col s4">
-      <f:field property="server" label="Server" required="true"/>
-      <f:field property="label" label="Label" required="false"/>
-      <f:field property="title" label="Title" required="true"/>
-      <f:field property="name" label="Module or URN" required="true"/>
+      <div class="row">
+        <f:field property="server" label="Server" required="true"/>
+        <f:field property="label" label="Label" required="false"/>
+        <f:field property="title" label="Title" required="true"/>
+        <f:field property="name" label="Module or URN" required="true"/>
+      </div>
     </div>
 
     <div class="col s8">

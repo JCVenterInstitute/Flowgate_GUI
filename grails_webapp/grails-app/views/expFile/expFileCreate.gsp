@@ -36,28 +36,30 @@
       </div>
     </div>
   </g:if>
-  <div class="col s12">
-    <div class="file-field input-field">
-      <div class="btn">
-        <span>Choose File(s)</span>
-        <input id="uploadFile" type="file" name="actFcsFile" multiple/>
+  <div class="row">
+    <div class="col s12">
+      <div class="file-field input-field">
+        <div class="btn">
+          <span>Choose File(s)</span>
+          <input id="uploadFile" type="file" name="actFcsFile" multiple/>
+        </div>
+
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text" placeholder="Upload one or more .fcs file(s)">
+        </div>
       </div>
 
-      <div class="file-path-wrapper">
-        <input class="file-path validate" type="text" placeholder="Upload one or more .fcs file(s)">
+      <div id="dropzone" class="card-panel hoverable">Drop files here</div>
+
+      <blockquote>You can select single or multiple .fcs file(s).<br>
+        You can drag and drop your files in the box above to upload (Max size for each file is 1GB)</blockquote>
+
+      <ul id="files" class="collection files"></ul>
+
+      <div class="input-field">
+        <button type="button" class="btn waves-effect waves-light" id="uploadFilesBtn">${message(code: 'default.button.annotate.label', default: 'Upload')}</button>
+        <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="btn-flat">Cancel</a>
       </div>
-    </div>
-
-    <div id="dropzone" class="card-panel hoverable">Drop files here</div>
-
-    <blockquote>You can select single or multiple .fcs file(s).<br>
-      You can drag and drop your files in the box above to upload (Max size for each file is 1GB)</blockquote>
-
-    <ul id="files" class="collection files"></ul>
-
-    <div class="input-field">
-      <button type="button" class="btn waves-effect waves-light" id="uploadFilesBtn">${message(code: 'default.button.annotate.label', default: 'Upload')}</button>
-      <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="btn-flat">Cancel</a>
     </div>
   </div>
 </g:uploadForm>

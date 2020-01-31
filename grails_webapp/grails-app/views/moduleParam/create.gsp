@@ -21,33 +21,37 @@
     </script>
   </g:eachError>
 </g:hasErrors>
-<g:form action="save" class="col s6">
-  <f:with bean="moduleParam">
-    <div class="input-field col s12">
-      <input type="text" value="${moduleParam.module.title}" disabled>
-      <label>Module *</label>
-    </div>
-    <f:field property="pKey"/>
-    <div class="col s12">
-      <p>
-        <label>
-          <f:input property='pBasic'/>
-          <span>Basic Parameter</span>
-        </label>
-      </p>
-    </div>
-    <f:field property="defaultVal"/>
-    <f:field property="pType"/>
-    <f:field property="pLabel"/>
-    <f:field property="pOrder"/>
-    <f:field property="descr"/>
-    <f:field property="exampleFile"/>
-  </f:with>
+<div class="row">
+  <g:form action="save" class="col s6">
+    <div class="row">
+      <f:with bean="moduleParam">
+        <div class="input-field col s12">
+          <input type="text" value="${moduleParam.module.title}" disabled>
+          <label>Module *</label>
+        </div>
+        <f:field property="pKey"/>
+        <div class="col s12">
+          <p>
+            <label>
+              <f:input property='pBasic'/>
+              <span>Basic Parameter</span>
+            </label>
+          </p>
+        </div>
+        <f:field property="defaultVal"/>
+        <f:field property="pType"/>
+        <f:field property="pLabel"/>
+        <f:field property="pOrder"/>
+        <f:field property="descr"/>
+        <f:field property="exampleFile"/>
+      </f:with>
 
-  <div class="input-field col s12">
-    <button type="submit" class="btn waves-effect waves-light">${message(code: 'default.button.create.label', default: 'Create')}</button>
-    <a href="${createLink(controller: 'module', action: 'edit', params: [id: moduleParam.module.id])}" class="btn-flat">Return to Module</a>
-  </div>
-</g:form>
+      <div class="input-field col s12">
+        <button type="submit" class="btn waves-effect waves-light">${message(code: 'default.button.create.label', default: 'Create')}</button>
+        <a href="${createLink(controller: 'module', action: 'edit', params: [id: moduleParam.module.id])}" class="btn-flat">Return to Module</a>
+      </div>
+    </div>
+  </g:form>
+</div>
 </body>
 </html>

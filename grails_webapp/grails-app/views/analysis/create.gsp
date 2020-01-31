@@ -64,30 +64,32 @@
         <li class="tab col s2"><a href="#advanced">Advanced</a></li>
       </ul>
 
-      <div class="input-field col s12">
-        <g:select id="module" required="" name="module.id" from="${Module.list()}"
-                  optionValue="${{ module -> "${module.label ? module.label : module.title}" }}"
-                  optionKey="id" noSelection="${['': 'Select a Pipeline']}" onchange="moduleChange(this.value);"/>
-        <label><g:message code="analysis.module.label" default="Analysis Pipeline"/> *</label>
-      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <g:select id="module" required="" name="module.id" from="${Module.list()}"
+                    optionValue="${{ module -> "${module.label ? module.label : module.title}" }}"
+                    optionKey="id" noSelection="${['': 'Select a Pipeline']}" onchange="moduleChange(this.value);"/>
+          <label><g:message code="analysis.module.label" default="Analysis Pipeline"/> *</label>
+        </div>
 
-      <div class="input-field col s12">
-        <input type="text" name="analysisName" id="analysisName" required>
-        <label for="analysisName"><g:message code="analysis.name.label" default="Task Name"/> *</label>
-      </div>
+        <div class="input-field col s12">
+          <input type="text" name="analysisName" id="analysisName" required>
+          <label for="analysisName"><g:message code="analysis.name.label" default="Task Name"/> *</label>
+        </div>
 
-      <div class="input-field col s12">
-        <textarea name="analysisDescription" id="analysisDescription" class="materialize-textarea"></textarea>
-        <label for="analysisDescription">Description</label>
-      </div>
+        <div class="input-field col s12">
+          <textarea name="analysisDescription" id="analysisDescription" class="materialize-textarea"></textarea>
+          <label for="analysisDescription">Description</label>
+        </div>
 
-      <div id="modParams">
-        <g:render template="templates/moduleParams" model="[module: module]"/>
-      </div>
+        <div id="modParams">
+          <g:render template="templates/moduleParams" model="[module: module]"/>
+        </div>
 
-      <div class="input-field col s12">
-        <button type="submit" class="btn waves-effect waves-light">${message(code: 'analysis.create.btn.label', default: 'Submit')}</button>
-        <a href="${createLink(controller: 'analysis', action: 'index', params: [eId: eId])}" class="btn-flat">Cancel</a>
+        <div class="input-field col s12">
+          <button type="submit" class="btn waves-effect waves-light">${message(code: 'analysis.create.btn.label', default: 'Submit')}</button>
+          <a href="${createLink(controller: 'analysis', action: 'index', params: [eId: eId])}" class="btn-flat">Cancel</a>
+        </div>
       </div>
 
       <script>

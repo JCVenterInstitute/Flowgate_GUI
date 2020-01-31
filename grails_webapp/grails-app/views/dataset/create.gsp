@@ -4,6 +4,11 @@
   <meta name="layout" content="main"/>
   <g:set var="entityName" value="${message(code: 'dataset.label', default: 'Dataset')}"/>
   <title><g:message code="default.create.label" args="[entityName]"/></title>
+  <style>
+  .hiddendiv.common {
+    display: none;
+  }
+  </style>
 </head>
 
 <body>
@@ -29,30 +34,32 @@
     <g:hiddenField name="eId" value="${this.eId}"/>
     <g:hiddenField id="analyze" name="analyze" value="${false}"/>
 
-    <div class="input-field col s12">
-      <input type="text" name="name" value="${this.name}" required>
-      <label for="name">Name</label>
-    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input type="text" name="name" value="${this.name}" required>
+        <label for="name">Name</label>
+      </div>
 
-    <div class="input-field col s12">
-      <textarea name="description" value="${this.description}" required class="materialize-textarea"></textarea>
-      <label for="description">Description</label>
-    </div>
+      <div class="input-field col s12">
+        <textarea name="description" value="${this.description}" required class="materialize-textarea"></textarea>
+        <label for="description">Description</label>
+      </div>
 
-    <div class="col s12">
-      <g:render template="datasetTmpl/mdFilterPanel" model="[experiment: experiment]"/>
+      <div class="col s12">
+        <g:render template="datasetTmpl/mdFilterPanel" model="[experiment: experiment]"/>
 
-      <p><label><input type="checkbox" id="fcsSelectAll" class="filled-in">&nbsp;<span>Select all files</span></label></p>
-    </div>
+        <p><label><input type="checkbox" id="fcsSelectAll" class="filled-in">&nbsp;<span>Select all files</span></label></p>
+      </div>
 
-    <div class="col s12">
-      <label for="fcsFiles">Files</label>
-      <g:render template="datasetTmpl/fcsFiles" model="[experiment: experiment, expFileCandidatesList: expFileCandidatesList, dataset: dataset]"/>
-    </div>
+      <div class="col s12">
+        <label for="fcsFiles">Files</label>
+        <g:render template="datasetTmpl/fcsFiles" model="[experiment: experiment, expFileCandidatesList: expFileCandidatesList, dataset: dataset]"/>
+      </div>
 
-    <div class="input-field col s8">
-      <button type="submit" class="btn waves-effect waves-light">${message(code: 'default.button.create.label', default: 'Create')}</button>
-      <button type="submit" class="btn-flat" onclick="$('#analyze').val(${true});">Create and Analyze</button>
+      <div class="input-field col s8">
+        <button type="submit" class="btn waves-effect waves-light">${message(code: 'default.button.create.label', default: 'Create')}</button>
+        <button type="submit" class="btn-flat" onclick="$('#analyze').val(${true});">Create and Analyze</button>
+      </div>
     </div>
   </g:form>
 </g:else>

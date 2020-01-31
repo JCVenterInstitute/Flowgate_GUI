@@ -74,9 +74,11 @@
     </g:else>
   </div>
 
-  <div class="input-field col s12">
-    <g:link class="btn waves-effect waves-light" controller="experiment" action="index" params="[eId: experiment.id]">Save and return to experiment</g:link>
-    <a class="btn-flat waves-effect waves-light modal-trigger" href="#upload-annotation-file">Upload an Annotation File</a>
+  <div class="row">
+    <div class="input-field col s12">
+      <g:link class="btn waves-effect waves-light" controller="experiment" action="index" params="[eId: experiment.id]">Save and return to experiment</g:link>
+      <a class="btn-flat waves-effect waves-light modal-trigger" href="#upload-annotation-file">Upload an Annotation File</a>
+    </div>
   </div>
 
   <div id="upload-annotation-file" class="modal modal-fixed-footer">

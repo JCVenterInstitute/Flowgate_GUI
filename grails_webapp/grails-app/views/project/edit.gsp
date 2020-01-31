@@ -18,22 +18,26 @@
   </g:eachError>
   </ul>
 </g:hasErrors>
-<g:form action="update" resource="${this.project}" method="POST" class="col s12">
-  <g:hiddenField name="version" value="${this.project?.version}"/>
-  <div class="input-field col s12">
-    <input type="text" name="title" required value="${project.title}"/>
-    <label for="title">Title</label>
-  </div>
+<div class="row">
+  <g:form action="update" resource="${this.project}" method="POST" class="col s12">
+    <g:hiddenField name="version" value="${this.project?.version}"/>
+    <div class="row">
+      <div class="input-field col s12">
+        <input type="text" name="title" required value="${project.title}"/>
+        <label for="title">Title</label>
+      </div>
 
-  <div class="input-field col s12">
-    <textarea name="description" class="materialize-textarea" required>${project.description}</textarea>
-    <label for="description">Description</label>
-  </div>
+      <div class="input-field col s12">
+        <textarea name="description" class="materialize-textarea" required>${project.description}</textarea>
+        <label for="description">Description</label>
+      </div>
 
-  <div class="input-field col s12">
-    <button type="submit" class="btn waves-effect waves-light">Update Project</button>
-    <a href="${createLink(controller: 'project', action: 'index', params: [pId: project?.id])}" class="btn-flat">Return to Project</a>
-  </div>
-</g:form>
+      <div class="input-field col s12">
+        <button type="submit" class="btn waves-effect waves-light">Update Project</button>
+        <a href="${createLink(controller: 'project', action: 'index', params: [pId: project?.id])}" class="btn-flat">Return to Project</a>
+      </div>
+    </div>
+  </g:form>
+</div>
 </body>
 </html>

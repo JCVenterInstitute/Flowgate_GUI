@@ -20,30 +20,34 @@
 </content>
 
 <h2>Create Experiment</h2>
-<g:form action="save" class="col s12">
-  <g:hiddenField name="datasets" value="${null}"/>
-  <g:hiddenField name="experimentMeta" value=""/>
-  <g:hiddenField name="pId" value="${pId}"/>
 
-  <div class="input-field col s12">
-    <input type="text" name="title" required/>
-    <label for="title">Title</label>
-  </div>
+<div class="row">
+  <g:form action="save" class="col s12">
+    <g:hiddenField name="datasets" value="${null}"/>
+    <g:hiddenField name="experimentMeta" value=""/>
+    <g:hiddenField name="pId" value="${pId}"/>
+    <div class="row">
+      <div class="input-field col s12">
+        <input type="text" name="title" required/>
+        <label for="title">Title</label>
+      </div>
 
-  <div class="input-field col s12">
-    <textarea name="description" class="materialize-textarea" required></textarea>
-    <label for="description">Description</label>
-  </div>
+      <div class="input-field col s12">
+        <textarea name="description" class="materialize-textarea" required></textarea>
+        <label for="description">Description</label>
+      </div>
 
-  <div class="input-field col s12">
-    <textarea name="experimentHypothesis" class="materialize-textarea" required></textarea>
-    <label for="experimentHypothesis">Experiment Hypothesis</label>
-  </div>
+      <div class="input-field col s12">
+        <textarea name="experimentHypothesis" class="materialize-textarea" required></textarea>
+        <label for="experimentHypothesis">Experiment Hypothesis</label>
+      </div>
 
-  <div class="input-field col s12">
-    <button type="submit" class="btn waves-effect waves-light">Create Experiment</button>
-    <a href="${createLink(controller: 'project', action: 'index', params: [pId: pId])}" class="btn-flat">Return to Project</a>
-  </div>
-</g:form>
+      <div class="input-field col s12">
+        <button type="submit" class="btn waves-effect waves-light">Create Experiment</button>
+        <a href="${createLink(controller: 'project', action: 'index', params: [pId: pId])}" class="btn-flat">Return to Project</a>
+      </div>
+    </div>
+  </g:form>
+</div>
 </body>
 </html>

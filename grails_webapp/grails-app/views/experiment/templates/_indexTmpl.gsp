@@ -71,35 +71,37 @@
   <div class="row">
     <g:form name="manageUsers" controller="experiment" action="manageUsers" id="${experiment?.id}">
       <div class="col s12">
-        <div class="input-field col s6">
-          <g:select id="owners-${experiment?.id}"
-                    name="owners"
-                    value="${ExperimentUser?.findAllByExperimentAndExpRole(experiment, 'owner')*.user*.id}"
-                    from="${User.list()}"
-                    optionKey="id"
-                    optionValue="username"
-                    multiple=""/>
-          <label>Owner(s)</label>
+        <div class="row">
+          <div class="input-field col s6">
+            <g:select id="owners-${experiment?.id}"
+                      name="owners"
+                      value="${ExperimentUser?.findAllByExperimentAndExpRole(experiment, 'owner')*.user*.id}"
+                      from="${User.list()}"
+                      optionKey="id"
+                      optionValue="username"
+                      multiple=""/>
+            <label>Owner(s)</label>
+          </div>
         </div>
       </div>
 
       <div class="col s12">
-        <div class="input-field col s6">
-          <g:select id="members-${experiment?.id}"
-                    name="members"
-                    value="${ExperimentUser?.findAllByExperimentAndExpRole(experiment, 'member')*.user*.id}"
-                    from="${User.list()}"
-                    optionKey="id"
-                    optionValue="username"
-                    multiple=""/>
-          <label>Member(s)</label>
+        <div class="row">
+          <div class="input-field col s6">
+            <g:select id="members-${experiment?.id}"
+                      name="members"
+                      value="${ExperimentUser?.findAllByExperimentAndExpRole(experiment, 'member')*.user*.id}"
+                      from="${User.list()}"
+                      optionKey="id"
+                      optionValue="username"
+                      multiple=""/>
+            <label>Member(s)</label>
+          </div>
         </div>
       </div>
 
       <div class="input-field col s12">
-        <div class="col s6">
-          <button type="submit" class="btn waves-effect waves-light">Save</button>
-        </div>
+        <button type="submit" class="btn waves-effect waves-light">Save</button>
       </div>
     </g:form>
   </div>
