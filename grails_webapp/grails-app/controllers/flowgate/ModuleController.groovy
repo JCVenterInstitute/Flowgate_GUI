@@ -39,7 +39,7 @@ class ModuleController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'module.label', default: 'Module'), module.id])
+                flash.message = message(code: 'default.created.message', args: [message(code: 'module.label', default: 'Module'), module.title])
                 redirect module
             }
             '*' { respond module, [status: CREATED] }
@@ -68,7 +68,7 @@ class ModuleController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'module.label', default: 'Module'), module.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'module.label', default: 'Module'), module.title])
                 redirect module
             }
             '*'{ respond module, [status: OK] }
@@ -88,7 +88,7 @@ class ModuleController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'module.label', default: 'Module'), module.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'module.label', default: 'Module'), module.title])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
