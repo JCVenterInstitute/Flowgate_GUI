@@ -42,10 +42,12 @@
     </div>
   </f:with>
 
-  <div class="col s12">
-    <h5>Module Parameters</h5>
-    <f:table collection="${module.moduleParams}" properties="['pKey', 'pLabel', 'defaultVal', 'pBasic', 'pType', 'descr', 'exampleFile']"/>
-  </div>
+  <g:if test="${module.moduleParams.size() > 0}">
+    <div class="col s12">
+      <h5>Module Parameters</h5>
+      <f:table collection="${module.moduleParams}" properties="['pKey', 'pLabel', 'defaultVal', 'pBasic', 'pType', 'descr', 'exampleFile']"/>
+    </div>
+  </g:if>
 
   <div class="input-field col s12">
     <button class="btn waves-effect waves-light" type="submit">${message(code: 'default.button.update.label', default: 'Update')}</button>
