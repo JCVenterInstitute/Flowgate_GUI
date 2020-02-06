@@ -39,7 +39,7 @@ class ModuleParamController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'moduleParam.label', default: 'ModuleParam'), moduleParam.id])
+                flash.message = message(code: 'default.created.message', args: [message(code: 'moduleParam.label', default: 'ModuleParam'), moduleParam.pKey])
                 redirect moduleParam
             }
             '*' { respond moduleParam, [status: CREATED] }
