@@ -7,33 +7,45 @@
 </head>
 
 <body>
-<div id="show-moduleParam" class="container" role="main">
-  <h1 class="page-header"><g:message code="default.show.label" args="[entityName]"/></h1>
+<div class="row">
+  <h2><g:message code="default.show.label" args="[entityName]"/></h2>
 
-  <dl class="dl-horizontal">
-    <f:with bean="moduleParam">
-      <dt>Module Name:</dt>
-      <dd><a href="${createLink(controller: 'module', action: 'edit', params: [id: moduleParam.module.id])}">${moduleParam.module.label}</a></dd>
-      <f:displayWidget property="pKey"/>
-      <f:displayWidget property="pBasic"/>
-      <f:displayWidget property="defaultVal"/>
-      <f:displayWidget property="pType"/>
-      <f:displayWidget property="pLabel"/>
-      <f:displayWidget property="descr" label="Description"/>
-      <dt>Example File:</dt>
-      <dd><a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}")}">${moduleParam?.exampleFile}</a></dd>
-    </f:with>
-    <dt></dt>
-    <dd style="margin-top: 5px;">
-      <g:form resource="${this.moduleParam}" method="DELETE">
-        <fieldset class="buttons">
-          <g:link class="edit btn btn-sm btn-primary" action="edit" resource="${this.moduleParam}"><g:message code="default.button.edit.label" default="Edit"/></g:link>
-          <input class="delete btn btn-sm btn-danger" type="submit" value="${message(code: 'default.button.delete.label', default: 'Delete')}"
-                 onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
-        </fieldset>
-      </g:form>
-    </dd>
-  </dl>
+  <f:with bean="moduleParam">
+    <f:displayWidget property="module.label"/>
+    <f:displayWidget property="pKey"/>
+    <f:displayWidget property="pBasic"/>
+    <f:displayWidget property="defaultVal"/>
+    <f:displayWidget property="pType"/>
+    <f:displayWidget property="pLabel"/>
+    <f:displayWidget property="descr" label="Description"/>
+    <div>
+      <label>Example File</label>
+
+      <p><a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}")}">${moduleParam?.exampleFile}</a></p>
+    </div>
+  </f:with>
+
+  <g:link class="btn waves-effect waves-light" action="edit" resource="${this.moduleParam}">${message(code: 'default.button.edit.label', default: 'Edit')}</g:link>
+  <a class="btn-flat modal-trigger" href="#delete-moduleparam-modal">${message(code: 'default.button.delete.label', default: 'Delete')}</a>
+  <a href="${createLink(controller: 'module', action: 'edit', params: [id: moduleParam.module.id])}" class="btn-flat">Return to Module</a>
 </div>
+
+<div id="delete-moduleparam-modal" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <h4>Confirm to delete module parameter</h4>
+  </div>
+
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
+    <g:link action="delete" resource="${this.moduleParam}" class="modal-close waves-effect waves-light btn-flat">Confirm</g:link>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var modalElems = document.querySelectorAll('.modal');
+    M.Modal.init(modalElems);
+  });
+</script>
 </body>
 </html>
