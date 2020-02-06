@@ -6,7 +6,7 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class ModuleParamController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: "POST", update: "PUT"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -68,7 +68,7 @@ class ModuleParamController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'moduleParam.label', default: 'ModuleParam'), moduleParam.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'moduleParam.label', default: 'ModuleParam'), moduleParam.pKey])
                 redirect moduleParam
             }
             '*'{ respond moduleParam, [status: OK] }
@@ -88,7 +88,7 @@ class ModuleParamController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'moduleParam.label', default: 'ModuleParam'), moduleParam.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'moduleParam.label', default: 'ModuleParam'), moduleParam.pKey])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
