@@ -86,13 +86,8 @@ class ModuleParamController {
 
         moduleParam.delete flush:true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'moduleParam.label', default: 'ModuleParam'), moduleParam.pKey])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'moduleParam.label', default: 'ModuleParam'), moduleParam.pKey])
+        redirect controller: 'module', action: 'edit', params: [id: moduleParam?.module?.id]
     }
 
     protected void notFound() {
