@@ -25,6 +25,7 @@
   <g:form action="save" class="col s6">
     <div class="row">
       <f:with bean="moduleParam">
+        <g:hiddenField name="module.id" value="${moduleParam.module.id}"/>
         <div class="input-field col s12">
           <input type="text" value="${moduleParam.module.title}" disabled>
           <label>Module *</label>
