@@ -62,8 +62,8 @@ class RestUtilsService {
       RestBuilder rest = new RestBuilder()
       // TODO remove after debugging!!!!!
       println "url: ${module.server.url}/gp/rest/v1/jobs"
-//      println "un: ${module.server.userName}"
-//      println "pw: ${module.server.userPw}"
+      println "un: ${module.server.userName}"
+      println "pw: ${module.server.userPw}"
       println "auth: Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
 
       println "json: ${JsonOutput.toJson(['lsid': lsidOrTaskName, 'params': paramVars])}"

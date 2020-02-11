@@ -3,7 +3,7 @@ server:
     port: 8585
 
 fcsFileStoreLocation:
-    path: /Users/flowGate/tmp/fcsUploads/
+    path: /Users/flowGate/tmp/fcsUploads
 
 adminEmailAddr:
 

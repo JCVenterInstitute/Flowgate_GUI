@@ -64,9 +64,9 @@
 
 <div class="row mt-4 mb-4">
   <div class="col-sm-12">
+    %{-- TODO add tag 'isAffilOrRoles' and replace --}%
     <sec:ifAnyGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentEdit">
       <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'expFileCreate', params: [eId: experiment?.id])}">
-%{--        <div class="pull-right btn btn-primary" style="cursor: pointer">--}%
         <div class="btn btn-primary" style="cursor: pointer">
           <i class="fa fa-plus"></i>&nbsp;Add/Upload FCS
         </div>
@@ -74,9 +74,7 @@
     </sec:ifAnyGranted>
     <sec:ifNotGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentEdit">
       <g:if test="${utilsService.isAffil('experiment', experiment?.id)}">
-      %{-- <div class="pull-right btn btn-info" onclick="btnAddExpFileClick(${experiment?.id})"><i class="glyphicon glyphicon-plus"></i> Add/Upload File</div> --}%
         <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'expFileCreate', params: [eId: experiment?.id])}">
-%{--          <div class="pull-right btn btn-primary" style="cursor: pointer">--}%
           <div class="btn btn-primary" style="cursor: pointer">
             <i class="fa fa-plus"></i>&nbsp;Add/Upload FCS
           </div>
@@ -84,13 +82,21 @@
       </g:if>
     </sec:ifNotGranted>
 
-
-    %{--<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">--}%
     <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
       <span data-toggle="tooltip" title="FCS File Annotation">
         <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'expFile', action: 'annotationTbl', id: experiment?.id)}" >
         <div class="btn btn-default" style="cursor: pointer">
           <i class="fa fa-adn fa-lg"></i>FCS File Annotation
+        </div>
+      </a>
+      </span>
+    </g:isOwnerOrRoles>
+
+    <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
+      <span data-toggle="tooltip" title="MIFlowCyte Annotation">
+        <a class="noLinkBlack " style="background-color: transparent" href="${g.createLink(controller: 'experiment', action: 'miFcytTbl', id: experiment?.id)}" >
+        <div class="btn btn-default" style="cursor: pointer">
+          <i class="fa fa-adn fa-lg"></i>MIFlowCyte Annotation
         </div>
       </a>
       </span>
