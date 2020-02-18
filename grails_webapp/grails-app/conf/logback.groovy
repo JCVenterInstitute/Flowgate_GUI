@@ -32,7 +32,15 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
         }
     }
     logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
+    logger('grails.app.controllers', INFO, ['STDOUT'], false)
+//    logger('org.apache.http.headers', DEBUG, ['STDOUT'], false)
+    logger('org.apache.http.headers', INFO, ['STDOUT'], false)
+//    logger('org.apache.http.wire', DEBUG, ['STDOUT'], false)
+    logger('org.apache.http.wire', INFO, ['STDOUT'], false)
+    logger("console", INFO, ['STDOUT'], false)
+//    debug 'org.apache.http.headers', 'org.apache.http.wire'
     root(ERROR, ['STDOUT', 'FULL_STACKTRACE'])
+//    root(INFO, ['STDOUT', 'FULL_STACKTRACE'])
 }
 else {
     root(ERROR, ['STDOUT'])
