@@ -92,14 +92,14 @@ class AnalysisServerController {
         String oldPass = params?.oldpass
         String newPass = params?.newpass
 
-        if(!oldPass.equals(server.userPw)) {
-            flash.passError = "Old Password does not match!"
-        } else {
+//        if(!oldPass.equals(server.userPw)) {
+//            flash.passError = "Old Password does not match!"
+//        } else {
             server.userPw = newPass
             server.save flush:true
 
             flash.passSuccess = "Password has been updated!"
-        }
+//        }
 
         redirect action: 'edit', params: [id: server.id]
     }

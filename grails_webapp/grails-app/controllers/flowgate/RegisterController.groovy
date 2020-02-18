@@ -3,6 +3,7 @@ package flowgate
 import grails.plugin.springsecurity.authentication.dao.NullSaltSource
 import grails.plugin.springsecurity.ui.CommandObject
 import grails.plugin.springsecurity.ui.RegistrationCode
+import grails.plugin.springsecurity.SpringSecurityUtils
 
 class RegisterController extends grails.plugin.springsecurity.ui.RegisterController {
 
@@ -107,9 +108,12 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
     if (forgotPasswordCommand.hasErrors()) {
       return [forgotPasswordCommand: forgotPasswordCommand]
     }
-
+    String usernameFieldName = SpringSecurityUtils.securityConfig.userLookup.usernamePropertyName
+//    User user = User.findByUsername(forgotPasswordCommand.username) //does not work!!!
 //    def user = findUserByUsername(forgotPasswordCommand.username)
-    User user = User.findByUsername(forgotPasswordCommand.username)
+//    def user = lookupUserClass().findWhere((usernameFieldName): forgotPasswordCommand.username)
+    def user = User.findWhere((usernameFieldName): forgotPasswordCommand.username)
+
     if (!user) {
       forgotPasswordCommand.errors.rejectValue 'username',
           'spring.security.ui.forgotPassword.user.notFound'

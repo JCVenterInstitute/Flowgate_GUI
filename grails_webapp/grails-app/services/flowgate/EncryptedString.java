@@ -39,7 +39,7 @@ public class EncryptedString implements UserType {
         return null;
     }
 
-    public static String encrypt(String value) throws Exception {
+    static String encrypt(String value) throws Exception {
         try {
             IvParameterSpec iv = new IvParameterSpec(INIT_VECTOR.getBytes("UTF-8"));
             SecretKeySpec skeySpec = new SecretKeySpec(KEY.getBytes("UTF-8"), "AES");

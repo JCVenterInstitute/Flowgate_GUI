@@ -70,7 +70,8 @@
         <div class="form-group">
           <label for="oldpass" class="control-label col-sm-4">Old Password</label>
           <div class="col-sm-8">
-            <input type="password" name="oldpass" class="form-control" placeholder="Old Password" required>
+%{--            <input type="password" id="oldpass" name="oldpass" class="form-control" placeholder="Old Password" required>--}%
+            <input type="password" id="oldpass" name="oldpass" class="form-control" placeholder="Old Password" >
           </div>
         </div>
         <div class="form-group">
