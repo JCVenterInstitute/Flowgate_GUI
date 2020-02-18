@@ -152,6 +152,11 @@
       <a class="noLinkBlack text-center" style="background-color: transparent" href="${g.createLink(controller: 'analysis', action: 'create', params: [eId: params?.eId])}">
         <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbspNew Analysis</button>
       </a>
+      <sec:ifAnyGranted roles="ROLE_Admin,ROLE_Administrator,ROLE_Acs">
+        <a class="noLinkBlack text-center" style="background-color: transparent" href="${g.createLink(controller: 'analysis', action: 'setCallback', params: [eId: params?.eId])}">
+          <button class="btn btn-primary"><span class="glyphicon glyphicon-phone-alt"></span>&nbspSet Callback</button>
+        </a>
+      </sec:ifAnyGranted>
 
 %{--      <button class="btn btn-info" onclick="checkTimer()"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Update task status</button> <label style="margin-left: 5px" id="lastUpdatedTime"></label>--}%
 

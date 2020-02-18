@@ -7,7 +7,7 @@ import grails.converters.JSON
 //@Secured(['IS_AUTHENTICATED_FULLY'])
 class TaskStatusController {
 
-    static allowedMethods = [setStatus: "GET"]
+    static allowedMethods = [setStatus: ["GET","POST"]]
 
     def wsService
 

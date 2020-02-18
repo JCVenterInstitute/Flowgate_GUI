@@ -279,6 +279,12 @@ class AnalysisController {
 //        }
     }
 
+    def setCallback(){
+        println "in SetCallback"
+        def cbOk=restUtilsService.setCallback( Module.get(6), 897)
+        redirect action: 'index', params: [eId: params?.eId]
+    }
+
     def getImage(){
         def path = params.filepath
         //returns an image to display

@@ -6,10 +6,16 @@ import grails.transaction.Transactional
 import grails.web.servlet.mvc.GrailsParameterMap
 //import groovy.io.FileType
 import groovy.json.JsonOutput
+//import org.apache.catalina.util.URLEncoder
+import java.net.URLEncoder
+
 //import org.apache.commons.codec.binary.Base64
 import org.grails.web.util.WebUtils
 
 import grails.async.*
+import org.springframework.util.LinkedMultiValueMap
+import org.springframework.util.MultiValueMap
+
 import static groovyx.net.http.ContentType.BINARY
 import java.io.File
 
@@ -21,6 +27,7 @@ class RestUtilsService {
 
   def springSecurityService
   def utilsService
+  def grailsApplication
 
   def getSession() {
     WebUtils.retrieveGrailsWebRequest().getCurrentRequest().session
@@ -34,6 +41,8 @@ class RestUtilsService {
       jobInfo = submitJob(module, paramVars)
       if (jobInfo.status >= 200 && jobInfo.status < 300) {
         jobNumber = jobInfo.jobId.toInteger()
+        println "gp job created id: ${jobNumber.toString()}"
+        def cbOk= setCallback(module, jobNumber)
       }
     }
     catch (all) {
@@ -42,15 +51,6 @@ class RestUtilsService {
     }
     return [jobNo: jobNumber, eMsg: eMsg]
   }
-
-  /*
-  callback snip
-
-      postData = urlencode({'notificationUrl': badCallback })
-      postData = postData.encode('utf-8')
-      url = gpUrl + "/rest/v1/jobs/"+job_id +"/setNotificationCallback"
-
-   */
 
 
   def submitJob(Module module, ArrayList paramVars) {
@@ -61,10 +61,10 @@ class RestUtilsService {
     if (lsidOrTaskName != '') {
       RestBuilder rest = new RestBuilder()
       // TODO remove after debugging!!!!!
-      println "url: ${module.server.url}/gp/rest/v1/jobs"
-      println "un: ${module.server.userName}"
-      println "pw: ${module.server.userPw}"
-      println "auth: Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
+//      println "url: ${module.server.url}/gp/rest/v1/jobs"
+//      println "un: ${module.server.userName}"
+//      println "pw: ${module.server.userPw}"
+//      println "auth: Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
 
       println "json: ${JsonOutput.toJson(['lsid': lsidOrTaskName, 'params': paramVars])}"
       RestResponse resp = rest.post(module.server.url + "/gp/rest/v1/jobs") {
@@ -72,8 +72,24 @@ class RestUtilsService {
         auth "Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
         json JsonOutput.toJson(['lsid': lsidOrTaskName, 'params': paramVars])
       }
+      println "got status from submitjob ${resp.responseEntity.statusCode.value()}"
       return ['status': resp.responseEntity.statusCode.value()] << resp.json
     } else return ['status': 405, 'msg': 'E: task not found!']
+  }
+
+  def setCallback(Module module, Integer jobId){
+      String callbackUrl= grailsApplication.config.callbackUrl
+      String callbackEncoded = URLEncoder.encode(callbackUrl, "UTF-8")
+      String bodyStr = "notificationUrl=${callbackEncoded}"
+      RestBuilder rest = new RestBuilder()
+      RestResponse resp = rest.post(module.server.url + "/gp/rest/v1/jobs/${jobId.toString()}/setNotificationCallback") {
+        contentType "application/x-www-form-urlencoded"
+        accept"application/json"
+        auth "Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
+        body bodyStr
+      }
+      println "cbstatus ${resp.responseEntity.statusCode.value()}"
+      return ['status': resp.responseEntity.statusCode.value(), 'respJson': resp.json]
   }
 
   def getUrn(AnalysisServer server, String taskName) {
