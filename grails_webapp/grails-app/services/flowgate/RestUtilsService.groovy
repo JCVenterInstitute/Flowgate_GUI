@@ -41,12 +41,11 @@ class RestUtilsService {
       jobInfo = submitJob(module, paramVars)
       if (jobInfo.status >= 200 && jobInfo.status < 300) {
         jobNumber = jobInfo.jobId.toInteger()
-        println "gp job created id: ${jobNumber.toString()}"
+//      TODO catch if setcallback does not work
         def cbOk= setCallback(module, jobNumber)
       }
     }
     catch (all) {
-//    eMsg = all?.rootCause ? all.rootCause : all
       eMsg = all.toString()
     }
     return [jobNo: jobNumber, eMsg: eMsg]
@@ -60,19 +59,11 @@ class RestUtilsService {
     }
     if (lsidOrTaskName != '') {
       RestBuilder rest = new RestBuilder()
-      // TODO remove after debugging!!!!!
-//      println "url: ${module.server.url}/gp/rest/v1/jobs"
-//      println "un: ${module.server.userName}"
-//      println "pw: ${module.server.userPw}"
-//      println "auth: Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
-
-      println "json: ${JsonOutput.toJson(['lsid': lsidOrTaskName, 'params': paramVars])}"
       RestResponse resp = rest.post(module.server.url + "/gp/rest/v1/jobs") {
         contentType "application/json"
         auth "Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
         json JsonOutput.toJson(['lsid': lsidOrTaskName, 'params': paramVars])
       }
-      println "got status from submitjob ${resp.responseEntity.statusCode.value()}"
       return ['status': resp.responseEntity.statusCode.value()] << resp.json
     } else return ['status': 405, 'msg': 'E: task not found!']
   }
@@ -88,7 +79,6 @@ class RestUtilsService {
         auth "Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
         body bodyStr
       }
-      println "cbstatus ${resp.responseEntity.statusCode.value()}"
       return ['status': resp.responseEntity.statusCode.value(), 'respJson': resp.json]
   }
 
@@ -135,15 +125,11 @@ class RestUtilsService {
     ArrayList paramVars = []
     module.moduleParams.each {
       switch (it.pType) {
-//      case [ 'ds']: def dsId = params["mp-${it.id}-ds"]
         case 'ds':
           def dsId = params["mp-${it.id}-ds"]
-          println "get dataset with id ${dsId}"
           Dataset ds = Dataset.get(dsId.toLong())
           if (ds) {
             ds.expFiles.each { expFile ->
-              println "dataset files for upload p:${expFile.fileName}, fn:${expFile.fileName}"
-              println "( ['name': ${it.pKey}, 'values': ${expFile.filePath} ])"
               File fileToUpload = new File(expFile.filePath + expFile.fileName)
               def fileLocation = uploadFileOrDirParams(module, fileToUpload, expFile.fileName)
               paramVars.push(['name': it.pKey, 'values': fileLocation])
@@ -159,7 +145,6 @@ class RestUtilsService {
             if (!dirFile.filename.contains('/.')) {
               String filename = dirFile.filename.replaceAll(/^.*\//, "")
               def fileLocation = uploadFileOrDirParams(module, dirFile.part.fileItem.tempFile, filename)
-              println "dir ${fileLocation}"
               paramVars.push(['name': it.pKey, 'values': fileLocation])
             }
           }
@@ -177,7 +162,6 @@ class RestUtilsService {
           String tabSep = "\t"
           def dsParamId = params["mp-meta"]
           def dsId = params["mp-${dsParamId}-ds"]
-          println "get dataset with id ${dsId}"
           Dataset ds = Dataset.get(dsId.toLong())
           String metaDataFilePrefix = 'metadata'
           String metaDataFileSuffix = '.txt'
@@ -233,11 +217,11 @@ class RestUtilsService {
       log.error "Error no server url!"
       return [code: 500, location: '']
     }
+//    TODO put gp data upload url in config
     String uploadApiPath = server.url + "/gp/rest/v1/data/upload/job_input?name=${fName}"
     RestBuilder rest = new RestBuilder()
     RestResponse resp
     String authStr="Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
-    //    == Basic Zmxvd2dhdGU6Zmxvd0dhdGU=  ???
     try {
       resp = rest.post(uploadApiPath){
         auth authStr

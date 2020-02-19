@@ -267,6 +267,7 @@ class AnalysisController {
                         render "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
                     }
                 } else {
+                    response.setContentType("text/html")
                     render status: 401, "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
                 }
 
@@ -277,12 +278,6 @@ class AnalysisController {
 //            response.setContentType("text/html")
 //            render status: 401, "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
 //        }
-    }
-
-    def setCallback(){
-        println "in SetCallback"
-        def cbOk=restUtilsService.setCallback( Module.get(6), 897)
-        redirect action: 'index', params: [eId: params?.eId]
     }
 
     def getImage(){

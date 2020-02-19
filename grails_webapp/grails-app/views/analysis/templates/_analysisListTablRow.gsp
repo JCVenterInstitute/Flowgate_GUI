@@ -9,19 +9,7 @@
           </g:link>
         </g:if>
         <g:else>
-        %{--<g:if test="${bean?.analysisStatus == 4}">--}%
-        %{--<div class="div-as-link" onclick="javascript:showResult()" data-toggle="modal" data-target="#resultModal">--}%
-        %{--<f:display bean="${bean}"--}%
-        %{--property="analysisName"--}%
-        %{--displayStyle="${displayStyle ?: 'table'}"/>--}%%{--&nbsp;Job=${bean.jobNumber}--}%
-        %{--</div>--}%
-        %{--</g:if>--}%
-        %{--<g:else>--}%
-
-        %{--<div class="div-as-link" style="cursor: pointer;" data-toggle="modal" data-target="#resultModal-${bean.jobNumber}">--}%
           <f:display bean="${bean}" property="analysisName" displayStyle="${displayStyle ?: 'table'}"/>%{-- &nbsp;Job=${bean.jobNumber} --}%
-        %{--</div>--}%
-        %{--</g:else>--}%
         </g:else>
       </td>
     </g:if>
@@ -84,14 +72,10 @@
                   <div class="modal-body custom-height-modal">
                     --}%%{--TODO reactivate the loading --}%%{--
                     --}%%{-- -- <div class="loading" id="loadingMessage" style="position:absolute; top: 50%; left: 50%">loading...</div> -- --}%%{--
-
                     --}%%{-- -- <object style="width: 100%;height:800px;" data="${g.createLink(controller: 'analysis', action: 'downloadFile', params: [analysisId: this?.analysis?.id, filename: outputFile?.path, fileLink: outputFile?.link?.href, outputFile: outputFile])}" ></object> -- --}%%{--
 
 --}%%{--                    TODO activate after testing--}%%{--
 --}%%{--                    <object style="width: 100%;height:100%;" data="${g.createLink(controller: 'analysis', action: 'downloadResultReport', params: [analysisId: bean?.id, jobNr: bean?.jobNumber])}" ></object>--}%%{--
-
-
-
                     --}%%{-- --
                       <iframe src="/assets/gating/index.html" style="width: 90%; height: 300px" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"></iframe>
                     -- --}%%{--
