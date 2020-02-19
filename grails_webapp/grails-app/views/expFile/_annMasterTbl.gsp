@@ -6,7 +6,7 @@
       <g:sortableColumn property="expFile" title="${message(code: 'expFile.label', default: 'FCS File Name')}">
         <p><br/></p>
       </g:sortableColumn>
-      <g:each in="${experiment.expMetadatas.findAll { it.mdCategory == category }.sort { it.dispOrder }}" var="eMeta">
+      <g:each in="${experiment.expMetadatas.findAll { it?.mdCategory == category }.sort { it.dispOrder }}" var="eMeta">
         <g:if test="${eMeta.visible}">
           <th class="sortable">
             <p class="text-center" >${eMeta.mdKey}</p>
@@ -38,7 +38,7 @@
       <th class="text-center">
         <br/>
 
-        <div class="${experiment.expMetadatas.findAll { it.mdCategory == category }.visible.toString().contains('false') ? '' : 'hidden'} btn btn-default"
+        <div class="${experiment.expMetadatas.findAll { it?.mdCategory == category }.visible.toString().contains('false') ? '' : 'hidden'} btn btn-default"
              onclick="showAllHidden(${experiment.id}, '${category?.id}');">Show All Hidden Attributes</div>
         <br/>
         <br/>

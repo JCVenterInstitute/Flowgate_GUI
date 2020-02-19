@@ -13,8 +13,9 @@ import javax.imageio.ImageIO
 
 import static org.springframework.http.HttpStatus.*
 
-@Secured(["IS_AUTHENTICATED_FULLY"])
 //@Transactional(readOnly = true)
+//@Secured(['isAuthenticated()'])
+@Secured(["IS_AUTHENTICATED_FULLY"])
 class AnalysisController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", axSelectAllFcs: "GET", axUnselectAllFcs: "GET", d3data: "GET", del: ["DELETE","GET"]]
@@ -27,6 +28,13 @@ class AnalysisController {
 
     ResourceLocator grailsResourceLocator
 
+
+    def axShowResultsModal(){
+        render(contentType: 'text/json') {
+            success true
+            modalData "${g.render(template:'templates/resultModal', model: [jobNumber: params?.jobId, id: params?.id]) }"
+        }
+    }
 
     def axSelectAllFcs(){
         render(contentType: 'text/json') {
@@ -211,6 +219,7 @@ class AnalysisController {
         download=true .... downloads file
         download=null or false .... opens file in browser
          */
+        def dataStream
         def jobResult
         Analysis analysis = Analysis.get(params?.analysisId)
         if(analysis.jobNumber!= -1){
@@ -224,26 +233,51 @@ class AnalysisController {
         if(jobResult.statusCode.value != 200 && jobResult.statusCode.value != 201){
             String dummy = jobResult?.statusCode?.toString()
             flash.resultMsg = jobResult?.statusCode?.toString() + " - " + jobResult?.statusCode?.reasonPhrase
-        }
-        def outputFile = jobResult.outputFiles.find{ it.path == analysis?.renderResult}  // 'Reports/AutoReport.html'
-        if(outputFile){
-            def fileUrl = new URL(outputFile.link.href)
-            def connection = fileUrl.openConnection()
-            connection.setRequestProperty ("Authorization", utilsService.authHeader(analysis.module.server.userName,analysis.module.server.userPw))
-            def dataStream = connection.inputStream
-            if(params.download != null && params.download){
-                response.setContentType("application/octet-stream")
-                response.setHeader("Content-disposition", "Attachment; filename=${outputFile.path}")
+            render"<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
+        } else {
+            def outputFile = jobResult.outputFiles.find { it.path == analysis?.renderResult }
+            // 'Reports/AutoReport.html'
+            if (outputFile) {
+                def fileUrl = new URL(outputFile.link.href)
+                def connection = fileUrl.openConnection()
+                connection.setRequestProperty("Authorization", utilsService.authHeader(analysis.module.server.userName, analysis.module.server.userPw))
+                if (connection) {
+                    try {
+                        dataStream = connection?.inputStream
+                    }
+                    catch (e) {
+                        response.setContentType("text/html")
+                        render "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
+                        //                    flash.message = "Error: No result file found!"
+                        //                    render controller: 'analysis', view: 'index'
+                        //                    redirect controller: 'analysis', action: 'index'
+                        return
+                    }
+                    if (params.download != null && params.download) {
+                        response.setContentType("application/octet-stream")
+                        response.setHeader("Content-disposition", "Attachment; filename=${outputFile.path}")
+                    } else {
+                        response.setContentType("text/html")
+                    }
+                    if (dataStream) {
+                        response.outputStream << dataStream
+                        response.outputStream.flush()
+                    } else {
+                        response.setContentType("text/html")
+                        render "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
+                    }
+                } else {
+                    response.setContentType("text/html")
+                    render status: 401, "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
+                }
+
             }
-            else {
-                response.setContentType("text/html")
-            }
-            response.outputStream << dataStream
-            response.outputStream.flush()
         }
-        else {
-            render "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
-        }
+//        }
+//        else {
+//            response.setContentType("text/html")
+//            render status: 401, "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
+//        }
     }
 
     def getImage(){

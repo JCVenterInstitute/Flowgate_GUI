@@ -13,6 +13,7 @@ class UrlMappings {
     "/dashboard"(view: "/dashboard/index")
     "/about"(view: "/about/about")
     "/"(view: "/index")
+    "/taskStatus"(controller: 'taskStatus', action: 'setStatus')
     //        "/"(controller: 'project', view: 'list' )
     "/project/index"(controller: 'project', action: 'index')
     "/experiment/index"(controller: 'experiment', action: 'index')

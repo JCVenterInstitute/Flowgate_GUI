@@ -132,6 +132,91 @@ class ExperimentController {
         redirect controller: 'experiment', action: 'index', params:[eId: params?.id]
     }
 
+    def miFcytTbl(Experiment experiment){
+        respond experiment
+    }
+
+    def exportMifCytTempl(Experiment experiment){
+        String separator = ","
+//        String mifcytFileName = "mifcytTempl_${experiment?.id}_${new Date().format('yy-MM-dd__hh_mm')}.csv"
+        String mifcytFileName = "mifcytTempl.csv"
+//        TODO save template in csv file
+        String mifcytTempl = """Category${separator}Key${separator}Value
+Experiment Overview${separator}Purpose/Goal/Hypothesis${separator}
+Experiment Overview${separator}Experiment Variables${separator}
+Experiment Overview${separator}Conclusions${separator}
+Experiment Overview${separator}Quality Control${separator}
+Flow Sample (Specimen)${separator}Material${separator}
+Flow Sample (Specimen)${separator}Source/Organism/Location${separator}
+Flow Sample (Specimen)${separator}Treatment${separator}
+Flow Sample (Specimen)${separator}Reagent/Analyte/Detector/Reporter${separator}
+Data Analysis${separator}List-mode Data${separator}
+Data Analysis${separator}Compensation${separator}
+Data Analysis${separator}Gating${separator}
+Data Analysis${separator}Descriptive statistics${separator}
+Instrument Details${separator}Instrument Identification${separator}
+Instrument Details${separator}Fluidics Configuration${separator}
+Instrument Details${separator}Optical Configuration${separator}
+Instrument Details${separator}Electronic Configuration${separator}
+                             """
+        response.setHeader("Content-disposition", "attachment; filename=${mifcytFileName}")
+        render contentType: "text/csv", text: "${mifcytTempl}"
+    }
+
+    def importMifcyt(Experiment experiment){
+        String separator = params.separator ?: ","
+
+        def miFcytCsvFile = request?.getFile("mifcytFile")
+        File fcytCsvFile = miFcytCsvFile?.part?.fileItem?.tempFile
+        if(fcytCsvFile.size()<1){
+            println "error: no file selected"
+            flash.msg = "Error: No file selected!"
+            flash.messsage = "Error: No file selected!"
+            redirect action: 'miFcytTbl', id: experiment.id
+            return
+        }
+        def headers = []
+        def rows = []
+        Integer lineCntr = 0
+        fcytCsvFile.splitEachLine("${separator}"){ fields ->
+            if(lineCntr == 0){
+                headers = fields
+            }
+            else{
+                rows += [fields]
+            }
+            lineCntr += 1
+        }
+//        println "headers ${headers}"
+//        println "rows ${rows}"
+        def myMap = []
+        rows.each { row ->
+            myMap += [[headers, row].transpose().collectEntries()]
+        }
+//        println " myMap = ${myMap}"
+        utilsService.fcytMetadataParse(experiment, myMap, headers)
+        render view: "miFcytTbl", model: [experiment: experiment]
+    }
+
+    def saveMiFlowData(Experiment experiment){
+        if(!experiment){
+            experiment = Experiment.findByIdAndIsActive(params?.eId?.toLong(), true)
+        }
+        ExperimentMetadata emD
+        ExperimentMetadataValue emV
+        params.findAll { it.key.startsWith('expMetaData-')}.each {
+            emD = ExperimentMetadata.get((it.key-'expMetaData-').toLong())
+            emV = ExperimentMetadataValue.findByExpMetaData(emD)
+            if(it?.value){
+                emV.mdValue = it?.value
+                emV.save()
+//                println "emV Errs ${emV.hasErrors()} metaDatStr = ${it} k:${it.key-'expMetaData-'} v:${it.value}"
+            }
+        }
+        redirect action: 'index', params: [eId: experiment?.id]
+    }
+
+
     def index(Integer max) {
 //        TODO refactor pId not needed / use project from experiment
 //        Project project = Project.findByIdAndIsActive(params?.pId?.toLong(), true)

@@ -3,9 +3,11 @@ server:
     port: 8585
 
 fcsFileStoreLocation:
-    path: /Users/flowGate/tmp/fcsUploads/
+    path: /Users/flowGate/tmp/fcsUploads
 
-adminEmailAddr:
+adminEmailAddr: admin@admin
+
+callbackUrl: http://172.23.97.36:80/taskStatus
 
 grails:
     plugin:
@@ -36,6 +38,7 @@ grails:
 #               gsp:
 #                   layoutRegister: main
 
+            useBasicAuth: true
 
 # Added by the Spring Security Core plugin:
 

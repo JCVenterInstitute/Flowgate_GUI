@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Transactional
 class CustomUserDetailsService extends GormUserDetailsService{
 
-    def passwordEncoder;
+    def passwordEncoder
 
     static final List NO_ROLES = [new SimpleGrantedAuthority(SpringSecurityUtils.NO_ROLE)]
 
@@ -52,7 +52,7 @@ class CustomUserDetailsService extends GormUserDetailsService{
             user.save flush:true
             activateUser(user, user.enabled)
         } catch (Exception e) {
-            ex.printStackTrace();
+            e.printStackTrace()
         }
     }
 
@@ -68,7 +68,7 @@ class CustomUserDetailsService extends GormUserDetailsService{
         }
     }
 
-    public boolean isValidOldPassword(String oldPassword, String password) {
-        return passwordEncoder.matches(oldPassword, password);
+    boolean isValidOldPassword(String oldPassword, String password) {
+        return passwordEncoder.matches(oldPassword, password)
     }
 }

@@ -54,7 +54,6 @@
             <div class="col-sm-offset-2 col-sm-8">
               <form id="upldForm" action="${g.createLink(controller: 'expFile', action: 'importAnnotation', id: experiment?.id)}" method="post" enctype="multipart/form-data">
                 <div class="form-row" style="display: flex;align-items: center;">
-                  <g:hiddenField name="pId" value="${plate?.id}"/>
                   <label>File Type:&nbsp;</label>
                   <div class="input-group input-group-sm">
                     <g:radioGroup name="separator"
@@ -105,17 +104,20 @@
         </div>
         <g:if test="${experiment.expFiles}">
         %{--<g:set var="categories" value="${((experiment.expMetadatas*.mdCategory).unique()-'Reagents')}" />--}%
-          <g:set var="categories" value="${ExperimentMetadataCategory.findAllByExperiment(experiment)}"/>
-        %{--cats=${categories}--}%
+%{--          <g:set var="categories" value="${ExperimentMetadataCategory?.findAllByExperiment(experiment)?.mdCategory}"/>--}%
+          <g:set var="categories" value="${flowgate?.ExperimentMetadata?.findAllByExperimentAndIsMiFlow(experiment, false)*.mdCategory?.unique()}"/>
+%{--          qreslt=${flowgate?.ExperimentMetadata?.findAllByExperiment(experiment)}--}%
+%{--        cats=${categories}--}%
           <ul class="nav nav-tabs">
             <g:if test="${categories.size() > 0}">
               <g:each in="${categories}" var="category" status="idx">
-                <li class="${idx == 0 ? 'active' : ''}"><a href="#tab${category?.mdCategory}" role="tab" data-toggle="tab"
+                <li class="${idx == 0 ? 'active' : ''}"><a href="#tab${category?.id}" role="tab" data-toggle="tab"
                                                            ondblclick="editCategoryClick(${experiment.id}, ${category?.id});">${category?.mdCategory}</a></li>
               </g:each>
             </g:if>
             <g:else>
-              <li class="active"><a href="#tabBasics" role="tab" data-toggle="tab" ondblclick="editCategoryClick(${experiment?.id}, ${category?.id});">Basics</a></li>
+%{--              TODO remove hardcoded 'Basics' with default --}%
+              <li class="active"><a href="#tab1" role="tab" data-toggle="tab" ondblclick="editCategoryClick(${experiment?.id}, 1);">Basics</a></li>
             </g:else>
             <li class="text-center">
               %{--<a href="" onclick="addCategoryClick(${experiment.id});" style="color: black;" role="tab"><i class="fa fa-plus"></i></a>--}%
@@ -143,14 +145,14 @@
           </div>
             <g:if test="${categories.size() > 0}">
               <g:each in="${categories}" var="category" status="idx">
-                <div class="tab-pane ${idx == 0 ? 'active' : ''}" role="tabpanel" id="tab${category?.mdCategory}">
+                <div class="tab-pane ${idx == 0 ? 'active' : ''}" role="tabpanel" id="tab${category?.id}">
                   <g:render template="annMasterTbl" model="[category: category]"/>
                 </div>
               </g:each>
             </g:if>
             <g:else>
-              <div class="tab-pane active" role="tabpanel" id="tabBasics">
-                <g:render template="annMasterTbl" model="[category: null]"/>
+              <div class="tab-pane active" role="tabpanel" id="tab1">
+%{--                <g:render template="annMasterTbl" model="[category: null]"/>--}%
               </div>
             </g:else>
           %{--<div class="tab-pane" role="tabpanel" id="tabReagents">--}%
@@ -342,7 +344,7 @@
           data: {id: mId, colAction: colAction},
           success: function (data, status, xhr) {
             console.log('success');
-            $("#wholeTbl").html(data.tablTabl);
+            $('#wholeTbl').html(data.tablTabl);
           },
           error: function (request, status, error) {
             console.log('ajxError!');

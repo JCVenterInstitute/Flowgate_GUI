@@ -10,6 +10,7 @@ class AnalysisServer {
 
     static constraints = {
         userPw type: EncryptedString, nullable: true, blank: true
+//        userPw nullable: true, blank: true
         user nullable: true, blank: true
     }
 }

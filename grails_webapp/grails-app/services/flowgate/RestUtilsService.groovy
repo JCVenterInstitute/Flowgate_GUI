@@ -4,12 +4,18 @@ import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 import grails.transaction.Transactional
 import grails.web.servlet.mvc.GrailsParameterMap
-import groovy.io.FileType
+//import groovy.io.FileType
 import groovy.json.JsonOutput
-import org.apache.commons.codec.binary.Base64
+//import org.apache.catalina.util.URLEncoder
+import java.net.URLEncoder
+
+//import org.apache.commons.codec.binary.Base64
 import org.grails.web.util.WebUtils
 
 import grails.async.*
+import org.springframework.util.LinkedMultiValueMap
+import org.springframework.util.MultiValueMap
+
 import static groovyx.net.http.ContentType.BINARY
 import java.io.File
 
@@ -21,6 +27,7 @@ class RestUtilsService {
 
   def springSecurityService
   def utilsService
+  def grailsApplication
 
   def getSession() {
     WebUtils.retrieveGrailsWebRequest().getCurrentRequest().session
@@ -34,6 +41,9 @@ class RestUtilsService {
       jobInfo = submitJob(module, paramVars)
       if (jobInfo.status >= 200 && jobInfo.status < 300) {
         jobNumber = jobInfo.jobId.toInteger()
+//        println "gp job created id: ${jobNumber.toString()}"
+//        TODO catch if setcallback does not work
+        def cbOk= setCallback(module, jobNumber)
       }
     }
     catch (all) {
@@ -43,6 +53,7 @@ class RestUtilsService {
     return [jobNo: jobNumber, eMsg: eMsg]
   }
 
+
   def submitJob(Module module, ArrayList paramVars) {
     String lsidOrTaskName = module.name
     if (!lsidOrTaskName.startsWith('urn')) {
@@ -50,13 +61,30 @@ class RestUtilsService {
     }
     if (lsidOrTaskName != '') {
       RestBuilder rest = new RestBuilder()
+//      println "json: ${JsonOutput.toJson(['lsid': lsidOrTaskName, 'params': paramVars])}"
       RestResponse resp = rest.post(module.server.url + "/gp/rest/v1/jobs") {
         contentType "application/json"
         auth "Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
         json JsonOutput.toJson(['lsid': lsidOrTaskName, 'params': paramVars])
       }
+//      println "got status from submitjob ${resp.responseEntity.statusCode.value()}"
       return ['status': resp.responseEntity.statusCode.value()] << resp.json
     } else return ['status': 405, 'msg': 'E: task not found!']
+  }
+
+  def setCallback(Module module, Integer jobId){
+      String callbackUrl= grailsApplication.config.callbackUrl
+      String callbackEncoded = URLEncoder.encode(callbackUrl, "UTF-8")
+      String bodyStr = "notificationUrl=${callbackEncoded}"
+      RestBuilder rest = new RestBuilder()
+      RestResponse resp = rest.post(module.server.url + "/gp/rest/v1/jobs/${jobId.toString()}/setNotificationCallback") {
+        contentType "application/x-www-form-urlencoded"
+        accept"application/json"
+        auth "Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
+        body bodyStr
+      }
+//      println "cbstatus ${resp.responseEntity.statusCode.value()}"
+      return ['status': resp.responseEntity.statusCode.value(), 'respJson': resp.json]
   }
 
   def getUrn(AnalysisServer server, String taskName) {
@@ -89,7 +117,7 @@ class RestUtilsService {
     ds.expFiles.each{ expFile ->
       def lineFields = []
       fields.each{ metaDataKey ->
-        lineFields << expFile.metaDatas.find{it.mdKey == metaDataKey}.mdVal
+        lineFields << expFile.metaDatas.find{it.mdKey == metaDataKey}?.mdVal
       }
 
       bodyStr += lineFields.join(separator) + "\n"
@@ -105,12 +133,12 @@ class RestUtilsService {
 //      case [ 'ds']: def dsId = params["mp-${it.id}-ds"]
         case 'ds':
           def dsId = params["mp-${it.id}-ds"]
-          println "get dataset with id ${dsId}"
+//          println "get dataset with id ${dsId}"
           Dataset ds = Dataset.get(dsId.toLong())
           if (ds) {
             ds.expFiles.each { expFile ->
-              println "dataset files for upload p:${expFile.fileName}, fn:${expFile.fileName}"
-              println "( ['name': ${it.pKey}, 'values': ${expFile.filePath} ])"
+//              println "dataset files for upload p:${expFile.fileName}, fn:${expFile.fileName}"
+//              println "( ['name': ${it.pKey}, 'values': ${expFile.filePath} ])"
               File fileToUpload = new File(expFile.filePath + expFile.fileName)
               def fileLocation = uploadFileOrDirParams(module, fileToUpload, expFile.fileName)
               paramVars.push(['name': it.pKey, 'values': fileLocation])
@@ -126,7 +154,7 @@ class RestUtilsService {
             if (!dirFile.filename.contains('/.')) {
               String filename = dirFile.filename.replaceAll(/^.*\//, "")
               def fileLocation = uploadFileOrDirParams(module, dirFile.part.fileItem.tempFile, filename)
-              println "dir ${fileLocation}"
+//              println "dir ${fileLocation}"
               paramVars.push(['name': it.pKey, 'values': fileLocation])
             }
           }
@@ -144,7 +172,7 @@ class RestUtilsService {
           String tabSep = "\t"
           def dsParamId = params["mp-meta"]
           def dsId = params["mp-${dsParamId}-ds"]
-          println "get dataset with id ${dsId}"
+//          println "get dataset with id ${dsId}"
           Dataset ds = Dataset.get(dsId.toLong())
           String metaDataFilePrefix = 'metadata'
           String metaDataFileSuffix = '.txt'
@@ -196,12 +224,19 @@ class RestUtilsService {
   }
 
   def doUploadFile(AnalysisServer server, File pathAndFile, String fName) {
+    if(!server.url || server.url==""){
+      log.error "Error no server url!"
+      return [code: 500, location: '']
+    }
+//    TODO put gp data upload url in config
     String uploadApiPath = server.url + "/gp/rest/v1/data/upload/job_input?name=${fName}"
     RestBuilder rest = new RestBuilder()
     RestResponse resp
+    String authStr="Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
+    //    == Basic Zmxvd2dhdGU6Zmxvd0dhdGU=  ???
     try {
       resp = rest.post(uploadApiPath){
-        auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
+        auth authStr
         contentType "application/octet-stream"
         body pathAndFile.bytes
       }
@@ -210,8 +245,8 @@ class RestUtilsService {
       println all?.message
     }
     if (!(resp?.responseEntity?.statusCodeValue >= 201 && resp?.responseEntity?.statusCodeValue < 300)) {
-      log.error "Error uploading file!"
-      return [code: resp.responseEntity.statusCodeValue, location: '']
+      log.error "Error uploading file! ${resp?.responseEntity?.statusCodeValue.toString()}"
+      return [code: resp?.responseEntity?.statusCodeValue, location: '']
     }
     else {
       return [code: 200, location: resp.responseEntity.body]

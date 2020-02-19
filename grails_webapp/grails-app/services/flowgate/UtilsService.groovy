@@ -4,7 +4,7 @@ import grails.converters.JSON
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.transaction.Transactional
 import grails.web.servlet.mvc.GrailsParameterMap
-import org.apache.commons.codec.binary.Base64
+//import org.apache.commons.codec.binary.Base64
 import org.grails.web.util.WebUtils
 
 @Transactional
@@ -146,7 +146,8 @@ class UtilsService {
     }
 
     String authEncoded(String username, String password){
-        return new String(Base64.encodeBase64((username+':'+password).getBytes()), "UTF-8")
+//        return new String(Base64.encodeBase64((username+':'+password).getBytes()), "UTF-8")
+      return "${username}:${password}".encodeAsBase64()
     }
 
     String authHeader(String username, String password){
@@ -241,7 +242,23 @@ class UtilsService {
         return
     }
 
-   def doFileAnnotation(Experiment experiment, annotationMap, fileNameMatchColumn, metaDataKeys){
+    def fcytMetadataParse(experiment, fileListMap, headers){
+//        Integer dispOrderVal = 1
+        fileListMap.each { dataRow ->
+//            println "importing ${dataRow['Category']} ${dataRow['Key']} ${dataRow['Value']}"
+            if(dataRow['Category'] && dataRow['Key']){
+                ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrSaveByMdCategoryAndDispOnFilterAndVisible(dataRow["Category"], false, true)
+//                Integer dispOrderVal = ExperimentMetadata.findAllByExperimentAndMdCategory(experiment, category).size() * 5 ?: 1
+                ExperimentMetadata metaDat = ExperimentMetadata.findOrSaveByExperimentAndMdCategoryAndMdKeyAndVisibleAndIsMiFlowAndDispOnFilter(experiment, category, dataRow['Key'], true, true, false)
+                if(dataRow['Value']){
+                    ExperimentMetadataValue mDatVal = ExperimentMetadataValue.findOrSaveByExpMetaDataAndMdValueAndMdTypeAndDispOrder(metaDat, dataRow['Value'], 'String', 1)
+//                    println "created/added ${mDatVal}"
+                }
+            }
+        }
+    }
+
+    def doFileAnnotation(Experiment experiment, annotationMap, fileNameMatchColumn, metaDataKeys){
         annotationMap.each{ lineMap ->
             String searchExpFileName = lineMap["${fileNameMatchColumn}"]
             def expFiles = experiment.expFiles
