@@ -4,17 +4,9 @@ import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 import grails.transaction.Transactional
 import grails.web.servlet.mvc.GrailsParameterMap
-import groovy.io.FileType
 import groovy.json.JsonOutput
-import org.apache.commons.codec.binary.Base64
+import groovy.json.JsonSlurper
 import org.grails.web.util.WebUtils
-
-import grails.async.*
-import static groovyx.net.http.ContentType.BINARY
-import java.io.File
-
-
-import static grails.async.Promises.*
 
 @Transactional
 class RestUtilsService {
@@ -245,6 +237,25 @@ class RestUtilsService {
 
   Boolean isPending(Analysis analysis) {
     jobResult(analysis, true).isPending
+  }
+
+  def fetchModulesForServer(AnalysisServer server) {
+    String allTasksUrl = server.url + "/gp/rest/v1/tasks/all.json"
+    RestBuilder rest = new RestBuilder()
+    RestResponse resp
+    try {
+      resp = rest.get(allTasksUrl) {
+        contentType "application/json"
+        auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
+      }
+    }
+    catch (all) {
+      throw new Exception(all.getCause().getMessage())
+    }
+
+    def objects = new JsonSlurper().parseText(resp.responseEntity.body)
+
+    return objects.all_modules
   }
 
 }
