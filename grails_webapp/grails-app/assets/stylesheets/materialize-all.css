@@ -2409,6 +2409,9 @@ td, th {
 .secondary-content {
   float: right;
   color: #26a69a; }
+  .secondary-content:hover {
+    box-shadow: none;
+    background-color: #f1f3f4; }
 
 .collapsible .collection {
   margin: 0;
