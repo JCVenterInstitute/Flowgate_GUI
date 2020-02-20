@@ -57,11 +57,62 @@
     <g:link controller="module" action="index" class="btn-flat">Return to Module List</g:link>
   </div>
 </g:form>
+
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large waves-effect waves-light tooltipped" href="javascript:fetchModuleParams();"
+     data-tooltip="Search available parameters for this module" data-position="left">
+    <i class="material-icons">search</i>
+  </a>
+</div>
+
+<div id="module-params-list" class="modal bottom-sheet"></div>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('descript').style.maxHeight = "300px";
     document.getElementById('descript').style.overflowY = "auto";
+
+    var tooltipElems = document.querySelectorAll('.tooltipped');
+    M.Tooltip.init(tooltipElems);
   });
+
+  function fetchModuleParams() {
+    $.ajax({
+      url: "${createLink(controller: 'moduleParam', action: 'fetchModuleParamsForModule')}",
+      dataType: "json",
+      data: {id: ${this.module?.id}},
+      type: "get",
+      success: function (data, status, xhr) {
+        if (data.success) {
+          $("#module-params-list").html(data.modules);
+          $('.modal').modal({
+            onOpenStart: function () {
+              var datasetValue = $("input[name='dataset']:checked").val();
+              if(datasetValue && datasetValue != 'undefined') {
+                $('#confirm-import').attr('href', $('#confirm-import').attr('href') + '?dataset=' + datasetValue);
+              }
+            }
+          });
+          $("#module-params-list").modal('open');
+          $('.tooltipped').tooltip();
+        } else {
+          M.toast({
+            html: '<span>' + data.message + '</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+            displayLength: Infinity,
+            classes: 'red'
+          });
+        }
+      },
+      error: function (request, status, error) {
+        if (!error) error = "Error occured!"
+        M.toast({
+          html: '<span>' + error + '</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+          displayLength: Infinity,
+          classes: 'red'
+        });
+      }
+    });
+  }
 </script>
 </body>
 </html>

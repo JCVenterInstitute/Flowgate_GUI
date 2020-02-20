@@ -316,5 +316,26 @@ class UtilsService {
     }
   }
 
+    def createModuleParamsFromJson(def moduleParamsJson) {
+        List<ModuleParam> moduleParamList = new ArrayList<>(moduleParamsJson.size())
+
+        for (moduleParamJson in moduleParamsJson) {
+            ModuleParam moduleParam = createModuleParamFromJson(moduleParamJson)
+            moduleParamList.add(moduleParam)
+        }
+
+        return moduleParamList
+    }
+
+    def createModuleParamFromJson(def moduleParamJson) {
+        ModuleParam moduleParam = new ModuleParam()
+        moduleParam.pKey = moduleParamJson.name
+        moduleParam.pType = moduleParamJson.TYPE.equalsIgnoreCase("file") ? "file" : "val"
+        moduleParam.defaultVal = moduleParamJson.default_value
+        moduleParam.descr = moduleParamJson.description
+        moduleParam.pBasic = true
+
+        return moduleParam
+    }
 
 }
