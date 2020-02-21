@@ -82,6 +82,15 @@ class RestUtilsService {
       return ['status': resp.responseEntity.statusCode.value(), 'respJson': resp.json]
   }
 
+  def dwnLdZip(Module module, Integer jobId){
+    RestBuilder rest = new RestBuilder()
+    RestResponse resp = rest.get(module.server.url + "/gp/rest/v1/jobs/${jobId.toString()}/download") {
+      contentType "application/zip"
+      auth "Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
+    }
+    return ['status': resp.responseEntity.statusCode.value(), 'respBody': resp.responseEntity.body]
+  }
+
   def getUrn(AnalysisServer server, String taskName) {
     RestBuilder rest = new RestBuilder()
     String serverApiUrl = server.url + "/gp/rest/v1/tasks/${taskName}"
