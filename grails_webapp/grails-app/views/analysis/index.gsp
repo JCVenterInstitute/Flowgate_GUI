@@ -143,16 +143,11 @@
       <div id="analysisListTabl">
         <g:render template="templates/analysisListTbl" model="[]"/>
       </div>
-      %{--TODO do not reactivate after analysis list tests!!! is replaced --}%
-%{--      <div id="chkScript">--}%
-        %{--joblist=${jobList}--}%
-%{--        <g:render template="templates/statusCheckTempl" model="[jobList: jobList]"/>--}%
-%{--      </div>--}%
       <br/>
       <a class="noLinkBlack text-center" style="background-color: transparent" href="${g.createLink(controller: 'analysis', action: 'create', params: [eId: params?.eId])}">
         <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbspNew Analysis</button>
       </a>
-      <sec:ifAnyGranted roles="ROLE_Admin,ROLE_Administrator,ROLE_Acs">
+      <sec:ifAnyGranted roles="ROLE_Tester,ROLE_Acs">
         <a class="noLinkBlack text-center" style="background-color: transparent" href="${g.createLink(controller: 'analysis', action: 'setCallback', params: [eId: params?.eId])}">
           <button class="btn btn-primary"><span class="glyphicon glyphicon-phone-alt"></span>&nbspSet Callback</button>
         </a>

@@ -2,6 +2,7 @@
   <g:each in="${['analysisName', 'taskResultFiles', 'analysisStatus', 'timestamp', 'user.username']}" var="p" status="j">
     <g:if test="${j == 0}">
       <td>
+            <div class="row form-control-plaintext" >
         %{-- TODO when results ready redirect to show results page --}%
         <g:if test="${bean?.analysisStatus != 3 && bean?.analysisStatus != 4}">
           <g:link action="edit" resource="${bean}">
@@ -10,7 +11,26 @@
         </g:if>
         <g:else>
           <f:display bean="${bean}" property="analysisName" displayStyle="${displayStyle ?: 'table'}"/>%{-- &nbsp;Job=${bean.jobNumber} --}%
+%{--          <td>--}%
+            %{--                <div class="div-as-link" style="cursor: pointer;" data-toggle="modal" data-target="#resultModal-${bean.jobNumber}">--}%
+            %{--            <div class="div-as-link" style="cursor: pointer;" onclick="openModal(${bean?.jobNumber}, ${bean?.id});" data-toggle="modal" data-target="#resultModal-${bean.jobNumber}">--}%
+            %{--              <i class="glyphicon glyphicon-eye-open"></i>&nbsp;<g:message code="analysis.display.report.label" default="display" />--}%
+            %{--            </div>--}%
+            %{--            &nbsp;&nbsp;&nbsp;&nbsp;--}%
+            %{--            <a href="${g.createLink(controller: 'analysis', action: 'downloadResultReport', params: [analysisId: bean?.id, jobNr: bean?.jobNumber, download: true])}">--}%
+            %{--              <i class="fa fa-floppy-o fa-lg"></i>&nbsp;<g:message code="analysis.download.report.label" default="download report" />--}%
+            %{--            </a>--}%
+              %{--<sec:ifAnyGranted roles="ROLE_Admin,ROLE_Administrator,ROLE_Tester,ROLE_Acs">
+              --}%%{--              &nbsp;&nbsp;&nbsp;&nbsp;--}%%{--
+                <a href="${g.createLink(controller: 'analysis', action: 'delete', params: [analysisId: bean?.id, jobNr: bean?.jobNumber, download: true])}">
+                  <i class="fa fa-trash"></i>
+--}%%{--                  &nbsp;<g:message code="analysis.delete.label" default="delete" />--}%%{--
+                </a>
+              </sec:ifAnyGranted>
+--}%
+%{--          </td>--}%
         </g:else>
+            </div>
       </td>
     </g:if>
     <g:else>
@@ -39,8 +59,14 @@
                 </div>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="${g.createLink(controller: 'analysis', action: 'downloadResultReport', params: [analysisId: bean?.id, jobNr: bean?.jobNumber, download: true])}">
-                  <i class="fa fa-floppy-o fa-lg"></i>&nbsp;<g:message code="analysis.download.report.label" default="download" />
+                  <i class="fa fa-floppy-o fa-lg"></i>&nbsp;<g:message code="analysis.download.report.label" default="download report" />
                 </a>
+                <sec:ifAnyGranted roles="ROLE_Admin,ROLE_Administrator,ROLE_Tester,ROLE_Acs">
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <a href="${g.createLink(controller: 'analysis', action: 'downloadZipResults', params: [analysisId: bean?.id, jobNr: bean?.jobNumber, download: true])}">
+                    <i class="fa fa-floppy-o fa-lg"></i>&nbsp;<g:message code="analysis.download.zip.label" default="download zipped results" />
+                  </a>
+                </sec:ifAnyGranted>
               </div>
             </g:else>
           </g:else>

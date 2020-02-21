@@ -3,6 +3,8 @@ package flowgate
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
+import grails.web.http.HttpHeaders
+import org.apache.commons.io.IOUtils
 import org.genepattern.webservice.Parameter
 import org.grails.core.io.ResourceLocator
 
@@ -18,7 +20,7 @@ import static org.springframework.http.HttpStatus.*
 @Secured(["IS_AUTHENTICATED_FULLY"])
 class AnalysisController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", axSelectAllFcs: "GET", axUnselectAllFcs: "GET", d3data: "GET", del: ["DELETE","GET"]]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", axSelectAllFcs: "GET", axUnselectAllFcs: "GET", d3data: "GET",  del: ["DELETE","GET"]]
 
     def springSecurityService
     def genePatternService
@@ -279,6 +281,95 @@ class AnalysisController {
 //            render status: 401, "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
 //        }
     }
+
+
+    def downloadZipResults() {
+        /*
+        params.download .... switch to either download the file or open in browser
+        download=true .... downloads file
+        download=null or false .... opens file in browser
+         */
+        def dataStream
+        def jobResult
+        Analysis analysis = Analysis.get(params?.analysisId)
+        if(analysis.jobNumber!= -1){
+            try {
+                jobResult = restUtilsService.jobResult(analysis)
+            }
+            catch (all){
+                println 'Error! No job result (maybe deleted on server)!' + all.dump()
+            }
+        }
+        if(jobResult.statusCode.value != 200 && jobResult.statusCode.value != 201){
+            String dummy = jobResult?.statusCode?.toString()
+            flash.resultMsg = jobResult?.statusCode?.toString() + " - " + jobResult?.statusCode?.reasonPhrase
+            render"<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
+        } else {
+            def fileUrl = new URL( "${analysis?.module?.server?.url}/gp/rest/v1/jobs/${analysis?.jobNumber}/download")
+            def connection = fileUrl.openConnection()
+            connection.setRequestProperty("Authorization", utilsService.authHeader(analysis?.module?.server?.userName, analysis?.module?.server?.userPw))
+            if (connection) {
+                try {
+                    dataStream = connection?.inputStream
+                }
+                catch (e) {
+                    response.setContentType("text/html")
+                    render "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
+                    return
+                }
+                if (params.download != null && params.download) {
+                    response.setContentType("application/octet-stream")
+                    response.setHeader("Content-disposition", "Attachment; filename=${analysis?.jobNumber}.zip")
+                } else {
+                    response.setContentType("text/html")
+                }
+                if (dataStream) {
+                    response.outputStream << dataStream
+                    response.outputStream.flush()
+                } else {
+                    response.setContentType("text/html")
+                    render "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> File not found!</div>"
+                }
+            } else {
+                response.setContentType("text/html")
+                render status: 401, "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No connection!</div>"
+            }
+
+        }
+    }
+
+    /*
+        def resp = restUtilsService.dwnLdZip(analysis?.module, analysis?.jobNumber)
+        if(resp.status==200){
+            webRequest.renderView = false
+//            String body = resp?.respBody
+//            byte[] data = zipContent.getBytes("UTF-8")
+//            ByteArrayOutputStream zipStream = new ByteArrayOutputStream()
+            def content = resp?.respBody?.getBytes()
+            def zipStream = new ByteArrayInputStream(content)
+//            zipStream.write(resp?.respBody?.bytes)
+//            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; ${analysis?.jobNumber}.zip")
+            response.setHeader("Content-dsiposition", "inline; filename=${analysis?.jobNumber}.zip")
+            response.setContentType("application/zip")
+//            response.setContentType("file-mime-type")
+            response.setCharacterEncoding("UTF-8")
+            response.contentLength = resp?.respBody?.bytes?.size()
+//            response.setContentLength (data.length)
+//            response.outputStream << zipStream.toByteArray()
+//            response.outputStream << resp?.respBody?.bytes?.toByteArray()
+            IOUtils.copy(zipStream, response.outputStream)
+//            response.outputStream << data
+            response.outputStream.flush()
+            response.outputStream.close()
+//            byte[] data = resp?.respBody?.getBytes("UTF-8")
+//            return
+//            IOUtils.closeQuietly(resp.respBody.bytes)
+//            render file: resp?.respBody?.bytes("UTF-8"), filename: "${analysis?.jobNumber}.zip", contentType: "APPLICATION/OCTET-STREAM"
+//            render file: resp?.respBody?.bytes, filename: "${analysis?.jobNumber}.zip", contentType: "application/zip"
+         */
+
+
+
 
     def getImage(){
         def path = params.filepath
