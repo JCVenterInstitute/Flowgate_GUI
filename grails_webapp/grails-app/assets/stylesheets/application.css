@@ -12,6 +12,5 @@
 *= require common
 *= require main
 *= require mobile
-*= require custom
 *= require_self
 */bundle env
