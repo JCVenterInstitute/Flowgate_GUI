@@ -1,4 +1,5 @@
-grails.plugin.springsecurity.userLookup.usernamePropertyName = 'username'
+//grails.plugin.springsecurity.userLookup.usernamePropertyName = 'username'
+//grails.plugin.springsecurity.useBasicAuth = true
 
 grails.plugin.springsecurity.useSecurityEventListener = true
 grails.plugin.springsecurity.onInteractiveAuthenticationSuccessEvent = { e, appCtx ->

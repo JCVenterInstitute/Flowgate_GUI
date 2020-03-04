@@ -46,7 +46,7 @@
   </div>
 </div>
 
-%{--<table id="analysis-table" class="highlight responsive-table mdl-data-table" style="width:100%">
+%{-- <table id="analysis-table" class="highlight responsive-table mdl-data-table" style="width:100%">
   <thead>
   <tr>
     <th>Task Name</th>
@@ -54,7 +54,7 @@
     <th>Task Status</th>
     <th>Submitted on</th>
     <th>Creator</th>
-%{--    <th></th>--}%
+% { --    <th></th> -- }%
   </tr>
   </thead>
   <tbody>

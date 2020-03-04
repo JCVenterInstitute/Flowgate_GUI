@@ -19,18 +19,14 @@ buildscript {
     repositories {
         jcenter()
         mavenLocal()
-        maven {
-            url "https://repo.grails.org/grails/core"
-//            url "https://repo.grails.org/grails/repo"
-        }
+        maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath "org.grails.plugins:hibernate5:6.1.0"
-//        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.8.1"
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.11.6"
         classpath "org.grails.plugins:views-gradle:1.1.6"
         classpath "com.siprell.plugins:bootstrap-framework:1.0.3"
+        classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
     }
 }
 
@@ -91,20 +87,15 @@ dependencies {
     compile "org.grails.plugins:cache"
     compile "org.grails.plugins:scaffolding"
     compile "org.grails.plugins:hibernate5"
-    compile 'org.grails.plugins:spring-security-core:3.1.2'
-//    compile 'org.grails.plugins:spring-security-core:3.2.0.M1'
-//    compile 'org.grails.plugins:spring-security-core:3.1.1'
-    compile 'org.grails.plugins:grails-spring-security-ui:3.1.0-BUILD-SNAPSHOT'
-//    compile 'org.grails.plugins:spring-security-ui:3.0.0.M2'
-//    compile 'org.grails.plugins:spring-security-ui:3.1.0-acs'
-    compile 'org.grails.plugins:spring-security-rest:2.0.0.M2'
-    compile 'org.grails.plugins:mail:2.0.0.RC6'
     compile "org.hibernate:hibernate-core:5.1.2.Final"
     compile "org.hibernate:hibernate-ehcache:5.1.2.Final"
+    compile 'org.grails.plugins:spring-security-core:3.1.2'
+    compile 'org.grails.plugins:grails-spring-security-ui:3.1.0-BUILD-SNAPSHOT'
+    compile 'org.grails.plugins:spring-security-rest:2.0.0.M2'
+    compile 'org.grails.plugins:mail:2.0.0.RC6'
     compile "org.grails.plugins:views-json"
     compile "org.grails.plugins:views-json-templates"
     console "org.grails:grails-console"
-//    compile "org.grails.plugins:gsp"
     profile "org.grails.profiles:web"
     profile "org.grails.profiles:rest-api"
 //    assets "com.bertramlabs.plugins:asset-pipeline-grails:2.14.2"
@@ -112,6 +103,7 @@ dependencies {
     runtime "com.h2database:h2"
 //    runtime "mysql:mysql-connector-java:5.1.29"
     runtime "mysql:mysql-connector-java:5.1.46"
+//    runtime "mysql:mysql-connector-java:8.0.12"
 //    compile 'org.grails:grails-datastore-rest-client:5.0.0.RC2'
     compile 'org.grails:grails-datastore-rest-client'
 
@@ -171,8 +163,8 @@ dependencies {
 }
 
 bootRun {
-    jvmArgs('-Dspring.output.ansi.enabled=always')
+    jvmArgs('-Dspring.output.ansi.enabled=always','-Dlocal.config.location=external_config.yml')
 }
 
 
-apply from: 'gradle/docker.gradle'
+//apply from: 'gradle/docker.gradle'

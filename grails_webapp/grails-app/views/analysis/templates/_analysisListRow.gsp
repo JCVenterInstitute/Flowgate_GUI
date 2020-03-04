@@ -58,7 +58,7 @@
               <div id="resultModal_${bean?.jobNumber}"></div>
               %{--
               <div class="modal fade" tabindex="-1" id="resultModal-${bean?.jobNumber}" aria-labelledby="myModalLabel" aria-hidden="true" role="dialog">
->>>>>>> dev-int--}%
+>>>>>>> dev-int
                 <div class="modal-dialog modal-lg">
                   <div class="modal-content">
                     <div class="modal-header">
