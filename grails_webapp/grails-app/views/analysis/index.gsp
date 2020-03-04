@@ -11,6 +11,59 @@
 </head>
 
 <body>
+  %{--
+  =======
+  <div class="nav" role="navigation"></div>
+
+  <div class="row">
+    <div class="col-sm-offset-1 col-sm-10">
+      <div id="list-analysis" class="content scaffold-list" role="main">
+        <ul class="breadcrumb">
+          <li><a href="${createLink(controller: 'project', action: 'index', params: [pId: experiment?.project?.id])}" title="${experiment?.project?.title}">${experiment?.project?.title}</a></li>
+          <li><a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" title="${experiment?.title}">${experiment?.title}</a></li>
+          <li class="active"><g:message code="analysis.task.list.label" default="List of Analysis Tasks" /></li>
+        </ul>
+        --}%%{--
+        <g:if env="development">
+          <a class="noLinkBlack text-center" href="${g.createLink(controller: 'analysis', action: 'd3demo')}" >
+            <div class="btn btn-default">D3-Demo</div>
+          </a>
+        </g:if>
+        --}%%{--
+        <h1 class="page-header"><g:message code="analysis.task.list.label" default="List of Analysis Tasks" /></h1>
+  --}%%{--      <div id="changeDiv">msgHere</div>--}%%{--
+        <div id="analysisListTabl">
+          <g:render template="templates/analysisListTbl" model="[]"/>
+        </div>
+        <br/>
+        <a class="noLinkBlack text-center" style="background-color: transparent" href="${g.createLink(controller: 'analysis', action: 'create', params: [eId: params?.eId])}">
+          <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbspNew Analysis</button>
+        </a>
+        <sec:ifAnyGranted roles="ROLE_Tester,ROLE_Acs">
+          <a class="noLinkBlack text-center" style="background-color: transparent" href="${g.createLink(controller: 'analysis', action: 'setCallback', params: [eId: params?.eId])}">
+            <button class="btn btn-primary"><span class="glyphicon glyphicon-phone-alt"></span>&nbspSet Callback</button>
+          </a>
+        </sec:ifAnyGranted>
+
+  --}%%{--      <button class="btn btn-info" onclick="checkTimer()"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Update task status</button> <label style="margin-left: 5px" id="lastUpdatedTime"></label>--}%%{--
+
+        <label style="margin-left: 5px" id="lastUpdatedTime"></label>
+        <sec:ifAnyGranted roles="ROLE_Tester,ROLE_Acs">
+          <a class="noLinkBlack text-center" style="background-color: transparent" href="${g.createLink(controller: 'analysis', action: 'heatM')}">
+            <button class="btn btn-default">GenePattern Heatmap</button>
+          </a>
+          <a class="noLinkBlack text-center" style="background-color: transparent" href="${g.createLink(controller: 'analysis', action: 'fcs2Csv')}">
+            <button class="btn btn-default">GenePattern Fcs2Csv</button>
+          </a>
+          <a class="noLinkBlack text-center" style="background-color: transparent" href="${g.createLink(controller: 'analysis', action: 'flock')}">
+            <button class="btn btn-default">GenePattern flock</button>
+          </a>
+        --}%%{--  Buttons to test results page  --}%%{--
+          <a href="javascript:void(0)" onclick="javascript:showResult()" width="200" height="200">
+            <div class="btn btn-info">newHtml</div>
+          </a>
+  >>>>>>> dev-int
+  --}%
 
 <div class="navigation nav-wrapper">
   <div class="col s12">

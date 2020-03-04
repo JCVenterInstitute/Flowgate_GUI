@@ -2,9 +2,17 @@
 <div id="wholeTbl" style="overflow-y: auto;">
   <table id="annotation-table" cellspacing="0" class="highlight responsive-table small" width="100%">
     <thead>
-    <tr>
-      <g:sortableColumn property="expFile" title="${message(code: 'expFile.label', default: 'FCS File Name')}"/>
-      <g:each in="${experiment.expMetadatas.findAll { it.mdCategory == category }.sort { it.dispOrder }}" var="eMeta">
+%{--<<<<<<< HEAD--}%
+%{--    <tr>--}%
+%{--      <g:sortableColumn property="expFile" title="${message(code: 'expFile.label', default: 'FCS File Name')}"/>--}%
+%{--      <g:each in="${experiment.expMetadatas.findAll { it.mdCategory == category }.sort { it.dispOrder }}" var="eMeta">--}%
+%{--=======--}%
+    <tr >
+      <g:sortableColumn property="expFile" title="${message(code: 'expFile.label', default: 'FCS File Name')}">
+%{--        <p><br/></p>--}%
+      </g:sortableColumn>
+      <g:each in="${experiment.expMetadatas.findAll { it?.mdCategory == category }.sort { it.dispOrder }}" var="eMeta">
+%{-->>>>>>> dev-int--}%
         <g:if test="${eMeta.visible}">
           <th class="sortable">
             <div onclick="toggleActions(this, ${eMeta.id})" style="cursor: pointer;">${eMeta.mdKey}<i class="material-icons tiny" >expand_more</i></div>
@@ -47,9 +55,19 @@
           </th>
         </g:if>
       </g:each>
+%{--<<<<<<< HEAD--}%
       <th>
         <a href="#" class="${experiment.expMetadatas.findAll { it.mdCategory == category }.visible.toString().contains('false') ? '' : 'hidden'}"
            onclick="showAllHidden(${experiment.id}, '${category?.id}');">Show All Hidden Attributes</a>
+%{--=======--}%
+%{--      <th class="text-center">--}%
+%{--        <br/>--}%
+%{----}%
+%{--        <div class="${experiment.expMetadatas.findAll { it?.mdCategory == category }.visible.toString().contains('false') ? '' : 'hidden'} btn btn-default"--}%
+%{--             onclick="showAllHidden(${experiment.id}, '${category?.id}');">Show All Hidden Attributes</div>--}%
+%{--        <br/>--}%
+%{--        <br/>--}%
+%{-->>>>>>> dev-int--}%
 
         <g:if test="${category?.mdCategory != 'Reagents'}">
           <a href="#add-new-attribute" class="modal-trigger tooltipped" data-tooltip="Add a new column" data-position="right">
@@ -64,7 +82,7 @@
     </tbody>
   </table>
 </div>
-
+%{--<<<<<<< HEAD
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     var selectElems = document.querySelectorAll('select');
@@ -82,3 +100,4 @@
     }
   }
 </script>
+=======--}%

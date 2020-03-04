@@ -115,6 +115,7 @@
     var selectElems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(selectElems);
 
+// <<<<<<< HEAD
     var elems = document.querySelectorAll('.collapsible');
     var instances = M.Collapsible.init(elems, {
       onOpenStart: function (e) {
@@ -126,3 +127,10 @@
     });
   });
 </script>
+%{--=======--}%
+%{--
+--}%
+%{--</g:if>--}%
+%{--</g:form>--}%
+%{--<g:render template="/shared/manageUsers" model="[objectType: 'Experiment', object: experiment]"/>--}%
+%{-->>>>>>> dev-int--}%

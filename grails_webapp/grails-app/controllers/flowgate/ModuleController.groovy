@@ -1,8 +1,11 @@
 package flowgate
 
+import grails.plugin.springsecurity.annotation.Secured
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
+@Secured(["ROLE_Administrator","ROLE_Admin"])
 @Transactional(readOnly = true)
 class ModuleController {
 
@@ -13,9 +16,11 @@ class ModuleController {
         respond Module.list(params), model:[moduleCount: Module.count()]
     }
 
+    /*
     def show(Module module) {
         respond module
     }
+    */
 
     def create() {
         respond new Module(params)
