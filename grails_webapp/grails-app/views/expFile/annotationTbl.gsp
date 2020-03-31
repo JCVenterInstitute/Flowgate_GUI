@@ -36,11 +36,13 @@
         <a href="#tabBasics" class="active" ondblclick="editCategoryClick(${experiment?.id}, ${category?.id});">Basics</a>
       </li>
     </g:else>
-    <li class="tab col s1">
-      <a class="modal-trigger tooltipped " href="#add-new-category" data-tooltip="Add a new category" data-position="right" target="_blank">
-        <i class="material-icons" style="line-height: inherit">add</i>
-      </a>
-    </li>
+    <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
+      <li class="tab col s1">
+        <a class="modal-trigger tooltipped " href="#add-new-category" data-tooltip="Add a new category" data-position="right" target="_blank">
+          <i class="material-icons" style="line-height: inherit">add</i>
+        </a>
+      </li>
+    </sec:ifAnyGranted>
   </ul>
 
   <div class="tab-content">
