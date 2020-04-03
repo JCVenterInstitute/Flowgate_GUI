@@ -1,9 +1,8 @@
 package flowgate
 
+import grails.converters.JSON
 import grails.core.GrailsApplication
 import grails.plugin.springsecurity.annotation.Secured
-import grails.util.Environment
-import org.genepattern.server.job.input.choice.ChoiceInfoHelper
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -362,6 +361,29 @@ class ExpFileController {
     }
 
     @Transactional
+    def deleteMultiple() {
+        try {
+            def fileIds= JSON.parse(params.fileIds)
+            for(String id : fileIds) {
+                def expFile = ExpFile.findById(id);
+                File file = new File(expFile.getFilePath() + File.separator + expFile.getFileName());
+                file.delete();
+                erase(expFile)
+            }
+        } catch (Exception e) {
+            render (contentType:"text/json") {
+                success false
+                msg e.getMessage()
+            }
+        }
+
+        render (contentType:"text/json") {
+            success true
+            msg "Files have been deleted!"
+        }
+    }
+
+    @Transactional
     def axDeleteExpFile() {
         ExpFile expFile = ExpFile.get(params?.expFileId?.toLong())
         if (expFile == null) {
@@ -414,13 +436,13 @@ class ExpFileController {
 
         expFile.delete flush:true
 
-        request.withFormat {
+        /*request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'expFile.label', default: 'Exp. File'), fcsFileContainer.id])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
-        }
+        }*/
     }
 
     protected void notFound() {

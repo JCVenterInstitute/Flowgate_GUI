@@ -64,7 +64,7 @@
     var actionElems = document.querySelectorAll('.fixed-action-btn');
     M.FloatingActionButton.init(actionElems, {direction: 'left', hoverEnabled: false});
 
-    var modalElems = document.querySelectorAll('.modal');
+    var modalElems = document.querySelectorAll('#delete-experiment-modal');
     M.Modal.init(modalElems);
 
     var tooltipElems = document.querySelectorAll('.tooltipped');
