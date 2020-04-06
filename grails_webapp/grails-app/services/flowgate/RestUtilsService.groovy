@@ -200,6 +200,7 @@ class RestUtilsService {
         }
         catch (all) {
             println all?.message
+            return [code: 408, location: '']
         }
         if (!(resp?.responseEntity?.statusCodeValue >= 201 && resp?.responseEntity?.statusCodeValue < 300)) {
             log.error "Error uploading file!"
