@@ -295,26 +295,28 @@ class UtilsService {
 
   def getUnfinishedJobsListOfUser(Experiment experiment) {
     if(SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")){
-      return Analysis.findAllByExperimentAndAnalysisStatusNotInList(experiment, [3,-1])*.jobNumber
+      return Analysis.findAllByExperimentAndAnalysisStatusNotInList(experiment, [4,3,-1])*.jobNumber
     }
     else {
       return Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, springSecurityService.currentUser, [3,-2,-1])*.jobNumber
     }
   }
 
-  def checkJobStatus(def jobLst){
-    jobLst.each { jobId ->
-      Analysis analysis = Analysis.findByJobNumber(jobId.toInteger())
-      if(jobId.toInteger() > 0){
-        Boolean completed = restUtilsService.isComplete(analysis)
-        if(completed){
-          analysis.analysisStatus = jobId.toInteger() > 0 ? completed ? 3 : 2 : jobId.toInteger()
-          analysis.save flush: true
-          wsService.tcMsg(jobId.toString())
+    def checkJobStatus(def jobLst) {
+        jobLst.each { jobId ->
+            Analysis analysis = Analysis.findByJobNumber(jobId.toInteger())
+            if (jobId.toInteger() > 0) {
+                def jobResult = restUtilsService.jobResult(analysis)
+                Boolean completed = jobResult.status?.isFinished;
+                if (completed) {
+                    def outputFile = jobResult.outputFiles.find { it.path == analysis?.renderResult }  // 'Reports/AutoReport.html'
+                    analysis.analysisStatus = outputFile ? 3 : 4 //add a new status 4 if report file is missing
+                    analysis.save flush: true
+                    wsService.tcMsg(jobId.toString())
+                }
+            }
         }
-      }
     }
-  }
 
     def createModuleParamsFromJson(def moduleParamsJson) {
         List<ModuleParam> moduleParamList = new ArrayList<>(moduleParamsJson.size())

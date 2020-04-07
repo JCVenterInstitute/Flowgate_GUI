@@ -242,6 +242,35 @@ class AnalysisController {
         }
     }
 
+    def downloadErrorFile() {
+        def jobResult
+        Analysis analysis = Analysis.get(params?.analysisId)
+        if(analysis.jobNumber!= -1){
+            try {
+                jobResult = restUtilsService.jobResult(analysis)
+            }
+            catch (all){
+                println 'Error! No job result (maybe deleted on server)!' + all.dump()
+                render "<p><strong style='color:red;'>Error:</strong> No job found! plesae check if server is alive and job exists.</p>"
+            }
+        }
+        if(jobResult.statusCode.value != 200 && jobResult.statusCode.value != 201){
+            flash.resultMsg = jobResult?.statusCode?.toString() + " - " + jobResult?.statusCode?.reasonPhrase
+        }
+        def errorFile = jobResult.status.stderrLocation  // 'Reports/AutoReport.html'
+        if(errorFile) {
+            def fileUrl = new URL(errorFile)
+            def connection = fileUrl.openConnection()
+            connection.setRequestProperty("Authorization", utilsService.authHeader(analysis.module.server.userName, analysis.module.server.userPw))
+            def dataStream = connection.inputStream
+            response.setContentType("text/plain")
+            response.outputStream << dataStream
+            response.outputStream.flush()
+        } else {
+            render "<p><strong style='color:red;'>Error:</strong> No error file found!</p>"
+        }
+    }
+
     def getImage(){
         def path = params.filepath
         //returns an image to display
