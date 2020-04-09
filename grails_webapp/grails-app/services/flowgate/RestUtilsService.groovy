@@ -240,22 +240,57 @@ class RestUtilsService {
     }
 
     def fetchModulesForServer(AnalysisServer server) {
-        String allTasksUrl = server.url + "/gp/rest/v1/tasks/all.json"
         RestBuilder rest = new RestBuilder()
         RestResponse resp
+        JsonSlurper jsonSlurper = new JsonSlurper()
         try {
-            resp = rest.get(allTasksUrl) {
+            String gpWadlUrl = server.url + "/gp/rest/application.wadl"
+            //check if GenePattern server
+            resp = rest.get(gpWadlUrl) {
                 contentType "application/json"
                 auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
             }
+            if(resp.statusCodeValue == 401)
+                throw new Exception("Authentication failed! Please check server username and password.")
+
+            if(resp.statusCodeValue == 200) {
+                String allTasksUrl = server.url + "/gp/rest/v1/tasks/all.json"
+
+                resp = rest.get(allTasksUrl) {
+                    contentType "application/json"
+                    auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
+                }
+
+                def respBody = new JsonSlurper().parseText(resp.responseEntity.body)
+
+                return respBody.all_modules
+            } else {
+                //Otherwise try ImmportGalaxy
+                String igAuthUrl = server.url + "/api/authenticate/baseauth"
+                resp = rest.get(igAuthUrl) {
+                    contentType "application/json"
+                    auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
+                }
+
+                def respBody = jsonSlurper.parseText(resp.responseEntity.body)
+
+                if(resp.statusCodeValue == 404 || resp.statusCodeValue == 401)
+                    throw new Exception(respBody.err_msg)
+
+                String workflowsUrl = server.url + "/api/workflows"
+                resp = rest.get(workflowsUrl) {
+                    contentType "application/json"
+                    header("x-api-key", respBody.api_key)
+                }
+
+                respBody = jsonSlurper.parseText(resp.responseEntity.body)
+
+                return respBody
+            }
         }
         catch (all) {
-            throw new Exception(all.getCause().getMessage())
+            throw new Exception(all.getCause() ? all.getCause().getMessage() : all.getMessage())
         }
-
-        def objects = new JsonSlurper().parseText(resp.responseEntity.body)
-
-        return objects.all_modules
     }
 
     def fetchModuleParamsForModule(Module module) {
