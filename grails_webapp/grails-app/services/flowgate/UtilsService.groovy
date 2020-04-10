@@ -331,10 +331,16 @@ class UtilsService {
 
     def createModuleParamFromJson(def moduleParamJson) {
         ModuleParam moduleParam = new ModuleParam()
-        moduleParam.pKey = moduleParamJson.name
-        moduleParam.pType = moduleParamJson.TYPE.equalsIgnoreCase("file") ? "file" : "val"
-        moduleParam.defaultVal = moduleParamJson.default_value
-        moduleParam.descr = moduleParamJson.description
+        if(moduleParamJson.name) {
+            moduleParam.pKey = moduleParamJson.name
+            moduleParam.pType = moduleParamJson.TYPE.equalsIgnoreCase("file") ? "file" : "val"
+            moduleParam.defaultVal = moduleParamJson.default_value
+            moduleParam.descr = moduleParamJson.description
+        } else {
+            moduleParam.pKey = moduleParamJson.label
+            moduleParam.pType = "file"
+            moduleParam.defaultVal = moduleParamJson.value
+        }
         moduleParam.pBasic = true
 
         return moduleParam

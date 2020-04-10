@@ -5,15 +5,20 @@
     <g:each in="${moduleParams}" var="params" status="i">
       <li class="collection-item avatar" id="params-${i}">
         <i class="material-icons circle">settings</i>
-        <span class="title"><strong>${params.name}</strong></span>
+        <g:if test="${params.name}">
+          <span class="title"><strong>${params.name}</strong></span>
 
-        <p>${params.description} <br>
-          ${params.TYPE}
-        </p>
+          <p>${params.description} <br>
+            ${params.TYPE}
+          </p>
+        </g:if>
+        <g:else>
+          <span class="title"><strong>${params.label}</strong></span>
+        </g:else>
 
-        <g:if test="${params.TYPE == 'FILE'}">
+        <g:if test="${params.TYPE == 'FILE' || params.label}">
           <label class="secondary-content">
-            <input name="dataset" type="radio" value="${params.name}"/>
+            <input name="dataset" type="radio" value="<g:if test="${params.name}">${params.name}</g:if><g:else>${params.label}</g:else>"/>
             <span>Mark as a dataset parameter</span>
           </label>
         </g:if>

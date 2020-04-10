@@ -244,12 +244,8 @@ class RestUtilsService {
         RestResponse resp
         JsonSlurper jsonSlurper = new JsonSlurper()
         try {
-            String gpWadlUrl = server.url + "/gp/rest/application.wadl"
-            //check if GenePattern server
-            resp = rest.get(gpWadlUrl) {
-                contentType "application/json"
-                auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
-            }
+            resp = connectToGenePatternServer(rest, server)
+
             if(resp.statusCodeValue == 401)
                 throw new Exception("Authentication failed! Please check server username and password.")
 
@@ -261,16 +257,12 @@ class RestUtilsService {
                     auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
                 }
 
-                def respBody = new JsonSlurper().parseText(resp.responseEntity.body)
+                def respBody = jsonSlurper.parseText(resp.responseEntity.body)
 
                 return respBody.all_modules
             } else {
                 //Otherwise try ImmportGalaxy
-                String igAuthUrl = server.url + "/api/authenticate/baseauth"
-                resp = rest.get(igAuthUrl) {
-                    contentType "application/json"
-                    auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
-                }
+                resp = connectToImmportGalaxyServer(rest, server)
 
                 def respBody = jsonSlurper.parseText(resp.responseEntity.body)
 
@@ -294,28 +286,80 @@ class RestUtilsService {
     }
 
     def fetchModuleParamsForModule(Module module) {
-        String moduleUrl = module.server.url + "/gp/rest/v1/tasks/" + module.name + "?includeEula=false&includeProperties=false"
         RestBuilder rest = new RestBuilder()
         RestResponse resp
+        JsonSlurper jsonSlurper = new JsonSlurper()
+        def server = module.server
         try {
-            resp = rest.get(moduleUrl) {
-                contentType "application/json"
-                auth "Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
+            resp = connectToGenePatternServer(rest, server)
+
+            if(resp.statusCodeValue == 401)
+                throw new Exception("Authentication failed! Please check server username and password.")
+
+            if(resp.statusCodeValue == 200) {
+                String moduleUrl = server.url + "/gp/rest/v1/tasks/" + module.name + "?includeEula=false&includeProperties=false"
+
+                resp = rest.get(moduleUrl) {
+                    contentType "application/json"
+                    auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
+                }
+
+                def respBody = jsonSlurper.parseText(resp.responseEntity.body)
+
+                def attributes = respBody.params.collect {
+                    it.collect { key, value ->
+                        return value.get("attributes")
+                    }
+                }
+
+                return attributes.flatten()
+            } else {
+                //Otherwise try ImmportGalaxy
+                resp = connectToImmportGalaxyServer(rest, server)
+
+                def respBody = jsonSlurper.parseText(resp.responseEntity.body)
+
+                if(resp.statusCodeValue == 404 || resp.statusCodeValue == 401)
+                    throw new Exception(respBody.err_msg)
+
+                String workflowsUrl = server.url + "/api/workflows/" + module.name
+                resp = rest.get(workflowsUrl) {
+                    contentType "application/json"
+                    header("x-api-key", respBody.api_key)
+                }
+
+                respBody = jsonSlurper.parseText(resp.responseEntity.body)
+
+                def inputs = respBody.inputs.values()
+
+                return inputs
             }
         }
         catch (all) {
-            throw new Exception(all.getCause().getMessage())
+            throw new Exception(all.getCause() ? all.getCause().getMessage() : all.getMessage())
+        }
+    }
+
+    def connectToGenePatternServer(RestBuilder rest, AnalysisServer server) {
+        String gpWadlUrl = server.url + "/gp/rest/application.wadl"
+        //check if GenePattern server
+        RestResponse resp = rest.get(gpWadlUrl) {
+            contentType "application/json"
+            auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
         }
 
-        def objects = new JsonSlurper().parseText(resp.responseEntity.body)
+        return resp;
+    }
 
-        def attributes = objects.params.collect {
-            it.collect { key, value ->
-                return value.get("attributes")
-            }
+    def connectToImmportGalaxyServer(RestBuilder rest, AnalysisServer server) {
+        String igAuthUrl = server.url + "/api/authenticate/baseauth"
+
+        RestResponse resp = rest.get(igAuthUrl) {
+            contentType "application/json"
+            auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
         }
 
-        return attributes.flatten()
+        return resp;
     }
 
 }
