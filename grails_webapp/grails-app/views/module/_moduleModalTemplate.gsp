@@ -16,7 +16,7 @@
 
           <p>Number of steps for this workflow: <b>${module.number_of_steps}</b></p>
         </g:else>
-        <g:if test="${Module.findByNameAndServer(module.lsid, server) == null}">
+        <g:if test="${Module.findByNameAndServer(module.lsid, server) == null && Module.findByNameAndServer(module.id, server) == null}">
           <a href="#!" onclick="fillFormWithSelectedModule('module-' +${i});" class="secondary-content tooltipped" data-tooltip="Select and configure this module"
              data-position="left">
             <i class="material-icons">add</i>
