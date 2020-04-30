@@ -205,7 +205,9 @@ class UtilsService {
 //        TODO read from config file
 //        String category = 'Basics'
 //        ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrCreateByExperimentAndMdCategory(experiment, 'Basics')
-        ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrSaveByExperimentAndMdCategory(experiment, 'Basics')
+//        TODO recheck!!!
+//        ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrSaveByExperimentAndMdCategory(experiment, 'Basics')
+        ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrSaveByMdCategory('Basics')
 //        TODO handle category
 //        if(fileListMap.keySet.contains('category')){
 //            category =

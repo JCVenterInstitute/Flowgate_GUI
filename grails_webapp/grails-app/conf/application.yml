@@ -120,6 +120,9 @@ grails:
                     - pattern: /gp/**
                       access:
                         - 'permitAll'
+#                    - pattern: /api/metadata/**
+#                      access:
+#                        - 'permitAll'
                     - pattern: /assets/**
                       access:
                         - 'permitAll'
@@ -163,6 +166,8 @@ grails:
                     - pattern: /**/favicon.ico
                       filters: 'none'
 #	                    [pattern: '/project/list',	 filters: 'none'],
+                    - pattern: /api/metadata/**
+                      filters: 'none'
                     - pattern: /api/**
                       filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter'
                     - pattern: /gp/**

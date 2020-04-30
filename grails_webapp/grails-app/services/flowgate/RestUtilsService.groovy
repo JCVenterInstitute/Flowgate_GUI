@@ -59,6 +59,7 @@ class RestUtilsService {
     }
     if (lsidOrTaskName != '') {
       RestBuilder rest = new RestBuilder()
+      String d_url = module.server.url + "/gp/rest/v1/jobs"
       RestResponse resp = rest.post(module.server.url + "/gp/rest/v1/jobs") {
         contentType "application/json"
         auth "Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"

@@ -10,6 +10,8 @@ class UrlMappings {
     "/logout/$action?"(controller: "logout")
     "/tokens"(controller: 'authenticationToken')
     "/api/tokens"(resources: "authenticationToken")
+    "/api/metadata"(controller: "metaDataReceiver", action: "index", parseRequest: false)
+//    "/api/metadata"(controller: "metaDataReceiver", action: "index", parseRequest: true)
     "/dashboard"(view: "/dashboard/index")
     "/about"(view: "/about/about")
     "/"(view: "/index")
