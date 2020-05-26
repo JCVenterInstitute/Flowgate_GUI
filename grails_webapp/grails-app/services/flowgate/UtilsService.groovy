@@ -293,14 +293,14 @@ class UtilsService {
      }
    }
 
-  def getUnfinishedJobsListOfUser(Experiment experiment) {
-    if(SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")){
-      return Analysis.findAllByExperimentAndAnalysisStatusNotInList(experiment, [4,3,-1])*.jobNumber
+    def getUnfinishedJobsListOfUser(Experiment experiment) {
+        if(SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")){
+            return Analysis.findAllByExperimentAndAnalysisStatusNotInList(experiment, [Analysis.Status.REPORT_FILE_MISSING.value(), Analysis.Status.FINISHED.value(), Analysis.Status.FAILED.value()])*.jobNumber
+        }
+        else {
+            return Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, springSecurityService.currentUser, [Analysis.Status.FINISHED, Analysis.Status.DELETED, Analysis.Status.FAILED])*.jobNumber
+        }
     }
-    else {
-      return Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, springSecurityService.currentUser, [3,-2,-1])*.jobNumber
-    }
-  }
 
     def checkJobStatus(def jobLst) {
         jobLst.each { jobId ->

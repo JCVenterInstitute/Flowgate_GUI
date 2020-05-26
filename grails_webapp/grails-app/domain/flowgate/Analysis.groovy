@@ -62,6 +62,11 @@ class Analysis {
      */
     FINISHED(3),
 
+    /**
+     * Analysis completed but report file is missing
+     */
+    REPORT_FILE_MISSING(4);
+
     private final int statusValue;
 
     private Status(final int statusValue) {
