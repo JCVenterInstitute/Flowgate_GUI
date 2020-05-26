@@ -1,5 +1,7 @@
 package flowgate
 
+import com.github.jmchilton.blend4j.galaxy.beans.Workflow
+import com.google.gson.Gson
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 import grails.transaction.Transactional
@@ -217,7 +219,7 @@ class RestUtilsService {
     def jobResult(Analysis analysis, boolean onlyStatus) {
         RestBuilder rest = new RestBuilder()
         RestResponse resp
-        String serverApiUrl = analysis.module.server.url + "/gp/rest/v1/jobs/${analysis.jobNumber.toString()}" + (onlyStatus ? "/status.json" : "")
+        String serverApiUrl = analysis.module.server.url + "/gp/rest/v1/jobs/${analysis.jobNumber}" + (onlyStatus ? "/status.json" : "")
         try {
             resp = rest.get(serverApiUrl) {
                 contentType "application/json"
@@ -262,22 +264,10 @@ class RestUtilsService {
                 return respBody.all_modules
             } else {
                 //Otherwise try ImmportGalaxy
-                resp = connectToImmportGalaxyServer(rest, server)
+                GalaxyService galaxyService = new GalaxyService(server)
+                List<Workflow> workflows = galaxyService.fetchImmportGalaxyWorkflows();
 
-                def respBody = jsonSlurper.parseText(resp.responseEntity.body)
-
-                if(resp.statusCodeValue == 404 || resp.statusCodeValue == 401)
-                    throw new Exception(respBody.err_msg)
-
-                String workflowsUrl = server.url + "/api/workflows"
-                resp = rest.get(workflowsUrl) {
-                    contentType "application/json"
-                    header("x-api-key", respBody.api_key)
-                }
-
-                respBody = jsonSlurper.parseText(resp.responseEntity.body)
-
-                return respBody
+                return jsonSlurper.parseText(new Gson().toJson(workflows))
             }
         }
         catch (all) {
@@ -313,26 +303,6 @@ class RestUtilsService {
                 }
 
                 return attributes.flatten()
-            } else {
-                //Otherwise try ImmportGalaxy
-                resp = connectToImmportGalaxyServer(rest, server)
-
-                def respBody = jsonSlurper.parseText(resp.responseEntity.body)
-
-                if(resp.statusCodeValue == 404 || resp.statusCodeValue == 401)
-                    throw new Exception(respBody.err_msg)
-
-                String workflowsUrl = server.url + "/api/workflows/" + module.name
-                resp = rest.get(workflowsUrl) {
-                    contentType "application/json"
-                    header("x-api-key", respBody.api_key)
-                }
-
-                respBody = jsonSlurper.parseText(resp.responseEntity.body)
-
-                def inputs = respBody.inputs.values()
-
-                return inputs
             }
         }
         catch (all) {
@@ -350,16 +320,4 @@ class RestUtilsService {
 
         return resp;
     }
-
-    def connectToImmportGalaxyServer(RestBuilder rest, AnalysisServer server) {
-        String igAuthUrl = server.url + "/api/authenticate/baseauth"
-
-        RestResponse resp = rest.get(igAuthUrl) {
-            contentType "application/json"
-            auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
-        }
-
-        return resp;
-    }
-
 }

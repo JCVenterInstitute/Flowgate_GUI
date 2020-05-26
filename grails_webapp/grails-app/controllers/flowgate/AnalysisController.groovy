@@ -201,6 +201,14 @@ class AnalysisController {
 //        //String dwnLdMsg = "File '${params?.filename}' successfully downloaded!"
     }
 
+    def resultFile(String analysisId, String filename) {
+        Analysis analysis = Analysis.get(analysisId)
+        File resultFile = utilsService.getResultFileDetails(filename, analysis)
+        response.setContentType("text/tab-separated-values")
+        response.outputStream << (InputStream) new FileInputStream(resultFile)
+        response.outputStream.flush()
+    }
+
     def downloadResultReport() {
         /*
         params.download .... switch to either download the file or open in browser
@@ -209,36 +217,46 @@ class AnalysisController {
          */
         def jobResult
         Analysis analysis = Analysis.get(params?.analysisId)
-        if(!analysis.isFailedOnSubmit()){
-            try {
-                jobResult = restUtilsService.jobResult(analysis)
-            }
-            catch (all){
-                println 'Error! No job result (maybe deleted on server)!' + all.dump()
-            }
-        }
-        if(jobResult.statusCode.value != 200 && jobResult.statusCode.value != 201){
-            String dummy = jobResult?.statusCode?.toString()
-            flash.resultMsg = jobResult?.statusCode?.toString() + " - " + jobResult?.statusCode?.reasonPhrase
-        }
-        def outputFile = jobResult.outputFiles.find{ it.path == analysis?.renderResult}  // 'Reports/AutoReport.html'
-        if(outputFile){
-            def fileUrl = new URL(outputFile.link.href)
-            def connection = fileUrl.openConnection()
-            connection.setRequestProperty ("Authorization", utilsService.authHeader(analysis.module.server.userName,analysis.module.server.userPw))
-            def dataStream = connection.inputStream
-            if(params.download != null && params.download){
+        if (analysis.module.server.isImmportGalaxyServer()) {
+            File resultFile = new File(analysis.renderResult)
+            if (params.download != null && params.download) {
                 response.setContentType("application/octet-stream")
-                response.setHeader("Content-disposition", "Attachment; filename=${outputFile.path}")
-            }
-            else {
+                response.setHeader("Content-disposition", "Attachment; filename=${resultFile.name}")
+            } else {
                 response.setContentType("text/html")
             }
-            response.outputStream << dataStream
+            response.outputStream << (InputStream) new FileInputStream(resultFile)
             response.outputStream.flush()
-        }
-        else {
-            render "<p><strong style='color:red;'>Error:</strong> No result file found to download!</p>"
+        } else {
+            if (!analysis.isFailedOnSubmit()) {
+                try {
+                    jobResult = restUtilsService.jobResult(analysis)
+                }
+                catch (all) {
+                    println 'Error! No job result (maybe deleted on server)!' + all.dump()
+                }
+            }
+            if (jobResult.statusCode.value != 200 && jobResult.statusCode.value != 201) {
+                String dummy = jobResult?.statusCode?.toString()
+                flash.resultMsg = jobResult?.statusCode?.toString() + " - " + jobResult?.statusCode?.reasonPhrase
+            }
+            def outputFile = jobResult.outputFiles.find { it.path == analysis?.renderResult }  // 'Reports/AutoReport.html'
+            if (outputFile) {
+                def fileUrl = new URL(outputFile.link.href)
+                def connection = fileUrl.openConnection()
+                connection.setRequestProperty("Authorization", utilsService.authHeader(analysis.module.server.userName, analysis.module.server.userPw))
+                def dataStream = connection.inputStream
+                if (params.download != null && params.download) {
+                    response.setContentType("application/octet-stream")
+                    response.setHeader("Content-disposition", "Attachment; filename=${outputFile.path}")
+                } else {
+                    response.setContentType("text/html")
+                }
+                response.outputStream << dataStream
+                response.outputStream.flush()
+            } else {
+                render "<p><strong style='color:red;'>Error:</strong> No result file found to download!</p>"
+            }
         }
     }
 
@@ -353,18 +371,23 @@ class AnalysisController {
         Module module = Module.get(params?.module?.id)
         Experiment experiment = Experiment.get(params?.eId?.toLong())
         analysis.experiment = experiment
-        Map resultMap
-        if(module.server.url.startsWith('https')){
-            Parameter[] parameters = genePatternService.setModParams(module, params)
-            resultMap = genePatternService.getJobNo(module, parameters)
+        if(module.server.isGenePatternServer()) {
+            Map resultMap
+            if (module.server.url.startsWith('https')) {
+                Parameter[] parameters = genePatternService.setModParams(module, params)
+                resultMap = genePatternService.getJobNo(module, parameters)
+            } else {
+                def parameters = restUtilsService.setModParamsRest(module, params, thisRequest)
+                resultMap = restUtilsService.getJobNo(module, parameters)
+            }
+            analysis.jobNumber = resultMap.jobNo
+            flash.eMsg = resultMap.eMsg
+            analysis.analysisStatus = resultMap.jobNo > 0 ? 2 : -1 //pending/processing or error
+        } else {
+            GalaxyService galaxyService = new GalaxyService(module.server)
+            analysis.jobNumber = galaxyService.submitImmportGalaxyWorkflow(module, experiment, params, thisRequest)
+            analysis.analysisStatus = 2
         }
-        else{
-            def parameters = restUtilsService.setModParamsRest(module, params, thisRequest)
-            resultMap = restUtilsService.getJobNo(module, parameters)
-        }
-        analysis.jobNumber = resultMap.jobNo
-        flash.eMsg = resultMap.eMsg
-        analysis.analysisStatus = resultMap.jobNo > 0 ? 2 : -1 //pending/processing or error
         experiment.addToAnalyses(analysis)
         analysis.validate()
         if (analysis == null) {

@@ -6,7 +6,7 @@
       <li class="collection-item avatar" id="module-${i}">
         <i class="material-icons circle">folder</i>
         <span class="title"><strong>${module.name}</strong></span>
-        <g:if test="${module.lsid}">
+        <g:if test="${server.isGenePatternServer()}">
           <span class="lsid" style="display: none;">${module.lsid}</span>
 
           <p>${module.description}</p>
@@ -14,7 +14,7 @@
         <g:else>
           <span class="lsid" style="display: none;">${module.id}</span>
 
-          <p>Number of steps for this workflow: <b>${module.number_of_steps}</b></p>
+          <p>Number of steps for this workflow: <b>${module.numberOfSteps}</b></p>
         </g:else>
         <g:if test="${Module.findByNameAndServer(module.lsid, server) == null && Module.findByNameAndServer(module.id, server) == null}">
           <a href="#!" onclick="fillFormWithSelectedModule('module-' +${i});" class="secondary-content tooltipped" data-tooltip="Select and configure this module"

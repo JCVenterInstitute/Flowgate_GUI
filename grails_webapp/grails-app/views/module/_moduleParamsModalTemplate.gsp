@@ -5,18 +5,13 @@
     <g:each in="${moduleParams}" var="params" status="i">
       <li class="collection-item avatar" id="params-${i}">
         <i class="material-icons circle">settings</i>
-        <g:if test="${params.name}">
-          <span class="title"><strong>${params.name}</strong></span>
+        <span class="title"><strong>${params.name}</strong></span>
 
-          <p>${params.description} <br>
-            ${params.TYPE}
-          </p>
-        </g:if>
-        <g:else>
-          <span class="title"><strong>${params.label}</strong></span>
-        </g:else>
+        <p>${params.description} <br>
+          ${params.TYPE}
+        </p>
 
-        <g:if test="${params.TYPE == 'FILE' || params.label}">
+        <g:if test="${params.TYPE == 'FILE' || params.order >= 0}">
           <label class="secondary-content">
             <input name="dataset" type="radio" value="<g:if test="${params.name}">${params.name}</g:if><g:else>${params.label}</g:else>"/>
             <span>Mark as a dataset parameter</span>
@@ -41,6 +36,7 @@
 
   <div class="modal-footer">
     <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
-    <a id="confirm-import" href="${createLink(controller: 'moduleParam', action: 'importParameters', params: [id: module?.id])}" class="modal-close waves-effect waves-green btn-flat">Confirm</a>
+    <a id="confirm-import" href="${createLink(controller: 'moduleParam', action: 'importParameters', params: [id: module?.id])}"
+       class="modal-close waves-effect waves-green btn-flat">Confirm</a>
   </div>
 </div>

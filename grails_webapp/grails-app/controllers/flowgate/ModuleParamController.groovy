@@ -96,7 +96,9 @@ class ModuleParamController {
     @Transactional
     def importParameters(Module module) {
         try {
-            def moduleParamsJson = restUtilsService.fetchModuleParamsForModule(module)
+            def moduleParamsJson = module.server.isGenePatternServer() ?
+                    restUtilsService.fetchModuleParamsForModule(module) :
+                    new GalaxyService(module.server).fetchImmportGalaxyWorkflowInputs(module.name)
             def datasetParam = params.dataset
 
             List<ModuleParam> moduleParams = utilsService.createModuleParamsFromJson(moduleParamsJson)
@@ -128,7 +130,9 @@ class ModuleParamController {
 
     def fetchModuleParamsForModule(Module module) {
         try {
-            def moduleParamsList = restUtilsService.fetchModuleParamsForModule(module)
+            def moduleParamsList = module.server.isGenePatternServer() ?
+                    restUtilsService.fetchModuleParamsForModule(module) :
+                    new GalaxyService(module.server).fetchImmportGalaxyWorkflowInputs(module.name)
 
             render (contentType:"text/json") {
                 success true

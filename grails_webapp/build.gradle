@@ -162,6 +162,7 @@ dependencies {
 //    runtime "org.grails.plugins:asset-pipeline"
 
     compile "com.nayidisha.grails.uploadr:grails3-uploadr:3.0"
+    compile 'com.github.jmchilton.blend4j:blend4j:0.2.0'
 
 
     testCompile "org.grails:grails-plugin-testing"
