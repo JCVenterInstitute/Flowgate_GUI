@@ -305,7 +305,7 @@ class UtilsService {
     def checkJobStatus(def jobLst) {
         jobLst.each { jobId ->
             Analysis analysis = Analysis.findByJobNumber(jobId.toInteger())
-            if (jobId.toInteger() > 0) {
+            if (!analysis.isFailedOnSubmit()) {
                 def jobResult = restUtilsService.jobResult(analysis)
                 Boolean completed = jobResult.status?.isFinished;
                 if (completed) {

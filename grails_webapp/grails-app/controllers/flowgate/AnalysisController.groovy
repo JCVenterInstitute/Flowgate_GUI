@@ -80,7 +80,7 @@ class AnalysisController {
 
     def showResults(Analysis analysis) {
         def jobResult
-        if(analysis.jobNumber!= -1){
+        if(!analysis.isFailedOnSubmit()){
             try {
                 jobResult = restUtilsService.jobResult(analysis)
             }
@@ -98,7 +98,7 @@ class AnalysisController {
 
     def displayResults(Analysis analysis) {
         def jobResult
-        if(analysis.jobNumber!= -1){
+        if(!analysis.isFailedOnSubmit()){
             try {
                 jobResult = restUtilsService.jobResult(analysis)
             }
@@ -209,7 +209,7 @@ class AnalysisController {
          */
         def jobResult
         Analysis analysis = Analysis.get(params?.analysisId)
-        if(analysis.jobNumber!= -1){
+        if(!analysis.isFailedOnSubmit()){
             try {
                 jobResult = restUtilsService.jobResult(analysis)
             }
@@ -245,7 +245,7 @@ class AnalysisController {
     def downloadErrorFile() {
         def jobResult
         Analysis analysis = Analysis.get(params?.analysisId)
-        if(analysis.jobNumber!= -1){
+        if(!analysis.isFailedOnSubmit()){
             try {
                 jobResult = restUtilsService.jobResult(analysis)
             }
