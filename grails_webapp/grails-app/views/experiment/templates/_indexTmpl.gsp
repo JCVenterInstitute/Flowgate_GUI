@@ -210,7 +210,7 @@
         $('.checkbox-files').prop("checked", false);
     });
   });
-  
+
   function openDeleteFileModal() {
     var totalChecked = $('input[type="checkbox"][name="selected-files"]:checked').length;
     if(totalChecked == 0) {

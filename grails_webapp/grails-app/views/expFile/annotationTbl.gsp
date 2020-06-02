@@ -21,19 +21,19 @@
 <h2><g:message code="annotation.table.label" default="Annotate Uploaded FCS Files with Experiment Metadata"/></h2>
 
 <g:if test="${experiment.expFiles}">
-  <g:set var="categories" value="${ExperimentMetadataCategory.findAllByExperiment(experiment)}"/>
+  <g:set var="categories" value="${flowgate?.ExperimentMetadata?.findAllByExperimentAndIsMiFlow(experiment, false)*.mdCategory?.unique()}"/>
   <ul class="tabs">
     <g:if test="${categories.size() > 0}">
       <g:each in="${categories}" var="category" status="idx">
         <li class="tab col s2">
-          <a class="${idx == 0 ? 'active' : ''}" href="#tab${category?.mdCategory}"
+          <a class="${idx == 0 ? 'active' : ''}" href="#tab${category?.id}"
              ondblclick="editCategoryClick(${experiment.id}, ${category?.id});">${category?.mdCategory}</a>
         </li>
       </g:each>
     </g:if>
     <g:else>
       <li class="tab col s2">
-        <a href="#tabBasics" class="active" ondblclick="editCategoryClick(${experiment?.id}, ${category?.id});">Basics</a>
+        <a href="#tab1" class="active" ondblclick="editCategoryClick(${experiment?.id}, 1);">Basics</a>
       </li>
     </g:else>
     <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
@@ -64,14 +64,14 @@
   </div>--}%
     <g:if test="${categories.size() > 0}">
       <g:each in="${categories}" var="category" status="idx">
-        <div class="tab-pane ${idx == 0 ? 'active' : ''}" role="tabpanel" id="tab${category?.mdCategory}">
+        <div class="tab-pane ${idx == 0 ? 'active' : ''}" role="tabpanel" id="tab${category?.id}">
           <g:render template="annMasterTbl" model="[category: category]"/>
         </div>
       </g:each>
     </g:if>
     <g:else>
-      <div class="tab-pane active" role="tabpanel" id="tabBasics">
-        <g:render template="annMasterTbl" model="[category: null]"/>
+      <div class="tab-pane active" role="tabpanel" id="tab1">
+        %{--<g:render template="annMasterTbl" model="[category: null]"/>--}%
       </div>
     </g:else>
   </div>
@@ -211,6 +211,45 @@
 
   }
 
+  function addColClick(eId, category) {
+    $.ajax({
+      url: "${g.createLink(controller: 'expFile', action: 'axAddColumn') }",
+      dataType: 'json',
+      data: {id: eId, category: category},
+      success: function (data, status, xhr) {
+        console.log('success');
+        $("#colCreateModal").html(data.crModalTmpl);
+        $("#addColForm").modal("show");
+      },
+      error: function (request, status, error) {
+        console.log('ajxError!');
+      },
+      complete: function (xhr, status) {
+        console.log('ajxComplete!');
+      }
+    });
+  }
+
+  function addCategoryClick(eId) {
+    $.ajax({
+      url: "${g.createLink(controller: 'expFile', action: 'axAddCategory') }",
+      dataType: 'json',
+      data: {id: eId},
+      success: function (data, status, xhr) {
+        console.log('success');
+        $("#categoryAddModal").html(data.catModalTmpl);
+        $("#addCategoryForm").modal("show");
+      },
+      error: function (request, status, error) {
+        console.log('ajxError!');
+      },
+      complete: function (xhr, status) {
+        console.log('ajxComplete!');
+      }
+    });
+
+  }
+
   function editCategoryClick(eId, catId) {
     $.ajax({
       url: "${g.createLink(controller: 'expFile', action: 'axEditCategory') }",
@@ -300,7 +339,7 @@
           success: function (data, status, xhr) {
             console.log('success');
             $("#colEditModal").html(data.edModalTmpl);
-            $("#editColForm").modal();
+            $("#editColForm").modal({show: 'true'});
           },
           error: function (request, status, error) {
             console.log('ajxError!');
