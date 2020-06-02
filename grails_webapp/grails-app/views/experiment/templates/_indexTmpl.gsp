@@ -48,8 +48,11 @@
           </g:if>
         </sec:ifNotGranted>
         <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
-          or <a href="${g.createLink(controller: 'expFile', action: 'annotationTbl', id: experiment?.id)}">annotate existing FCS file(s)</a>.
+          or <a href="${g.createLink(controller: 'expFile', action: 'annotationTbl', id: experiment?.id)}">annotate existing FCS file(s)</a>
         </g:isOwnerOrRoles>
+        <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
+          or <a href="${g.createLink(controller: 'experiment', action: 'miFcytTbl', id: experiment?.id)}">annotate experiment with MIFlowCyt data</a>
+        </g:isOwnerOrRoles>.
 
         <p>
           <!-- Switch to select files to be deleted -->
