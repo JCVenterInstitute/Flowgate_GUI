@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <asset:link rel="icon" href="f.ico" type="image/x-ico" />
+  <asset:link rel="icon" href="favicon.ico" type="image/x-ico" />
 
   <asset:stylesheet src="ssui.css.less"/>
   <asset:stylesheet src="application.css"/>

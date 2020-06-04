@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta name="layout" content="ofg"/>
-  <asset:link rel="icon" href="f.ico" type="image/x-ico"/>
+  <asset:link rel="icon" href="favicon.ico" type="image/x-ico"/>
   <title><g:message code="landingPage.title.label" default="FlowGate"/></title>
   <asset:stylesheet src="signin.css"/>
 </head>
