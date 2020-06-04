@@ -25,7 +25,7 @@ class UtilsService {
 
     GrailsApplication grailsApplication
 
-    String overviewFilePath = "http://immportgalaxy-int.jcvi.org:8080/static/flowtools/js/overview.js"
+    String overviewFilePath = "/static/flowtools/js/overview.js"
 
     def getSession(){
         WebUtils.retrieveGrailsWebRequest().getCurrentRequest().session
@@ -409,7 +409,7 @@ class UtilsService {
 
     def updateDependencies(def filePath, def serverPath, def analysisId) {
         //Update result file pathes in overview file and embed into the result file
-        InputStream is = new URL(overviewFilePath).openStream()
+        InputStream is = new URL(serverPath + "/" + overviewFilePath).openStream()
         BufferedReader reader = new BufferedReader(new InputStreamReader(is))
         Stream<String> lines = reader.lines()
 
