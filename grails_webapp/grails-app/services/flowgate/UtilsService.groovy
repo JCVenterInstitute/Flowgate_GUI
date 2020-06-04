@@ -324,44 +324,37 @@ class UtilsService {
     }
 
     def getUnfinishedJobsListOfUser(Experiment experiment) {
-        if(SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")){
-            return Analysis.findAllByExperimentAndAnalysisStatusNotInList(experiment, [Analysis.Status.REPORT_FILE_MISSING.value(), Analysis.Status.FINISHED.value(), Analysis.Status.FAILED.value()])*.jobNumber
-        }
-        else {
-            return Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, springSecurityService.currentUser, [Analysis.Status.FINISHED, Analysis.Status.DELETED, Analysis.Status.FAILED])*.jobNumber
-        }
+        def analysisList =
+                SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin") ?
+                        Analysis.findAllByExperimentAndAnalysisStatusNotInList(experiment, [Analysis.Status.REPORT_FILE_MISSING.value(), Analysis.Status.FINISHED.value(), Analysis.Status.FAILED.value()])
+                        :
+                        Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, springSecurityService.currentUser, [Analysis.Status.FINISHED, Analysis.Status.DELETED, Analysis.Status.FAILED])
+
+        return Optional.ofNullable(analysisList).orElse(Collections.emptySet()).stream()
+                .filter({ analysis -> analysis.module.server.isImmportGalaxyServer() })
+                .map({ analysis -> analysis.jobNumber })
+                .collect(Collectors.toList());
     }
 
     def checkJobStatus(def jobLst) {
         jobLst.each { jobId ->
             Analysis analysis = Analysis.findByJobNumber(jobId)
-            if (!analysis.isFailedOnSubmit()) {
-                if(analysis.module.server.isGenePatternServer()) {
-                    def jobResult = restUtilsService.jobResult(analysis)
-                    Boolean completed = jobResult.status?.isFinished;
-                    if (completed) {
-                        def outputFile = jobResult.outputFiles.find { it.path == analysis?.renderResult }  // 'Reports/AutoReport.html'
-                        analysis.analysisStatus = outputFile ? 3 : 4 //add a new status 4 if report file is missing
-                        analysis.save flush: true
-                        wsService.tcMsg(jobId.toString())
-                    }
-                } else {
-                    GalaxyService galaxyService = new GalaxyService(analysis.module.server)
-                    def jobDetails = galaxyService.getInvocationStatus(analysis.module.name, jobId)
+            if (analysis.module.server.isImmportGalaxyServer() && !analysis.isFailedOnSubmit()) {
+                GalaxyService galaxyService = new GalaxyService(analysis.module.server)
+                def jobDetails = galaxyService.getInvocationStatus(analysis.module.name, jobId)
 
-                    if(jobDetails.state.equals('error')) {
-                        analysis.analysisStatus = -1
-                        analysis.save flush: true
-                        wsService.tcMsg(jobId.toString())
-                    } else if (jobDetails.state.equals('ok')) {
-                        File resultFile = galaxyService.downloadFile(jobDetails.outputs.html_file.id)
-                        def filePath = saveResultFile(resultFile, analysis)
-                        updateDependencies(filePath, analysis.module.server.url, analysis.id)
-                        analysis.analysisStatus = 3
-                        analysis.renderResult = filePath
-                        analysis.save flush: true
-                        wsService.tcMsg(jobId.toString())
-                    }
+                if (jobDetails.state.equals('error')) {
+                    analysis.analysisStatus = -1
+                    analysis.save flush: true
+                    wsService.tcMsg(jobId.toString())
+                } else if (jobDetails.state.equals('ok')) {
+                    File resultFile = galaxyService.downloadFile(jobDetails.outputs.html_file.id)
+                    def filePath = saveResultFile(resultFile, analysis)
+                    updateDependencies(filePath, analysis.module.server.url, analysis.id)
+                    analysis.analysisStatus = 3
+                    analysis.renderResult = filePath
+                    analysis.save flush: true
+                    wsService.tcMsg(jobId.toString())
                 }
             }
         }
