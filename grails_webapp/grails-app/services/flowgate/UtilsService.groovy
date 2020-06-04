@@ -1,6 +1,7 @@
 package flowgate
 
 import grails.converters.JSON
+import grails.core.GrailsApplication
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.transaction.Transactional
 import grails.web.servlet.mvc.GrailsParameterMap
@@ -21,6 +22,8 @@ class UtilsService {
     def springSecurityService
     def restUtilsService
     def wsService
+
+    GrailsApplication grailsApplication
 
     String overviewFilePath = "http://immportgalaxy-int.jcvi.org:8080/static/flowtools/js/overview.js"
 
