@@ -5,6 +5,9 @@ server:
 fcsFileStoreLocation:
     path: /Users/flowGate/tmp/fcsUploads
 
+resultFileStoreLocation:
+  path:/Users/flowGate/tmp/results
+
 adminEmailAddr: admin@admin
 
 callbackUrl: http://172.23.97.36:80/taskStatus
