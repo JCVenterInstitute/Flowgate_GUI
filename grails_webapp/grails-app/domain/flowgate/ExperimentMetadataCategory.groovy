@@ -2,6 +2,8 @@ package flowgate
 
 class ExperimentMetadataCategory {
 
+//    static belongsTo = [ExperimentMetadata]
+
     Experiment experiment
     String mdCategory
 //    MetadataCategory mdCategory

@@ -9,19 +9,7 @@
           </g:link>
         </g:if>
         <g:else>
-        %{--<g:if test="${bean?.analysisStatus == 4}">--}%
-        %{--<div class="div-as-link" onclick="javascript:showResult()" data-toggle="modal" data-target="#resultModal">--}%
-        %{--<f:display bean="${bean}"--}%
-        %{--property="analysisName"--}%
-        %{--displayStyle="${displayStyle ?: 'table'}"/>--}%%{--&nbsp;Job=${bean.jobNumber}--}%
-        %{--</div>--}%
-        %{--</g:if>--}%
-        %{--<g:else>--}%
-
-        %{--<div class="div-as-link" style="cursor: pointer;" data-toggle="modal" data-target="#resultModal-${bean.jobNumber}">--}%
           <f:display bean="${bean}" property="analysisName" displayStyle="${displayStyle ?: 'table'}"/>%{-- &nbsp;Job=${bean.jobNumber} --}%
-        %{--</div>--}%
-        %{--</g:else>--}%
         </g:else>
       </td>
     </g:if>

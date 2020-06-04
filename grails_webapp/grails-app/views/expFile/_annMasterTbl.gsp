@@ -4,7 +4,7 @@
     <thead>
     <tr>
       <g:sortableColumn property="expFile" title="${message(code: 'expFile.label', default: 'FCS File Name')}"/>
-      <g:each in="${experiment.expMetadatas.findAll { it.mdCategory == category }.sort { it.dispOrder }}" var="eMeta">
+      <g:each in="${experiment.expMetadatas.findAll { it?.mdCategory == category }.sort { it.dispOrder }}" var="eMeta">
         <g:if test="${eMeta.visible}">
           <th class="sortable">
             <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">

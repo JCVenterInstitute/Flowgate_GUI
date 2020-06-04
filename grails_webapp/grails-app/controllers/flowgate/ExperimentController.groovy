@@ -170,7 +170,7 @@ Instrument Details${separator}Electronic Configuration${separator}
         File fcytCsvFile = miFcytCsvFile?.part?.fileItem?.tempFile
         if(fcytCsvFile.size()<1){
             println "error: no file selected"
-            flash.error = "Error: No file selected!"
+            flash.msg = "Error: No file selected!"
             flash.messsage = "Error: No file selected!"
             redirect action: 'miFcytTbl', id: experiment.id
             return
