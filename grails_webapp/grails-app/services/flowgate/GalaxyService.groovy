@@ -7,11 +7,11 @@ import com.github.jmchilton.blend4j.galaxy.JobsClient
 import com.github.jmchilton.blend4j.galaxy.LibrariesClient
 import com.github.jmchilton.blend4j.galaxy.WorkflowsClient
 import com.github.jmchilton.blend4j.galaxy.beans.FileLibraryUpload
+import com.github.jmchilton.blend4j.galaxy.beans.History
 import com.github.jmchilton.blend4j.galaxy.beans.JobDetails
 import com.github.jmchilton.blend4j.galaxy.beans.Library
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryContent
 import com.github.jmchilton.blend4j.galaxy.beans.LibraryFolder
-import com.github.jmchilton.blend4j.galaxy.beans.Workflow
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowDetails
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputDefinition
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs
@@ -29,7 +29,7 @@ class GalaxyService {
     final HistoriesClient historiesClient
     final JobsClient jobsClient
     final def flowgateLibrary = "FlowGate"
-    final def flowgateHistoryId = "ba751ee0539fff04"
+    final def flowgateHistoryName = "FlowGate"
     protected final ObjectMapper mapper
 
     ClientResponse clientResponse;
@@ -77,7 +77,7 @@ class GalaxyService {
             upload.setFileType("fcs")
         } else {
             int lastDot = fileName.lastIndexOf('.')
-            fileName = fileName.substring(0,lastDot) + "-" + UUID.randomUUID().toString() + fileName.substring(lastDot)
+            fileName = fileName.substring(0, lastDot) + "-" + UUID.randomUUID().toString() + fileName.substring(lastDot)
         }
         upload.setName(fileName)
 
@@ -88,18 +88,31 @@ class GalaxyService {
             throw new Exception(clientResponse)
     }
 
+    def getFlowGateHistoryId() {
+        final List<History> histories = historiesClient.getHistories();
+        Optional<History> optHistory = histories.stream()
+                .filter({ history -> history.getName().equals(flowgateHistoryName) })
+                .findFirst();
+
+        if(optHistory.isPresent())
+            return optHistory.get().getId();
+        else
+            return null;
+    }
+
     def downloadFile(String fileId) {
-        return historiesClient.returnDataset(flowgateHistoryId, fileId)
+        String historyId = getFlowGateHistoryId();
+        return historiesClient.returnDataset(historyId, fileId)
     }
 
     def fetchImmportGalaxyWorkflows() {
-       return workflowsClient.getWorkflows();
+        return workflowsClient.getWorkflows();
     }
 
     def fetchImmportGalaxyWorkflowInputs(def moduleName) {
         clientResponse = workflowsClient.showWorkflowResponse(moduleName)
 
-        if (clientResponse.getStatus() == 200){
+        if (clientResponse.getStatus() == 200) {
             WorkflowDetails workflowDetails = clientResponse.getEntity(WorkflowDetails.class)
             Map<String, WorkflowInputDefinition> workflowInputs = workflowDetails.inputs
             def attributes = workflowInputs.collect { key, input ->
@@ -145,40 +158,46 @@ class GalaxyService {
             }
 
             final WorkflowInputs inputs = new WorkflowInputs()
-            inputs.setDestination(new WorkflowInputs.ExistingHistory(flowgateHistoryId)) //submit the workflow on FlowGate history
-            inputs.setWorkflowId(module.name)
 
-            for (final ModuleParam moduleParam : module.moduleParams) {
-                if (moduleParam.pType.equals("ds")) {
-                    //get Dataset that user selected
-                    def dsId = params["mp-${moduleParam.id}-ds"]
-                    Dataset ds = Dataset.get(dsId.toLong())
+            String flowgateHistoryId = getFlowGateHistoryId();
+            if (null != flowgateHistoryId) {
+                inputs.setDestination(new WorkflowInputs.ExistingHistory(flowgateHistoryId)) //submit the workflow on FlowGate history
+                inputs.setWorkflowId(module.name)
 
-                    if (ds) {
-                        //def fileIds = new String[ds.expFiles.size()]
-                        def fileId
+                for (final ModuleParam moduleParam : module.moduleParams) {
+                    if (moduleParam.pType.equals("ds")) {
+                        //get Dataset that user selected
+                        def dsId = params["mp-${moduleParam.id}-ds"]
+                        Dataset ds = Dataset.get(dsId.toLong())
 
-                        ds.expFiles.eachWithIndex { expFile, index ->
-                            Optional<LibraryContent> libraryContentOpt = libraryContents.stream()
-                                    .filter({ libraryContent -> libraryContent.getName().equals("/" + experiment.project.id + "/" + experiment.id + "/" + expFile.fileName) })
-                                    .findFirst()
-                            if (libraryContentOpt.isPresent()) {
-                                //fileIds.putAt(index, libraryContentOpt.get().id)
-                                fileId = libraryContentOpt.get().id
-                            } else {
-                                def FileLibraryUpload uploadFile = uploadFileToLibraryOrFolder(experimentFolderId, expFile.filePath, expFile.fileName)
-                                //fileIds.putAt(index, uploadFile.id)
-                                fileId = uploadFile.id
+                        if (ds) {
+                            //def fileIds = new String[ds.expFiles.size()]
+                            def fileId
+
+                            ds.expFiles.eachWithIndex { expFile, index ->
+                                Optional<LibraryContent> libraryContentOpt = libraryContents.stream()
+                                        .filter({ libraryContent -> libraryContent.getName().equals("/" + experiment.project.id + "/" + experiment.id + "/" + expFile.fileName) })
+                                        .findFirst()
+                                if (libraryContentOpt.isPresent()) {
+                                    //fileIds.putAt(index, libraryContentOpt.get().id)
+                                    fileId = libraryContentOpt.get().id
+                                } else {
+                                    def FileLibraryUpload uploadFile = uploadFileToLibraryOrFolder(experimentFolderId, expFile.filePath, expFile.fileName)
+                                    //fileIds.putAt(index, uploadFile.id)
+                                    fileId = uploadFile.id
+                                }
                             }
+                            inputs.setInput(moduleParam.pOrder.toString(), new WorkflowInputs.WorkflowInput(fileId, WorkflowInputs.InputSourceType.LD))
                         }
-                        inputs.setInput(moduleParam.pOrder.toString(), new WorkflowInputs.WorkflowInput(fileId, WorkflowInputs.InputSourceType.LD))
-                    }
-                } else {
-                    def partFile = request.getFile("mp-${moduleParam.id}")
-                    def FileLibraryUpload uploadFile = uploadFileToLibraryOrFolder(experimentFolderId, partFile.part.fileItem.tempFile, partFile.filename)
+                    } else {
+                        def partFile = request.getFile("mp-${moduleParam.id}")
+                        def FileLibraryUpload uploadFile = uploadFileToLibraryOrFolder(experimentFolderId, partFile.part.fileItem.tempFile, partFile.filename)
 
-                    inputs.setInput(moduleParam.pOrder.toString(), new WorkflowInputs.WorkflowInput(uploadFile.id, WorkflowInputs.InputSourceType.LD))
+                        inputs.setInput(moduleParam.pOrder.toString(), new WorkflowInputs.WorkflowInput(uploadFile.id, WorkflowInputs.InputSourceType.LD))
+                    }
                 }
+            } else {
+                throw new Exception("Please create a history named 'FlowGate' in ImmportGalaxy");
             }
 
             //Run Workflow
@@ -210,7 +229,7 @@ class GalaxyService {
             if (step.jobId != null) {
                 JobDetails jobDetails = jobsClient.showJob(step.jobId)
 
-                if (jobDetails.getState().equals("error") || i == steps.size()-1){
+                if (jobDetails.getState().equals("error") || i == steps.size() - 1) {
                     return jobDetails
                 }
             }
