@@ -52,7 +52,7 @@
       href="${createLink(controller: 'dataset', action: 'create', params: [eId: experiment?.id])}">create a dataset</a> first.</p>
 </g:if>
 <g:else>
-  <g:form controller="analysis" action="save" enctype="multipart/form-data">
+  <g:form controller="analysis" action="save" enctype="multipart/form-data" onsubmit="enablePreloadOverlay()">
     <g:hiddenField name="user" value="${sss?.currentUser?.id}"/>
     <g:hiddenField name="analysisStatus" value="${1}"/>
     <g:hiddenField name="eId" value="${params?.eId}"/>
@@ -145,6 +145,10 @@
     var tooltipElems = document.querySelectorAll('.tooltipped');
     M.Tooltip.init(tooltipElems);
   });
+
+  function enablePreloadOverlay() {
+    $('.preload-background').css('display', 'flex');
+  }
 </script>
 </body>
 </html>

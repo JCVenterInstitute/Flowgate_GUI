@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta name="layout" content="ofg"/>
-  <asset:link rel="icon" href="f.ico" type="image/x-ico"/>
+  <asset:link rel="icon" href="favicon.ico" type="image/x-ico"/>
   <title><g:message code="landingPage.title.label" default="FlowGate"/></title>
   <asset:stylesheet src="signin.css"/>
 </head>
@@ -73,7 +73,7 @@
 
         <div class="row mb-0">
           <div class="col s12">
-            <p class="margin medium-small">FlowGate &copy; 2019 | <g:link uri="/about"><g:message code="about.link.label" default="About"/></g:link> | <g:link
+            <p class="margin medium-small">FlowGate &copy; 2020 | <g:link uri="/about"><g:message code="about.link.label" default="About"/></g:link> | <g:link
                 uri="mailto:${grailsApplication.config.adminEmailAddr}">Contact Us</g:link></p>
           </div>
         </div>

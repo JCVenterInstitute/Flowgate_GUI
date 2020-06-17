@@ -1,11 +1,20 @@
 package flowgate
 
 import grails.converters.JSON
+import grails.core.GrailsApplication
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.transaction.Transactional
 import grails.web.servlet.mvc.GrailsParameterMap
 //import org.apache.commons.codec.binary.Base64
 import org.grails.web.util.WebUtils
+
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.util.stream.Collectors
+import java.util.stream.Stream
+import java.util.zip.ZipEntry
+import java.util.zip.ZipInputStream
 
 @Transactional
 class UtilsService {
@@ -13,6 +22,10 @@ class UtilsService {
     def springSecurityService
     def restUtilsService
     def wsService
+
+    GrailsApplication grailsApplication
+
+    String overviewFilePath = "/static/flowtools/js/overview.js"
 
     def getSession(){
         WebUtils.retrieveGrailsWebRequest().getCurrentRequest().session
@@ -22,13 +35,13 @@ class UtilsService {
         def session = getSession()
         switch(object) {
             case 'project':
-                    return session.projectOpenId == id
+                return session.projectOpenId == id
                 break
             case 'experiment':
-                    return session.experimentOpenId == id
+                return session.experimentOpenId == id
                 break
             case 'expFile':
-                    return session.expFileOpenId == id
+                return session.expFileOpenId == id
                 break
         }
     }
@@ -174,9 +187,9 @@ class UtilsService {
 
         if(user.username.equals("admin"))
             if(showInactive)
-              return Project.findAll([params: paginateParams])
+                return Project.findAll([params: paginateParams])
             else
-              return Project.findAllByIsActive(true, [params: paginateParams])
+                return Project.findAllByIsActive(true, [params: paginateParams])
         else {
             def projectUserList = ProjectUser.findAllByUser(user, [params: paginateParams])
             List<Project> projectList = new ArrayList<Project>(projectUserList.size())
@@ -282,56 +295,189 @@ class UtilsService {
         }
     }
 
-   def getLowestUniqueDispOrder(Experiment experiment) {
-     Integer num = 1
-     while (num>0) {
-       if(experiment.expMetadatas.dispOrder.findAll{it == num}.size()!=0) {
-         num++
-       }
-       else return num
-     }
-   }
-
-   boolean containsKeyStartsWith(GrailsParameterMap map, String val) {
-     for (String key : map.keySet()) {
-       if (key.startsWith(val)) {
-         return true
-       }
-     }
-     return false
-   }
-
-   List<Analysis> getAnalysisListByUser(Experiment experiment, params){
-     if(SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")){
-       return Analysis.findAllByExperiment(experiment, params)
-     }
-     else {
-       return Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, springSecurityService.currentUser, [-2], params)
-     }
-   }
-
-  def getUnfinishedJobsListOfUser(Experiment experiment) {
-    if(SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")){
-      return Analysis.findAllByExperimentAndAnalysisStatusNotInList(experiment, [3,-1])*.jobNumber
-    }
-    else {
-      return Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, springSecurityService.currentUser, [3,-2,-1])*.jobNumber
-    }
-  }
-
-  def checkJobStatus(def jobLst){
-    jobLst.each { jobId ->
-      Analysis analysis = Analysis.findByJobNumber(jobId.toInteger())
-      if(jobId.toInteger() > 0){
-        Boolean completed = restUtilsService.isComplete(analysis)
-        if(completed){
-          analysis.analysisStatus = jobId.toInteger() > 0 ? completed ? 3 : 2 : jobId.toInteger()
-          analysis.save flush: true
-          wsService.tcMsg(jobId.toString())
+    def getLowestUniqueDispOrder(Experiment experiment) {
+        Integer num = 1
+        while (num>0) {
+            if(experiment.expMetadatas.dispOrder.findAll{it == num}.size()!=0) {
+                num++
+            }
+            else return num
         }
-      }
     }
-  }
 
+    boolean containsKeyStartsWith(GrailsParameterMap map, String val) {
+        for (String key : map.keySet()) {
+            if (key.startsWith(val)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    List<Analysis> getAnalysisListByUser(Experiment experiment, params){
+        if(SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")){
+            return Analysis.findAllByExperiment(experiment, params)
+        }
+        else {
+            return Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, springSecurityService.currentUser, [-2], params)
+        }
+    }
+
+    def getUnfinishedJobsListOfUser(Experiment experiment) {
+        def analysisList =
+                SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin") ?
+                        Analysis.findAllByExperimentAndAnalysisStatusNotInList(experiment, [Analysis.Status.REPORT_FILE_MISSING.value(), Analysis.Status.FINISHED.value(), Analysis.Status.FAILED.value()])
+                        :
+                        Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, springSecurityService.currentUser, [Analysis.Status.FINISHED, Analysis.Status.DELETED, Analysis.Status.FAILED])
+
+        return Optional.ofNullable(analysisList).orElse(Collections.emptySet()).stream()
+                .filter({ analysis -> analysis.module.server.isImmportGalaxyServer() })
+                .map({ analysis -> analysis.jobNumber })
+                .collect(Collectors.toList());
+    }
+
+    def checkJobStatus(def jobLst) {
+        jobLst.each { jobId ->
+            Analysis analysis = Analysis.findByJobNumber(jobId)
+            if (analysis.module.server.isImmportGalaxyServer() && !analysis.isFailedOnSubmit()) {
+                GalaxyService galaxyService = new GalaxyService(analysis.module.server)
+                def jobDetails = galaxyService.getInvocationStatus(analysis.module.name, jobId)
+
+                if (jobDetails.state.equals('error')) {
+                    analysis.analysisStatus = -1
+                    analysis.save flush: true
+                    wsService.tcMsg(jobId.toString())
+                } else if (jobDetails.state.equals('ok')) {
+                    File resultFile = galaxyService.downloadFile(jobDetails.outputs.html_file.id)
+                    def filePath = saveResultFile(resultFile, analysis)
+                    updateDependencies(filePath, analysis.module.server.url, analysis.id)
+                    analysis.analysisStatus = 3
+                    analysis.renderResult = filePath
+                    analysis.save flush: true
+                    wsService.tcMsg(jobId.toString())
+                }
+            }
+        }
+    }
+
+    def saveResultFile(def resultFile, def analysis) {
+        def htmlFilePath
+        String resultFileStoragePath = grailsApplication.config.getProperty('resultFileStoreLocation.path', String)
+
+        String folderPath = resultFileStoragePath + File.separator +
+                analysis.experiment.project.id + File.separator +
+                analysis.experiment.id + File.separator +
+                analysis.id
+
+        File destDir = new File(folderPath)
+        byte[] buffer = new byte[1024];
+        ZipInputStream zis = new ZipInputStream(new FileInputStream(resultFile))
+        ZipEntry zipEntry = zis.getNextEntry();
+        while (zipEntry != null) {
+            File newFile = newFile(destDir, zipEntry);
+            newFile.getParentFile().mkdirs()
+            FileOutputStream fos = new FileOutputStream(newFile);
+            int len;
+            while ((len = zis.read(buffer)) > 0) {
+                fos.write(buffer, 0, len);
+            }
+            fos.close();
+            zipEntry = zis.getNextEntry();
+
+            if(newFile.getName().endsWith("html"))
+                htmlFilePath = newFile.getCanonicalPath()
+        }
+        zis.closeEntry();
+        zis.close();
+
+        return htmlFilePath
+    }
+
+    //To avoid Zip Slip vulnerability which writes files to the file system outside of the target folder
+    public static File newFile(File destinationDir, ZipEntry zipEntry) throws IOException {
+        File destFile = new File(destinationDir, zipEntry.getName());
+
+        String destDirPath = destinationDir.getCanonicalPath();
+        String destFilePath = destFile.getCanonicalPath();
+
+        if (!destFilePath.startsWith(destDirPath + File.separator)) {
+            throw new IOException("Entry is outside of the target dir: " + zipEntry.getName());
+        }
+
+        return destFile;
+    }
+
+    def updateDependencies(def filePath, def serverPath, def analysisId) {
+        //Update result file pathes in overview file and embed into the result file
+        InputStream is = new URL(serverPath + "/" + overviewFilePath).openStream()
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is))
+        Stream<String> lines = reader.lines()
+
+        List<String> overview = lines
+                .map({ line ->
+                    line.replaceAll("./boxplotData.json", analysisId + "/boxPlotData.json")
+                            .replaceAll("\\bflow.mfi_pop\\b", analysisId + "/flow.mfi_pop")
+                            .replaceAll("\\bflow.mfi\\b", analysisId + "/flow.mfi")
+                            .replaceAll("flow.overview", analysisId + "/flow.overview")
+                            .replaceAll("flow.sample", analysisId + "/flow.sample")
+                })
+                .collect(Collectors.toList())
+        overview.add(0, "<script>")
+        overview.add("</script>")
+
+        Path path = Paths.get(filePath)
+        lines = Files.lines(path)
+        List<String> replaced = lines
+                .map({ line -> line.contains("overview.js") ? String.join("\n", overview) : line.replaceAll("/static", serverPath + "/static") })
+                .collect(Collectors.toList())
+        Files.write(path, replaced)
+
+        Optional<Path> flowOverviewPathOpt = Files.walk(path.getParent()).filter({ file -> file.getFileName().toString().equals("flow.overview") }).findFirst()
+        if (flowOverviewPathOpt.isPresent()) {
+            Path flowOverviewPath = flowOverviewPathOpt.get()
+            lines = Files.lines(flowOverviewPath)
+            replaced = lines
+                    .map({ line -> line.replaceAll("<img src=\"", "<img src=\"" + analysisId + "/") })
+                    .collect(Collectors.toList())
+            Files.write(flowOverviewPath, replaced)
+        }
+    }
+
+    def getResultFileDetails(def name, def analysis) {
+        String resultFileStoragePath = grailsApplication.config.getProperty('resultFileStoreLocation.path', String)
+
+        String filePath = resultFileStoragePath + File.separator +
+                analysis.experiment.project.id + File.separator +
+                analysis.experiment.id + File.separator +
+                analysis.id + File.separator +
+                name
+
+        return new File(filePath)
+    }
+
+    def createModuleParamsFromJson(def moduleParamsJson) {
+        List<ModuleParam> moduleParamList = new ArrayList<>(moduleParamsJson.size())
+
+        for (moduleParamJson in moduleParamsJson) {
+            ModuleParam moduleParam = createModuleParamFromJson(moduleParamJson)
+            moduleParamList.add(moduleParam)
+        }
+
+        return moduleParamList
+    }
+
+    def createModuleParamFromJson(def moduleParamJson) {
+        ModuleParam moduleParam = new ModuleParam()
+        moduleParam.pKey = moduleParamJson.name
+        moduleParam.pType = moduleParamJson.TYPE ?
+                (moduleParamJson.TYPE.equalsIgnoreCase("file") ? "file" : "val") :
+                "file"
+        moduleParam.defaultVal = moduleParamJson.default_value || moduleParamJson.value
+        moduleParam.descr = moduleParamJson.description
+        moduleParam.pOrder = moduleParamJson.order
+        moduleParam.pBasic = true
+
+        return moduleParam
+    }
 
 }

@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <title><g:layoutTitle default="flowgate"/></title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <asset:link rel="icon" href="f.ico" type="image/x-ico"/>
+  <asset:link rel="icon" href="favicon.ico" type="image/x-ico"/>
   <asset:stylesheet src="application.css"/>
   <g:layoutHead/>
 </head>
@@ -30,7 +30,7 @@
 <!-- Footer -->
 <footer class="py-3 bg-dark" style="position: fixed;bottom: 0;width: 100%;">
   <div class="container">
-    <p class="m-0 text-center text-white">FlowGate &copy; 2019 | <g:link uri="/about"><g:message code="about.link.label" default="About"/></g:link> | <g:link uri="mailto:${grailsApplication.config.adminEmailAddr}" >Contact Us</g:link></p>
+    <p class="m-0 text-center text-white">FlowGate &copy; 202 | <g:link uri="/about"><g:message code="about.link.label" default="About"/></g:link> | <g:link uri="mailto:${grailsApplication.config.adminEmailAddr}" >Contact Us</g:link></p>
   </div>
 </footer>
 

@@ -34,5 +34,9 @@ class UrlMappings {
         // apply constraints here
       }
     }
+    "/analysis/$analysisId/$filename" {
+      controller = 'analysis'
+      action = 'resultFile'
+    }
   }
 }

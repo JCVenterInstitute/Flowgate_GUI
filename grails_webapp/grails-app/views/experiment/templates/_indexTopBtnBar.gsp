@@ -3,7 +3,7 @@
     <g:if test="${experiment.analyses.size() > 0}">
       <a href="${g.createLink(controller: 'analysis', action: 'index', params: [eId: experiment?.id])}" class="btn-floating btn-large waves-effect waves-light tooltipped"
          data-tooltip="Show Analysis" data-position="left">
-        <i class="material-icons">list</i>
+        <b>A</b>
       </a>
     </g:if>
     <g:else>
@@ -64,7 +64,7 @@
     var actionElems = document.querySelectorAll('.fixed-action-btn');
     M.FloatingActionButton.init(actionElems, {direction: 'left', hoverEnabled: false});
 
-    var modalElems = document.querySelectorAll('.modal');
+    var modalElems = document.querySelectorAll('#delete-experiment-modal');
     M.Modal.init(modalElems);
 
     var tooltipElems = document.querySelectorAll('.tooltipped');

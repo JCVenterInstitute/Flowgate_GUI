@@ -33,6 +33,14 @@
       </div>
 
       <div class="input-field col s12">
+        <select name="platform">
+          <option value="1">GenePattern</option>
+          <option value="2">ImmportGalaxy</option>
+        </select>
+        <label>Select a Platform</label>
+      </div>
+
+      <div class="input-field col s12">
         <input type="text" name="userName" value="${analysisServer.userName}" required>
         <label for="userName">Username</label>
       </div>
@@ -49,5 +57,12 @@
     </div>
   </g:form>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems);
+  });
+</script>
 </body>
 </html>

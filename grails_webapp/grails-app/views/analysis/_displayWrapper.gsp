@@ -1,4 +1,5 @@
 %{--<input type="text" readonly class="form-control-plaintext" id="${property}" value="${value}">--}%
+%{--<<<<<<< HEAD   TODO remove after testing--}%
 <div class="form-control-plaintext" >${value}
   <g:if test="${property == 'analysisName'}">
     &nbsp;&nbsp;
@@ -11,3 +12,5 @@
     </sec:ifAnyGranted>
   </g:if>
 </div>
+%{--=======--}%
+<div class="form-control-plaintext" >${value}</div>

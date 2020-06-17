@@ -690,6 +690,11 @@ td, th {
 .secondary-content {
   float: right;
   color: $secondary-color;
+
+  &:hover {
+    box-shadow: none;
+    background-color: #f1f3f4;
+  }
 }
 
 .collapsible .collection {

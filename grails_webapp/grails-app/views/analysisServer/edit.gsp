@@ -32,6 +32,14 @@
       </div>
 
       <div class="input-field col s8">
+        <select name="platform" id="platform">
+          <option value="1">GenePattern</option>
+          <option value="2">ImmportGalaxy</option>
+        </select>
+        <label>Select a Platform</label>
+      </div>
+
+      <div class="input-field col s8">
         <input type="text" name="userName" value="${analysisServer.userName}" required>
         <label for="userName">Username</label>
       </div>
@@ -107,6 +115,10 @@
   document.addEventListener('DOMContentLoaded', function () {
     var modalElems = document.querySelectorAll('.modal');
     M.Modal.init(modalElems);
+
+    var elems = document.querySelector('#platform');
+    elems.value = "${analysisServer.platform}";
+    var instances = M.FormSelect.init(elems);
   });
 </script>
 </body>

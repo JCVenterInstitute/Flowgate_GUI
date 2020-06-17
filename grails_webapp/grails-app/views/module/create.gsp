@@ -52,13 +52,57 @@
   </div>
 </g:form>
 
+
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large waves-effect waves-light tooltipped" href="javascript:fetchModules();"
+     data-tooltip="Search available modules for selected server" data-position="left">
+    <i class="material-icons">search</i>
+  </a>
+</div>
+
+<div id="modules-list" class="modal bottom-sheet"></div>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems);
     document.getElementById('descript').style.maxHeight = "300px";
     document.getElementById('descript').style.overflowY = "auto";
+
+    var tooltipElems = document.querySelectorAll('.tooltipped');
+    M.Tooltip.init(tooltipElems);
   });
+
+  function fetchModules() {
+    var serverId = $("#server").val();
+    $.ajax({
+      url: "${createLink(controller: 'module', action: 'fetchModulesForServer')}",
+      dataType: "json",
+      data: {id: serverId},
+      type: "get",
+      success: function (data, status, xhr) {
+        if (data.success) {
+          $("#modules-list").html(data.modules);
+          $('.modal').modal();
+          $("#modules-list").modal('open');
+          $('.tooltipped').tooltip();
+        } else {
+          M.toast({
+            html: '<span>' + data.message + '</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+            displayLength: Infinity,
+            classes: 'red'
+          });
+        }
+      },
+      error: function (request, status, error) {
+        if (!error) error = "Error occured!"
+        M.toast({
+          html: '<span>' + error + '</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+          displayLength: Infinity,
+          classes: 'red'
+        });
+      }
+    });
+  }
 </script>
 </body>
 </html>

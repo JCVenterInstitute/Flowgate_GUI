@@ -49,16 +49,12 @@
               <i class=" fa fa-circle" style="color: ${bean.analysisStatus == 1 ? 'lightgrey' : bean.analysisStatus == 2 ? 'orange' : bean.analysisStatus == 3 ? 'lawngreen' : bean.analysisStatus == -1 ? 'red' : 'brown'}"></i>
               ${bean?.analysisStatus == 1 ? 'init' : bean?.analysisStatus == 2 ? 'pending' : bean?.analysisStatus == 3 ? 'results ready' : bean?.analysisStatus == -1 ? 'error' : 'done'}
             </div>
-%{--<<<<<<< HEAD--}%
-%{--            <input type="hidden" id="server-${bean.jobNumber}" value="${bean.module.server.url}">--}%
-%{--            <g:if test="${bean.analysisStatus == 3}">--}%
-%{--              <div class="modal fade" tabindex="-1" id="resultModal-${bean.jobNumber}" aria-labelledby="myModalLabel" aria-hidden="true" role="dialog">--}%
-%{--=======--}%
+%{--        <g:hiddenField id="server-${bean.jobNumber}" name="server-${bean.jobNumber}" value="${bean.module.server.url}" />--}%
+            <input type="hidden" id="server-${bean.jobNumber}" value="${bean.module.server.url}">
             <g:if test="${bean?.analysisStatus == 3}">
               <div id="resultModal_${bean?.jobNumber}"></div>
               %{--
               <div class="modal fade" tabindex="-1" id="resultModal-${bean?.jobNumber}" aria-labelledby="myModalLabel" aria-hidden="true" role="dialog">
->>>>>>> dev-int
                 <div class="modal-dialog modal-lg">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -99,8 +95,7 @@
 <asset:javascript>
   function openModal(jobId){
      console.log("got click with id ", jobId);
---}%
-%{--  var metaVal = document.getElementById("eMeta_" + mId + ".mdVal").value;--}%%{--
+<!-- var metaVal = document.getElementById("eMeta_" + mId + ".mdVal").value;-->
 
     $.ajax({
       url: "${g.createLink(controller: 'expFile', action: 'axMetaSelect')}",

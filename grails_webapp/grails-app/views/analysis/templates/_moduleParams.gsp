@@ -62,6 +62,17 @@
         <div class="row">
           <div class="col s6">
             <label for="mp-${moduleParam?.id}">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</label>
+            <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
+              <div class="secondary-content">
+                <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="top">info</i>
+              </div>
+            </g:if>
+            <g:if test="${moduleParam?.exampleFile && moduleParam?.exampleFile != ''}">
+              <a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}")}" class="secondary-content tooltipped"
+                 data-tooltip="Download example file: ${moduleParam?.exampleFile}" data-position="top">
+                <i class="material-icons">file_download</i>
+              </a>
+            </g:if>
             <g:if test="${moduleParam?.pType == 'dir'}">
               <div class="file-field input-field">
                 <div class="btn">
@@ -89,17 +100,6 @@
           </div>
 
           <div class="col s6">
-            <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
-              <div class="btn-floating waves-effect waves-light">
-                <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="top">info</i>
-              </div>
-            </g:if>
-            <g:if test="${moduleParam?.exampleFile && moduleParam?.exampleFile != ''}">
-              <a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}")}" class="btn-floating waves-effect waves-light tooltipped"
-                 data-tooltip="Download example file: ${moduleParam?.exampleFile}" data-position="top">
-                <i class="material-icons">file_download</i>
-              </a>
-            </g:if>
           </div>
         </div>
       </div>
@@ -122,7 +122,7 @@
     %{-- Always displayed ! --}%
   </div>
 %{--******************************************************************************************************************************************************************************--}%
-  <div id="advanced">
+  <div id="advanced" style="display: none;">
   %{--ADVANCED OPTIONS--}%
     <g:each in="${module.moduleParams.sort { it.pOrder ?: it.id }.findAll { it.pBasic == false }}" var="moduleParam">
     %{-- aux --}%
@@ -148,6 +148,17 @@
           <div class="row">
             <div class="col s6">
               <label for="mp-${moduleParam?.id}">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</label>
+              <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
+                <div class="secondary-content">
+                  <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="top">info</i>
+                </div>
+              </g:if>
+              <g:if test="${moduleParam?.exampleFile && moduleParam?.exampleFile != ''}">
+                <a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}")}" class="secondary-content tooltipped"
+                   data-tooltip="Download example file: ${moduleParam?.exampleFile}" data-position="top">
+                  <i class="material-icons">file_download</i>
+                </a>
+              </g:if>
               <g:if test="${moduleParam?.pType == 'dir'}">
                 <div class="file-field input-field">
                   <div class="btn">
@@ -173,20 +184,7 @@
                 </div>
               </g:if>
             </div>
-
-            <div class="col s6">
-              <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
-                <div class="btn-floating waves-effect waves-light">
-                  <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="top">info</i>
-                </div>
-              </g:if>
-              <g:if test="${moduleParam?.exampleFile && moduleParam?.exampleFile != ''}">
-                <a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}")}" class="btn-floating waves-effect waves-light tooltipped"
-                   data-tooltip="Download example file: ${moduleParam?.exampleFile}" data-position="top">
-                  <i class="material-icons">file_download</i>
-                </a>
-              </g:if>
-            </div>
+            <div class="col s6"></div>
           </div>
         </div>
       </g:if>

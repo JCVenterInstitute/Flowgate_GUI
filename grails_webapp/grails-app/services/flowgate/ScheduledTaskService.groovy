@@ -12,7 +12,7 @@ class ScheduledTaskService {
 
     def jobList = []
 
-//    @Scheduled(fixedRate = 20000L) // 5 seconds = 5000L
+    @Scheduled(fixedRate = 10000L) // 5 seconds = 5000L
     def checkTaskResults() {
         if(jobList.size() > 0) {
             println "Scheduled Service: session jobList ${jobList} "

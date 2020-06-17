@@ -9,7 +9,7 @@
 <body>
 <h2><g:message code="default.list.label" args="[entityName]"/></h2>
 
-<f:table collection="${moduleList}" properties="${['label', 'name', 'server']}"/>
+<f:table collection="${moduleList}" properties="${['title', 'label', 'name', 'server']}"/>
 <div class="pagination">
   <g:paginate total="${moduleCount ?: 0}"/>
 </div>

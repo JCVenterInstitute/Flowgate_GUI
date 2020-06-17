@@ -1,23 +1,29 @@
 package flowgate
 
+import com.github.jmchilton.blend4j.galaxy.beans.Workflow
+import com.google.gson.Gson
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 import grails.transaction.Transactional
 import grails.web.servlet.mvc.GrailsParameterMap
+/*
+<<<<<<< TODO clearup after testing
 //import groovy.io.FileType
-import groovy.json.JsonOutput
 //import org.apache.catalina.util.URLEncoder
 import java.net.URLEncoder
-
 //import org.apache.commons.codec.binary.Base64
-import org.grails.web.util.WebUtils
-
 import grails.async.*
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
-
 import static groovyx.net.http.ContentType.BINARY
-import java.io.File
+=======
+*/
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import org.grails.web.util.WebUtils
+
+//import grails.async.*
+//import java.io.File
 
 
 import static grails.async.Promises.*
@@ -41,7 +47,7 @@ class RestUtilsService {
       jobInfo = submitJob(module, paramVars)
       if (jobInfo.status >= 200 && jobInfo.status < 300) {
         jobNumber = jobInfo.jobId.toInteger()
-//      TODO catch if setcallback does not work
+//        TODO catch if setcallback does not work
         def cbOk= setCallback(module, jobNumber)
       }
     }
@@ -102,26 +108,26 @@ class RestUtilsService {
     return resp.json
   }
 
-  def getAnnotationHeader(ds){
+  def getAnnotationHeader(ds) {
     //TODO sort fields by display order!!!
     def fieldsLst = ds.expFiles*.metaDatas*.mdKey
     return fieldsLst.flatten().unique()
   }
 
-  def getAnnotationHeaderStr(ds, separator){
+  def getAnnotationHeaderStr(ds, separator) {
     //TODO sort fields by display order!!!
     String returnStr = getAnnotationHeader(ds).join(separator)
     return returnStr
   }
 
-  def getAnnotationBody(Dataset ds, String separator){
+  def getAnnotationBody(Dataset ds, String separator) {
     //TODO sort fields by display order!!!
     String bodyStr = ""
     def fields = getAnnotationHeader(ds)
-    ds.expFiles.each{ expFile ->
+    ds.expFiles.each { expFile ->
       def lineFields = []
-      fields.each{ metaDataKey ->
-        lineFields << expFile.metaDatas.find{it.mdKey == metaDataKey}?.mdVal
+      fields.each { metaDataKey ->
+        lineFields << expFile.metaDatas.find { it.mdKey == metaDataKey }?.mdVal
       }
 
       bodyStr += lineFields.join(separator) + "\n"
@@ -176,8 +182,8 @@ class RestUtilsService {
           String metaDataFileSuffix = '.txt'
           File metaDataFile = File.createTempFile(metaDataFilePrefix, metaDataFileSuffix)
           //TODO sort fields by display order!!!
-          metaDataFile.write(getAnnotationHeaderStr(ds, '\t')+'\n'+getAnnotationBody(ds, '\t'))
-          def fileLocation = uploadFileOrDirParams(module, metaDataFile, metaDataFilePrefix+metaDataFileSuffix)
+          metaDataFile.write(getAnnotationHeaderStr(ds, '\t') + '\n' + getAnnotationBody(ds, '\t'))
+          def fileLocation = uploadFileOrDirParams(module, metaDataFile, metaDataFilePrefix + metaDataFileSuffix)
           metaDataFile.delete()
           paramVars.push(['name': it.pKey, 'values': fileLocation])
           break
@@ -186,14 +192,14 @@ class RestUtilsService {
           String descrFilePrefix = 'description'
           String descrFileSuffix = '.txt'
           File descrFile = File.createTempFile(descrFilePrefix, descrFileSuffix)
-          descrFile.write(params.analysisName+System.lineSeparator()+params.analysisDescription)
+          descrFile.write(params.analysisName + System.lineSeparator() + params.analysisDescription)
           def dsParamId = params["mp-meta"]
           def dsId = params["mp-${dsParamId}-ds"]
-          if(dsId != null) {
-              Dataset ds = Dataset.get(dsId.toLong())
-              descrFile.append(System.lineSeparator() +ds.name)
+          if (dsId != null) {
+            Dataset ds = Dataset.get(dsId.toLong())
+            descrFile.append(System.lineSeparator() + ds.name)
           }
-          def fileLocation = uploadFileOrDirParams(module, descrFile, descrFilePrefix+descrFileSuffix)
+          def fileLocation = uploadFileOrDirParams(module, descrFile, descrFilePrefix + descrFileSuffix)
           descrFile.delete()
           paramVars.push(['name': it.pKey, 'values': fileLocation])
           break
@@ -216,23 +222,23 @@ class RestUtilsService {
         println "Error uploading file!"
         return
       }
-      ulFiles.add( ulResult?.location )
+      ulFiles.add(ulResult?.location)
     }
     ulFiles
   }
 
   def doUploadFile(AnalysisServer server, File pathAndFile, String fName) {
-    if(!server.url || server.url==""){
+    if (!server.url || server.url == "") {
       log.error "Error no server url!"
       return [code: 500, location: '']
     }
-//    TODO put gp data upload url in config
+    //    TODO put gp data upload url in config
     String uploadApiPath = server.url + "/gp/rest/v1/data/upload/job_input?name=${fName}"
     RestBuilder rest = new RestBuilder()
     RestResponse resp
-    String authStr="Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
+    String authStr = "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
     try {
-      resp = rest.post(uploadApiPath){
+      resp = rest.post(uploadApiPath) {
         auth authStr
         contentType "application/octet-stream"
         body pathAndFile.bytes
@@ -240,12 +246,12 @@ class RestUtilsService {
     }
     catch (all) {
       println all?.message
+      return [code: 408, location: '']
     }
     if (!(resp?.responseEntity?.statusCodeValue >= 201 && resp?.responseEntity?.statusCodeValue < 300)) {
       log.error "Error uploading file! ${resp?.responseEntity?.statusCodeValue.toString()}"
       return [code: resp?.responseEntity?.statusCodeValue, location: '']
-    }
-    else {
+    } else {
       return [code: 200, location: resp.responseEntity.body]
     }
   }
@@ -257,7 +263,7 @@ class RestUtilsService {
   def jobResult(Analysis analysis, boolean onlyStatus) {
     RestBuilder rest = new RestBuilder()
     RestResponse resp
-    String serverApiUrl = analysis.module.server.url + "/gp/rest/v1/jobs/${analysis.jobNumber.toString()}" + (onlyStatus ? "/status.json" : "")
+    String serverApiUrl = analysis.module.server.url + "/gp/rest/v1/jobs/${analysis.jobNumber}" + (onlyStatus ? "/status.json" : "")
     try {
       resp = rest.get(serverApiUrl) {
         contentType "application/json"
@@ -279,4 +285,83 @@ class RestUtilsService {
     jobResult(analysis, true).isPending
   }
 
+  def fetchModulesForServer(AnalysisServer server) {
+    RestBuilder rest = new RestBuilder()
+    RestResponse resp
+    JsonSlurper jsonSlurper = new JsonSlurper()
+    try {
+      resp = connectToGenePatternServer(rest, server)
+
+      if (resp.statusCodeValue == 401)
+        throw new Exception("Authentication failed! Please check server username and password.")
+
+      if (resp.statusCodeValue == 200) {
+        String allTasksUrl = server.url + "/gp/rest/v1/tasks/all.json"
+
+        resp = rest.get(allTasksUrl) {
+          contentType "application/json"
+          auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
+        }
+
+        def respBody = jsonSlurper.parseText(resp.responseEntity.body)
+
+        return respBody.all_modules
+      } else {
+        //Otherwise try ImmportGalaxy
+        GalaxyService galaxyService = new GalaxyService(server)
+        List<Workflow> workflows = galaxyService.fetchImmportGalaxyWorkflows();
+
+        return jsonSlurper.parseText(new Gson().toJson(workflows))
+      }
+    }
+    catch (all) {
+      throw new Exception(all.getCause() ? all.getCause().getMessage() : all.getMessage())
+    }
+  }
+
+  def fetchModuleParamsForModule(Module module) {
+    RestBuilder rest = new RestBuilder()
+    RestResponse resp
+    JsonSlurper jsonSlurper = new JsonSlurper()
+    def server = module.server
+    try {
+      resp = connectToGenePatternServer(rest, server)
+
+      if (resp.statusCodeValue == 401)
+        throw new Exception("Authentication failed! Please check server username and password.")
+
+      if (resp.statusCodeValue == 200) {
+        String moduleUrl = server.url + "/gp/rest/v1/tasks/" + module.name + "?includeEula=false&includeProperties=false"
+
+        resp = rest.get(moduleUrl) {
+          contentType "application/json"
+          auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
+        }
+
+        def respBody = jsonSlurper.parseText(resp.responseEntity.body)
+
+        def attributes = respBody.params.collect {
+          it.collect { key, value ->
+            return value.get("attributes")
+          }
+        }
+
+        return attributes.flatten()
+      }
+    }
+    catch (all) {
+      throw new Exception(all.getCause() ? all.getCause().getMessage() : all.getMessage())
+    }
+  }
+
+  def connectToGenePatternServer(RestBuilder rest, AnalysisServer server) {
+    String gpWadlUrl = server.url + "/gp/rest/application.wadl"
+    //check if GenePattern server
+    RestResponse resp = rest.get(gpWadlUrl) {
+      contentType "application/json"
+      auth "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
+    }
+
+    return resp;
+  }
 }

@@ -1,6 +1,12 @@
 <% def utilsService = grailsApplication.mainContext.getBean("utilsService") %>
-<li>
-  <div class="collapsible-header"><i class="material-icons">expand_more</i>${expFile?.title}</div>
+<li id="file-box-${expFile?.id}">
+  <div class="collapsible-header"><i class="material-icons">expand_more</i>
+    <label style="display: none;" class="checkbox-label">
+      <input type="checkbox" class="checkbox-files" name="selected-files" value="${expFile?.id}"/>
+      <span></span>
+    </label>
+    ${expFile?.title}
+  </div>
 
   <div class="collapsible-body">
     <g:each in="${expFile?.metaDatas.sort { it.dispOrder }}" var="eMeta">

@@ -11,9 +11,11 @@ class ModuleController {
 
     static allowedMethods = [save: "POST", update: "PUT"]
 
+    def restUtilsService
+
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Module.list(params), model:[moduleCount: Module.count()]
+        respond Module.list(params), model: [moduleCount: Module.count()]
     }
 
     /*
@@ -36,11 +38,11 @@ class ModuleController {
 
         if (module.hasErrors()) {
             //transactionStatus.setRollbackOnly()
-            respond module.errors, view:'create'
+            respond module.errors, view: 'create'
             return
         }
 
-        module.save flush:true
+        module.save flush: true
 
         request.withFormat {
             form multipartForm {
@@ -65,18 +67,18 @@ class ModuleController {
 
         if (module.hasErrors()) {
             //transactionStatus.setRollbackOnly()
-            respond module.errors, view:'edit'
+            respond module.errors, view: 'edit'
             return
         }
 
-        module.save flush:true
+        module.save flush: true
 
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'module.label', default: 'Module'), module.title])
                 redirect module
             }
-            '*'{ respond module, [status: OK] }
+            '*' { respond module, [status: OK] }
         }
     }
 
@@ -89,7 +91,7 @@ class ModuleController {
             return
         }
 
-        module.delete flush:true
+        module.delete flush: true
 
         flash.message = "Module " + module.title + " deleted!"
         redirect action: 'index'
@@ -101,7 +103,23 @@ class ModuleController {
                 flash.message = message(code: 'default.not.found.message', args: [message(code: 'module.label', default: 'Module'), params.id])
                 redirect action: "index", method: "GET"
             }
-            '*'{ render status: NOT_FOUND }
+            '*' { render status: NOT_FOUND }
+        }
+    }
+
+    def fetchModulesForServer(AnalysisServer server) {
+        try {
+            def moduleList = restUtilsService.fetchModulesForServer(server)
+
+            render (contentType:"text/json") {
+                success true
+                modules "${g.render(template: 'moduleModalTemplate', model: [modules: moduleList, server: server])}"
+            }
+        } catch (Exception e) {
+            render (contentType:"text/json") {
+                success false
+                message e.localizedMessage
+            }
         }
     }
 }
