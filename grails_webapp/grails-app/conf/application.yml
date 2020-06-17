@@ -1,7 +1,3 @@
-server:
-    contextPath: /
-    port: ${PORT} 
-
 fcsFileStoreLocation:
     path: ${FILE_PATH}
 
@@ -13,6 +9,10 @@ callbackUrl: ${IP}:${PORT}/taskStatus
 adminEmailAddr: flowgate_helpdesk@jcvi.org
 
 grails:
+  server:
+    contextPath: /
+    port: ${PORT:8585}
+
     plugin:
         springsecurity:
             ui:
