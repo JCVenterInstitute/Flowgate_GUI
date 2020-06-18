@@ -187,13 +187,13 @@ Instrument Details${separator}Electronic Configuration${separator}
             }
             lineCntr += 1
         }
-//        println "headers ${headers}"
-//        println "rows ${rows}"
+        log.debug "headers ${headers}"
+        log.debug "rows ${rows}"
         def myMap = []
         rows.each { row ->
             myMap += [[headers, row].transpose().collectEntries()]
         }
-//        println " myMap = ${myMap}"
+        log.debug " myMap = ${myMap}"
         utilsService.fcytMetadataParse(experiment, myMap, headers)
         render view: "miFcytTbl", model: [experiment: experiment]
     }

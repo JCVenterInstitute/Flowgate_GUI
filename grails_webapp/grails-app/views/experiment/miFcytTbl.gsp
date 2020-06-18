@@ -22,9 +22,9 @@
 
 
 <div class="fixed-action-btn">
-  <a class="btn-floating btn-large waves-effect waves-light tooltipped" href="${createLink(controller: 'experiment', action: 'exportMifCytTempl', id: experiment?.id)}"
-     data-tooltip="Download template file" data-position="left">
-    <i class="material-icons">file_download</i>
+  <a class="btn-floating btn-large waves-effect waves-light tooltipped modal-trigger" href="#upload-annotation-file"
+     data-tooltip="Upload an MIFlowCyt File" data-position="left">
+    <i class="material-icons">file_upload</i>
   </a>
 </div>
 

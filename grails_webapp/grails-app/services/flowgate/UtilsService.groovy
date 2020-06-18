@@ -258,16 +258,18 @@ class UtilsService {
     }
 
     def fcytMetadataParse(experiment, fileListMap, headers){
-//        Integer dispOrderVal = 1
         fileListMap.each { dataRow ->
-//            println "importing ${dataRow['Category']} ${dataRow['Key']} ${dataRow['Value']}"
             if(dataRow['Category'] && dataRow['Key']){
                 ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrSaveByMdCategoryAndDispOnFilterAndVisible(dataRow["Category"], false, true)
-//                Integer dispOrderVal = ExperimentMetadata.findAllByExperimentAndMdCategory(experiment, category).size() * 5 ?: 1
                 ExperimentMetadata metaDat = ExperimentMetadata.findOrSaveByExperimentAndMdCategoryAndMdKeyAndVisibleAndIsMiFlowAndDispOnFilter(experiment, category, dataRow['Key'], true, true, false)
                 if(dataRow['Value']){
-                    ExperimentMetadataValue mDatVal = ExperimentMetadataValue.findOrSaveByExpMetaDataAndMdValueAndMdTypeAndDispOrder(metaDat, dataRow['Value'], 'String', 1)
-//                    println "created/added ${mDatVal}"
+                    ExperimentMetadataValue mDatVal = ExperimentMetadataValue.findByExpMetaData(metaDat)
+                    if(!mDatVal) {
+                        ExperimentMetadataValue.findOrSaveByExpMetaDataAndMdValueAndMdTypeAndDispOrder(metaDat, dataRow['Value'], 'String', 1)
+                    } else {
+                        mDatVal.mdValue = dataRow['Value']
+                        mDatVal.save  flush: true
+                    }
                 }
             }
         }

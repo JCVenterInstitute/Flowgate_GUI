@@ -9,9 +9,9 @@ callbackUrl: ${IP}:${PORT}/taskStatus
 adminEmailAddr: ${ADMIN_MAIL}
 
 grails:
-  server:
-    contextPath: /
-    port: ${PORT:8585}
+#    server:
+#        contextPath: /
+#        port: ${PORT:8585}
 
     plugin:
         springsecurity:
