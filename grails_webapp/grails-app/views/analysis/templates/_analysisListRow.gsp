@@ -50,32 +50,9 @@
               ${bean?.analysisStatus == 1 ? 'init' : bean?.analysisStatus == 2 ? 'pending' : bean?.analysisStatus == 3 ? 'results ready' : bean?.analysisStatus == -1 ? 'error' : 'done'}
             </div>
             <g:hiddenField id="server-${bean.jobNumber}" name="server-${bean.jobNumber}" value="${bean.module.server.url}" />
-%{--            <input type="hidden" id="server-${bean.jobNumber}" value="${bean.module.server.url}">--}%
+%{--        <input type="hidden" id="server-${bean.jobNumber}" value="${bean.module.server.url}">--}%
             <g:if test="${bean?.analysisStatus == 3}">
               <div id="resultModal_${bean?.jobNumber}"></div>
-              %{--
-              <div class="modal fade" tabindex="-1" id="resultModal-${bean?.jobNumber}" aria-labelledby="myModalLabel" aria-hidden="true" role="dialog">
-                <div class="modal-dialog modal-lg">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <div id="myModalLabel">
-                        <h4 class="modal-title" style="text-align: left;"><div class="text-center">Results</div></h4>
-                      </div>
-                    </div>
-
-                    <div class="modal-body custom-height-modal">
-                      <object style="width: 100%;height:100%;" data="${g.createLink(controller: 'analysis', action: 'downloadResultReport', params: [analysisId: bean?.id, jobNr: bean?.jobNumber])}" ></object>
-                    </div>
-
-                    <div class="modal-footer">
-                      <button type="button" id="aux${moduleParam?.id}SaveBtn" style="display: none" class="left btn btn-success" >Save</button>
-                      <button type="button" id="aux${moduleParam?.id}CloseBtn" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              --}%
             </g:if>
           </g:if>
           <g:else>
@@ -95,9 +72,7 @@
 <asset:javascript>
   function openModal(jobId){
      console.log("got click with id ", jobId);
---}%
-%{--  var metaVal = document.getElementById("eMeta_" + mId + ".mdVal").value;--}%%{--
-
+<!-- var metaVal = document.getElementById("eMeta_" + mId + ".mdVal").value;-->
     $.ajax({
       url: "${g.createLink(controller: 'expFile', action: 'axMetaSelect')}",
       dataType: 'json',

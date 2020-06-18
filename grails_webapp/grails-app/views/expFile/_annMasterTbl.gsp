@@ -59,12 +59,8 @@
       <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
         <th>
           <a href="#" class="${experiment.expMetadatas.findAll { it.mdCategory == category }.visible.toString().contains('false') ? '' : 'hidden'}"
-             onclick="showAllHidden(${experiment.id}, '${category?.id}');">Show All Hidden Attributes</a>
-
-%{--        TODO remove after testing--}%
-        <div class="${experiment.expMetadatas.findAll { it?.mdCategory == category }.visible.toString().contains('false') ? '' : 'hidden'} btn btn-default"
-             onclick="showAllHidden(${experiment.id}, '${category?.id}');">Show All Hidden Attributes</div>
-        <br/>
+             onclick="showAllHidden(${experiment.id}, '${category?.id}');">Show All Hidden Attributes
+          </a>
           <g:if test="${category?.mdCategory != 'Reagents'}">
             <a href="#add-new-attribute" class="modal-trigger tooltipped" data-tooltip="Add a new column" data-position="right">
               <i class="material-icons">add</i>

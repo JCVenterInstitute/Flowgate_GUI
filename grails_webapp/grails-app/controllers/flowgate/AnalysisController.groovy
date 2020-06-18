@@ -86,9 +86,11 @@ class AnalysisController {
     }
     */
 
+    /*
     def show(Analysis analysis) {
         respond analysis
     }
+    */
 
     def showResults(Analysis analysis) {
         def jobResult
@@ -305,10 +307,10 @@ class AnalysisController {
             flash.resultMsg = jobResult?.statusCode?.toString() + " - " + jobResult?.statusCode?.reasonPhrase
             render"<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
         } else {
-            def outputFile = jobResult.outputFiles.find { it.path == analysis?.renderResult }
-            // 'Reports/AutoReport.html'
-            if (outputFile) {
-                def fileUrl = new URL(outputFile.link.href)
+            def errorFile = jobResult.status.stderrLocation  // 'Reports/AutoReport.html'
+            if(errorFile) {
+                def dataStream
+                def fileUrl = new URL(errorFile)
                 def connection = fileUrl.openConnection()
                 connection.setRequestProperty("Authorization", utilsService.authHeader(analysis.module.server.userName, analysis.module.server.userPw))
                 if (connection) {
@@ -316,45 +318,38 @@ class AnalysisController {
                         dataStream = connection?.inputStream
                     }
                     catch (e) {
-                        response.setContentType("text/html")
+//                      response.setContentType("text/html")
+                        response.setContentType("text/plain")
                         render "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
-                        //                    flash.message = "Error: No result file found!"
-                        //                    render controller: 'analysis', view: 'index'
-                        //                    redirect controller: 'analysis', action: 'index'
                         return
                     }
                     if (params.download != null && params.download) {
                         response.setContentType("application/octet-stream")
                         response.setHeader("Content-disposition", "Attachment; filename=${outputFile.path}")
                     } else {
-                        response.setContentType("text/html")
+//                      response.setContentType("text/html")
+                        response.setContentType("text/plain")
                     }
                     if (dataStream) {
                         response.outputStream << dataStream
                         response.outputStream.flush()
                     } else {
                         response.setContentType("text/html")
-                        render "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
+//                      render "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
+                        render "<p><strong style='color:red;'>Error:</strong> No error file found!</p>"
                     }
                 } else {
                     response.setContentType("text/html")
-                    render status: 401, "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
+//                  render status: 401, "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
+                    render "<p><strong style='color:red;'>Error:</strong> No error file found!</p>"
                 }
 
             }
         }
-        def errorFile = jobResult.status.stderrLocation  // 'Reports/AutoReport.html'
-        if(errorFile) {
-            def fileUrl = new URL(errorFile)
-            def connection = fileUrl.openConnection()
-            connection.setRequestProperty("Authorization", utilsService.authHeader(analysis.module.server.userName, analysis.module.server.userPw))
-            def dataStream = connection.inputStream
-            response.setContentType("text/plain")
-            response.outputStream << dataStream
-            response.outputStream.flush()
-        } else {
-            render "<p><strong style='color:red;'>Error:</strong> No error file found!</p>"
-        }
+//      } else {
+//            response.setContentType("text/html")
+//            render status: 401, "<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
+//       }
     }
 
 
@@ -380,7 +375,7 @@ class AnalysisController {
             flash.resultMsg = jobResult?.statusCode?.toString() + " - " + jobResult?.statusCode?.reasonPhrase
             render"<div style='font-size:x-large;margin:auto;width:20%;padding-top:20%;'><strong style='color:red;'>Error:</strong> No result file found to download!</div>"
         } else {
-            def fileUrl = new URL( "${analysis?.module?.server?.url}/gp/rest/v1/jobs/${analysis?.jobNumber}/download")
+            def fileUrl = new URL("${analysis?.module?.server?.url}/gp/rest/v1/jobs/${analysis?.jobNumber}/download")
             def connection = fileUrl.openConnection()
             connection.setRequestProperty("Authorization", utilsService.authHeader(analysis?.module?.server?.userName, analysis?.module?.server?.userPw))
             if (connection) {
@@ -411,6 +406,7 @@ class AnalysisController {
             }
         }
     }
+
 
     /*
         def resp = restUtilsService.dwnLdZip(analysis?.module, analysis?.jobNumber)

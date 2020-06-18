@@ -78,15 +78,16 @@
                   </div>
 
                   <div class="modal-body custom-height-modal">
-                    --}%%{--TODO reactivate the loading --}%%{--
-                    --}%%{-- -- <div class="loading" id="loadingMessage" style="position:absolute; top: 50%; left: 50%">loading...</div> -- --}%%{--
-                    --}%%{-- -- <object style="width: 100%;height:800px;" data="${g.createLink(controller: 'analysis', action: 'downloadFile', params: [analysisId: this?.analysis?.id, filename: outputFile?.path, fileLink: outputFile?.link?.href, outputFile: outputFile])}" ></object> -- --}%%{--
+                    <!--TODO reactivate the loading -->
+                    <!-- -- <div class="loading" id="loadingMessage" style="position:absolute; top: 50%; left: 50%">loading...</div> -- -->
+                    <!-- -- <object style="width: 100%;height:800px;" data="${g.createLink(controller: 'analysis', action: 'downloadFile', params: [analysisId: this?.analysis?.id, filename: outputFile?.path, fileLink: outputFile?.link?.href, outputFile: outputFile])}" ></object> -- -->
 
---}%%{--                    TODO activate after testing--}%%{--
---}%%{--                    <object style="width: 100%;height:100%;" data="${g.createLink(controller: 'analysis', action: 'downloadResultReport', params: [analysisId: bean?.id, jobNr: bean?.jobNumber])}" ></object>--}%%{--
-                    --}%%{-- --
+<!--                    TODO activate after testing-->
+<!--                    <object style="width: 100%;height:100%;" data="${g.createLink(controller: 'analysis', action: 'downloadResultReport', params: [analysisId: bean?.id, jobNr: bean?.jobNumber])}" ></object>-->
+
+                    <!-- --
                       <iframe src="/assets/gating/index.html" style="width: 90%; height: 300px" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"></iframe>
-                    -- --}%%{--
+                    -- -->
                   </div>
 
                   <div class="modal-footer">
@@ -132,10 +133,5 @@
       }
     });
   }
-  $('#resultModal-256').on('shown.bs.modal', function () {
-    // $('#myInput').trigger('focus')
-    console.log("shown . bs . modal");
-  })
-
 </script>
 

@@ -4,7 +4,7 @@
   </ul>
 
   <div class="nav-wrapper row">
-    <div class="col s12">
+    <div class="col s12 #8c1515 red darken-4">
       <a href="${createLink(uri: '/')}" class="brand-logo">FlowGate</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <sec:ifLoggedIn>

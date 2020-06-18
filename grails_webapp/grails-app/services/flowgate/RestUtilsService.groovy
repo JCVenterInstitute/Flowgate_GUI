@@ -6,6 +6,9 @@ import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 import grails.transaction.Transactional
 import grails.web.servlet.mvc.GrailsParameterMap
+//TODO clearup after testing
+//import groovy.io.FileType
+//import java.io.File
 //import java.net.URLEncoder
 //import grails.async.*
 //import org.springframework.util.LinkedMultiValueMap
@@ -14,11 +17,7 @@ import grails.web.servlet.mvc.GrailsParameterMap
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import org.grails.web.util.WebUtils
-//import grails.async.*
-//import java.io.File
 
-
-//import static grails.async.Promises.*
 
 @Transactional
 class RestUtilsService {
@@ -67,20 +66,19 @@ class RestUtilsService {
     } else return ['status': 405, 'msg': 'E: task not found!']
   }
 
-  def setCallback(Module module, Integer jobId) {
-    String callbackUrl = grailsApplication.config.callbackUrl
-    String callbackEncoded = URLEncoder.encode(callbackUrl, "UTF-8")
-    String bodyStr = "notificationUrl=${callbackEncoded}"
-    RestBuilder rest = new RestBuilder()
-    RestResponse resp = rest.post(module.server.url + "/gp/rest/v1/jobs/${jobId.toString()}/setNotificationCallback") {
-      contentType "application/x-www-form-urlencoded"
-      accept "application/json"
-      auth "Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
-      body bodyStr
-    }
-    return ['status': resp.responseEntity.statusCode.value(), 'respJson': resp.json]
+  def setCallback(Module module, Integer jobId){
+      String callbackUrl= grailsApplication.config.callbackUrl
+      String callbackEncoded = URLEncoder.encode(callbackUrl, "UTF-8")
+      String bodyStr = "notificationUrl=${callbackEncoded}"
+      RestBuilder rest = new RestBuilder()
+      RestResponse resp = rest.post(module.server.url + "/gp/rest/v1/jobs/${jobId.toString()}/setNotificationCallback") {
+        contentType "application/x-www-form-urlencoded"
+        accept"application/json"
+        auth "Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
+        body bodyStr
+      }
+      return ['status': resp.responseEntity.statusCode.value(), 'respJson': resp.json]
   }
-
 
   def dwnLdZip(Module module, Integer jobId){
     RestBuilder rest = new RestBuilder()
@@ -88,6 +86,7 @@ class RestUtilsService {
       contentType "application/zip"
       auth "Basic ${utilsService.authEncoded(module.server.userName, module.server.userPw)}"
     }
+//    return ['status': resp.responseEntity.statusCode.value(), 'respJson': resp.json]
     return ['status': resp.responseEntity.statusCode.value(), 'respBody': resp.responseEntity.body]
   }
 
@@ -171,7 +170,6 @@ class RestUtilsService {
           String tabSep = "\t"
           def dsParamId = params["mp-meta"]
           def dsId = params["mp-${dsParamId}-ds"]
-
           Dataset ds = Dataset.get(dsId.toLong())
           String metaDataFilePrefix = 'metadata'
           String metaDataFileSuffix = '.txt'

@@ -1,7 +1,5 @@
-%{--<input type="text" readonly class="form-control-plaintext" id="${property}" value="${value}">--}%
-<<<<<<< HEAD
+%{--<<<<<<< HEAD   TODO remove after testing and uncomment last line--}%
 <div class="form-control-plaintext" >${value}
-%{--  TODO remove after testing !!!--}%
   <g:if test="${property == 'analysisName'}">
     &nbsp;&nbsp;
     <sec:ifAnyGranted roles="ROLE_Admin,ROLE_Administrator,ROLE_Tester,ROLE_Acs">
@@ -11,4 +9,5 @@
     </sec:ifAnyGranted>
   </g:if>
 </div>
-<div class="form-control-plaintext" >${value}</div>
+%{--=======--}%
+%{--<div class="form-control-plaintext" >${value}</div>--}%

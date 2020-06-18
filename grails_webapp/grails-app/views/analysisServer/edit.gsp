@@ -52,11 +52,35 @@
     </div>
   </g:form>
 
+%{--
+<<<<<<< HEAD
   <g:form resource="${analysisServer}" method="PUT" action="updatePassword" class="col s6" onsubmit="return validatePass()">
     <div class="row">
       <g:if test="${flash.passError}">
         <div class="alert alert-danger">${flash.passError}</div>
       </g:if>
+=======
+--}%
+        <div class="form-group">
+          <label for="oldpass" class="control-label col-sm-4">Old Password</label>
+          <div class="col-sm-8">
+%{--            <input type="password" id="oldpass" name="oldpass" class="form-control" placeholder="Old Password" required>--}%
+            <input type="password" id="oldpass" name="oldpass" class="form-control" placeholder="Old Password" >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="newpass" class="control-label col-sm-4">New Password</label>
+          <div class="col-sm-8">
+            <input type="password" id="newpass" name="newpass" class="form-control" placeholder="New Password" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-8">
+            <button type="submit" class="btn btn-primary">Update Password</button>
+          </div>
+        </div>
+      </g:form>
+%{-->>>>>>> dev-int--}%
 
       <div class="input-field col s8">
         <input type="password" name="oldpass" required>
