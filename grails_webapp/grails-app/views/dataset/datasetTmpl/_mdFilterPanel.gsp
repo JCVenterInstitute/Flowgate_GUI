@@ -31,3 +31,4 @@
     </div>
   </div>
 </g:if>
+<div id="filteredCnts">[no filters set]</div>

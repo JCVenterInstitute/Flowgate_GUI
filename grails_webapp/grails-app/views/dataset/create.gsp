@@ -36,19 +36,20 @@
 
     <div class="row">
       <div class="input-field col s12">
-        <input type="text" name="name" value="${this.name}" required>
+        <input type="text" id="name" name="name" value="${this.name}" required>
         <label for="name">Name</label>
       </div>
 
       <div class="input-field col s12">
-        <textarea name="description" value="${this.description}" required class="materialize-textarea"></textarea>
+        <textarea id="description" name="description" value="${this.description}" required class="materialize-textarea"></textarea>
         <label for="description">Description</label>
       </div>
 
-      <div class="col s12">
-        <g:render template="datasetTmpl/mdFilterPanel" model="[experiment: experiment]"/>
-
-        <p><label><input type="checkbox" id="fcsSelectAll" class="filled-in">&nbsp;<span>Select all files</span></label></p>
+      <div class="row">
+        <div class="col s12">
+          <g:render template="datasetTmpl/mdFilterPanel" model="[experiment: experiment]"/>
+          <p><label><input type="checkbox" id="fcsSelectAll" class="filled-in">&nbsp;<span>Select all files</span></label></p>
+        </div>
       </div>
 
       <div class="col s12">
@@ -75,6 +76,7 @@
       data: {id: eId, filters: JSON.stringify(filters)},
       type: "get",
       success: function (data) {
+        $('#filteredCnts').html(data.fCnts);
         $("#fcsFiles").html(data.fcsList);
       },
       error: function (request, status, error) {

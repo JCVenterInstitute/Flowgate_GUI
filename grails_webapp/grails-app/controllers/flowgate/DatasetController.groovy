@@ -1,5 +1,6 @@
 package flowgate
 
+import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import groovy.json.JsonSlurper
 
@@ -48,12 +49,15 @@ class DatasetController {
 
     def axSetFilter(Experiment experiment) {
         def expFileCandidatesList = getFilteredList(experiment)
+        def total = ExpFile.findAllByExperiment(experiment).size()
+        String fCntsStr = "[no filters set]"
+        if(params.filters && !params.filters.equals("[]")) {
+            fCntsStr = "[filtered ${expFileCandidatesList.size()} of ${total} files]"
+        }
         Dataset ds = Dataset.get(params?.dsId?.toLong())
         if(ds == null) ds = new Dataset(params)
-        render(contentType: 'text/json') {
-            success true
-            fcsList "${g.render(template: 'datasetTmpl/fcsFiles', model: [experiment: experiment, dataset: ds, expFileCandidatesList: expFileCandidatesList])}"
-        }
+        log.debug "${fCntsStr}"
+        render ( [success: true, fCnts: fCntsStr, fcsList: "${g.render(template: 'datasetTmpl/fcsFiles', model: [experiment: experiment, dataset: ds, expFileCandidatesList: expFileCandidatesList])}" ] as JSON )
     }
 
     def getFilteredList(Experiment experiment) {
