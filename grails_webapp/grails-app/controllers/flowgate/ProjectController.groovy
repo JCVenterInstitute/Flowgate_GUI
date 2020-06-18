@@ -222,7 +222,7 @@ class ProjectController {
         User user = springSecurityService.currentUser
         def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
         Project project = new Project(params)
-        respond project, model: [projectList: projectList, projectCount: projectList.size(), experimentList:[] ]
+        respond project
     }
 
     @Transactional

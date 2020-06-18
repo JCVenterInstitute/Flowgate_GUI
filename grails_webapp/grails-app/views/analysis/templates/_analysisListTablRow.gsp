@@ -11,24 +11,6 @@
         </g:if>
         <g:else>
           <f:display bean="${bean}" property="analysisName" displayStyle="${displayStyle ?: 'table'}"/>%{-- &nbsp;Job=${bean.jobNumber} --}%
-%{--          <td>--}%
-            %{--                <div class="div-as-link" style="cursor: pointer;" data-toggle="modal" data-target="#resultModal-${bean.jobNumber}">--}%
-            %{--            <div class="div-as-link" style="cursor: pointer;" onclick="openModal(${bean?.jobNumber}, ${bean?.id});" data-toggle="modal" data-target="#resultModal-${bean.jobNumber}">--}%
-            %{--              <i class="glyphicon glyphicon-eye-open"></i>&nbsp;<g:message code="analysis.display.report.label" default="display" />--}%
-            %{--            </div>--}%
-            %{--            &nbsp;&nbsp;&nbsp;&nbsp;--}%
-            %{--            <a href="${g.createLink(controller: 'analysis', action: 'downloadResultReport', params: [analysisId: bean?.id, jobNr: bean?.jobNumber, download: true])}">--}%
-            %{--              <i class="fa fa-floppy-o fa-lg"></i>&nbsp;<g:message code="analysis.download.report.label" default="download report" />--}%
-            %{--            </a>--}%
-              %{--<sec:ifAnyGranted roles="ROLE_Admin,ROLE_Administrator,ROLE_Tester,ROLE_Acs">
-              --}%%{--              &nbsp;&nbsp;&nbsp;&nbsp;--}%%{--
-                <a href="${g.createLink(controller: 'analysis', action: 'delete', params: [analysisId: bean?.id, jobNr: bean?.jobNumber, download: true])}">
-                  <i class="fa fa-trash"></i>
---}%%{--                  &nbsp;<g:message code="analysis.delete.label" default="delete" />--}%%{--
-                </a>
-              </sec:ifAnyGranted>
---}%
-%{--          </td>--}%
         </g:else>
             </div>
       </td>

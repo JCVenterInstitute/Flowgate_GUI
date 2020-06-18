@@ -5,7 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <title><g:layoutTitle default="flowgate"/></title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <asset:link rel="icon" href="f.ico" type="image/x-ico" />
+  <asset:link rel="icon" href="favicon.ico" type="image/x-ico"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <asset:stylesheet src="application.css"/>
   <asset:javascript src="jquery-2.2.0.min.js"/>
   <g:layoutHead/>
@@ -13,28 +14,70 @@
 
 <body>
 <g:render template="/layouts/navBar"/>
+<g:if test="${flash.success}">
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var successToastHTML = '<span>${flash.success}</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>';
+      M.toast({
+        html: successToastHTML,
+        displayLength: 8000
+      });
+    });
+  </script>
+</g:if>
+<g:if test="${flash.message}">
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var messageToastHTML = '<span>${flash.message}</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>';
+      M.toast({
+        html: messageToastHTML,
+        displayLength: 8000
+      });
+    });
+  </script>
+</g:if>
+<g:if test="${flash.error}">
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      M.toast({
+        html: '<span>${flash.error}</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+        displayLength: Infinity,
+        classes: 'red'
+      });
+    });
+  </script>
+</g:if>
 <g:ifPageProperty name="page.topBtnBar">
   <div class="container" style="position: static">
-    <g:pageProperty name="page.topBtnBar" />
+    <g:pageProperty name="page.topBtnBar"/>
   </div>
 </g:ifPageProperty>
-<g:if test="${flash.message}">
-  <div class="row justify-content-center ">
-    <div class="alert alert-info text-center" role="alert">${flash.message}</div>
+<div class="container">
+  <div class="row">
+    <div class="col s12">
+      <g:layoutBody/>
+    </div>
   </div>
-</g:if>
-<g:layoutBody/>
+</div>
 
 <!-- Footer -->
-<footer class="py-3 bg-dark" style="position: fixed;bottom: 0;width: 100%;">
-  <div class="container">
-    <p class="m-0 text-center text-white">FlowGate &copy; 2019 | <g:link uri="/about" ><g:message code="about.link.label" default="About" /></g:link> | <g:link uri="mailto:${grailsApplication.config.adminEmailAddr}" >Contact Us</g:link></p>
-  </div>
-</footer>
+<div class="preload-background modal-overlay"
+     style="display: none;align-items: center;justify-content: center;position: fixed;z-index: 100;top: 0;opacity: 0.5;">
+  <div class="preloader-wrapper big active">
+    <div class="spinner-layer spinner-blue-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
 
-<div id="screen-locker" style="display: none;"></div>
-<div id="spinner" class="spinner" style="display:none;">
-  <g:message code="spinner.alt" default="Loading&hellip;"/>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <asset:javascript src="application.js"/>

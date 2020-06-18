@@ -1,24 +1,23 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <meta name="layout" content="wTreeSideBar"/>
+  <meta name="layout" content="main"/>
   <g:set var="entityName" value="${message(code: 'uploadFcs.label', default: 'Upload FCS')}"/>
   <title><g:message code="default.uploadFcs.label" args="[entityName]" default="Upload FCS"/></title>
 </head>
 
 <body>
-<content tag="treeView">
-  <div id="projTree">
-    <g:render template="/shared/treeView" model="[projectList: projectList, experimentList: experimentList]"/>
+<div class="navigation nav-wrapper">
+  <div class="col s12">
+    <a href="${createLink(controller: 'project', action: 'index', params: [pId: experiment?.project?.id])}" class="breadcrumb dark tooltipped" data-position="bottom"
+       data-tooltip="${experiment?.project?.title}">Project</a>
+    <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="breadcrumb dark tooltipped" data-position="bottom"
+       data-tooltip="${experiment?.title}">Experiment</a>
+    <a href="#!" class="breadcrumb dark">Upload FCS Files</a>
   </div>
-</content>
-<content tag="pgContent">
-<h1 class="page-header">${experiment?.title}</h1>
+</div>
 
-<h3 class="sub-header"><g:message code="default.fcsFile.create.label" default="Upload FCS Files"/></h3>
-<g:if test="${flash.message}">
-  <div class="message" role="status">${flash.message}</div>
-</g:if>
+<h2><g:message code="default.fcsFile.create.label" default="Upload FCS Files"/></h2>
 <g:hasErrors bean="${this.expFile}">
   <ul class="errors" role="alert">
     <g:eachError bean="${this.expFile}" var="error">
@@ -37,29 +36,39 @@
       </div>
     </div>
   </g:if>
-  <div class="form-group">
-    <input id="uploadFile" type="file" name="actFcsFile" multiple/>
+  <div class="row">
+    <div class="col s12">
+      <div class="file-field input-field">
+        <div class="btn">
+          <span>Choose File(s)</span>
+          <input id="uploadFile" type="file" name="actFcsFile" multiple/>
+        </div>
 
-    <p class="help-block">You can upload single or multiple .fcs file(s).</p>
-  </div>
-  <p>Or you can drag and drop your files in the box below to upload (Max size for each file is 1GB)</p>
-  <div id="dropzone" class="well">Drop files here</div>
-  <div id="files" class="files"></div>
-  <div class="row mt-3">
-    <div class="col-md-12">
-      <input type="button" class="btn btn-primary start" id="uploadFilesBtn" value="${message(code: 'default.button.annotate.label', default: 'Upload')}"/>
-      <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: eId])}" class="btn btn-warning">Back</a>
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text" placeholder="Upload one or more .fcs file(s)">
+        </div>
+      </div>
+
+      <div id="dropzone" class="card-panel hoverable">Drop files here</div>
+
+      <blockquote>You can select single or multiple .fcs file(s).<br>
+        You can drag and drop your files in the box above to upload (Max size for each file is 1GB)</blockquote>
+
+      <ul id="files" class="collection files"></ul>
+
+      <div class="input-field">
+        <button type="button" class="btn waves-effect waves-light" id="uploadFilesBtn">${message(code: 'default.button.annotate.label', default: 'Upload')}</button>
+        <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="btn-flat">Cancel</a>
+      </div>
     </div>
   </div>
 </g:uploadForm>
-</content>
-<content tag="pgAssets">
-  <asset:javascript src="jquery.ui.widget.js" />
-  <asset:javascript src="fileupload/jquery.fileupload.js"/>
-  <asset:javascript src="fileupload/jquery.fileupload-process.js"/>
-  <asset:javascript src="fileupload/jquery.fileupload-validate.js"/>
-  <asset:javascript src="fileupload/jquery.fileupload-ui.js"/>
-  <asset:javascript src="fileupload/jquery.fileupload-main.js"/>
-</content>
+
+<asset:javascript src="jquery.ui.widget.js"/>
+<asset:javascript src="fileupload/jquery.fileupload.js"/>
+<asset:javascript src="fileupload/jquery.fileupload-process.js"/>
+<asset:javascript src="fileupload/jquery.fileupload-validate.js"/>
+<asset:javascript src="fileupload/jquery.fileupload-ui.js"/>
+<asset:javascript src="fileupload/jquery.fileupload-main.js"/>
 </body>
 </html>

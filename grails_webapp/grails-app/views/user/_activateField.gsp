@@ -1,8 +1,4 @@
 <%@ page import="flowgate.Role" %>
-%{--<div ${(user?.authorities.find {it == flowgate.Role.findByAuthority('ROLE_NewUser')}) ? 'onclick=activate('+user?.id+')' :''} >--}%
-<i style="color: ${(user?.authorities.find {
-  it == flowgate.Role.findByAuthority('ROLE_NewUser')
-}) ? 'red' : 'green'}"
-   class="fa fa-${(user?.authorities.find { it == flowgate.Role.findByAuthority('ROLE_NewUser') }) ? 'times' : 'check'}">
+<i style="color: ${(user?.authorities.find {it == flowgate.Role.findByAuthority('ROLE_NewUser')}) ? 'red' : 'green'}" class="material-icons">
+  ${(user?.authorities.find { it == flowgate.Role.findByAuthority('ROLE_NewUser') }) ? 'clear' : 'check'}
 </i>
-%{--</div>--}%

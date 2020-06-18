@@ -18,9 +18,6 @@
   </ul>
 
   <h1 class="page-header"><g:message code="default.edit.label" args="[entityName]"/></h1>
-  <g:if test="${flash.message}">
-    <div class="message" role="status">${flash.message}</div>
-  </g:if>
   <g:hasErrors bean="${this.analysis}">
     <ul class="errors" role="alert">
       <g:eachError bean="${this.analysis}" var="error">

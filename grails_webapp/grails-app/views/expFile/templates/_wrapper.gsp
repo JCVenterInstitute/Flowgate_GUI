@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="input-field col s12">
+  <input type="text" id="${property}" name="${property}" ${required}>
   <label for="${property}">${label} ${required ? '*' : ''}</label>
-  <input type="text" class="form-control" id="${property}" name="${property}" placeholder="${label}" ${required}>
 </div>

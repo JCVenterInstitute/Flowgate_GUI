@@ -49,6 +49,8 @@
               <i class=" fa fa-circle" style="color: ${bean.analysisStatus == 1 ? 'lightgrey' : bean.analysisStatus == 2 ? 'orange' : bean.analysisStatus == 3 ? 'lawngreen' : bean.analysisStatus == -1 ? 'red' : 'brown'}"></i>
               ${bean?.analysisStatus == 1 ? 'init' : bean?.analysisStatus == 2 ? 'pending' : bean?.analysisStatus == 3 ? 'results ready' : bean?.analysisStatus == -1 ? 'error' : 'done'}
             </div>
+            <g:hiddenField id="server-${bean.jobNumber}" name="server-${bean.jobNumber}" value="${bean.module.server.url}" />
+%{--            <input type="hidden" id="server-${bean.jobNumber}" value="${bean.module.server.url}">--}%
             <g:if test="${bean?.analysisStatus == 3}">
               <div id="resultModal_${bean?.jobNumber}"></div>
               %{--

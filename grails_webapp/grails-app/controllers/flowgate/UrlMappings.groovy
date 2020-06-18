@@ -15,6 +15,7 @@ class UrlMappings {
     "/dashboard"(view: "/dashboard/index")
     "/about"(view: "/about/about")
     "/"(view: "/index")
+    "/login/auth"(view: "/index")
     "/taskStatus"(controller: 'taskStatus', action: 'setStatus')
     //        "/"(controller: 'project', view: 'list' )
     "/project/index"(controller: 'project', action: 'index')
@@ -34,6 +35,10 @@ class UrlMappings {
       constraints {
         // apply constraints here
       }
+    }
+    "/analysis/$analysisId/$filename" {
+      controller = 'analysis'
+      action = 'resultFile'
     }
   }
 }

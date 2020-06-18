@@ -7,31 +7,45 @@
 </head>
 
 <body>
-%{--<a href="#show-module" class="skip" tabindex="-1"><g:message code="default.link.skip.label"
-                                                             default="Skip to content&hellip;"/></a>
+<h2><g:message code="default.show.label" args="[entityName]"/></h2>
 
-<div class="nav" role="navigation">
-  <ul>
-    <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-    <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]"/></g:link></li>
-    <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]"/></g:link></li>
-  </ul>
-</div>--}%
-
-<div id="show-module" class="container" role="main">
-  <h1 class="page-header"><g:message code="default.show.label" args="[entityName]"/></h1>
-  <g:if test="${flash.message}">
-    <div class="row justify-content-center ">
-      <div class="alert alert-info text-center" role="alert">${flash.message}</div>
+<div class="row">
+  <f:with bean="module">
+    <div class="col s4">
+      <f:field property="server.name" label="Server"/>
+      <f:field property="title" label="Title"/>
+      <f:field property="label" label="Label"/>
+      <f:field property="name" label="Module or URN"/>
     </div>
-  </g:if>
-  <f:display bean="module"/>
-  <g:form resource="${this.module}" method="DELETE">
-    <g:link class="edit btn btn-primary" action="edit" resource="${this.module}"><g:message code="default.button.edit.label"
-                                                                                            default="Edit"/></g:link>
-    <input class="delete btn btn-warning" type="submit" value="${message(code: 'default.button.delete.label', default: 'Delete')}"
-           onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
-  </g:form>
+
+    <div class="col s8">
+      <f:field property="descript" label="Description"/>
+    </div>
+  </f:with>
+
+  <div class="input-field col s12">
+    <g:link class="btn waves-effect waves-light" action="edit" resource="${this.module}">${message(code: 'default.button.edit.label', default: 'Edit')}</g:link>
+    <a class="btn-flat modal-trigger" href="#delete-module-modal">${message(code: 'default.button.delete.label', default: 'Delete')}</a>
+    <g:link controller="module" action="index" class="btn-flat">Return to Module List</g:link>
+  </div>
 </div>
+
+<div id="delete-module-modal" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <h4>Confirm to delete module</h4>
+  </div>
+
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
+    <g:link action="delete" resource="${this.module}" class="modal-close waves-effect waves-light btn-flat">Confirm</g:link>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var modalElems = document.querySelectorAll('.modal');
+    M.Modal.init(modalElems);
+  });
+</script>
 </body>
 </html>

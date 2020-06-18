@@ -91,7 +91,7 @@ class UserController {
             user.password = newPass
             user.save flush:true
 
-            flash.passSuccess = "Password has been updated!"
+            flash.success = "Password has been updated!"
         }
 
         render view: 'edit', model: [user: user]

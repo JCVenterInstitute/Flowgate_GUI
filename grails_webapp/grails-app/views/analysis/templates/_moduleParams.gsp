@@ -1,249 +1,204 @@
 <%@ page import="flowgate.Experiment; flowgate.Dataset" %>
 <g:if test="${module}">
-  <div class="pull-right">
-    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#infoBoxModal">
-      <i class="glyphicon glyphicon-info-sign"></i>&nbsp;<g:message code="module.information.button.label" default="Pipeline Information"/>
-    </button>
+  <div class="fixed-action-btn" style="bottom: 93px;">
+    <a href="#infoBoxModal" class="btn-floating btn-large waves-effect waves-light tooltipped modal-trigger" data-tooltip="Pipeline Information" data-position="left">
+      <i class="material-icons">info</i>
+    </a>
   </div>
-  <div class="modal fade" id="infoBoxModal" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title" style="text-align: left;">Pipeline Information</h4>
-        </div>
 
-        <div class="modal-body custom-height-modal">
-          ${raw(module?.descript ?: '<p>There is no module description!</p>')}
+  <div class="modal modal-fixed-footer" id="infoBoxModal">
+    <div class="modal-content">
+      <h4>Pipeline Information</h4>
+
+      <p>${raw(module?.descript ?: 'There is no description entered for this module!')}</p>
+    </div>
+
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
+    </div>
+  </div>
+  <g:each in="${module.moduleParams.sort { (it.pOrder ?: it.id) + (it.pKey ?: it.id) }.findAll { it.pBasic == true }}" var="moduleParam">
+    <g:if test="${moduleParam?.pType == 'aux'}">
+      <div class="col s12">
+        <label for="mp-${moduleParam?.id}-ds">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}
+          <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
+            <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="right">info</i>
+          </g:if>
+        </label>
+
+        <a href="#aux${moduleParam?.id}" class="btn-floating waves-effect waves-light tooltipped modal-trigger">
+          <g:message code="module.information.button.label" default="${moduleParam?.pKey}"/>
+        </a>
+      </div>
+
+      <div class="modal modal-fixed-footer" id="aux${moduleParam?.id}">
+        <div class="modal-content">
+          <h4>${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</h4>
+
+          <p><object data="/assets/${moduleParam?.defaultVal}"></object></p>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" id="aux${moduleParam?.id}SaveBtn" style="display: none" class="left btn btn-success">Save</button>
+          <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
         </div>
       </div>
-    </div>
-  </div>
-  <g:each in="${module.moduleParams.sort { (it.pOrder ?: it.id)+(it.pKey ?: it.id) }.findAll { it.pBasic == true }}" var="moduleParam">
-    %{-- aux --}%
-    <g:if test="${moduleParam?.pType == 'aux'}">
-      <label for="mp-${moduleParam?.id}-ds" class="col-sm-2 control-label">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}
-        <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
-          <i class="fa fa-info-circle" data-toggle="tooltip" title="${moduleParam?.descr}"></i>
-        </g:if>
-      </label>
-
-      <div class="col-sm-offset-2" style="padding-left: 5px;">
-        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#aux${moduleParam?.id}">
-          %{--<i class="glyphicon glyphicon-info-sign"></i>&nbsp;--}%<g:message code="module.information.button.label" default="${moduleParam?.pKey}"/>
-        </button>
-      </div>
-
-      %{--<div class="modal fade" tabindex="-1" id="aux${moduleParam?.id}" style="width:90%;" role="dialog">--}%
-      <div class="modal fade" tabindex="-1" id="aux${moduleParam?.id}" aria-labelledby="myModalLabel" aria-hidden="true" role="dialog">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <div id="myModalLabel">
-                <h4 class="modal-title" style="text-align: left;">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</h4>
-              </div>
-            </div>
-
-            <div class="modal-body custom-height-modal">
-              %{--<object style="width: 100%;height:800px;" data="/assets/gating/index.html" ></object>--}%
-              <object style="width: 100%;height:100%;" data="/assets/${moduleParam?.defaultVal}" ></object>
-              %{--
-                <iframe src="/assets/gating/index.html" style="width: 90%; height: 300px"
-                        scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0">
-                </iframe>
-              --}%
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" id="aux${moduleParam?.id}SaveBtn" style="display: none" class="left btn btn-success" >Save</button>
-              <button type="button" id="aux${moduleParam?.id}CloseBtn" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-
-
-
-      %{--<div class="form-group">--}%
-        %{--<label class="col-sm-2"></label>--}%
-        %{--<div class="col-sm-offset-2 col-sm-10">--}%
-          %{--<object style="width: 100%;height:300px;" data="/assets/gating/index.html" ></object>--}%
-          %{--
-            <iframe src="/assets/gating/index.html" style="width: 90%; height: 300px"
-                    scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0">
-            </iframe>
-          --}%
-        %{--</div>--}%
-      %{--</div>--}%
     </g:if>
-    %{-- dataset --}%
     <g:if test="${moduleParam?.pType == 'ds'}">
-      <div class="form-group">
-        <label for="mp-${moduleParam?.id}-ds" class="col-sm-2 control-label">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}
-          <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
-            <i class="fa fa-info-circle" data-toggle="tooltip" title="${moduleParam?.descr}"></i>
-          </g:if>
-        </label>
-
-        <div class="col-sm-4">
-          <g:hiddenField name="mp-meta" value="${moduleParam?.id}"/>
-          <g:select class="form-control" id="mp-${moduleParam?.id}-ds"
-                    from="${Dataset.findAllByExperiment(Experiment.get(params.eId))}" name="mp-${moduleParam?.id}-ds"
-                    optionKey="id" optionValue="name" value="${moduleParam?.defaultVal}" required="required"/>
-        </div>
-        <g:isOwnerOrRoles object="experiment" objectId="${params.eId}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
-          <div class="col-sm-2">
-            <a class="btn btn-default" href="${g.createLink(controller: 'dataset', action: 'index', params: [eId: params.eId])}">
-              <i class="fa fa-database"></i>&nbsp;Manage Datasets
-            </a>
-          </div>
-        </g:isOwnerOrRoles>
-      </div>
-    </g:if>
-    %{-- either dir or file --}%
-    <g:if test="${moduleParam?.pType == 'dir' || moduleParam?.pType == 'file'}">
-      <div class="form-group">
-        %{--<label for="mp-${moduleParam?.id}" class="col-sm-2 control-label">${moduleParam?.pKey} [dir/file]</label>--}%
-        <label for="mp-${moduleParam?.id}" class="col-sm-2 control-label">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}
-          <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
-            <i class="fa fa-info-circle" data-toggle="tooltip" title="${moduleParam?.descr}"></i>
-          </g:if>
-        </label>
-
-        <div class="col-sm-4">
-          <g:if test="${moduleParam?.pType == 'dir'}">
-            <input class="form-control" type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}" webkitdirectory directory multiple/>
-          </g:if>
-          <g:if test="${moduleParam?.pType == 'file'}">
-            <input class="form-control" multiple type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}"/>
-          </g:if>
-        </div>
-        <g:if test="${moduleParam?.exampleFile && moduleParam?.exampleFile != ''}">
-          <div class="col-sm-6">
-            <label class="control-label">Example:</label>&nbsp;&nbsp;<a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}")}"><i
-              class="glyphicon glyphicon-floppy-disk"></i> ${moduleParam?.exampleFile}</a>
-          </div>
+      <div class="input-field col s12">
+        <g:hiddenField name="mp-meta" value="${moduleParam?.id}"/>
+        <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
+          <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="right">info</i>
         </g:if>
+        <g:select id="mp-${moduleParam?.id}-ds"
+                  from="${Dataset.findAllByExperiment(Experiment.get(params.eId))}" name="mp-${moduleParam?.id}-ds"
+                  optionKey="id" optionValue="name" value="${moduleParam?.defaultVal}" required="required"/>
+        <label>${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</label>
       </div>
     </g:if>
-    %{-- not dir, not file, not ds, not meta, not field  --}%
-    <g:if test="${moduleParam?.pType != 'dir' && moduleParam?.pType != 'file' && moduleParam?.pType != 'ds' && moduleParam?.pType != 'meta' && moduleParam?.pType != 'field' && moduleParam?.pType != 'aux'}">
-      <div class="form-group">
-        %{--<label for="mp-${moduleParam?.id}" class="col-sm-2 control-label">${moduleParam?.pKey}</label>--}%
-        <label for="mp-${moduleParam?.id}" class="col-sm-2 control-label">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}
-          <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
-            <i class="fa fa-info-circle" data-toggle="tooltip" title="${moduleParam?.descr}"></i>
-          </g:if>
-        </label>
+  %{-- either dir or file --}%
+    <g:if test="${moduleParam?.pType == 'dir' || moduleParam?.pType == 'file'}">
+      <div class="col s12">
+        <div class="row">
+          <div class="col s6">
+            <label for="mp-${moduleParam?.id}">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</label>
+            <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
+              <div class="secondary-content">
+                <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="top">info</i>
+              </div>
+            </g:if>
+            <g:if test="${moduleParam?.exampleFile && moduleParam?.exampleFile != ''}">
+              <a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}")}" class="secondary-content tooltipped"
+                 data-tooltip="Download example file: ${moduleParam?.exampleFile}" data-position="top">
+                <i class="material-icons">file_download</i>
+              </a>
+            </g:if>
+            <g:if test="${moduleParam?.pType == 'dir'}">
+              <div class="file-field input-field">
+                <div class="btn">
+                  <span>Choose File(s)</span>
+                  <input type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}" webkitdirectory directory multiple/>
+                </div>
 
-        <div class="col-sm-4">
-          <input class="form-control" type="text" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}"/>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                </div>
+              </div>
+            </g:if>
+            <g:if test="${moduleParam?.pType == 'file'}">
+              <div class="file-field input-field">
+                <div class="btn">
+                  <span>Choose File(s)</span>
+                  <input multiple type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}"/>
+                </div>
+
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                </div>
+              </div>
+            </g:if>
+          </div>
+
+          <div class="col s6">
+          </div>
         </div>
+      </div>
+    </g:if>
+  %{-- not dir, not file, not ds, not meta, not field  --}%
+    <g:if
+        test="${moduleParam?.pType != 'dir' && moduleParam?.pType != 'file' && moduleParam?.pType != 'ds' && moduleParam?.pType != 'meta' && moduleParam?.pType != 'field' && moduleParam?.pType != 'aux'}">
+      <div class="input-field col s6">
+        <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
+          <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="right">info</i>
+        </g:if>
+        <input type="text" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}">
+        <label for="mp-${moduleParam?.id}" <g:if
+            test="${moduleParam?.defaultVal != null && moduleParam?.defaultVal.size() > 0}">class="active"</g:if>>${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</label>
       </div>
     </g:if>
   </g:each>
-  <div class="tab-pane fade in active" id="basic">
+  <div id="basic">
     %{--BASIC OPTIONS--}%
     %{-- Always displayed ! --}%
   </div>
-  %{--******************************************************************************************************************************************************************************--}%
-  <div class="tab-pane fade" id="advanced">
+%{--******************************************************************************************************************************************************************************--}%
+  <div id="advanced" style="display: none;">
   %{--ADVANCED OPTIONS--}%
     <g:each in="${module.moduleParams.sort { it.pOrder ?: it.id }.findAll { it.pBasic == false }}" var="moduleParam">
     %{-- aux --}%
       <g:if test="${moduleParam?.pType == 'aux'}">
-        <div class="form-group">
-          <label class="col-sm-2"></label>
-          <div class="col-sm-4">
-            <object style="width: 100%" data="/assets/gating/index.html" ></object>
-            %{--
-              <iframe src="/assets/gating/index.html" style="width: 90%; height: 300px"
-                      scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0">
-              </iframe>
-            --}%
-          </div>
+        <div class="input-field col s6">
+          <object style="width: 100%" data="/assets/gating/index.html"></object>
         </div>
       </g:if>
       <g:if test="${moduleParam?.pType == 'ds'}">
-        <div class="form-group">
-          %{--<label for="mp-${moduleParam?.id}-ds" class="col-sm-2 control-label">${moduleParam?.pKey} [dataset]</label>--}%
-          <label for="mp-${moduleParam?.id}-ds" class="col-sm-2 control-label">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}
-            <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
-              <i class="fa fa-info-circle" data-toggle="tooltip" title="${moduleParam?.descr}"></i>
-            </g:if>
-          </label>
-
-          <div class="col-sm-4">
-            <g:hiddenField name="mp-meta" value="${moduleParam?.id}"/>
-            <g:select id="mp-${moduleParam?.id}-ds"
-                      from="${Dataset.findAllByExperiment(Experiment.get(params.eId))}" name="mp-${moduleParam?.id}-ds"
-                      optionKey="id" optionValue="name" value="${moduleParam?.defaultVal}"/>
-          </div>
-          <g:isOwnerOrRoles object="experiment" objectId="${params.eId}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
-            <a class="btn btn-default" href="${g.createLink(controller: 'dataset', action: 'index', params: [eId: params.eId])}">
-              <i class="fa fa-database"></i>&nbsp;Manage Datasets
-            </a>
-          </g:isOwnerOrRoles>
+        <div class="input-field col s12">
+          <g:hiddenField name="mp-meta" value="${moduleParam?.id}"/>
+          <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
+            <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="right">info</i>
+          </g:if>
+          <g:select id="mp-${moduleParam?.id}-ds"
+                    from="${Dataset.findAllByExperiment(Experiment.get(params.eId))}" name="mp-${moduleParam?.id}-ds"
+                    optionKey="id" optionValue="name" value="${moduleParam?.defaultVal}"/>
+          <label>${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</label>
         </div>
       </g:if>
       <g:if test="${moduleParam?.pType == 'dir' || moduleParam?.pType == 'file'}">
-        <div class="form-group">
-          %{--<label for="mp-${moduleParam?.id}" class="col-sm-2 control-label">${moduleParam?.pKey} [dir/file]</label>--}%
-          <label for="mp-${moduleParam?.id}" class="col-sm-2 control-label">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}
-            <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
-              <i class="fa fa-info-circle" data-toggle="tooltip" title="${moduleParam?.descr}"></i>
-            </g:if>
-          </label>
+        <div class="col s12">
+          <div class="row">
+            <div class="col s6">
+              <label for="mp-${moduleParam?.id}">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</label>
+              <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
+                <div class="secondary-content">
+                  <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="top">info</i>
+                </div>
+              </g:if>
+              <g:if test="${moduleParam?.exampleFile && moduleParam?.exampleFile != ''}">
+                <a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}")}" class="secondary-content tooltipped"
+                   data-tooltip="Download example file: ${moduleParam?.exampleFile}" data-position="top">
+                  <i class="material-icons">file_download</i>
+                </a>
+              </g:if>
+              <g:if test="${moduleParam?.pType == 'dir'}">
+                <div class="file-field input-field">
+                  <div class="btn">
+                    <span>Choose File(s)</span>
+                    <input type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}" webkitdirectory directory multiple/>
+                  </div>
 
-          <div class="col-sm-4">
-            <g:if test="${moduleParam?.pType == 'dir'}">
-              <input webkitdirectory directory multiple type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}"/>
-            </g:if>
-            <g:if test="${moduleParam?.pType == 'file'}">
-              <input multiple type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}"/>
-            </g:if>
-          </div>
-          <g:if test="${moduleParam?.exampleFile && moduleParam?.exampleFile != ''}">
-            <div class="col-sm-4">
-              <label class="control-label">Example:</label>&nbsp;&nbsp;<a target="_blank" href="${resource(dir: 'files', file: "${moduleParam?.exampleFile}")}"><i
-                class="glyphicon glyphicon-floppy-disk"></i> ${moduleParam?.exampleFile}</a>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                  </div>
+                </div>
+              </g:if>
+              <g:if test="${moduleParam?.pType == 'file'}">
+                <div class="file-field input-field">
+                  <div class="btn">
+                    <span>Choose File(s)</span>
+                    <input multiple type="file" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}"/>
+                  </div>
+
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                  </div>
+                </div>
+              </g:if>
             </div>
-          </g:if>
+            <div class="col s6"></div>
+          </div>
         </div>
       </g:if>
-      <g:if test="${moduleParam?.pType != 'dir' && moduleParam?.pType != 'file' && moduleParam?.pType != 'ds' && moduleParam?.pType != 'meta' && moduleParam?.pType != 'field' && moduleParam?.pType != 'aux'}">
-        <div class="form-group">
-          %{--<label for="mp-${moduleParam?.id}" class="col-sm-2 control-label">${moduleParam?.pKey}</label>--}%
-          <label for="mp-${moduleParam?.id}" class="col-sm-2 control-label">${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}
-            <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
-              <i class="fa fa-info-circle" data-toggle="tooltip" title="${moduleParam?.descr}"></i>
-            </g:if>
-          </label>
-
-          <div class="col-sm-4">
-            <input class="form-control" type="text" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}"/>
-          </div>
+      <g:if
+          test="${moduleParam?.pType != 'dir' && moduleParam?.pType != 'file' && moduleParam?.pType != 'ds' && moduleParam?.pType != 'meta' && moduleParam?.pType != 'field' && moduleParam?.pType != 'aux'}">
+        <div class="input-field col s6">
+          <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
+            <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="right">info</i>
+          </g:if>
+          <input type="text" id="mp-${moduleParam?.id}" name="mp-${moduleParam?.id}" value="${moduleParam?.defaultVal}">
+          <label for="mp-${moduleParam?.id}" <g:if
+              test="${moduleParam?.defaultVal != null && moduleParam?.defaultVal.size() > 0}">class="active"</g:if>>${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</label>
         </div>
       </g:if>
     </g:each>
   </div>
-
-  <style>
-  .tooltip-inner {
-    min-width: 250px; /* the minimum width */
-    max-width: 100%;
-  }
-  </style>
-  <script type="text/javascript">
-    $(document).ready(function () {
-      $('[data-toggle="tooltip"]').tooltip({placement: 'right'});
-    });
-  </script>
 </g:if>

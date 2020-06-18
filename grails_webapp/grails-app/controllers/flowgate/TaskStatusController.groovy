@@ -28,6 +28,10 @@ class TaskStatusController {
                         default: analysis.analysisStatus = 2
                             break
                     }
+                       Boolean completed = params?.status == 'Finished' ?: false
+//                       Boolean completed = restUtilsService.isComplete(analysis)
+//                      if(completed){
+//                    analysis.analysisStatus = params?.jobId?.toInteger() > 0 ? completed ? 3 : 2 : params?.jobId?.toInteger()
                     analysis.save flush: true
                     wsService.tcMsg(params?.jobId?.toString())
 //                      }
@@ -39,5 +43,6 @@ class TaskStatusController {
         else{
             render (msg: "got no status!") as JSON
         }
+//        redirect controller: 'project', action: 'index'
     }
 }

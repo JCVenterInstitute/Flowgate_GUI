@@ -1,9 +1,8 @@
 package flowgate
 
+import grails.converters.JSON
 import grails.core.GrailsApplication
 import grails.plugin.springsecurity.annotation.Secured
-import grails.util.Environment
-import org.genepattern.server.job.input.choice.ChoiceInfoHelper
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -315,23 +314,6 @@ class ExpFileController {
         redirect action: 'annotationTbl', id: category.experiment.id
     }
 
-    def axAddColumn(Experiment experiment){
-        println " axAddColumn exp=${experiment?.id}"
-        render (contentType:"text/json") {
-            success true
-            crModalTmpl "${g.render (template: 'annotationTmpl/colCreateModal', model: [experiment: experiment, category: params?.category])}"
-        }
-    }
-
-    def axAddCategory(Experiment experiment){
-        println " axAddCategory exp=${experiment?.id}"
-//      println "${g.render (template: 'annotationTmpl/categoryAddModal', model: [experiment: experiment])}"
-        render (contentType:"text/json") {
-            success true
-            catModalTmpl "${g.render (template: 'annotationTmpl/categoryAddModal', model: [experiment: experiment])}"
-        }
-    }
-
     def axEditCategory(Experiment experiment){
         ExperimentMetadataCategory category = ExperimentMetadataCategory.get(params.catId.toLong())
 //        println " axEditCategory exp=${experiment?.id}"
@@ -402,6 +384,29 @@ class ExpFileController {
     }
 
     @Transactional
+    def deleteMultiple() {
+        try {
+            def fileIds= JSON.parse(params.fileIds)
+            for(String id : fileIds) {
+                def expFile = ExpFile.findById(id);
+                File file = new File(expFile.getFilePath() + File.separator + expFile.getFileName());
+                file.delete();
+                erase(expFile)
+            }
+        } catch (Exception e) {
+            render (contentType:"text/json") {
+                success false
+                msg e.getMessage()
+            }
+        }
+
+        render (contentType:"text/json") {
+            success true
+            msg "Files have been deleted!"
+        }
+    }
+
+    @Transactional
     def axDeleteExpFile() {
         ExpFile expFile = ExpFile.get(params?.expFileId?.toLong())
         if (expFile == null) {
@@ -454,13 +459,13 @@ class ExpFileController {
 
         expFile.delete flush:true
 
-        request.withFormat {
+        /*request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'expFile.label', default: 'Exp. File'), fcsFileContainer.id])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
-        }
+        }*/
     }
 
     protected void notFound() {
@@ -548,12 +553,12 @@ class ExpFileController {
                     println fcsFile.originalFilename
                     if (fcsFile.part.fileItem.tempFile.exists()) {
                         if(ExpFile.findAllByFileNameAndExperiment(fcsFile.originalFilename, experiment))
-                            throw new Exception("File with same name already exists")
+                            throw new Exception("File with the same name already exists")
 
                         def sha1 = chkSumService.getSha1sum(fcsFile.part.fileItem.tempFile)
                         def md5 = chkSumService.getMD5sum(fcsFile.part.fileItem.tempFile)
                         if(ExpFile.findAllByChkSumAndExperiment(sha1, experiment))
-                            throw new Exception("File with same checksum (${sha1}) already exists")
+                            throw new Exception("File with the same checksum (${sha1}) already exists")
 
                         fcsService.readFile(fcsFile.part.fileItem.tempFile, false)
                         String filePath = fcsStoragePath + File.separator + experiment.project.id + File.separator + experiment.id + File.separator

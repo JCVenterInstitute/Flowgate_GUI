@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <title><g:layoutTitle default="flowgate"/></title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <asset:stylesheet src="application.css"/>
   <asset:javascript src="jquery-2.2.0.min.js"/>
   %{--<asset:stylesheet href="ofg.css" />--}%
@@ -15,11 +16,6 @@
 <body class="text-center">
 %{--<g:render template="/layouts/ofgNavBar" />--}%
 <g:layoutBody/>
-<g:if test="${flash.message}">
-  <div class="row justify-content-center ">
-    <div class="alert alert-info text-center" role="alert">${flash.message}</div>
-  </div>
-</g:if>
 %{--<div class="footer" role="contentinfo"></div>--}%
 <div id="screen-locker" style="display: none;"></div>
 <div id="spinner" class="spinner" style="display:none;">

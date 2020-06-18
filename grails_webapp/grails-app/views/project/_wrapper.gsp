@@ -1,4 +1,9 @@
-<div class="form-group">
-  <label for="${property}">${label} ${required ? '*' : ''}</label>
-  <input type="text" class="form-control" id="${property}" name="${property}" placeholder="${label}" ${required}>
+<div class="input-field col s12">
+  <g:if test="${type == 'textarea'}">
+    <textarea name="${property}" class="materialize-textarea" required></textarea>
+  </g:if>
+  <g:else>
+    <input type="text" name="${property}" required/>
+  </g:else>
+  <label for="${property}">${label}</label>
 </div>

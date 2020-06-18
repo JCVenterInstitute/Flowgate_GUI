@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="layout" content="wTreeSideBar"/>
+  <meta name="layout" content="main"/>
   <g:set var="entityName" value="${message(code: 'experiment.label', default: 'Experiment')}"/>
   <title><g:message code="default.experiment.label" args="[entityName]" default="${entityName}"/></title>
 </head>
@@ -14,15 +14,7 @@
   </div>
   <g:render template="/shared/errorsMsgs" model="[bean: this.experiment]"/>
 </content>
-<content tag="treeView">
-  <div id="projTree">
-    <g:render template="/shared/treeView" model="[projectList: projectList, experimentList: experimentList]"/>
-  </div>
-</content>
-<content tag="pgContent">
-  <div id="pageContent">
-    <g:render template="templates/indexTmpl" model="[experiment: experiment, experimentList: experimentList]"/>
-  </div>
-</content>
+
+<g:render template="templates/indexTmpl" model="[experiment: experiment, experimentList: experimentList]"/>
 </body>
 </html>

@@ -19,11 +19,9 @@ class AnalysisServerController {
         respond AnalysisServer.list(params), model:[analysisServerCount: AnalysisServer.count()]
     }
 
-    /*
     def show(AnalysisServer analysisServer) {
         respond analysisServer
     }
-    */
 
     def create() {
         respond new AnalysisServer(params)
@@ -70,6 +68,7 @@ class AnalysisServerController {
         }
 
         analysisServer.save flush:true
+        flash.message = "Server " + analysisServer.name + " has been updated!"
         redirect action: 'edit', params: [id: analysisServer.id]
     }
 
@@ -98,10 +97,9 @@ class AnalysisServerController {
             server.userPw = newPass
             server.save flush:true
 
-            flash.passSuccess = "Password has been updated!"
-//        }
-
-        redirect action: 'edit', params: [id: server.id]
+//            flash.passSuccess = "Password has been updated!"
+            flash.success = "Password has been updated!"
+//        redirect action: 'edit', params: [id: server.id]
     }
 
     protected void notFound() {
