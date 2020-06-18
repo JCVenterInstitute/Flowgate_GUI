@@ -1,9 +1,6 @@
 <%@ page import="flowgate.ExpFile; flowgate.ExperimentMetadataValue; flowgate.ExperimentMetadata" %>
-<<<<<<< HEAD
 %{--miDat=${ExperimentMetadata.findAllByIsMiFlowAndVisible(true, true)}--}%
 %{--cats=${ExperimentMetadata.findAllByExperimentAndIsMiFlowAndVisible(experiment, true, true)*.mdCategory?.unique()?.mdCategory}--}%
-=======
->>>>>>> gp_modules
 <g:set var="cats" value="${ExperimentMetadata?.findAllByExperimentAndIsMiFlowAndVisible(experiment, true, true)*.mdCategory?.unique()}" />
 <g:if test="${cats}" >
   <g:form controller="experiment" action="saveMiFlowData" >
@@ -38,7 +35,7 @@
   </div>
   </g:form>
 </g:if>
-<g:else>
+%{--<g:else>--}%
 %{--  TODO remove after testing--}%
   <g:link class="btn btn-success" controller="experiment" action="index" params="[eId: experiment?.id]">
       <g:message code="submitBtn.label" default="Return"/>
@@ -50,6 +47,13 @@
       <a class="btn-flat waves-effect waves-light modal-trigger" href="#upload-annotation-file">Upload an MIFlowCyt File</a>
     </div>
   </div>
+
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large waves-effect waves-light  modal-trigger tooltipped" href="#upload-annotation-file"
+     data-tooltip="Upload an MIFlowCyt File" data-position="left">
+    <i class="material-icons">file_upload</i>Upload an MIFlowCyt File
+  </a>
+</div>
 
   <div id="upload-annotation-file" class="modal modal-fixed-footer">
     <form id="upldForm" action="${g.createLink(controller: 'experiment', action: 'importMifcyt', id: experiment?.id)}" method="post" enctype="multipart/form-data">
@@ -100,4 +104,4 @@
       </script>
     </form>
   </div>
-</g:else>
+%{--</g:else>--}%

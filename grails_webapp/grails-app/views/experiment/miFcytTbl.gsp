@@ -54,6 +54,15 @@
   </a>
 </div>
 
+%{--
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large waves-effect waves-light tooltipped" href="${createLink(controller: 'experiment', action: 'exportMifCytTempl', id: experiment?.id)}"
+     data-tooltip="Download template file" data-position="left">
+    <i class="material-icons">file_upload</i>
+  </a>
+</div>
+--}%
+
 <div class="row">
   <div class="col-sm-offset-1 col-sm-10">
     <div id="mifcytTable-annotation" class="content scaffold-list" role="main">
