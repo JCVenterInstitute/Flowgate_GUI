@@ -8,6 +8,22 @@ callbackUrl: ${IP}:${PORT}/taskStatus
 
 adminEmailAddr: ${ADMIN_MAIL}
 
+UCI:
+  workflow: Asthma_DAFI_FLOCK
+  libraryFolder: Asthma
+  headerList:
+    order: 1
+    name: header.lst
+  headerReplace:
+    order: 2
+    name: header.txt
+  inclusion:
+    order: 3
+    name: inclusion.config
+  exclusion:
+    order: 4
+    name: exclusion.config
+
 grails:
 #    server:
 #        contextPath: /

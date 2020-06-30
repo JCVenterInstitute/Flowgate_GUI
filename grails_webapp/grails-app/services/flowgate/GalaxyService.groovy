@@ -18,6 +18,7 @@ import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInputs
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowInvocation
 import com.github.jmchilton.blend4j.galaxy.beans.WorkflowOutputs
 import com.sun.jersey.api.client.ClientResponse
+import grails.util.Holders
 import grails.web.servlet.mvc.GrailsParameterMap
 import org.codehaus.jackson.map.ObjectMapper
 import org.codehaus.jackson.type.TypeReference
@@ -33,6 +34,7 @@ class GalaxyService {
     protected final ObjectMapper mapper
 
     ClientResponse clientResponse;
+    def grailsApplication = Holders.grailsApplication
 
     public GalaxyService(AnalysisServer server) {
         galaxyInstance = GalaxyInstanceFactory.getFromCredentials(server.url, server.userName, server.userPw)
@@ -194,6 +196,33 @@ class GalaxyService {
                         def FileLibraryUpload uploadFile = uploadFileToLibraryOrFolder(experimentFolderId, partFile.part.fileItem.tempFile, partFile.filename)
 
                         inputs.setInput(moduleParam.pOrder.toString(), new WorkflowInputs.WorkflowInput(uploadFile.id, WorkflowInputs.InputSourceType.LD))
+                    }
+
+                    def config = grailsApplication.config;
+                    def isCustomUCIPipeline = module.title.equals(config.getProperty('UCI.workflow', String))
+
+                    if (isCustomUCIPipeline) {
+                        def libFolder = config.getProperty('UCI.libraryFolder', String)
+                        def incFile = config.getProperty('UCI.inclusion.name', String)
+                        def excFile = config.getProperty('UCI.exclusion.name', String)
+                        def headerLstFile = config.getProperty('UCI.headerList.name', String)
+                        def headerRplcFile = config.getProperty('UCI.headerReplace.name', String)
+
+                        for (LibraryContent libraryContent : libraryContents) {
+                            if (libraryContent.getName().equals("/" + libFolder + "/" + incFile)) {
+                                inputs.setInput(config.getProperty('UCI.inclusion.order', String),
+                                        new WorkflowInputs.WorkflowInput(libraryContent.id, WorkflowInputs.InputSourceType.LD))
+                            } else if (libraryContent.getName().equals("/" + libFolder + "/" + excFile)) {
+                                inputs.setInput(config.getProperty('UCI.exclusion.order', String),
+                                        new WorkflowInputs.WorkflowInput(libraryContent.id, WorkflowInputs.InputSourceType.LD))
+                            } else if (libraryContent.getName().equals("/" + libFolder + "/" + headerLstFile)) {
+                                inputs.setInput(config.getProperty('UCI.headerList.order', String),
+                                        new WorkflowInputs.WorkflowInput(libraryContent.id, WorkflowInputs.InputSourceType.LD))
+                            } else if (libraryContent.getName().equals("/" + libFolder + "/" + headerRplcFile)) {
+                                inputs.setInput(config.getProperty('UCI.headerReplace.order', String),
+                                        new WorkflowInputs.WorkflowInput(libraryContent.id, WorkflowInputs.InputSourceType.LD))
+                            }
+                        }
                     }
                 }
             } else {
