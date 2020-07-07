@@ -74,7 +74,7 @@
     var eId = ${experiment.id};
     var dsId = ${dataset.id};
     var filters = $(".fcs_filter:checked").map(function () {
-      return this.id;
+      return {'key': this.getAttribute('key'), 'value': this.id};
     }).get();
     $.ajax({
       url: "${createLink(controller: 'dataset', action: 'axSetFilter')}",

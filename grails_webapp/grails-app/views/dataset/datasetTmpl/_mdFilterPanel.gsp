@@ -19,7 +19,7 @@
             <div class="col s4">
               <p><strong>${catGy.mdKey}</strong></p>
               <g:each in="${experiment?.expMetadatas?.find { it.mdKey == catGy.mdKey && it.dispOnFilter }?.mdVals?.sort { it.dispOrder }}" var="mVals">
-                <p><label><g:checkBox id="${mVals.mdValue}" class="fcs_filter filled-in" name="mVal_${mVals.id}_chb" onclick="setFilter();"
+                <p><label><g:checkBox id="${mVals.mdValue}" key="${catGy.mdKey}" class="fcs_filter filled-in" name="mVal_${mVals.id}_chb" onclick="setFilter();"
                                       checked="${mVals.mdValue in params.filters}"/>
                   <span>${mVals.mdValue}</span>
                 </label></p>

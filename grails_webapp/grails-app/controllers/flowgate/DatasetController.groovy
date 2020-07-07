@@ -60,11 +60,24 @@ class DatasetController {
         def expFileCandidatesList
         if (params.filters && !params.filters.equals("[]")) {
             params.filters = new JsonSlurper().parseText(params.filters)
-            params.filters.each { filterVal ->
-                if (expFileCandidatesList)
-                    expFileCandidatesList += ExpFileMetadata.findAll { (mdVal == filterVal) && (expFile.experiment == experiment) }*.expFile
-                else
-                    expFileCandidatesList = ExpFileMetadata.findAll { (mdVal == filterVal) && (expFile.experiment == experiment) }*.expFile
+            HashMap<String,String[]> hashMap = new HashMap<>();
+            for(def filter : params.filters) {
+                if (!hashMap.containsKey(filter.key)) {
+                    List<String> val = new ArrayList<>();
+                    val.add(filter.value)
+                    hashMap.put(filter.key, val);
+                } else {
+                    hashMap.get(filter.key).add(filter.value);
+                }
+            }
+
+            hashMap.each { map ->
+                if (expFileCandidatesList) {
+                    def expFileList = ExpFileMetadata.findAll { (mdKey == map.key) && (mdVal in map.value) && (expFile.experiment == experiment) }*.expFile
+                    expFileCandidatesList.retainAll(expFileList)
+                } else {
+                    expFileCandidatesList = ExpFileMetadata.findAll { (mdKey == map.key) && (mdVal in map.value) && (expFile.experiment == experiment) }*.expFile
+                }
             }
         } else {
             expFileCandidatesList = ExpFileMetadata.findAll { expFile.experiment == experiment }*.expFile
