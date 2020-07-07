@@ -1,6 +1,6 @@
 <html>
 <head>
-  <meta name="layout" content="${layoutRegister}"/>
+  <meta name="layout" content="main"/>
   <s2ui:title messageCode='spring.security.ui.register.title' entityNameDefault="FlowGate - Registration"/>
   <style>
     .ui-dialog-titlebar {
@@ -10,64 +10,46 @@
 </head>
 
 <body>
-<div class="container">
-  <div class="row justify-content-center">
-    <h2 class="text-center my-4">Registration</h2>
-  </div>
-  <div class="row justify-content-center">
-    <h4 class="text-center col-md-8 my-4">FlowGate is being alpha-tested. Before its formal release, the account registration is invitation-only. Please send us your comments. We sincerely appreciate your support.</h4>
-  </div>
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <g:if test='${flash.error}'>
-        <div class="row justify-content-center ">
-          <div class="alert alert-danger text-center" role="alert">${flash.error}</div>
+<h2>Registration</h2>
+
+<h5>FlowGate is being alpha-tested. Before its formal release, the account registration is invitation-only. Please send us your comments. We sincerely appreciate your support.</h5>
+
+<g:if test="${emailSent}">
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var messageToastHTML = '<span>We received your request! Thank you.</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>';
+      M.toast({
+        html: messageToastHTML,
+        displayLength: 8000
+      });
+    });
+  </script>
+</g:if>
+<g:else>
+  <div class="row">
+    <s2ui:formContainer type='register' focus='username'>
+      <s2ui:form beanName='registerCommand'>
+        <div class="input-field col s12">
+          <input type="text" name="username" required>
+          <label for="username">Full name</label>
         </div>
-      </g:if>
-      <g:if test='${emailSent}'>
-        <div class="row justify-content-center ">
-          %{--<div class="alert alert-info text-center" role="alert"><g:message code='spring.security.ui.register.sent'/></div>--}%
-          <div class="alert alert-info text-center" role="alert">We received your request! Thank you.</div>
+
+        <div class="input-field col s12">
+          <input type="email" name="email" required>
+          <label for="email">Email</label>
         </div>
-      </g:if>
-      <g:else>
-        <s2ui:formContainer type='register' focus='username'>
-          <s2ui:form beanName='registerCommand'>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <s2ui:textFieldRow name='username' class="form-control" labelCodeDefault='Your Name' placeholder="Your Name"/>
-              </div>
-              <div class="form-group col-md-6">
-                <s2ui:textFieldRow name='email' class="form-control" labelCodeDefault='Your Email' placeholder="Your Email"/>
-              </div>
-            </div>
-            <div class="form-row">
-              %{--<div class="form-group col-md-6">
-                <s2ui:textFieldRow name='affiliation' class="form-control" labelCodeDefault='Affiliation' placeholder="Affiliation"/>
-              </div>--}%
-              <div class="form-group col-md-12">
-                <label for="reason">Comments for us</label>
-                <g:textArea name='reason' class="form-control" placeholder="Comments for us" rows="5"/>
-              </div>
-            </div>
-            %{--<div class="form-row">
-              <div class="form-group col-md-6">
-                <s2ui:passwordFieldRow name='password' class="form-control" labelCodeDefault='Password' placeholder="Password"/>
-              </div>
-              <div class="form-group col-md-6">
-                <s2ui:passwordFieldRow name='password2' class="form-control" labelCodeDefault='Confirm Password' placeholder="Confirm Password"/>
-              </div>
-            </div>--}%
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <button type="submit" class="btn btn-primary">Submit your comments</button>
-              </div>
-            </div>
-          </s2ui:form>
-        </s2ui:formContainer>
-      </g:else>
-    </div>
+
+        <div class="input-field col s12">
+          <textarea name="reason" class="materialize-textarea"></textarea>
+          <label for="reason">Comments for us</label>
+        </div>
+
+        <div class="input-field col s12">
+          <button type="submit" class="btn waves-effect waves-light">Submit Request</button>
+        </div>
+      </s2ui:form>
+    </s2ui:formContainer>
   </div>
-</div>
+</g:else>
 </body>
 </html>
