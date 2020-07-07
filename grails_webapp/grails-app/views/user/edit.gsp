@@ -44,8 +44,7 @@
       <g:if test="${!user.authorities.authority.contains("ROLE_Admin") && !user.authorities.authority.contains("ROLE_Administrator")}">
         <div class="col s8">
           <label>
-            <input type="hidden" name="enabled" value="${user.enabled}">
-            <input type="checkbox" class="filled-in" <g:if test="${user.enabled}">checked</g:if>/>
+            <input type="checkbox" name="_enabled" class="filled-in" <g:if test="${user.enabled}">checked</g:if>/>
             <span>Active</span>
           </label>
         </div>

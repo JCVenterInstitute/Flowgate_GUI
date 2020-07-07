@@ -48,8 +48,7 @@
 
       <div class="col s12">
         <label>
-          <input type="hidden" name="_enabled" value="${user.enabled}">
-          <input type="checkbox" class="filled-in" <g:if test="${user.enabled}">checked</g:if>/>
+          <input type="checkbox" name="_enabled" class="filled-in" <g:if test="${user.enabled}">checked</g:if>/>
           <span>Enabled</span>
         </label>
       </div>

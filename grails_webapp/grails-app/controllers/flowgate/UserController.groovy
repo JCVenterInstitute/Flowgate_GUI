@@ -52,6 +52,12 @@ class UserController {
             return
         }
 
+        String isEnabled = params?._enabled;
+        if(isEnabled && isEnabled.equals("on"))
+            user.enabled = true;
+        else
+            user.enabled = false;
+
         customUserDetailsService.createUser(user)
 
         flash.message = "User " + user.username + " created!"
@@ -68,6 +74,11 @@ class UserController {
     def update(User user) {
         boolean valid = user.validate()
         if(valid) {
+            String isEnabled = params?._enabled;
+            if(isEnabled && isEnabled.equals("on"))
+                user.enabled = true;
+            else
+                user.enabled = false;
             user.save flush:true
 
             customUserDetailsService.activateUser(user, user.enabled)
