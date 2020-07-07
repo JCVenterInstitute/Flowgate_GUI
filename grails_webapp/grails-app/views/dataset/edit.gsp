@@ -56,7 +56,10 @@
 
     <div class="col s12">
       <label for="fcsFiles">Files</label>
-      <g:render template="datasetTmpl/fcsFiles" model="[experiment: experiment, expFileCandidatesList: expFileCandidatesList, dataset: dataset]"/>
+
+      <div id="fcsFiles" class="row">
+        <g:render template="datasetTmpl/fcsFiles" model="[experiment: experiment, expFileCandidatesList: expFileCandidatesList, dataset: dataset]"/>
+      </div>
     </div>
 
     <div class="input-field col s8">
