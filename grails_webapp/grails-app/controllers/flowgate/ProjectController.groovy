@@ -314,10 +314,11 @@ class ProjectController {
         }
         ProjectUser.where { project == project }.deleteAll()
         for(Experiment exp : project.experiments) {
+            ExperimentMetadataCategory.where { experiment == exp }.deleteAll()
             ExperimentMetadata.where { experiment == exp }.deleteAll()
             Analysis.where { experiment == exp }.deleteAll()
-            ExpFile.where { experiment == exp }.deleteAll()
             Dataset.where { experiment == exp }.deleteAll()
+            ExpFile.where { experiment == exp }.deleteAll()
             ExperimentUser.where { experiment == exp }.deleteAll()
             exp.delete()
         }
