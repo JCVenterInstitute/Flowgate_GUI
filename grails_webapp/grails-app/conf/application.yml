@@ -4,7 +4,7 @@ fcsFileStoreLocation:
 resultFileStoreLocation:
     path: ${RESULT_FILE_PATH}
 
-callbackUrl: ${IP}:${PORT}/taskStatus
+callbackUrl: ${GP_IP}:${GP_PORT}/taskStatus
 
 adminEmailAddr: ${ADMIN_MAIL}
 
