@@ -1,49 +1,58 @@
 <html>
 <head>
-  <meta name="layout" content="${layoutRegister}"/>
+  <meta name="layout" content="main"/>
   <s2ui:title messageCode='spring.security.ui.forgotPassword.title'/>
   <style>
-    .ui-dialog-titlebar {
-      display: none;
-    }
+  .ui-dialog-titlebar {
+    display: none;
+  }
   </style>
 </head>
 
 <body>
-<div class="container">
-  <g:if test='${emailSent}'>
-    <div class="row justify-content-center ">
-      <div class="alert alert-info text-center" role="alert"><g:message code='spring.security.ui.forgotPassword.sent'/></div>
-    </div>
-  </g:if>
-  <g:else>
+<h2>Forgot Password</h2>
+
+<h5><g:message code='spring.security.ui.forgotPassword.description'/></h5>
+<g:hasErrors bean="${forgotPasswordCommand}">
+  <g:eachError var="err" bean="${forgotPasswordCommand}">
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        M.toast({
+          html: '<span><g:message error="${err}"/></span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+          displayLength: Infinity,
+          classes: 'red'
+        });
+      });
+    </script>
+  </g:eachError>
+</g:hasErrors>
+<g:if test="${emailSent}">
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var messageToastHTML = '<span>We have sent the password recovery email.</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>';
+      M.toast({
+        html: messageToastHTML,
+        displayLength: 8000
+      });
+    });
+  </script>
+</g:if>
+<g:else>
+  <div class="row">
     <s2ui:formContainer type='forgotPassword' focus='username'>
       <s2ui:form beanName='forgotPasswordCommand'>
-        <div class="row justify-content-center">
-          <div class="col-12 col-lg-8">
-            <h2 class="text-center my-4">Forgot Password?</h2>
-            <h3 class="text-center my-4 lead"><g:message code='spring.security.ui.forgotPassword.description'/></h3>
-          </div>
+        <div class="input-field col s6">
+          <input type="text" name="username" required>
+          <label for="username">Username</label>
         </div>
-        <div class="row justify-content-center">
-          <div class="col-lg-8">
-            <form>
-              <div class="form-row justify-content-center">
-                <div class="form-group col-md-6">
-                  <s2ui:textFieldRow name='username' class="form-control" placeholder="Username" required="" />
-                </div>
-                <div class="form-group col-md-3">
-                  <label></label>
-                  <button type="submit" class="btn btn-primary form-control"><g:message code='spring.security.ui.forgotPassword.submit'/></button>
-                </div>
-              </div>
-            </form>
-          </div>
+
+        <div class="input-field col s12">
+          <button type="submit" class="btn waves-effect waves-light"><g:message code='spring.security.ui.forgotPassword.submit'/></button>
         </div>
       </s2ui:form>
     </s2ui:formContainer>
-  </g:else>
-</div>
+  </div>
+</g:else>
 </body>
 </html>
 
