@@ -64,6 +64,17 @@
   </div>
 </g:uploadForm>
 
+<script>
+  window.addEventListener("dragover",function(e){
+    e = e || event;
+    e.preventDefault();
+  },false);
+  window.addEventListener("drop",function(e){
+    e = e || event;
+    e.preventDefault();
+  },false);
+</script>
+
 <asset:javascript src="jquery.ui.widget.js"/>
 <asset:javascript src="fileupload/jquery.fileupload.js"/>
 <asset:javascript src="fileupload/jquery.fileupload-process.js"/>
