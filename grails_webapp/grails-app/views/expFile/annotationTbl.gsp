@@ -377,6 +377,8 @@
       success: function (data, status, xhr) {
         console.log('success');
         $("#wholeTbl").html(data.tablTabl);
+        let elems = document.querySelectorAll('select');
+        M.FormSelect.init(elems);
       },
       error: function (request, status, error) {
         console.log('ajxError!');
