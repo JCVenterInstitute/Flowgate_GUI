@@ -2,7 +2,7 @@ package flowgate
 
 class ExperimentMetadataCategory {
 
-//    Experiment experiment
+    Experiment experiment
     String mdCategory
 //    MetadataCategory mdCategory
     Integer dispOrder = 1

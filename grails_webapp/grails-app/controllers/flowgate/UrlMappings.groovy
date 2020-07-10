@@ -40,5 +40,9 @@ class UrlMappings {
       controller = 'analysis'
       action = 'resultFile'
     }
+    "/analysis/$analysisId/$jobId/$filename" {
+      controller = 'analysis'
+      action = 'resultFileWithJobId'
+    }
   }
 }

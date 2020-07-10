@@ -1,6 +1,7 @@
 package flowgate
 
 import grails.converters.JSON
+import grails.core.GrailsApplication
 import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
 import grails.web.http.HttpHeaders
@@ -28,7 +29,7 @@ class AnalysisController {
     def utilsService
     def scheduledTaskService
 
-    ResourceLocator grailsResourceLocator
+    GrailsApplication grailsApplication
 
 
     def axShowResultsModal(){
@@ -215,7 +216,15 @@ class AnalysisController {
 
     def resultFile(String analysisId, String filename) {
         Analysis analysis = Analysis.get(analysisId)
-        File resultFile = utilsService.getResultFileDetails(filename, analysis)
+        File resultFile = utilsService.getResultFileDetails(filename, analysis, null)
+        response.setContentType("text/tab-separated-values")
+        response.outputStream << (InputStream) new FileInputStream(resultFile)
+        response.outputStream.flush()
+    }
+
+    def resultFileWithJobId(String analysisId, String jobId, String filename) {
+        Analysis analysis = Analysis.get(analysisId)
+        File resultFile = utilsService.getResultFileDetails(filename, analysis, jobId)
         response.setContentType("text/tab-separated-values")
         response.outputStream << (InputStream) new FileInputStream(resultFile)
         response.outputStream.flush()
@@ -231,15 +240,20 @@ class AnalysisController {
         def jobResult
         Analysis analysis = Analysis.get(params?.analysisId)
         if (analysis.module.server.isImmportGalaxyServer()) {
-            File resultFile = new File(analysis.renderResult)
-            if (params.download != null && params.download) {
-                response.setContentType("application/octet-stream")
-                response.setHeader("Content-disposition", "Attachment; filename=${resultFile.name}")
-            } else {
-                response.setContentType("text/html")
+            String resultFileStoragePath = grailsApplication.config.getProperty('resultFileStoreLocation.path', String)
+            Optional<String> resultOpt = Arrays.stream(analysis.renderResult.split(",")).findFirst();
+
+            if (resultOpt.isPresent()) {
+                File resultFile = new File(resultFileStoragePath + File.separator + resultOpt.get())
+                if (params.download != null && params.download) {
+                    response.setContentType("application/octet-stream")
+                    response.setHeader("Content-disposition", "Attachment; filename=${resultFile.name}")
+                } else {
+                    response.setContentType("text/html")
+                }
+                response.outputStream << (InputStream) new FileInputStream(resultFile)
+                response.outputStream.flush()
             }
-            response.outputStream << (InputStream) new FileInputStream(resultFile)
-            response.outputStream.flush()
         } else {
             if (!analysis.isFailedOnSubmit()) {
                 try {

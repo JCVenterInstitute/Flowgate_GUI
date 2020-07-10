@@ -27,13 +27,13 @@ class UtilsService {
 
     String overviewFilePath = "/static/flowtools/js/overview.js"
 
-    def getSession(){
+    def getSession() {
         WebUtils.retrieveGrailsWebRequest().getCurrentRequest().session
     }
 
-    def getOpenStatus(String object, Long id){
+    def getOpenStatus(String object, Long id) {
         def session = getSession()
-        switch(object) {
+        switch (object) {
             case 'project':
                 return session.projectOpenId == id
                 break
@@ -46,65 +46,67 @@ class UtilsService {
         }
     }
 
-    def setAppInitVars(){
+    def setAppInitVars() {
         def session = getSession()
         UserSettings userSettings = UserSettings.findByUser(springSecurityService.currentUser)
-        if(session && userSettings){
+        if (session && userSettings) {
             session.projectOpenId = userSettings.projectOpenId ?: 0
             session.projectEditModeId = userSettings.projectEditModeId ?: 0
             session.experimentOpenId = userSettings.experimentOpenId ?: 0
             session.experimentEditModeId = userSettings.experimentEditModeId ?: 0
             List idsLst = [JSON.parse(userSettings.expFileOpenIds) ?: 0]
             session.expFileOpenIds = idsLst
-        }
-        else println "Error: no session!!!!"
+        } else println "Error: no session!!!!"
     }
 
-    def isOwnerMember (String object, Long objectId, String role){
-        if (object){
-            switch (object){
-                case 'project':  return (ProjectUser.findAllByProjectAndUser(Project.get(objectId), springSecurityService.currentUser )*.projRole).contains(role)
+    def isOwnerMember(String object, Long objectId, String role) {
+        if (object) {
+            switch (object) {
+                case 'project': return (ProjectUser.findAllByProjectAndUser(Project.get(objectId), springSecurityService.currentUser)*.projRole).contains(role)
                     break
-                case 'experiment':  return (ExperimentUser.findAllByExperimentAndUser(Experiment.get(objectId), springSecurityService.currentUser )*.expRole).contains(role)
+                case 'experiment': return (ExperimentUser.findAllByExperimentAndUser(Experiment.get(objectId), springSecurityService.currentUser)*.expRole).contains(role)
                     break
             }
         }
         return false
     }
 
-    def isAffil(String object, Long objectId){
+    def isAffil(String object, Long objectId) {
         return isOwnerMember(object, objectId, 'owner') || isOwnerMember(object, objectId, 'member')
     }
 
-    def clone(String cloneType, def source, def parent, Boolean createChilds, String appendix){
+    def clone(String cloneType, def source, def parent, Boolean createChilds, String appendix) {
         Boolean saveok = false
-        switch (cloneType){
-            case 'project': Project projectDest = new Project(source.properties)
+        switch (cloneType) {
+            case 'project':
+                Project projectDest = new Project(source.properties)
                 projectDest.title += appendix
                 projectDest.experiments = []
                 saveok = projectDest.save flush: true
-                if(createChilds)
+                if (createChilds)
                     source?.experiments?.each {
                         clone('experiment', it, projectDest, true, '')
                     }
                 break
 
 
-            case 'experiment': Experiment experimentDest = new Experiment(source.properties)
+            case 'experiment':
+                Experiment experimentDest = new Experiment(source.properties)
                 experimentDest.title += appendix
                 experimentDest.project = parent
                 experimentDest.expFiles = []
                 experimentDest.experimentMeta = []
                 experimentDest.experimentHypothesis = []
                 saveok = experimentDest.save flush: true
-                if(createChilds)
-                    source.expFiles.sort{ it.id }.each{
+                if (createChilds)
+                    source.expFiles.sort { it.id }.each {
                         clone('expFile', it, experimentDest, true, '')
                     }
 
                 break
 
-            case 'expFile': ExpFile expFileDest = new ExpFile(source.properties)
+            case 'expFile':
+                ExpFile expFileDest = new ExpFile(source.properties)
                 expFileDest.title += appendix
                 expFileDest.experiment = parent
                 saveok = expFileDest.save flush: true
@@ -113,11 +115,11 @@ class UtilsService {
         return saveok
     }
 
-    def doManage(Experiment experiment, List<Long> cmpLst, String role){
+    def doManage(Experiment experiment, List<Long> cmpLst, String role) {
         List<Long> srcLst = ExperimentUser.findAllByExperimentAndExpRole(experiment, role)*.user.id
-        if(cmpLst == null) cmpLst = new ArrayList<>(0);
-        ((srcLst - cmpLst) + (cmpLst - srcLst)).each{
-            if(springSecurityService.currentUser.id != it.toLong()) { //you cannot remove yourself!
+        if (cmpLst == null) cmpLst = new ArrayList<>(0);
+        ((srcLst - cmpLst) + (cmpLst - srcLst)).each {
+            if (springSecurityService.currentUser.id != it.toLong()) { //you cannot remove yourself!
                 User experimentUser = User.get(it.toLong())
                 if (ExperimentUser.findAllByExperimentAndUserAndExpRole(experiment, experimentUser, role).size() == 0)
                     addExperimentUser(experiment, experimentUser, role)
@@ -128,18 +130,18 @@ class UtilsService {
         }
     }
 
-    def addExperimentUser(Experiment experiment, User user, String userType){
+    def addExperimentUser(Experiment experiment, User user, String userType) {
         ExperimentUser.create(experiment, user, userType)
     }
 
-    def removeExperimentUser(Experiment experiment, User user, String userType){
-        ExperimentUser.where{ experiment == experiment && user == user && expRole == userType }.deleteAll()
+    def removeExperimentUser(Experiment experiment, User user, String userType) {
+        ExperimentUser.where { experiment == experiment && user == user && expRole == userType }.deleteAll()
     }
 
-    def doManage(Project project, List<Long> cmpLst, String role){
+    def doManage(Project project, List<Long> cmpLst, String role) {
         List<Long> srcLst = ProjectUser.findAllByProjectAndProjRole(project, role)*.user.id
-        ((srcLst - cmpLst) + (cmpLst - srcLst)).each{
-            if(springSecurityService.currentUser.id != it.toLong()) { //you cannot remove yourself!
+        ((srcLst - cmpLst) + (cmpLst - srcLst)).each {
+            if (springSecurityService.currentUser.id != it.toLong()) { //you cannot remove yourself!
                 User projectUser = User.get(it.toLong())
                 if (ProjectUser.findAllByProjectAndUserAndProjRole(project, projectUser, role).size() == 0)
                     addProjectUser(project, projectUser, role)
@@ -150,34 +152,33 @@ class UtilsService {
         }
     }
 
-    def addProjectUser(Project project, User user, String userType){
+    def addProjectUser(Project project, User user, String userType) {
         ProjectUser.create(project, user, userType)
     }
 
-    def removeProjectUser(Project project, User user, String userType){
-        ProjectUser.where{ project == project && user == user && projRole == userType }.deleteAll()
+    def removeProjectUser(Project project, User user, String userType) {
+        ProjectUser.where { project == project && user == user && projRole == userType }.deleteAll()
     }
 
-    String authEncoded(String username, String password){
+    String authEncoded(String username, String password) {
 //        return new String(Base64.encodeBase64((username+':'+password).getBytes()), "UTF-8")
-      return "${username}:${password}".encodeAsBase64()
+        return "${username}:${password}".encodeAsBase64()
     }
 
-    String authHeader(String username, String password){
-        return "Basic "+authEncoded(username, password)
+    String authHeader(String username, String password) {
+        return "Basic " + authEncoded(username, password)
     }
 
 
-    def addIdToSession(Long id, String sVar){
+    def addIdToSession(Long id, String sVar) {
         def session = getSession()
-        if(session[sVar]) {
+        if (session[sVar]) {
             println "session[ ${sVar} ] == ${session[sVar]}"
             if (!session[sVar]?.toList().contains(id)) {
                 println "addin to ${sVar} ${id}"
                 session[sVar].add(id)
             }
-        }
-        else {
+        } else {
             println "init ${sVar} with ${id}"
             session[sVar] = [id]
         }
@@ -185,8 +186,8 @@ class UtilsService {
 
     def getProjectListForUser(User user, Map paginateParams, Boolean showInactive) {
 
-        if(user.username.equals("admin"))
-            if(showInactive)
+        if (user.username.equals("admin"))
+            if (showInactive)
                 return Project.findAll([params: paginateParams])
             else
                 return Project.findAllByIsActive(true, [params: paginateParams])
@@ -201,16 +202,15 @@ class UtilsService {
         }
     }
 
-    List<Experiment> getExperimentListForProject(Project project, Boolean showInactive){
-        if(showInactive){
+    List<Experiment> getExperimentListForProject(Project project, Boolean showInactive) {
+        if (showInactive) {
             return Experiment.findAllByProject(project)
-        }
-        else {
+        } else {
             return Experiment.findAllByProjectAndIsActive(project, true)
         }
     }
 
-    def csvMetadataParse(experiment, fileListMap, headers){
+    def csvMetadataParse(experiment, fileListMap, headers) {
         println fileListMap
         println "${fileListMap["SID"].unique()}"
         Integer keyOrder = 1
@@ -226,25 +226,23 @@ class UtilsService {
 //            category =
 //        }
         def metaDataKeys = headers - fcsFileMatchColumn
-        metaDataKeys.each{ metadataKey ->
+        metaDataKeys.each { metadataKey ->
             ExperimentMetadata metaDat = ExperimentMetadata.findByExperimentAndMdCategoryAndMdKey(experiment, category, metadataKey)
-            if(!metaDat){
+            if (!metaDat) {
 //                metaDat = new ExperimentMetadata(experiment: experiment, mdCategory: category, dispOnFilter: true, visible: true, dispOrder: keyOrder, mdKey: metadataKey).save(flush: true)
                 metaDat = new ExperimentMetadata(experiment: experiment, mdCategory: category, dispOnFilter: true, visible: true, dispOrder: keyOrder, mdKey: metadataKey).save()
-            }
-            else {
+            } else {
                 metaDat.properties = [dispOnFilter: true, visible: true, dispOrder: keyOrder, mdKey: metadataKey]
                 metaDat.save(flush: true)
             }
             println "${metaDat?.hasErrors()}"
 //            if(!metaDat.hasErrors()){}
             Integer valueOrder = 10
-            fileListMap["${metadataKey}"].unique().each{ metadataValue ->
+            fileListMap["${metadataKey}"].unique().each { metadataValue ->
                 ExperimentMetadataValue metaValue = ExperimentMetadataValue.findByExpMetaDataAndMdValue(metaDat, metadataValue)
-                if(!metaValue){
+                if (!metaValue) {
                     metaValue = new ExperimentMetadataValue(expMetaData: metaDat, dispOrder: valueOrder, mdType: 'String', mdValue: metadataValue).save(flush: true)
-                }
-                else{
+                } else {
                     metaValue.properties = ['dispOrder': valueOrder, 'mdType': 'String']
                     metaValue.save(flush: true)
                 }
@@ -257,39 +255,38 @@ class UtilsService {
         return
     }
 
-    def fcytMetadataParse(experiment, fileListMap, headers){
+    def fcytMetadataParse(experiment, fileListMap, headers) {
         fileListMap.each { dataRow ->
-            if(dataRow['Category'] && dataRow['Key']){
+            if (dataRow['Category'] && dataRow['Key']) {
                 ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrSaveByMdCategoryAndDispOnFilterAndVisible(dataRow["Category"], false, true)
                 ExperimentMetadata metaDat = ExperimentMetadata.findOrSaveByExperimentAndMdCategoryAndMdKeyAndVisibleAndIsMiFlowAndDispOnFilter(experiment, category, dataRow['Key'], true, true, false)
-                if(dataRow['Value']){
+                if (dataRow['Value']) {
                     ExperimentMetadataValue mDatVal = ExperimentMetadataValue.findByExpMetaData(metaDat)
-                    if(!mDatVal) {
+                    if (!mDatVal) {
                         ExperimentMetadataValue.findOrSaveByExpMetaDataAndMdValueAndMdTypeAndDispOrder(metaDat, dataRow['Value'], 'String', 1)
                     } else {
                         mDatVal.mdValue = dataRow['Value']
-                        mDatVal.save  flush: true
+                        mDatVal.save flush: true
                     }
                 }
             }
         }
     }
 
-    def doFileAnnotation(Experiment experiment, annotationMap, fileNameMatchColumn, metaDataKeys){
-        annotationMap.each{ lineMap ->
+    def doFileAnnotation(Experiment experiment, annotationMap, fileNameMatchColumn, metaDataKeys) {
+        annotationMap.each { lineMap ->
             String searchExpFileName = lineMap["${fileNameMatchColumn}"]
             def expFiles = experiment.expFiles
-            ExpFile expFile = expFiles.find{ it.fileName == searchExpFileName }
-            if(expFile){
+            ExpFile expFile = expFiles.find { it.fileName == searchExpFileName }
+            if (expFile) {
                 Integer metaValOrder = 10
-                metaDataKeys.each{ metaDataKey ->
+                metaDataKeys.each { metaDataKey ->
                     ExpFileMetadata expFileMetadata = ExpFileMetadata.findByExpFileAndMdKey(expFile, metaDataKey, lineMap["${metaDataKey}"])
-                    if(!expFileMetadata){
-                        expFileMetadata = new ExpFileMetadata(expFile: expFile, mdKey: metaDataKey, mdVal: lineMap["${metaDataKey}"], dispOrder: metaValOrder).save(flush:true)
-                    }
-                    else {
-                        expFileMetadata.properties =  [dispOrder: metaValOrder]
-                        expFileMetadata.save(flush:true)
+                    if (!expFileMetadata) {
+                        expFileMetadata = new ExpFileMetadata(expFile: expFile, mdKey: metaDataKey, mdVal: lineMap["${metaDataKey}"], dispOrder: metaValOrder).save(flush: true)
+                    } else {
+                        expFileMetadata.properties = [dispOrder: metaValOrder]
+                        expFileMetadata.save(flush: true)
                     }
                     println "${expFileMetadata.hasErrors()}"
                     metaValOrder += 10
@@ -301,11 +298,10 @@ class UtilsService {
 
     def getLowestUniqueDispOrder(Experiment experiment) {
         Integer num = 1
-        while (num>0) {
-            if(experiment.expMetadatas.dispOrder.findAll{it == num}.size()!=0) {
+        while (num > 0) {
+            if (experiment.expMetadatas.dispOrder.findAll { it == num }.size() != 0) {
                 num++
-            }
-            else return num
+            } else return num
         }
     }
 
@@ -318,11 +314,10 @@ class UtilsService {
         return false
     }
 
-    List<Analysis> getAnalysisListByUser(Experiment experiment, params){
-        if(SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")){
+    List<Analysis> getAnalysisListByUser(Experiment experiment, params) {
+        if (SpringSecurityUtils.ifAnyGranted("ROLE_Administrator,ROLE_Admin")) {
             return Analysis.findAllByExperiment(experiment, params)
-        }
-        else {
+        } else {
             return Analysis.findAllByExperimentAndUserAndAnalysisStatusNotInList(experiment, springSecurityService.currentUser, [-2], params)
         }
     }
@@ -345,33 +340,44 @@ class UtilsService {
             Analysis analysis = Analysis.findByJobNumber(jobId)
             if (analysis.module.server.isImmportGalaxyServer() && !analysis.isFailedOnSubmit()) {
                 GalaxyService galaxyService = new GalaxyService(analysis.module.server)
-                def jobDetails = galaxyService.getInvocationStatus(analysis.module.name, jobId)
+                def jobDetailsArr = galaxyService.getInvocationStatus(analysis.module.name, jobId)
 
-                if (jobDetails.state.equals('error')) {
-                    analysis.analysisStatus = -1
-                    analysis.save flush: true
-                    wsService.tcMsg(jobId.toString())
-                } else if (jobDetails.state.equals('ok')) {
-                    File resultFile = galaxyService.downloadFile(jobDetails.outputs.html_file.id)
-                    def filePath = saveResultFile(resultFile, analysis)
-                    updateDependencies(filePath, analysis.module.server.url, analysis.id)
-                    analysis.analysisStatus = 3
-                    analysis.renderResult = filePath
-                    analysis.save flush: true
-                    wsService.tcMsg(jobId.toString())
+                if (null != jobDetailsArr) {
+                    if (Arrays.stream(jobDetailsArr)
+                            .allMatch({ jobDetails -> jobDetails.state.equals('ok') })) {
+                        def jobIdArr = jobId.split(",");
+                        StringJoiner stringJoiner = new StringJoiner(",")
+                        for (int i = 0; i<jobDetailsArr.length; ++i) {
+                            def jobDetails = jobDetailsArr[i];
+                            File resultFile = galaxyService.downloadFile(jobDetails.outputs.html_file.id)
+                            def filePath = saveResultFile(resultFile, analysis, jobIdArr[i])
+                            updateDependencies(filePath, analysis.module.server.url, analysis.id, jobIdArr[i])
+                            stringJoiner.add(filePath)
+                        }
+                        analysis.analysisStatus = 3
+                        analysis.renderResult = stringJoiner.toString()
+                        analysis.save flush: true
+                        wsService.tcMsg(jobId.toString())
+                    } else if (Arrays.stream(jobDetailsArr)
+                            .anyMatch({ jobDetails -> jobDetails.state.equals('error') })) {
+                        analysis.analysisStatus = -1
+                        analysis.save flush: true
+                        wsService.tcMsg(jobId.toString())
+                    }
                 }
             }
         }
     }
 
-    def saveResultFile(def resultFile, def analysis) {
+    def saveResultFile(def resultFile, def analysis, def jobId) {
         def htmlFilePath
         String resultFileStoragePath = grailsApplication.config.getProperty('resultFileStoreLocation.path', String)
 
         String folderPath = resultFileStoragePath + File.separator +
                 analysis.experiment.project.id + File.separator +
                 analysis.experiment.id + File.separator +
-                analysis.id
+                analysis.id + File.separator +
+                jobId
 
         File destDir = new File(folderPath)
         byte[] buffer = new byte[1024];
@@ -388,8 +394,8 @@ class UtilsService {
             fos.close();
             zipEntry = zis.getNextEntry();
 
-            if(newFile.getName().endsWith("html"))
-                htmlFilePath = newFile.getCanonicalPath()
+            if (newFile.getName().endsWith("html"))
+                htmlFilePath = new File(resultFileStoragePath).toURI().relativize(newFile.toURI()).getPath();
         }
         zis.closeEntry();
         zis.close();
@@ -411,7 +417,9 @@ class UtilsService {
         return destFile;
     }
 
-    def updateDependencies(def filePath, def serverPath, def analysisId) {
+    def updateDependencies(def filePath, def serverPath, def analysisId, def jobId) {
+        String resultFileStoragePath = grailsApplication.config.getProperty('resultFileStoreLocation.path', String)
+
         //Update result file pathes in overview file and embed into the result file
         InputStream is = new URL(serverPath + "/" + overviewFilePath).openStream()
         BufferedReader reader = new BufferedReader(new InputStreamReader(is))
@@ -419,17 +427,17 @@ class UtilsService {
 
         List<String> overview = lines
                 .map({ line ->
-                    line.replaceAll("./boxplotData.json", analysisId + "/boxPlotData.json")
-                            .replaceAll("\\bflow.mfi_pop\\b", analysisId + "/flow.mfi_pop")
-                            .replaceAll("\\bflow.mfi\\b", analysisId + "/flow.mfi")
-                            .replaceAll("flow.overview", analysisId + "/flow.overview")
-                            .replaceAll("flow.sample", analysisId + "/flow.sample")
+                    line.replaceAll("./boxplotData.json", analysisId + "/" + jobId + "/boxPlotData.json")
+                            .replaceAll("\\bflow.mfi_pop\\b", analysisId + "/" + jobId + "/flow.mfi_pop")
+                            .replaceAll("\\bflow.mfi\\b", analysisId + "/" + jobId + "/flow.mfi")
+                            .replaceAll("flow.overview", analysisId + "/" + jobId + "/flow.overview")
+                            .replaceAll("flow.sample", analysisId + "/" + jobId + "/flow.sample")
                 })
                 .collect(Collectors.toList())
         overview.add(0, "<script>")
         overview.add("</script>")
 
-        Path path = Paths.get(filePath)
+        Path path = Paths.get(resultFileStoragePath + File.separator + filePath)
         lines = Files.lines(path)
         List<String> replaced = lines
                 .map({ line -> line.contains("overview.js") ? String.join("\n", overview) : line.replaceAll("/static", serverPath + "/static") })
@@ -441,22 +449,28 @@ class UtilsService {
             Path flowOverviewPath = flowOverviewPathOpt.get()
             lines = Files.lines(flowOverviewPath)
             replaced = lines
-                    .map({ line -> line.replaceAll("<img src=\"", "<img src=\"" + analysisId + "/") })
+                    .map({ line -> line.replaceAll("<img src=\"", "<img src=\"" + analysisId + "/" + jobId + "/") })
                     .collect(Collectors.toList())
             Files.write(flowOverviewPath, replaced)
         }
     }
 
-    def getResultFileDetails(def name, def analysis) {
+    def getResultFileDetails(def name, def analysis, def jobId) {
         String resultFileStoragePath = grailsApplication.config.getProperty('resultFileStoreLocation.path', String)
 
         String filePath = resultFileStoragePath + File.separator +
                 analysis.experiment.project.id + File.separator +
                 analysis.experiment.id + File.separator +
-                analysis.id + File.separator +
+                analysis.id +
+                (jobId ? File.separator + jobId + File.separator : File.separator) +
                 name
 
         return new File(filePath)
+    }
+
+    def static receiveInputFileNameForJob(Analysis analysis, String invocationId) {
+        GalaxyService galaxyService = new GalaxyService(analysis.module.server)
+        return galaxyService.getFileNameFromInvocation(analysis.module.name, invocationId)
     }
 
     def createModuleParamsFromJson(def moduleParamsJson) {
@@ -480,7 +494,6 @@ class UtilsService {
         moduleParam.descr = moduleParamJson.description
         moduleParam.pOrder = moduleParamJson.order
         moduleParam.pBasic = true
-
         return moduleParam
     }
 
