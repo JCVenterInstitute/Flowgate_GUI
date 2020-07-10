@@ -591,6 +591,19 @@ td, th {
   overflow: hidden;
   position: relative;
 
+  .collapsible-header {
+    &:focus {
+      outline: 0
+    }
+
+    cursor: pointer;
+  }
+
+  .collapsible-body {
+    border-top: 1px solid $collapsible-border-color;
+    margin-top: 10px;
+  }
+
   .collection-item {
     background-color: $collection-bg-color;
     line-height: $collection-line-height;
@@ -646,7 +659,8 @@ td, th {
       border-bottom: none;
     }
 
-    &.active {
+    //to keep background color for collapsible collection items
+    &.active:not(.collapsible-item) {
       background-color: $collection-active-bg-color;
       color: $collection-active-color;
 

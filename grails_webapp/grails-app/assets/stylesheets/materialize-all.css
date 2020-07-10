@@ -2351,6 +2351,13 @@ td, th {
   border-radius: 2px;
   overflow: hidden;
   position: relative; }
+  .collection .collapsible-header {
+    cursor: pointer; }
+    .collection .collapsible-header:focus {
+      outline: 0; }
+  .collection .collapsible-body {
+    border-top: 1px solid #ddd;
+    margin-top: 10px; }
   .collection .collection-item {
     background-color: #fff;
     line-height: 1.5rem;
@@ -2386,10 +2393,10 @@ td, th {
         right: 16px; }
     .collection .collection-item:last-child {
       border-bottom: none; }
-    .collection .collection-item.active {
+    .collection .collection-item.active:not(.collapsible-item) {
       background-color: #26a69a;
       color: #eafaf9; }
-      .collection .collection-item.active .secondary-content {
+      .collection .collection-item.active:not(.collapsible-item) .secondary-content {
         color: #fff; }
   .collection a.collection-item {
     display: block;
@@ -4429,7 +4436,7 @@ body.keyboard-focused .dropdown-content li:focus {
   border-left: 1px solid #ddd;
   margin: 0.5rem 0 1rem 0; }
 
-.collapsible-header {
+.collapsible-header:not(.collection-header) {
   display: flex;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -4437,9 +4444,9 @@ body.keyboard-focused .dropdown-content li:focus {
   padding: 1rem;
   background-color: #fff;
   border-bottom: 1px solid #ddd; }
-  .collapsible-header:focus {
+  .collapsible-header:not(.collection-header):focus {
     outline: 0; }
-  .collapsible-header i {
+  .collapsible-header:not(.collection-header) i {
     width: 2rem;
     font-size: 1.6rem;
     display: inline-block;
@@ -4451,9 +4458,10 @@ body.keyboard-focused .dropdown-content li:focus {
 
 .collapsible-body {
   display: none;
-  border-bottom: 1px solid #ddd;
-  box-sizing: border-box;
-  padding: 2rem; }
+  box-sizing: border-box; }
+  .collapsible-body:not(.collection-body) {
+    border-bottom: 1px solid #ddd;
+    padding: 2rem; }
 
 .sidenav .collapsible,
 .sidenav.fixed .collapsible {
