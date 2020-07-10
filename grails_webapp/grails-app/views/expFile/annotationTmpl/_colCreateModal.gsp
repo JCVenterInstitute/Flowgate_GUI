@@ -13,8 +13,10 @@
                     optionValue="mdCategory" value="${category}" required=""/>
           <label>Attribute Category *</label>
         </div>
+      </div>
 
-        <f:with bean="${new ExperimentMetadata()}">
+      <f:with bean="${new ExperimentMetadata()}">
+        <div class="row">
           <div class="input-field col s12">
             <input type="text" name="mdKey">
             <label for="mdKey">Attribute Name *</label>
@@ -27,23 +29,23 @@
               <span>For filtering out fcs files or creating cohorts for statistical comparison</span>
             </label>
           </div>
-        </f:with>
+        </div>
+      </f:with>
 
-        <fg:dynamicBlock itemId="eMetaValue" min="1" max="15" mdVals="[]"
-                         limitReachedMsg="Sorry, you cannot specify more than 15 values"
-                         removeBtnLabel="Delete">
-          <g:hiddenField name="mdType" value="${expMetaDatVal?.mdType ?: 'String'}"/>
-          <div class="input-field col s2">
-            <input type="text" id="dispOrder" name="dispOrder" required value="1">
-            <label class="active">Disp. Order *</label>
-          </div>
+      <fg:dynamicBlock itemId="eMetaValue" min="1" max="15" mdVals="[]"
+                       limitReachedMsg="Sorry, you cannot specify more than 15 values"
+                       removeBtnLabel="Delete">
+        <g:hiddenField name="mdType" value="${expMetaDatVal?.mdType ?: 'String'}"/>
+        <div class="input-field col s2">
+          <input type="text" id="dispOrder" name="dispOrder" required value="1">
+          <label class="active">Disp. Order *</label>
+        </div>
 
-          <div class="input-field col s10">
-            <input type="text" id="mdValue" name="mdValue" required>
-            <label>Attribute Value</label>
-          </div>
-        </fg:dynamicBlock>
-      </div>
+        <div class="input-field col s8">
+          <input type="text" id="mdValue" name="mdValue" required>
+          <label>Attribute Value</label>
+        </div>
+      </fg:dynamicBlock>
     </div>
 
     <div class="modal-footer">

@@ -339,7 +339,8 @@
           success: function (data, status, xhr) {
             console.log('success');
             $("#colEditModal").html(data.edModalTmpl);
-            $("#editColForm").modal({show: 'true'});
+            $("#editColForm").modal();
+            $("#editColForm").modal('open');
           },
           error: function (request, status, error) {
             console.log('ajxError!');

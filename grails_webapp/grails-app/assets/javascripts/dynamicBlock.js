@@ -14,9 +14,10 @@ function addItem(id, elem, min, max, onComplete, limitMessage, removeBtnLabel, m
     // console.log(myArrStr);
     elem = elem.replace('id="mdValue"','id="mdValue" value="'+myArrStr);
     // creates new item and adds the index number to it
-    var $newElem = $('<div ></div>').html(elem).attr({'id' : id + num});
+    var $newElem = $('<div ></div>').html(elem).attr({'class': 'row', 'id' : id + num});
     // creates the "Remove" button
-    var $removeButton = $('<input type="button"/>').appendTo($newElem);
+    let $removeButtonDiv = $('<div/>').attr({'class': 'input-field col s2'}).appendTo($newElem);
+    var $removeButton = $('<input type="button"/>').appendTo($removeButtonDiv);
     $removeButton.attr({
       id: 'remove_' + id,
       class: 'waves-effect waves-light btn-flat',
