@@ -258,7 +258,8 @@ class UtilsService {
     def fcytMetadataParse(experiment, fileListMap, headers) {
         fileListMap.each { dataRow ->
             if (dataRow['Category'] && dataRow['Key']) {
-                ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrSaveByMdCategoryAndDispOnFilterAndVisible(dataRow["Category"], false, true)
+//                ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrSaveByMdCategoryAndDispOnFilterAndVisible(dataRow["Category"], false, true)
+                ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrSaveByExperimentAndMdCategoryAndDispOnFilterAndVisible(experiment, dataRow["Category"], false, true)
                 ExperimentMetadata metaDat = ExperimentMetadata.findOrSaveByExperimentAndMdCategoryAndMdKeyAndVisibleAndIsMiFlowAndDispOnFilter(experiment, category, dataRow['Key'], true, true, false)
                 if (dataRow['Value']) {
                     ExperimentMetadataValue mDatVal = ExperimentMetadataValue.findByExpMetaData(metaDat)
