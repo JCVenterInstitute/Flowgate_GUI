@@ -177,4 +177,4 @@ bootRun {
 }
 
 
-//apply from: 'gradle/docker.gradle'
+apply from: 'gradle/docker.gradle'
