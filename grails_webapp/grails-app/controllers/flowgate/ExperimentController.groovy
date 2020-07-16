@@ -204,16 +204,19 @@ Instrument Details${separator}Electronic Configuration${separator}
         }
         ExperimentMetadata emD
         ExperimentMetadataValue emV
-        params.findAll { it.key.startsWith('expMetaData-')}.each {
-            emD = ExperimentMetadata.get((it.key-'expMetaData-').toLong())
-            emV = ExperimentMetadataValue.findByExpMetaData(emD)
-            if(it?.value){
-                emV.mdValue = it?.value
-                emV.save()
-//                println "emV Errs ${emV.hasErrors()} metaDatStr = ${it} k:${it.key-'expMetaData-'} v:${it.value}"
+        params.findAll { it.key.startsWith('expMetaData-') }.eachWithIndex { it, index ->
+            if (it?.value) {
+                emD = ExperimentMetadata.get((it.key - 'expMetaData-').toLong())
+                emV = ExperimentMetadataValue.findByExpMetaData(emD)
+                if (!emV) {
+                    ExperimentMetadataValue.findOrSaveByExpMetaDataAndMdValueAndMdTypeAndDispOrder(emD, it?.value, 'String', index + 1)
+                } else {
+                    emV.mdValue = it?.value
+                    emV.save()
+                }
             }
         }
-        redirect action: 'index', params: [eId: experiment?.id]
+        redirect action: 'miFcytTbl', params: [id: experiment?.id]
     }
 
 
