@@ -20,48 +20,26 @@
 
 <h2><g:message code="mifcyt.annotation.table.label" default="Annotate Experiment with MIFlowCyt data"/></h2>
 
-
 <div class="fixed-action-btn">
-  <a class="btn-floating btn-large waves-effect waves-light tooltipped modal-trigger" href="#upload-annotation-file"
-     data-tooltip="Upload an MIFlowCyt File" data-position="left">
-    <i class="material-icons">file_upload</i>
+  <a class="btn-floating btn-large waves-effect waves-light tooltipped" href="${createLink(controller: 'experiment', action: 'exportMifCytTempl', id: experiment?.id)}"
+     data-tooltip="Download template file" data-position="left">
+    <i class="material-icons">file_download</i>
   </a>
 </div>
 
-<div class="row">
-  <div class="col-sm-offset-1 col-sm-10">
-    <div id="mifcytTable-annotation" class="content scaffold-list" role="main">
-      <g:if test="${flash.error}">
-        <script>
-          document.addEventListener('DOMContentLoaded', function () {
-            M.toast({
-              html: '<span>${flash.error}</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
-              displayLength: Infinity,
-              classes: 'red'
-            });
-          });
-        </script>
-      </g:if>
-      <div class="row" style="max-width: none">
-        <div class="col-sm-12 mifcytTable">
-          <script>
-            $(function () {
-              $(".scroll-wrapper").width($("#wholeTbl").width());
-              $(".scroll-top").width($("#mifcyt-annotation-table").width());
-              $(".scroll-wrapper").scroll(function () {
-                $("#wholeTbl").scrollLeft($(".scroll-wrapper").scrollLeft());
-              });
-              $("#wholeTbl").scroll(function () {
-                $(".scroll-wrapper").scrollLeft($("#wholeTbl").scrollLeft());
-              });
-            });
-          </script>
+<g:if test="${flash.error}">
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      M.toast({
+        html: '<span>${flash.error}</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+        displayLength: Infinity,
+        classes: 'red'
+      });
+    });
+  </script>
+</g:if>
 
-          <g:render template="templates/mifcytMasterTbl" model="[category: null]"/>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<g:render template="templates/mifcytMasterTbl" model="[category: null]"/>
+
 </body>
 </html>

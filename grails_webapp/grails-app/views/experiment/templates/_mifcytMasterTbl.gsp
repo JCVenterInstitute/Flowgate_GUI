@@ -1,11 +1,4 @@
 <%@ page import="flowgate.ExpFile; flowgate.ExperimentMetadataValue; flowgate.ExperimentMetadata" %>
-<div class="row">
-  <div class="input-field col s12">
-    <g:link class="btn waves-effect waves-light" controller="experiment" action="index" params="[eId: experiment?.id]">Return to experiment</g:link>
-    <a class="btn-flat waves-effect waves-light modal-trigger" href="${createLink(controller: 'experiment', action: 'exportMifCytTempl', id: experiment?.id)}" >Download template file</a>
-  </div>
-</div>
-
 <div id="upload-annotation-file" class="modal modal-fixed-footer">
   <form id="upldForm" action="${g.createLink(controller: 'experiment', action: 'importMifcyt', id: experiment?.id)}" method="post" enctype="multipart/form-data">
     <div class="modal-content">
@@ -40,46 +33,49 @@
       <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
     </div>
 
-
   </form>
 </div>
-<g:set var="cats" value="${ExperimentMetadata?.findAllByExperimentAndIsMiFlowAndVisible(experiment, true, true)*.mdCategory?.unique()}" />
-<g:if test="${cats}" >
-  <g:form controller="experiment" action="saveMiFlowData" >
-    <g:hiddenField name="eId" value="${experiment?.id}" />
-    <g:hiddenField name="id" value="${experiment?.id}" />
-    <div class="pull-right">
-      <g:actionSubmit class="btn btn-success" value="Save and Return" action="saveMiFlowData" />
-    </div>
-    <br/>
-    <br/>
-    <br/>
-  <div class="scroll-wrapper" style="overflow-x: scroll; overflow-y:hidden;">
-    <div class="scroll-top" style="height: 1px;"></div>
-    <div id="wholeTbl" style="overflow-y: auto;margin-bottom: 100px;">
-      <table id="mifcyt-annotation-table" cellspacing="0" class="table table-bordered table-responsive table-striped table-hover dataTable" width="100%" >
-        <tbody id="mifctyTbl">
-          <g:each in="${cats}" var="miFlowCat" >
-          <tr>
-            <td style="width: 20%">${miFlowCat?.mdCategory}</td>
-            <g:set var="mFDats" value="${ExperimentMetadata?.findAllByExperimentAndIsMiFlowAndVisibleAndMdCategory(experiment, true, true, miFlowCat)?.sort {it.dispOrder}}"/>
-            <td style="width: 80%">
-            <g:each in="${mFDats}" var="miFlowDat" >
+<g:form controller="experiment" action="saveMiFlowData">
+  <g:set var="cats" value="${ExperimentMetadata?.findAllByExperimentAndIsMiFlowAndVisible(experiment, true, true)*.mdCategory?.unique()}"/>
+  <g:if test="${cats}">
+    <g:hiddenField name="eId" value="${experiment?.id}"/>
+    <g:hiddenField name="id" value="${experiment?.id}"/>
+
+    <table id="mifcyt-annotation-table" cellspacing="0" class="table table-bordered table-responsive table-striped table-hover dataTable" width="100%">
+      <tbody id="mifctyTbl">
+      <g:each in="${cats}" var="miFlowCat">
+        <tr>
+          <td style="width: 20%">${miFlowCat?.mdCategory}</td>
+          <g:set var="mFDats" value="${ExperimentMetadata?.findAllByExperimentAndIsMiFlowAndVisibleAndMdCategory(experiment, true, true, miFlowCat)?.sort { it.dispOrder }}"/>
+          <td style="width: 80%">
+            <g:each in="${mFDats}" var="miFlowDat">
               <g:set var="mValue" value="${ExperimentMetadataValue.findByExpMetaData(ExperimentMetadata.get(miFlowDat.id))?.mdValue}"/>
-              <p><span class="col-md-3">${miFlowDat?.mdKey}</span>&nbsp;<g:textField style="width: 70%" name="expMetaData-${miFlowDat.id}" value="${mValue}" /></p>
+              <div class="input-field">
+                <g:textField name="expMetaData-${miFlowDat.id}" value="${mValue}"/>
+                <label>${miFlowDat?.mdKey}</label>
+              </div>
             </g:each>
-            </td>
-          </tr>
-          </g:each>
-        </tbody>
-      </table>
+          </td>
+        </tr>
+      </g:each>
+      </tbody>
+    </table>
+  </g:if>
+  <g:else>
+    <div>There is no MiFlowCyt data found for this experiment. Please upload an annotation file first.</div>
+  </g:else>
+
+
+  <div class="row">
+    <div class="input-field col s12">
+      <g:if test="${cats}">
+        <button type="submit" class="btn waves-effect waves-light">Save</button>
+      </g:if>
+      <g:link class="${cats ? 'btn-flat' : 'btn'} waves-effect waves-light" controller="experiment" action="index" params="[eId: experiment?.id]">Return to experiment</g:link>
+      <a class="btn-flat waves-effect waves-light modal-trigger" href="#upload-annotation-file">Upload an annotation file</a>
     </div>
   </div>
-  </g:form>
-</g:if>
-<g:else>
-  <div class="text-center alert alert-warning">Missing MiFlowCyt data!</div>
-</g:else>
+</g:form>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
