@@ -85,7 +85,7 @@
 
   <div id="upload-annotation-file" class="modal modal-fixed-footer">
     <form id="upldForm" action="${g.createLink(controller: 'expFile', action: 'importAnnotation', id: experiment?.id)}" method="post" enctype="multipart/form-data">
-      <g:hiddenField name="pId" value="${plate?.id}"/>
+      <g:hiddenField name="categoryId" id="categoryId" />
       <div class="modal-content">
         <h4>Upload an Annotation file</h4>
 
@@ -180,15 +180,27 @@
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    var tabElems = document.querySelectorAll('.tabs');
-    M.Tabs.init(tabElems);
+    const tabElems = document.querySelectorAll('.tabs');
+    M.Tabs.init(tabElems, {onShow: onTabShow});
 
-    var tooltipElems = document.querySelectorAll('.tooltipped');
+    const activeTabId = $("li.tab > a.active").attr('href');
+    updateCategoryIdForUploadAnnFile(activeTabId);
+
+    const tooltipElems = document.querySelectorAll('.tooltipped');
     M.Tooltip.init(tooltipElems);
 
-    var modalElems = document.querySelectorAll('.modal');
+    const modalElems = document.querySelectorAll('.modal');
     M.Modal.init(modalElems);
   });
+
+  function onTabShow(e) {
+    updateCategoryIdForUploadAnnFile(e.id);
+  }
+
+  function updateCategoryIdForUploadAnnFile(tabId) {
+    const categoryId = tabId.replace("#", '').replace("tab", '');
+    $("#categoryId").val(categoryId);
+  }
 
   function eMetaClick(id, checked, mId) {
     var metaVal = document.getElementById("eMeta_" + mId + ".mdVal").value;

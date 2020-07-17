@@ -210,18 +210,16 @@ class UtilsService {
         }
     }
 
-    def csvMetadataParse(experiment, fileListMap, headers) {
+    def csvMetadataParse(experiment, categoryId, fileListMap, headers) {
         println fileListMap
         println "${fileListMap["SID"].unique()}"
         Integer keyOrder = 1
         String fcsFileMatchColumn = "FCS File Name"
-//        TODO read from config file
-//        String category = 'Basics'
-//        ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrCreateByExperimentAndMdCategory(experiment, 'Basics')
-//        TODO recheck!!!
-//        ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrSaveByExperimentAndMdCategory(experiment, 'Basics')
-        ExperimentMetadataCategory category = ExperimentMetadataCategory.findOrSaveByMdCategory('Basics')
-//        TODO handle category
+
+        ExperimentMetadataCategory category = categoryId ? ExperimentMetadataCategory.findById(categoryId)
+                : ExperimentMetadataCategory.findOrSaveByMdCategory('Basics')
+
+//        TODO handle category within file
 //        if(fileListMap.keySet.contains('category')){
 //            category =
 //        }

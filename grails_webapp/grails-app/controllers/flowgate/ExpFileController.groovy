@@ -526,14 +526,16 @@ class ExpFileController {
             }
             lineCntr += 1
         }
-//        println "headers ${headers}"
-//        println "rows ${rows}"
+
         def myMap = []
         rows.each { row ->
             myMap += [[headers, row].transpose().collectEntries()]
         }
-//        println " myMap = ${myMap}"
-        utilsService.csvMetadataParse(experiment, myMap, headers)
+
+        def categoryId = params?.categoryId
+        println 'Selected category id: ' + categoryId
+
+        utilsService.csvMetadataParse(experiment, categoryId, myMap, headers)
         doAnnotate(experiment)
         return
     }
