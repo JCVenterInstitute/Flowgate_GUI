@@ -21,7 +21,7 @@
 <h2><g:message code="annotation.table.label" default="Annotate Uploaded FCS Files with Experiment Metadata"/></h2>
 
 <g:if test="${experiment.expFiles}">
-  <g:set var="categories" value="${flowgate?.ExperimentMetadata?.findAllByExperimentAndIsMiFlow(experiment, false)*.mdCategory?.unique()}"/>
+  <g:set var="categories" value="${ExperimentMetadataCategory.findAllByExperimentAndIsMiFlow(experiment, false)}"/>
   <ul class="tabs">
     <g:if test="${categories.size() > 0}">
       <g:each in="${categories}" var="category" status="idx">

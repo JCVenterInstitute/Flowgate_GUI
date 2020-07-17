@@ -1,4 +1,4 @@
-<%@ page import="flowgate.ExpFile; flowgate.ExperimentMetadataValue; flowgate.ExperimentMetadata" %>
+<%@ page import="flowgate.ExpFile; flowgate.ExperimentMetadataValue; flowgate.ExperimentMetadata; flowgate.ExperimentMetadataCategory" %>
 <div id="upload-annotation-file" class="modal modal-fixed-footer">
   <form id="upldForm" action="${g.createLink(controller: 'experiment', action: 'importMifcyt', id: experiment?.id)}" method="post" enctype="multipart/form-data">
     <div class="modal-content">
@@ -36,7 +36,7 @@
   </form>
 </div>
 <g:form controller="experiment" action="saveMiFlowData">
-  <g:set var="cats" value="${ExperimentMetadata?.findAllByExperimentAndIsMiFlowAndVisible(experiment, true, true)*.mdCategory?.unique()}"/>
+  <g:set var="cats" value="${ExperimentMetadataCategory.findAllByExperimentAndIsMiFlow(experiment, true)}"/>
   <g:if test="${cats}">
     <g:hiddenField name="eId" value="${experiment?.id}"/>
     <g:hiddenField name="id" value="${experiment?.id}"/>
@@ -46,7 +46,7 @@
       <g:each in="${cats}" var="miFlowCat">
         <tr>
           <td style="width: 20%">${miFlowCat?.mdCategory}</td>
-          <g:set var="mFDats" value="${ExperimentMetadata?.findAllByExperimentAndIsMiFlowAndVisibleAndMdCategory(experiment, true, true, miFlowCat)?.sort { it.dispOrder }}"/>
+          <g:set var="mFDats" value="${ExperimentMetadata?.findAllByExperimentAndVisibleAndMdCategory(experiment, true, miFlowCat)?.sort { it.dispOrder }}"/>
           <td style="width: 80%">
             <g:each in="${mFDats}" var="miFlowDat">
               <g:set var="mValue" value="${ExperimentMetadataValue.findByExpMetaData(ExperimentMetadata.get(miFlowDat.id))?.mdValue}"/>

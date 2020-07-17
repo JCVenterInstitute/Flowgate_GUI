@@ -9,13 +9,14 @@ class ExperimentMetadataCategory {
     Boolean dispOnFilter = true
     Boolean visible = true
     Boolean isDefault = false
-//    Boolean isMiFlowCyt = false
+    Boolean isMiFlow = false
 
     static constraints = {
 //        experiment nullable: false
         mdCategory nullable: false, blank: true
         dispOnFilter nullable: true, blank: true
         isDefault nullable: true, blank: true
+        isMiFlow nullable: true, blank: true
     }
 
 //    String toString() {

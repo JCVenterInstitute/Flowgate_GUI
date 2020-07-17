@@ -11,13 +11,11 @@ class ExperimentMetadata {
     Integer dispOrder = 1
     Boolean dispOnFilter = true
     Boolean visible = true
-    Boolean isMiFlow = false
 
     static constraints = {
         mdCategory nullable: true, blank: true //, inList: ['Demographics','Visit','Stimulation','Reagents']
         expFiles nullable: true, blank: true
         mdVals nullable: true, blank: true
-        isMiFlow nullable: true, blank: true
 
     }
 }
