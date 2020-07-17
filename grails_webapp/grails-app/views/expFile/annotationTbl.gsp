@@ -256,15 +256,16 @@
       dataType: 'json',
       data: {id: eId, catId: catId},
       success: function (data, status, xhr) {
-        console.log('success');
+        console.log('editCategoryClick: success');
         $("#categoryEditModal").html(data.catModalTmpl);
-        $("#editCategoryForm").modal("show");
+        $("#editCategoryForm").modal();
+        $("#editCategoryForm").modal('open');
       },
       error: function (request, status, error) {
-        console.log('ajxError!');
+        console.log('editCategoryClick: ajxError!');
       },
       complete: function (xhr, status) {
-        console.log('ajxComplete!');
+        console.log('editCategoryClick: ajxComplete!');
       }
     });
 
