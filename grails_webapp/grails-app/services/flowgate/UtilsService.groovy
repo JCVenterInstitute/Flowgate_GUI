@@ -282,15 +282,17 @@ class UtilsService {
             if (expFile) {
                 Integer metaValOrder = 10
                 metaDataKeys.each { metaDataKey ->
-                    ExpFileMetadata expFileMetadata = ExpFileMetadata.findByExpFileAndMdKey(expFile, metaDataKey, lineMap["${metaDataKey}"])
-                    if (!expFileMetadata) {
-                        expFileMetadata = new ExpFileMetadata(expFile: expFile, mdKey: metaDataKey, mdVal: lineMap["${metaDataKey}"], dispOrder: metaValOrder).save(flush: true)
-                    } else {
-                        expFileMetadata.properties = [dispOrder: metaValOrder]
-                        expFileMetadata.save(flush: true)
+                    if (!metaDataKey.equals('')) {
+                        ExpFileMetadata expFileMetadata = ExpFileMetadata.findByExpFileAndMdKey(expFile, metaDataKey, lineMap["${metaDataKey}"])
+                        if (!expFileMetadata) {
+                            expFileMetadata = new ExpFileMetadata(expFile: expFile, mdKey: metaDataKey, mdVal: lineMap["${metaDataKey}"], dispOrder: metaValOrder).save(flush: true)
+                        } else {
+                            expFileMetadata.properties = [dispOrder: metaValOrder]
+                            expFileMetadata.save(flush: true)
+                        }
+                        println "${expFileMetadata.hasErrors()}"
+                        metaValOrder += 10
                     }
-                    println "${expFileMetadata.hasErrors()}"
-                    metaValOrder += 10
                 }
             }
 
