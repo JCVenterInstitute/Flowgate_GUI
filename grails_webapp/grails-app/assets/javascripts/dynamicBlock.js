@@ -13,6 +13,9 @@ function addItem(id, elem, min, max, onComplete, limitMessage, removeBtnLabel, m
     // console.log(elem);
     // console.log(myArrStr);
     elem = elem.replace('id="mdValue"','id="mdValue" value="'+myArrStr);
+    if(myArrStr && '"' !== myArrStr.trim()) {
+      elem = elem.replace('for="mdValue"','for="mdValue" class="active"');
+    }
     // creates new item and adds the index number to it
     var $newElem = $('<div ></div>').html(elem).attr({'class': 'row', 'id' : id + num});
     // creates the "Remove" button

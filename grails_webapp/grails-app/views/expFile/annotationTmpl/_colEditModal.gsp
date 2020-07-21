@@ -45,7 +45,7 @@
 
         <div class="input-field col s8">
           <input type="text" id="mdValue" name="mdValue" required>
-          <label>Attribute Value</label>
+          <label for="mdValue">Attribute Value</label>
         </div>
       </fg:dynamicBlock>
     </div>
