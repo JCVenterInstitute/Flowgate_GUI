@@ -5,7 +5,7 @@
 </div>
 <g:if test="${!addBtnId}">
   <div class="input-field col s12">
-    <button id="add_${id}" class="waves-effect waves-light btn-flat">Add possible values for this attribute</button>
+    <button type="button" id="add_${id}" class="waves-effect waves-light btn-flat">Add possible values for this attribute</button>
   </div>
 </g:if>
 <script>
