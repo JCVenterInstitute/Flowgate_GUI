@@ -16,7 +16,7 @@ function addItem(id, elem, min, max, onComplete, limitMessage, removeBtnLabel, m
     // creates new item and adds the index number to it
     var $newElem = $('<div ></div>').html(elem).attr({'class': 'row', 'id' : id + num});
     // creates the "Remove" button
-    let $removeButtonDiv = $('<div/>').attr({'class': 'input-field col s2'}).appendTo($newElem);
+    var $removeButtonDiv = $('<div/>').attr({'class': 'input-field col s2'}).appendTo($newElem);
     var $removeButton = $('<input type="button"/>').appendTo($removeButtonDiv);
     $removeButton.attr({
       id: 'remove_' + id,
