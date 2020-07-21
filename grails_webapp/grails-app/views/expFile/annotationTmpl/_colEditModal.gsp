@@ -7,7 +7,7 @@
       <g:hiddenField name="metaValId" value="${eMeta?.mdVals?.id?.join(',')}"/>
       <div class="row">
         <div class="input-field col s12">
-          <g:select id="mdCategory" name="mdCategory.id" from="${(ExperimentMetadataCategory.findAllByExperiment(experiment))}" optionKey="id"
+          <g:select id="mdCategory" name="mdCategory.id" from="${ExperimentMetadataCategory.findAllByExperimentAndIsMiFlow(experiment, false)}" optionKey="id"
                     optionValue="mdCategory" value="${category}" required=""/>
           <label>Attribute Category *</label>
         </div>

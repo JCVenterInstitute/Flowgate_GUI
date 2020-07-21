@@ -8,7 +8,7 @@
       <div class="row">
         <div class="input-field col s12">
           <g:select id="mdCategory" name="mdCategory.id"
-                    from="${(ExperimentMetadataCategory.findAllByExperiment(experiment)) ?: ExperimentMetadataCategory.findOrSaveByExperimentAndMdCategory(experiment, 'Basics')}"
+                    from="${(ExperimentMetadataCategory.findAllByExperimentAndIsMiFlow(experiment, false)) ?: ExperimentMetadataCategory.findOrSaveByExperimentAndMdCategory(experiment, 'Basics')}"
                     optionKey="id"
                     optionValue="mdCategory" value="${category}" required=""/>
           <label>Attribute Category *</label>
