@@ -72,7 +72,7 @@
         <button type="submit" class="btn waves-effect waves-light">Save</button>
       </g:if>
       <g:link class="${cats ? 'btn-flat' : 'btn'} waves-effect waves-light" controller="experiment" action="index" params="[eId: experiment?.id]">Return to experiment</g:link>
-      <a class="btn-flat waves-effect waves-light modal-trigger" href="#upload-annotation-file">Upload an annotation file</a>
+      <a class="btn-flat waves-effect waves-light" href="${createLink(controller: 'experiment', action: 'exportMifCytTempl', id: experiment?.id)}">Download template file</a>
     </div>
   </div>
 </g:form>

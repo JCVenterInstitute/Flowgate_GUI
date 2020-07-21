@@ -79,7 +79,7 @@
   <div class="row">
     <div class="input-field col s12">
       <g:link class="btn waves-effect waves-light" controller="experiment" action="index" params="[eId: experiment.id]">Save and return to experiment</g:link>
-      <a class="btn-flat waves-effect waves-light modal-trigger" href="#upload-annotation-file">Upload an Annotation File</a>
+      <a class="btn-flat waves-effect waves-light" href="${createLink(controller: 'expFile', action: 'exportAnnotationTempl', id: experiment?.id)}">Download Template File</a>
     </div>
   </div>
 
@@ -140,9 +140,9 @@
 <div id="categoryEditModal"></div>
 
 <div class="fixed-action-btn" style="bottom: 93px;">
-  <a class="btn-floating btn-large waves-effect waves-light tooltipped" href="${createLink(controller: 'expFile', action: 'exportAnnotationTempl', id: experiment?.id)}"
-     data-tooltip="Download template file" data-position="left">
-    <i class="material-icons">file_download</i>
+  <a class="btn-floating btn-large waves-effect waves-light tooltipped modal-trigger" href="#upload-annotation-file"
+     data-tooltip="Upload an annotation file" data-position="left">
+    <i class="material-icons">file_upload</i>
   </a>
 </div>
 
