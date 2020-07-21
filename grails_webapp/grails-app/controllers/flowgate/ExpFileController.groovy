@@ -624,12 +624,14 @@ class ExpFileController {
 
     def setCkInitValues(Experiment experiment){
 //        println "set session init values ${experiment}"
-        experiment.expMetadatas.sort{it.mdCategory?.dispOrder}?.each{ catgy ->
-            experiment.expMetadatas.findAll{it.mdCategory == catgy.mdCategory}?.sort{it.dispOrder}?.each{ eMeta ->
-                if(eMeta.mdVals.size()>1)
-                    session["meta_${eMeta.mdKey}"] = eMeta.mdVals.sort{it.dispOrder}.first().mdValue
-                else
-                    session["meta_${eMeta.mdKey}"] = eMeta.mdVals.mdValue.join(',')
+        if(experiment && experiment.expMetadatas) {
+            experiment.expMetadatas.sort { it.mdCategory?.dispOrder }?.each { catgy ->
+                experiment.expMetadatas.findAll { it.mdCategory == catgy.mdCategory }?.sort { it.dispOrder }?.each { eMeta ->
+                    if (eMeta.mdVals.size() > 1)
+                        session["meta_${eMeta.mdKey}"] = eMeta.mdVals.sort { it.dispOrder }.first().mdValue
+                    else
+                        session["meta_${eMeta.mdKey}"] = eMeta.mdVals.mdValue.join(',')
+                }
             }
         }
     }
