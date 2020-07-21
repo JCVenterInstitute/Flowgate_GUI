@@ -34,7 +34,7 @@
           </div>
         </div>
       </f:with>
-      <fg:dynamicBlock itemId="eMetaValue" max="50" mdVals="[]"
+      <fg:dynamicBlock itemId="eMetaValue" max="50" mdVals="${eMeta.mdVals*.mdValue}"
                        limitReachedMsg="Sorry, you cannot specify more than 15 values"
                        removeBtnLabel="Delete">
         <g:hiddenField name="mdType" value="${expMetaDatVal?.mdType ?: 'String'}"/>
@@ -58,24 +58,7 @@
 </div>
 
 <script>
-  //TODO Update dynamicBlock to work with material design
-  const elem = '<g:hiddenField name="mdType" value="${expMetaDatVal?.mdType ?: 'String'}"/>\n' +
-      '        <div class="input-field col s2">\n' +
-      '          <input type="text" id="dispOrder" name="dispOrder" required value="1">\n' +
-      '          <label class="active">Disp. Order *</label>\n' +
-      '        </div>\n' +
-      '        <div class="input-field col s8">\n' +
-      '          <input type="text" id="mdValue" name="mdValue" required>\n' +
-      '          <label class="active">Attribute Value</label>\n' +
-      '        </div>'
   $(function () {
-    const values = "${eMeta.mdVals*.mdValue}".replace('[','').replace(']','').split(', ');
-    const size = ${eMeta.mdVals*.mdValue.size()};
-
-    for (let i = 0; i < size; i++) {
-      addItem("eMetaValue", elem, '1', '15', null, "Sorry, you cannot specify more than 15 values", 'Delete', "${eMeta.mdVals*.mdValue}");
-    }
-
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems);
   });
