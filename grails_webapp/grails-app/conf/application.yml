@@ -1,3 +1,7 @@
+server:
+    contextPath: /
+    port: ${PORT}
+
 fcsFileStoreLocation:
     path: ${FILE_PATH}
 
@@ -25,10 +29,6 @@ UCI:
     name: exclusion.config
 
 grails:
-#    server:
-#        contextPath: /
-#        port: ${PORT:8585}
-
     plugin:
         springsecurity:
             ui:
