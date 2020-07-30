@@ -48,14 +48,10 @@
     </g:each>
     </tbody>
   </table>
-  <g:if test="${newUserLst.size() > 10}">
-    <div class="row">
-      <div class="col-sm-offset-1 col-sm-10">
-        <div class="pagination">
-          <g:paginate total="${newUserLstCount ?: 0}"/>
-        </div>
-      </div>
-    </div>
+  <g:if test="${userCount > 10}">
+    <ul class="pagination" id="pagination">
+      <g:paginate total="${userCount ?: 0}" prev="chevron_left" next="chevron_right"/>
+    </ul>
   </g:if>
 </g:if>
 <g:else>
@@ -72,6 +68,8 @@
   $(document).ready(function () {
     $("nav .nav-wrapper li").removeClass("active");
     $("nav #nav-users").addClass("active");
+
+    updatePaginationToMaterial($('#pagination'));
   });
   document.addEventListener('DOMContentLoaded', function () {
     var tooltipElems = document.querySelectorAll('.tooltipped');

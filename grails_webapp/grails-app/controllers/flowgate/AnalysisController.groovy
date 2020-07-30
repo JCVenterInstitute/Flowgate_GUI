@@ -74,8 +74,9 @@ class AnalysisController {
     def index(Integer max) {
         Experiment experiment = Experiment.findById(params.eId)
         scheduledTaskService.jobList = utilsService.getUnfinishedJobsListOfUser(experiment)
+        params.max = Math.min(max ?: 10, 100)
         def analysisList = utilsService.getAnalysisListByUser(experiment, params)
-        respond analysisList, model: [analysisCount: analysisList.size(), eId: params?.eId, experiment: experiment]
+        respond analysisList, model: [analysisCount: utilsService.getAnalysisListByUser(experiment, null).size(), eId: params?.eId, experiment: experiment]
     }
 
     /*

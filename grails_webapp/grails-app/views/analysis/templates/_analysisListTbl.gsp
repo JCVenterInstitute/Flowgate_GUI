@@ -134,27 +134,13 @@
       </g:each>
     </ul>
   </div>
-</div>
 
-%{--<table id="analysis-table" class="highlight responsive-table mdl-data-table" style="width:100%">
-  <thead>
-  <tr>
-    <th>Task Name</th>
-    <th>Reports</th>
-    <th>Task Status</th>
-    <th>Submitted on</th>
-    <th>Creator</th>
-%{--    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <g:each in="${analysisList}" var="bean" status="i">
-    <tr id="${bean?.jobNumber}"
-    <g:render template="templates/analysisListTablRow" model="[bean: bean]"/>
-    </tr>
-  </g:each>
-  </tbody>
-</table>--}%
+  <g:if test="${analysisCount > 10}">
+    <ul class="pagination" id="pagination">
+      <g:paginate params="${[eId: params.eId]}" total="${analysisCount ?: 0}" prev="chevron_left" next="chevron_right"/>
+    </ul>
+  </g:if>
+</div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -168,5 +154,7 @@
 
     var collapsibleElems = document.querySelectorAll('.collapsible');
     M.Collapsible.init(collapsibleElems);
+
+    updatePaginationToMaterial($('#pagination'));
   });
 </script>

@@ -10,9 +10,11 @@
 <h2><g:message code="default.list.label" args="[entityName]"/></h2>
 
 <f:table collection="${moduleList}" properties="${['title', 'label', 'name', 'server']}"/>
-<div class="pagination">
-  <g:paginate total="${moduleCount ?: 0}"/>
-</div>
+<g:if test="${moduleCount > 10}">
+  <ul class="pagination" id="pagination">
+    <g:paginate total="${moduleCount ?: 0}" prev="chevron_left" next="chevron_right"/>
+  </ul>
+</g:if>
 
 <div class="fixed-action-btn">
   <g:link class="btn-floating btn-large waves-effect waves-light tooltipped" action="create" data-tooltip="Add a new module" data-position="left">
@@ -24,6 +26,8 @@
   $(document).ready(function () {
     $("nav .nav-wrapper li").removeClass("active");
     $("nav #nav-modules").addClass("active");
+
+    updatePaginationToMaterial($('#pagination'));
   });
   document.addEventListener('DOMContentLoaded', function () {
     var tooltipElems = document.querySelectorAll('.tooltipped');

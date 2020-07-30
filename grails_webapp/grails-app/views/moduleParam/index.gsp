@@ -12,9 +12,17 @@
   <h1><g:message code="default.list.label" args="[entityName]"/></h1>
   <f:table collection="${moduleParamList}"/>
 
-  <div class="pagination">
-    <g:paginate total="${moduleParamCount ?: 0}"/>
-  </div>
+  <g:if test="${moduleParamCount > 10}">
+    <ul class="pagination" id="pagination">
+      <g:paginate total="${moduleParamCount ?: 0}" prev="chevron_left" next="chevron_right"/>
+    </ul>
+  </g:if>
 </div>
+
+<script>
+  $(document).ready(function () {
+    updatePaginationToMaterial($('#pagination'));
+  });
+</script>
 </body>
 </html>

@@ -10,9 +10,12 @@
 <h2><g:message code="default.list.label" args="[entityName]"/></h2>
 
 <f:table collection="${analysisServerList}" properties="['name', 'url', 'userName']"/>
-<div class="pagination">
-  <g:paginate total="${analysisServerCount ?: 0}"/>
-</div>
+
+<g:if test="${analysisServerCount > 10}">
+  <ul class="pagination" id="pagination">
+    <g:paginate total="${analysisServerCount ?: 0}" prev="chevron_left" next="chevron_right"/>
+  </ul>
+</g:if>
 
 <div class="fixed-action-btn">
   <g:link class="btn-floating btn-large waves-effect waves-light tooltipped" action="create" data-tooltip="Add a new server" data-position="left">
@@ -24,6 +27,8 @@
   $(document).ready(function () {
     $("nav .nav-wrapper li").removeClass("active");
     $("nav #nav-analysis").addClass("active");
+
+    updatePaginationToMaterial($('#pagination'));
   });
   document.addEventListener('DOMContentLoaded', function () {
     var tooltipElems = document.querySelectorAll('.tooltipped');
