@@ -36,10 +36,10 @@ function shorten(text, count) {
 }
 
 function updatePaginationToMaterial(pagination) {
-  let hasNextLink = false, hasPrevLink = false;
+  var hasNextLink = false, hasPrevLink = false;
 
   pagination.children().each(function(index,html) {
-    let $this = $(this);
+    var $this = $(this);
     if($this.hasClass('currentStep')){
       $this.wrap("<li class='active'></li>");
       $this.wrapInner("<a href='#!'></a>");
