@@ -1,5 +1,6 @@
 package flowgate
 
+import com.sun.jersey.api.client.ClientHandlerException
 import grails.converters.JSON
 import grails.core.GrailsApplication
 import grails.plugin.springsecurity.annotation.Secured
@@ -540,44 +541,50 @@ class AnalysisController {
         def thisRequest = request
         Module module = Module.get(params?.module?.id)
         Experiment experiment = Experiment.get(params?.eId?.toLong())
-        analysis.experiment = experiment
-        if(module.server.isGenePatternServer()) {
-            Map resultMap
-            if (module.server.url.startsWith('https')) {
-                Parameter[] parameters = genePatternService.setModParams(module, params)
-                resultMap = genePatternService.getJobNo(module, parameters)
+        try {
+            analysis.experiment = experiment
+            if (module.server.isGenePatternServer()) {
+                Map resultMap
+                if (module.server.url.startsWith('https')) {
+                    Parameter[] parameters = genePatternService.setModParams(module, params)
+                    resultMap = genePatternService.getJobNo(module, parameters)
+                } else {
+                    def parameters = restUtilsService.setModParamsRest(module, params, thisRequest)
+                    resultMap = restUtilsService.getJobNo(module, parameters)
+                }
+                analysis.jobNumber = resultMap.jobNo
+                flash.eMsg = resultMap.eMsg
+                analysis.analysisStatus = resultMap.jobNo > 0 ? 2 : -1 //pending/processing or error
             } else {
-                def parameters = restUtilsService.setModParamsRest(module, params, thisRequest)
-                resultMap = restUtilsService.getJobNo(module, parameters)
+                GalaxyService galaxyService = new GalaxyService(module.server)
+                analysis.jobNumber = galaxyService.submitImmportGalaxyWorkflow(module, experiment, params, thisRequest)
+                analysis.analysisStatus = 2
             }
-            analysis.jobNumber = resultMap.jobNo
-            flash.eMsg = resultMap.eMsg
-            analysis.analysisStatus = resultMap.jobNo > 0 ? 2 : -1 //pending/processing or error
-        } else {
-            GalaxyService galaxyService = new GalaxyService(module.server)
-            analysis.jobNumber = galaxyService.submitImmportGalaxyWorkflow(module, experiment, params, thisRequest)
-            analysis.analysisStatus = 2
-        }
-        experiment.addToAnalyses(analysis)
-        analysis.validate()
-        if (analysis == null) {
-            //transactionStatus.setRollbackOnly()
-            notFound()
-            return
-        }
-        if (analysis.hasErrors()) {
-            //transactionStatus.setRollbackOnly()
-            respond analysis.errors, view:'create', model: [eId: params.eId, experiment: experiment]
-            return
-        }
-        analysis.save flush:true
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'analysis.label', default: 'Analysis:'), analysis.analysisName])
+            experiment.addToAnalyses(analysis)
+            analysis.validate()
+            if (analysis == null) {
+                //transactionStatus.setRollbackOnly()
+                notFound()
+                return
+            }
+            if (analysis.hasErrors()) {
+                //transactionStatus.setRollbackOnly()
+                respond analysis.errors, view: 'create', model: [eId: params.eId, experiment: experiment]
+                return
+            }
+            analysis.save flush: true
+            request.withFormat {
+                form multipartForm {
+                    flash.message = message(code: 'default.created.message', args: [message(code: 'analysis.label', default: 'Analysis:'), analysis.analysisName])
 //                redirect controller: 'experiment', action: 'index', params: [eId: params?.eId]
-                redirect action: 'index', params: [eId: params?.eId]
+                    redirect action: 'index', params: [eId: params?.eId]
+                }
+                '*' { respond analysis, [status: CREATED] }
             }
-            '*' { respond analysis, [status: CREATED] }
+        } catch (ClientHandlerException e) {
+            flash.error = "Server " + e.cause.message + " is not available."
+            redirect action: 'create', model: [analysis: analysis], params: [eId: params?.eId]
+            return
         }
     }
 
