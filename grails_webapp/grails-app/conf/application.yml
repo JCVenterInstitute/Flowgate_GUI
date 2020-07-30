@@ -1,13 +1,33 @@
-server:
-    contextPath: /
-    port: 8585
-
 fcsFileStoreLocation:
-    path: /Users/flowGate/tmp/fcsUploads/
+    path: ${FILE_PATH}
 
-adminEmailAddr:
+resultFileStoreLocation:
+    path: ${RESULT_FILE_PATH}
+
+callbackUrl: ${GP_IP}:${GP_PORT}/taskStatus
+
+adminEmailAddr: ${ADMIN_MAIL}
+
+UCI:
+  workflow: Asthma_DAFI_FLOCK
+  libraryFolder: Asthma
+  headerList:
+    order: 1
+    name: header.lst
+  headerReplace:
+    order: 2
+    name: header.txt
+  inclusion:
+    order: 3
+    name: inclusion.config
+  exclusion:
+    order: 4
+    name: exclusion.config
 
 grails:
+    server:
+        contextPath: /
+        port: ${PORT}
     plugin:
         springsecurity:
             ui:
@@ -24,10 +44,8 @@ grails:
                         useBearerToken: true
                         enableAnonymousAccess: true
 
-
             logout:
                 postOnly: false
-#   grails.plugin.springsecurity.logout.afterLogoutUrl = "/dashboard"
                 afterLogoutUrl: /
 
             successHandler:
@@ -36,9 +54,9 @@ grails:
 #               gsp:
 #                   layoutRegister: main
 
+            useBasicAuth: true
 
 # Added by the Spring Security Core plugin:
-
             auth:
                 loginFormUrl: /
             userLookup:
@@ -117,6 +135,9 @@ grails:
                     - pattern: /gp/**
                       access:
                         - 'permitAll'
+#                    - pattern: /api/metadata/**
+#                      access:
+#                        - 'permitAll'
                     - pattern: /assets/**
                       access:
                         - 'permitAll'
@@ -160,6 +181,8 @@ grails:
                     - pattern: /**/favicon.ico
                       filters: 'none'
 #	                    [pattern: '/project/list',	 filters: 'none'],
+                    - pattern: /api/metadata/**
+                      filters: 'none'
                     - pattern: /api/**
                       filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter'
                     - pattern: /gp/**
@@ -174,34 +197,6 @@ grails:
                     failureStatusCode: 401
                 logout:
                     endpointUrl: /api/logout
-
-
-
-#            useSecurityEventListener: true
-#           onInteractiveAuthenticationSuccessEvent: { e, appCtx ->
-
-#
-#    User.withTransaction {
-
-#    def user = User.findByIdAndIsDeleted(appCtx.springSecurityService.principal.id, false)
-#    if (!user.isAttached())// Checks whether the domain instance is attached to a currently active Hibernate session.
-#    user.attach()
-#    user.lastLoginDate = user.currentLoginTime // update last login date
-#    user.currentLoginDate = new Date() // update current login date
-#user.save(flush: true, failOnError: true)
-#
-#    }
-#  */
-
-#    def utilsService = appCtx.utilsService
-#       utilsService?.setAppInitVars()
-#    }
-
-#    grails.plugin.springsecurity.onAbstractAuthenticationFailureEvent = { e, appCtx ->
-#        println "\nERROR auth failed for user $e.authentication.name: $e.exception.message\n"
-#    }
-
-
 
 #grails:
     profile: web
@@ -218,8 +213,8 @@ grails:
     mail:
         host: "smtp.gmail.com"
         port: 465
-        username: "username"
-        password: "password"
+        username: ${MAIL_USERNAME}
+        password: ${MAIL_PASSWORD}
         props:
             mail.smtp.auth: "true"
             mail.smtp.socketFactory.port: "465"
@@ -304,6 +299,12 @@ spring:
     groovy:
         template:
             check-template-location: false
+    resources:
+      cache-period: 86400
+
+security:
+  headers:
+    cache: true
 
 # Spring Actuator Endpoints are Disabled by Default
 endpoints:
@@ -328,23 +329,23 @@ dataSource:
     jmxExport: true
     driverClassName: com.mysql.jdbc.Driver
     dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-    username:
-    password:
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
 
 environments:
     development:
         dataSource:
+#            dbCreate: create-drop
             dbCreate: update
-
-            url: jdbc:mysql://localhost:3306/flowgate
+            url: ${MYSQL_DEV_URL}
     test:
         dataSource:
             dbCreate: update
-            url: jdbc:mysql://localhost:3306/flowgate
+            url: ${MYSQL_TEST_URL}
     production:
         dataSource:
             dbCreate: update
-            url: jdbc:mysql://flowgate.sdsc.edu:3306/flowgate
+            url: ${MYSQL_URL}
             properties:
                 jmxEnabled: true
                 initialSize: 5
