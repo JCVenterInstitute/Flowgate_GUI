@@ -34,3 +34,35 @@ document.addEventListener('DOMContentLoaded', function () {
 function shorten(text, count) {
   return text.slice(0, count) + (text.length > count ? "..." : "");
 }
+
+function updatePaginationToMaterial(pagination) {
+  let hasNextLink = false, hasPrevLink = false;
+
+  pagination.children().each(function(index,html) {
+    let $this = $(this);
+    if($this.hasClass('currentStep')){
+      $this.wrap("<li class='active'></li>");
+      $this.wrapInner("<a href='#!'></a>");
+    } else{
+      $this.wrap("<li class='waves-effect'></li>");
+
+      if($this.hasClass('nextLink')){
+        $this.wrapInner("<i class='material-icons'></i>");
+        hasNextLink = true;
+      }
+
+      if($this.hasClass('prevLink')){
+        $this.wrapInner("<i class='material-icons'></i>");
+        hasPrevLink = true;
+      }
+    }
+  });
+
+  if(!hasNextLink) {
+    $('#pagination').append('<li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>');
+  }
+
+  if(!hasPrevLink) {
+    $('#pagination').prepend('<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>');
+  }
+}
