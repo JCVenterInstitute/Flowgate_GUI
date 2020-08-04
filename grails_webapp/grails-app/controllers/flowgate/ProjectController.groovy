@@ -64,19 +64,17 @@ class ProjectController {
             session.filterString = params?.filterString
             session.searchLst = searchLst
         }*/
-        if(session?.projCardView){
+        if (session?.projCardView) {
             render (contentType:"text/json"){
                 success true
                 contentPage "${g.render(template: 'templates/projCardsTmpl', model: [projectList: searchLst, filterString: params?.filterString])}"
             }
-        }
-        else {
+        } else {
             render (contentType:"text/json"){
                 success true
                 contentPage "${g.render(template: 'templates/projListTmpl', model: [projectList: searchLst, filterString: params?.filterString])}"
             }
         }
-
     }
 
     def axClearSearch(){
@@ -94,14 +92,12 @@ class ProjectController {
                 success true
                 contentPage "${g.render(template: 'templates/projCardsTmpl', model: [projectList: projectList])}"
             }
-        }
-        else {
+        } else {
             render (contentType:"text/json"){
                 success true
                 contentPage "${g.render(template: 'templates/projListTmpl', model: [projectList: projectList])}"
             }
         }
-
     }
 
 
@@ -120,7 +116,6 @@ class ProjectController {
             success true
             contentTree "${g.render(template: '/shared/treeView', model: [projectList: projectList, experimentList: experimentList])}"
         }
-
     }
 
     def axClearSearchTree(){
@@ -137,7 +132,6 @@ class ProjectController {
             success true
             contentTree "${g.render(template: '/shared/treeView', model: [projectList: projectList, experimentList: experimentList, searchLst: searchLst])}"
         }
-
     }
 
     def axProjectClick(){
@@ -185,16 +179,25 @@ class ProjectController {
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         User user = springSecurityService.currentUser
-        if(params?.pId)
+        Project project
+        if(params?.pId) {
             session.projectOpenId = params?.pId
-        Project openProject
-        if(session?.showInactive)
-            openProject = Project.findById(session.projectOpenId)
-        else
-            openProject = Project.findByIdAndIsActive(session.projectOpenId, true)
-        ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
-        ArrayList<Experiment> experimentList = utilsService.getExperimentListForProject(openProject, session?.showInactive ?: false)
-        respond projectList, model:[project: openProject, projectCount: projectList.size(), experimentList: experimentList]
+            project = Project.get(params.pId)
+        }
+        if ( !utilsService.isAffil(project) ) {
+            flash.message = "You are not allowed to access this project!"
+            redirect action: 'list'
+        } else {
+            Project openProject
+
+            if(session?.showInactive)
+                openProject = Project.findById(session.projectOpenId)
+            else
+                openProject = Project.findByIdAndIsActive(session.projectOpenId, true)
+            ArrayList<Project> projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
+            ArrayList<Experiment> experimentList = utilsService.getExperimentListForProject(openProject, session?.showInactive ?: false)
+            respond projectList, model:[project: openProject, projectCount: projectList.size(), experimentList: experimentList]
+        }
     }
 
     def toggleShowinctive(){

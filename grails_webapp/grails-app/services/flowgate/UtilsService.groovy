@@ -47,10 +47,15 @@ class UtilsService {
         else println "Error: no session!!!!"
     }
 
-    def isOwnerMember (String object, Long objectId, String role){
-        if (object){
-            switch (object){
-                case 'project':  return (ProjectUser.findAllByProjectAndUser(Project.get(objectId), springSecurityService.currentUser )*.projRole).contains(role)
+    Boolean isAllowed(User user, Long pId) {
+        Project project = Project.get(pId)
+        ProjectUser.findAllByUserAndProject(user, project, [params: paginateParams]).size()>0
+    }
+
+    Boolean isOwnerMember(String object, Long objectId, String role) {
+        if (object) {
+            switch (object) {
+                case 'project': return (ProjectUser.findAllByProjectAndUser(Project.get(objectId), springSecurityService.currentUser)*.projRole).contains(role)
                     break
                 case 'experiment':  return (ExperimentUser.findAllByExperimentAndUser(Experiment.get(objectId), springSecurityService.currentUser )*.expRole).contains(role)
                     break
@@ -59,11 +64,27 @@ class UtilsService {
         return false
     }
 
-    def isAffil(String object, Long objectId){
+    Boolean isOwnerMember(Object object, String role) {
+        if (object) {
+            switch (object) {
+                case 'project': return (ProjectUser.findAllByProjectAndUser(Project.get(object.id), springSecurityService.currentUser)*.projRole).contains(role)
+                    break
+                case 'experiment': return (ExperimentUser.findAllByExperimentAndUser(Experiment.get(object.id), springSecurityService.currentUser)*.expRole).contains(role)
+                    break
+            }
+        }
+        return false
+    }
+
+    Boolean isAffil(String object, Long objectId) {
         return isOwnerMember(object, objectId, 'owner') || isOwnerMember(object, objectId, 'member')
     }
 
-    def clone(String cloneType, def source, def parent, Boolean createChilds, String appendix){
+    Boolean isAffil(Object object) {
+        return isOwnerMember(object, 'owner') || isOwnerMember(object, 'member')
+    }
+
+    def clone(String cloneType, def source, def parent, Boolean createChilds, String appendix) {
         Boolean saveok = false
         switch (cloneType){
             case 'project': Project projectDest = new Project(source.properties)
@@ -128,33 +149,24 @@ class UtilsService {
         ((srcLst - cmpLst) + (cmpLst - srcLst)).each{
             if(springSecurityService.currentUser.id != it.toLong()) { //you cannot remove yourself!
                 User projectUser = User.get(it.toLong())
-                if (ProjectUser.findAllByProjectAndUserAndProjRole(project, projectUser, role).size() == 0)
-                    addProjectUser(project, projectUser, role)
-                else
-                    removeProjectUser(project, projectUser, role)
-
+                if (ProjectUser.findAllByProjectAndUserAndProjRole(project, projectUser, role).size() == 0) {
+                    ProjectUser.create(project, projectUser, role)
+                } else {
+                    ProjectUser.remove(project, projectUser, role)
+                }
             }
         }
     }
 
-    def addProjectUser(Project project, User user, String userType){
-        ProjectUser.create(project, user, userType)
-    }
-
-    def removeProjectUser(Project project, User user, String userType){
-        ProjectUser.where{ project == project && user == user && projRole == userType }.deleteAll()
-    }
-
-    String authEncoded(String username, String password){
-        return new String(Base64.encodeBase64((username+':'+password).getBytes()), "UTF-8")
+    String authEncoded(String username, String password) {
+        return "${username}:${password}".encodeAsBase64()
     }
 
     String authHeader(String username, String password){
         return "Basic "+authEncoded(username, password)
     }
 
-
-    def addIdToSession(Long id, String sVar){
+    def addIdToSession(Long id, String sVar) {
         def session = getSession()
         if(session[sVar]) {
             println "session[ ${sVar} ] == ${session[sVar]}"
@@ -169,30 +181,23 @@ class UtilsService {
         }
     }
 
-    def getProjectListForUser(User user, Map paginateParams, Boolean showInactive) {
-
-        if(user.username.equals("admin"))
-            if(showInactive)
-              return Project.findAll([params: paginateParams])
-            else
-              return Project.findAllByIsActive(true, [params: paginateParams])
-        else {
-            def projectUserList = ProjectUser.findAllByUser(user, [params: paginateParams])
-            List<Project> projectList = new ArrayList<Project>(projectUserList.size())
-            for (def projectUser : projectUserList) {
-                projectList.add(projectUser.project)
+    List<Project> getProjectListForUser(User user, Map paginateParams, Boolean showInactive) {
+        if (user.username.equals("admin")) {
+            if (showInactive) {
+                Project.findAll([params: paginateParams])
+            } else {
+                Project.findAllByIsActive(true, [params: paginateParams])
             }
-
-            return projectList
+        } else {
+            ProjectUser.findAllByUser(user, [params: paginateParams])*.project
         }
     }
 
-    List<Experiment> getExperimentListForProject(Project project, Boolean showInactive){
-        if(showInactive){
-            return Experiment.findAllByProject(project)
-        }
-        else {
-            return Experiment.findAllByProjectAndIsActive(project, true)
+    List<Experiment> getExperimentListForProject(Project project, Boolean showInactive) {
+        if (showInactive) {
+            Experiment.findAllByProject(project)
+        } else {
+            Experiment.findAllByProjectAndIsActive(project, true)
         }
     }
 
