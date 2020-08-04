@@ -1,4 +1,3 @@
-<%@ page import="flowgate.User" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +32,9 @@
     <div class="row">
       <div class="input-field col s12">
         <button type="submit" class="btn waves-effect waves-light">Create Project</button>
-        <a href="${createLink(controller: 'project', action: 'list')}" class="btn-flat">Return to Project List</a>
+        <g:if test="${!flash.firstTime}">
+          <a href="${createLink(controller: 'project', action: 'list')}" class="btn-flat">Return to Project List</a>
+        </g:if>
       </div>
     </div>
   </g:form>
