@@ -7,68 +7,75 @@
 </head>
 
 <body>
-<div class="nav" role="navigation"></div>
-<div id="list-user" class="content scaffold-list" role="main">
-  <g:if test="${newUserLst.size() > 0}">
-    <div class="row">
-      <div class="col-sm-offset-1 col-sm-10">
-        <h1 class="page-header"><g:message code="default.list.label" args="[entityName]"/></h1>
-        <g:link class="btn btn-primary" style="margin-bottom: 10px;" action="create">New User</g:link>
-        <table class="table table-bordered table-responsive table-striped table-hover dataTable">
-          <thead>
-          <tr>
-            <g:sortableColumn class="text-center" property="username" title="Username"/>
-            <g:sortableColumn class="text-center" property="email" title="Email"/>
-            <g:sortableColumn class="text-center" property="enabled" title="Active"/>
-          </tr>
-          </thead>
-          <tbody>
-          <g:each in="${newUserLst}" var="nu" status="i">
-            <tr>
-              <td class="text-center">
-                <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
-                %{--  Show User method  --}%
-                  <g:link method="GET" resource="${nu}" action="edit">
-                    <f:display bean="${nu}"
-                               property="username"
-                               displayStyle="${displayStyle ?: 'table'}"/>
-                  </g:link>
-                </sec:ifAnyGranted>
-                <sec:ifNotGranted roles="ROLE_Administrator,ROLE_Admin">
-                  <f:display bean="${nu}"
-                             property="${'username'}"
-                             displayStyle="${displayStyle ?: 'table'}"/>
-                </sec:ifNotGranted>
-              </td>
-              <td class="text-center">
-                <f:display bean="${nu}"
-                           property="${'email'}"
-                           displayStyle="${displayStyle ?: 'table'}"/>
-              </td>
-              <td class="text-center">
-                <div id="nu-act-${nu.id}" %{--onclick="activate(${nu.id})"--}%><g:render template="activateField" model="[user: nu]"/></div>
-              </td>
-            </tr>
-          </g:each>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <g:if test="${newUserLst.size() > 10}">
-      <div class="row">
-        <div class="col-sm-offset-1 col-sm-10">
-          <div class="pagination">
-            <g:paginate total="${newUserLstCount ?: 0}"/>
-          </div>
-        </div>
-      </div>
-    </g:if>
+<g:if test="${newUserLst.size() > 0}">
+  <h2><g:message code="default.list.label" args="[entityName]"/></h2>
+
+  <table class="highlight responsive-table">
+    <thead>
+    <tr>
+      <g:sortableColumn property="username" title="Username"/>
+      <g:sortableColumn property="email" title="Email"/>
+      <g:sortableColumn property="enabled" title="Active"/>
+    </tr>
+    </thead>
+    <tbody>
+    <g:each in="${newUserLst}" var="nu" status="i">
+      <tr>
+        <td>
+          <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
+          %{--  Show User method  --}%
+            <g:link method="GET" resource="${nu}" action="edit">
+              <f:display bean="${nu}"
+                         property="username"
+                         displayStyle="${displayStyle ?: 'table'}"/>
+            </g:link>
+          </sec:ifAnyGranted>
+          <sec:ifNotGranted roles="ROLE_Administrator,ROLE_Admin">
+            <f:display bean="${nu}"
+                       property="${'username'}"
+                       displayStyle="${displayStyle ?: 'table'}"/>
+          </sec:ifNotGranted>
+        </td>
+        <td>
+          <f:display bean="${nu}"
+                     property="${'email'}"
+                     displayStyle="${displayStyle ?: 'table'}"/>
+        </td>
+        <td>
+          <div id="nu-act-${nu.id}" %{--onclick="activate(${nu.id})"--}%><g:render template="activateField" model="[user: nu]"/></div>
+        </td>
+      </tr>
+    </g:each>
+    </tbody>
+  </table>
+  <g:if test="${userCount > 10}">
+    <ul class="pagination" id="pagination">
+      <g:paginate total="${userCount ?: 0}" prev="chevron_left" next="chevron_right"/>
+    </ul>
   </g:if>
-  <g:else>
-    <h3 class="text-center">No new users</h3>
-  </g:else>
+</g:if>
+<g:else>
+  <p>No new users</p>
+</g:else>
+
+<div class="fixed-action-btn">
+  <g:link class="btn-floating btn-large waves-effect waves-light tooltipped" action="create" data-tooltip="Add a new user" data-position="left">
+    <i class="material-icons">add</i>
+  </g:link>
 </div>
+
 <script type="text/javascript">
+  $(document).ready(function () {
+    $("nav .nav-wrapper li").removeClass("active");
+    $("nav #nav-users").addClass("active");
+
+    updatePaginationToMaterial($('#pagination'));
+  });
+  document.addEventListener('DOMContentLoaded', function () {
+    var tooltipElems = document.querySelectorAll('.tooltipped');
+    M.Tooltip.init(tooltipElems);
+  });
+
   function activate(uId) {
     $.ajax({
       url: "${createLink(controller: 'user', action: 'axActivateUser')}",

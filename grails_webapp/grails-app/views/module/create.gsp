@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ page import="flowgate.AnalysisServer" defaultCodec="html" %>
 <html>
 <head>
   <meta name="layout" content="main"/>
@@ -7,95 +8,101 @@
 </head>
 
 <body>
-<content tag="nav">
-%{--<li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Application Status <span class="caret"></span></a>
-    <ul class="dropdown-menu">
-        <li><a href="#">Environment: ${grails.util.Environment.current.name}</a></li>
-        <li><a href="#">App profile: ${grailsApplication.config.grails?.profile}</a></li>
-        <li><a href="#">App version:
-            <g:meta name="info.app.version"/></a>
-        </li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">Grails version:
-            <g:meta name="info.app.grailsVersion"/></a>
-        </li>
-        <li><a href="#">Groovy version: ${GroovySystem.getVersion()}</a></li>
-        <li><a href="#">JVM version: ${System.getProperty('java.version')}</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">Reloading active: ${grails.util.Environment.reloadingAgentEnabled}</a></li>
-    </ul>
-</li>--}%
-%{--<li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Artefacts <span class="caret"></span></a>
-    <ul class="dropdown-menu">
-        <li><a href="#">Controllers: ${grailsApplication.controllerClasses.size()}</a></li>
-        <li><a href="#">Domains: ${grailsApplication.domainClasses.size()}</a></li>
-        <li><a href="#">Services: ${grailsApplication.serviceClasses.size()}</a></li>
-        <li><a href="#">Tag Libraries: ${grailsApplication.tagLibClasses.size()}</a></li>
-    </ul>
-</li>--}%
-%{--<sec:ifAnyGranted roles="ROLE_Admin,ROLE_Administrator">
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i> Settings <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            --}%%{--<g:each var="plugin" in="${applicationContext.getBean('pluginManager').allPlugins}">
-                <li><a href="#">${plugin.name} - ${plugin.version}</a></li>
-            </g:each>--}%%{--
-            <sec:ifAnyGranted roles="ROLE_Administrator">
-                --}%%{--<g:link controller="user">Manage Users</g:link>--}%%{--
-            </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_Admin,ROLE_Administrator">
-                --}%%{--<g:link controller="user" action="newUsers">New Users</g:link>--}%%{--
-            </sec:ifAnyGranted>
-        </ul>
-    </li>
-</sec:ifAnyGranted>--}%
-%{--
-<sec:ifLoggedIn>
-    -- <li><a><sec:username /></a></li> --
-    -- <li><g:link controller="logout">Logout</g:link></li> --
-    <p class="navbar-text" style="color: white">Logged in as: <sec:username /></p>
-    <g:link controller="logout" class="navbar-text">Logout</g:link>
-</sec:ifLoggedIn>
-<sec:ifNotLoggedIn>
-    <li><g:link controller='login' action='auth'>Login</g:link></li>
-</sec:ifNotLoggedIn>
---}%
-</content>
-%{--<a href="#create-module" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>--}%
+<h2><g:message code="default.create.label" args="[entityName]"/></h2>
+<g:hasErrors bean="${this.module}">
+  <g:eachError var="err" bean="${this.module}">
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        M.toast({
+          html: '<span><g:message error="${err}"/></span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+          displayLength: Infinity,
+          classes: 'red'
+        });
+      });
+    </script>
+  </g:eachError>
+</g:hasErrors>
+<g:form action="save">
+  <div class="row">
+    <f:with bean="module">
+      <div class="col s4">
+        <div class="row">
+          <div class="input-field col s12">
+            <g:select name="server" from="${flowgate.AnalysisServer.list()}" required="" optionKey="id" optionValue="name"/>
+            <label>Server*</label>
+          </div>
+          <f:field property="title" label="Title" required="true"/>
+          <f:field property="label" label="Label"/>
+          <f:field property="name" label="Module or URN" required="true"/>
+        </div>
+      </div>
 
-<div class="nav" role="navigation">
-  %{--
-  <ul>
-    <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-    <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]"/></g:link></li>
-  </ul>
-  --}%
-</div>
+      <div class="col s8">
+        <div class="input-field">
+          <label for="descript">Description</label>
+          <g:textArea name="descript" class="materialize-textarea" style="height: 300px"/>
+        </div>
+      </div>
+    </f:with>
 
-<div id="create-module" class="container" role="main">
-  <h1 class="page-header"><g:message code="default.create.label" args="[entityName]"/></h1>
-  <g:if test="${flash.message}">
-    <div class="row justify-content-center ">
-      <div class="alert alert-info text-center" role="alert">${flash.message}</div>
+    <div class="input-field col s12">
+      <button type="submit" class="btn waves-effect waves-light">${message(code: 'default.button.create.label', default: 'Create')}</button>
+      <g:link controller="module" action="index" class="btn-flat">Return to Module List</g:link>
     </div>
-  </g:if>
-  <g:hasErrors bean="${this.module}">
-    <ul class="errors" role="alert">
-      <g:eachError bean="${this.module}" var="error">
-        <li<g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-      </g:eachError>
-    </ul>
-  </g:hasErrors>
-  <g:form action="save">
-    <fieldset class="form">
-      <f:all bean="module"/>
-    </fieldset>
-    <fieldset class="buttons">
-      <g:submitButton name="create" class="save btn btn-primary" value="${message(code: 'default.button.create.label', default: 'Create')}"/>
-    </fieldset>
-  </g:form>
+  </div>
+</g:form>
+
+
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large waves-effect waves-light tooltipped" href="javascript:fetchModules();"
+     data-tooltip="Search available modules for selected server" data-position="left">
+    <i class="material-icons">search</i>
+  </a>
 </div>
+
+<div id="modules-list" class="modal bottom-sheet"></div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems);
+    document.getElementById('descript').style.maxHeight = "300px";
+    document.getElementById('descript').style.overflowY = "auto";
+
+    var tooltipElems = document.querySelectorAll('.tooltipped');
+    M.Tooltip.init(tooltipElems);
+  });
+
+  function fetchModules() {
+    var serverId = $("#server").val();
+    $.ajax({
+      url: "${createLink(controller: 'module', action: 'fetchModulesForServer')}",
+      dataType: "json",
+      data: {id: serverId},
+      type: "get",
+      success: function (data, status, xhr) {
+        if (data.success) {
+          $("#modules-list").html(data.modules);
+          $('.modal').modal();
+          $("#modules-list").modal('open');
+          $('.tooltipped').tooltip();
+        } else {
+          M.toast({
+            html: '<span>' + data.message + '</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+            displayLength: Infinity,
+            classes: 'red'
+          });
+        }
+      },
+      error: function (request, status, error) {
+        if (!error) error = "Error occured!"
+        M.toast({
+          html: '<span>' + error + '</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+          displayLength: Infinity,
+          classes: 'red'
+        });
+      }
+    });
+  }
+</script>
 </body>
 </html>

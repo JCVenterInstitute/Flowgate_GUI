@@ -155,7 +155,7 @@ class GalaxyService {
         }
     }
 
-    def submitImmportGalaxyWorkflow(Module module, Experiment experiment, GrailsParameterMap params, def request) {
+    def submitImmportGalaxyWorkflow(Module module, Experiment experiment, GrailsParameterMap params, def request) throws UnknownHostException {
         //Get FlowGate Library
         List<Library> libraries = getLibrariesClient().getLibraries();
         Optional<Library> libraryOpt = libraries.stream()

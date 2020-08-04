@@ -25,9 +25,10 @@ class UserController {
 
     }
 
-    def list() {
+    def list(Integer max) {
         //def newUsers = UserRole.findAllByRole(Role.findByAuthority('ROLE_NewUser')).user
-        def newUsers = User.list()
+        params.max = Math.min(max ?: 10, 100)
+        def newUsers = User.list(params)
         //newUsers += UserRole.findAllByRole(Role.findByAuthority('ROLE_User')).user
         [newUserLst: newUsers, userCount: User.count()]
     }

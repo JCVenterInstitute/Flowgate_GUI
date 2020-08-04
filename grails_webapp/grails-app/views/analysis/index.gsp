@@ -276,7 +276,7 @@
     clearInterval(interval);
     interval = null;
     console.log('in intervall loop');
-    window.location.href = "${g.createLink(controller: 'analysis', action: 'index', params:[eId: params?.eId])}";
+    window.location.href = "<g:createLink controller="analysis" action="index" params="[eId: params?.eId,offset: params?.offset]"/>";
     setCurrentTime();
   }
 

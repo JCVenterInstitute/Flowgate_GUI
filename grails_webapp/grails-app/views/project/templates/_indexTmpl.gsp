@@ -1,36 +1,36 @@
 <% def utilsService = grailsApplication.mainContext.getBean("utilsService") %>
 <g:if test="${project}">
   <f:with bean="project">
-    <h1 class="page-header"><f:display property="title"/></h1>
+    <h2><f:display property="title"/></h2>
 
-    <g:if test="${poject?.id == session.projectEditModeId?.toLong()}">
-      <textarea id="projectDescription" class="form-control" rows="8" cols="130" onchange="projectDescriptionInputBlur(${project?.id}, this.value)"
-                onfocus="this.select()">${project?.description}</textarea>
-    </g:if>
-    <g:else>
-      <textarea class="form-control" readonly="true" rows="8" cols="130">${project?.description}</textarea>
-    </g:else>
+    <div class="row">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s3"><a href="#description">Project Description</a></li>
+          <li class="tab col s3"><a class="active" href="#experiments">Experiments</a></li>
+        </ul>
+      </div>
+
+      <div id="description" class="col s12">
+        <div class="row">
+          <div class="input-field col s12">
+            <p>${project?.description}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </f:with>
 </g:if>
 
-<h1 class="sub-header">Experiments
-  <div class="pull-right">
-    <a href="${createLink(controller: 'experiment', action: 'create', params: [pId: project?.id])}" class="btn btn-primary">
-      <i class="glyphicon glyphicon-plus"></i>Create Experiment
-    </a>
-    %{--<a href="/experiment/createFromTemplate?pId=${project?.id}" class="btn btn-info">
-      <i class="glyphicon glyphicon-plus"></i>Add From Template
-    </a>--}%
-  </div>
-</h1>
-
-<div class="row">
-  <div id="expContent" class="col-md-12">
+<div id="experiments">
+  <div id="expContent">
     <g:render template="templates/expListTmpl" model="[experimentList: experimentList]"/>
-    %{--<g:if test="${!session?.expCardView ?: true}">
-      <g:render template="templates/expCardsTmpl"/>
-    </g:if>
-    <g:else>
-    </g:else>--}%
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var elems = document.querySelectorAll('.tabs');
+    M.Tabs.init(elems);
+  });
+</script>
