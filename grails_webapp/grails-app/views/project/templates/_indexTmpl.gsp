@@ -14,13 +14,7 @@
       <div id="description" class="col s12">
         <div class="row">
           <div class="input-field col s12">
-            <g:if test="${poject?.id == session.projectEditModeId?.toLong()}">
-              <textarea id="projectDescription" class="materialize-textarea" rows="8" cols="130" onchange="projectDescriptionInputBlur(${project?.id}, this.value)"
-                        onfocus="this.select()">${project?.description}</textarea>
-            </g:if>
-            <g:else>
-              <p>${project?.description}</p>
-            </g:else>
+            <p>${project?.description}</p>
           </div>
         </div>
       </div>
