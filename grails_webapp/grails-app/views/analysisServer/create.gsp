@@ -21,38 +21,29 @@
       </div>
     </g:hasErrors>
 
+
+    <f:with bean="analysisServer">
+      <div class="row">
+        <f:field property="name" label="Server Name" required="true"/>
+        <f:field property="url" required="true"/>
+
+        <div class="input-field col s12">
+          <select name="platform">
+            <option value="1">GenePattern</option>
+            <option value="2">ImmportGalaxy</option>
+          </select>
+          <label>Select a Platform</label>
+        </div>
+
+        <f:field property="userName" label="Username" required="true"/>
+        <f:field property="userPw" label="Password" password="true" required="true"/>
+      </div>
+    </f:with>
+
     <div class="row">
       <div class="input-field col s12">
-        <input type="text" name="name" value="${analysisServer.name}" required>
-        <label for="name">Server Name</label>
-      </div>
-
-      <div class="input-field col s12">
-        <input type="text" name="url" value="${analysisServer.url}" required>
-        <label for="url">URL</label>
-      </div>
-
-      <div class="input-field col s12">
-        <select name="platform">
-          <option value="1">GenePattern</option>
-          <option value="2">ImmportGalaxy</option>
-        </select>
-        <label>Select a Platform</label>
-      </div>
-
-      <div class="input-field col s12">
-        <input type="text" name="userName" value="${analysisServer.userName}" required>
-        <label for="userName">Username</label>
-      </div>
-
-      <div class="input-field col s12">
-        <input type="password" name="userPw" value="${analysisServer.userPw}" required>
-        <label for="userPw">Password</label>
-      </div>
-
-      <div class="input-field col s12">
         <button type="submit" class="btn waves-effect waves-light">Create Server</button>
-        <g:link controller="analysisServer" action="index" class="btn-flat">Return to Analysis List</g:link>
+        <g:link controller="analysisServer" action="index" class="btn-flat">Return to Analysis Server List</g:link>
       </div>
     </div>
   </g:form>

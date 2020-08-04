@@ -209,19 +209,25 @@ class ProjectController {
         params.max = Math.min(max ?: 10, 100)
         User user = springSecurityService.currentUser
         def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
-        respond projectList, model: [projectCount: projectList.size()]
-    }
 
-    /*
-    def show(Project project) {
-        respond project
+        //Redirect user to create page if there is no project to be listed
+        if (projectList) {
+            session.removeAttribute('firstTime')
+            respond projectList, model: [projectCount: projectList.size()]
+        } else {
+            session.firstTime = true;
+            redirect action: 'create'
+        }
     }
-    */
 
     def create() {
         User user = springSecurityService.currentUser
         def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
         Project project = new Project(params)
+        if(session.firstTime) {
+            flash.message = "Please create a project to start using FlowGate.";
+            flash.firstTime = "Please create a project to start using FlowGate.";
+        }
         respond project
     }
 
@@ -244,7 +250,7 @@ class ProjectController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), "${project.title.take(10)+'... '}"])
-                redirect view: 'index'
+                redirect action: 'index', params: [pId: project?.id]
             }
             '*' { respond project, [status: CREATED] }
         }

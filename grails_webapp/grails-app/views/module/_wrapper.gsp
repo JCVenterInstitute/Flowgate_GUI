@@ -1,5 +1,5 @@
 <%@ page defaultCodec="html" %>
 <div class="input-field col s12">
-  <label for="${property}">${label}  ${required ? '*' : ''}</label>
-  <input type="text" name="${property}" ${required ? 'required=\"\"' : ''} value="${value}"/>
+  <input type="text" name="${property}" <g:if test="${required}">required</g:if> value="${value}"/>
+  <label for="${property}">${label}<g:if test="${required}">*</g:if></label>
 </div>

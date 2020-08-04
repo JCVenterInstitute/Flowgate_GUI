@@ -21,33 +21,29 @@
         </div>
       </g:hasErrors>
 
-      <div class="input-field col s8">
-        <input type="text" name="name" value="${analysisServer.name}" required>
-        <label for="name">Server Name</label>
-      </div>
+      <f:with bean="analysisServer">
+        <div class="col s8">
+          <div class="row">
+            <f:field property="name" label="Server Name" required="true" value="${analysisServer.name}"/>
+            <f:field property="url" required="true" value="${analysisServer.url}"/>
 
-      <div class="input-field col s8">
-        <input type="text" name="url" value="${analysisServer.url}" required>
-        <label for="url">URL</label>
-      </div>
+            <div class="input-field col s8">
+              <select name="platform" id="platform">
+                <option value="1">GenePattern</option>
+                <option value="2">ImmportGalaxy</option>
+              </select>
+              <label>Select a Platform</label>
+            </div>
 
-      <div class="input-field col s8">
-        <select name="platform" id="platform">
-          <option value="1">GenePattern</option>
-          <option value="2">ImmportGalaxy</option>
-        </select>
-        <label>Select a Platform</label>
-      </div>
-
-      <div class="input-field col s8">
-        <input type="text" name="userName" value="${analysisServer.userName}" required>
-        <label for="userName">Username</label>
-      </div>
+            <f:field property="userName" label="Username" required="true" value="${analysisServer.userName}"/>
+          </div>
+        </div>
+      </f:with>
 
       <div class="input-field col s12">
         <button type="submit" class="btn waves-effect waves-light">Update Server</button>
         <a class="btn-flat modal-trigger" href="#delete-analysisserver-modal">Delete</a>
-        <g:link controller="analysisServer" action="index" class="btn-flat">Return to Analysis List</g:link>
+        <g:link controller="analysisServer" action="index" class="btn-flat">Return to Analysis Server List</g:link>
       </div>
     </div>
   </g:form>
@@ -60,12 +56,12 @@
 
       <div class="input-field col s8">
         <input type="password" name="oldpass" required>
-        <label for="oldpass">Old Password</label>
+        <label for="oldpass">Old Password*</label>
       </div>
 
       <div class="input-field col s8">
         <input type="password" name="newpass" required>
-        <label for="newpass">New Password</label>
+        <label for="newpass">New Password*</label>
       </div>
 
       <div class="input-field col s8">

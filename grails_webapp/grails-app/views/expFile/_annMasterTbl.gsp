@@ -7,21 +7,19 @@
       <g:each in="${experiment.expMetadatas.findAll { it?.mdCategory == category }.sort { it.dispOrder }}" var="eMeta">
         <g:if test="${eMeta.visible}">
           <th class="sortable">
-            <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
-              <div onclick="toggleActions(this, ${eMeta.id})" style="cursor: pointer;">
-            </sec:ifAnyGranted>
-            ${eMeta.mdKey}
-            <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
-              <i class="material-icons tiny">expand_more</i></div>
-            </sec:ifAnyGranted>
-            <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
-              <div class="attribute-action" id="attribute-action-${eMeta.id}" style="display: none;">
-                <g:set var="filterAction" value="${eMeta.dispOnFilter ? 'HideFromFilter' : 'ShowOnFilter'}"/>
-                <button type="button" id="Edit" class="btn-tiny waves-effect waves-light tooltipped" onclick="eMetaActionChange(${eMeta.id}, this.id);
-                return false;"
-                        data-tooltip="Edit attribute" data-position="bottom">
-                  <i class="material-icons">edit</i>
-                </button>
+            <div onclick="toggleActions(this, ${eMeta.id})" style="cursor: pointer;">
+              ${eMeta.mdKey}
+              <i class="material-icons tiny">expand_more</i>
+            </div>
+
+            <div class="attribute-action" id="attribute-action-${eMeta.id}" style="display: none;">
+              <g:set var="filterAction" value="${eMeta.dispOnFilter ? 'HideFromFilter' : 'ShowOnFilter'}"/>
+              <button type="button" id="Edit" class="btn-tiny waves-effect waves-light tooltipped" onclick="eMetaActionChange(${eMeta.id}, this.id);
+              return false;"
+                      data-tooltip="Edit attribute" data-position="bottom">
+                <i class="material-icons">edit</i>
+              </button>
+              <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
                 <button type="button" id="HideColumn" class="btn-tiny waves-effect waves-light tooltipped" onclick="eMetaActionChange(${eMeta.id}, this.id);
                 return false;"
                         data-tooltip="Hide attribute" data-position="bottom">
@@ -32,13 +30,13 @@
                         data-tooltip="<g:if test="${filterAction == 'HideFromFilter'}">Hide</g:if><g:else>Show</g:else> attribute in Dataset" data-position="bottom">
                   <i class="material-icons"><g:if test="${filterAction == 'HideFromFilter'}">grid_off</g:if><g:else>grid_on</g:else></i>
                 </button>
-                <button type="button" id="Delete" class="btn-tiny waves-effect waves-light tooltipped" onclick="eMetaActionChange(${eMeta.id}, this.id);
-                return false;"
-                        data-tooltip="Delete attribute" data-position="bottom">
-                  <i class="material-icons">delete</i>
-                </button>
-              </div>
-            </sec:ifAnyGranted>
+              </sec:ifAnyGranted>
+              <button type="button" id="Delete" class="btn-tiny waves-effect waves-light tooltipped" onclick="eMetaActionChange(${eMeta.id}, this.id);
+              return false;"
+                      data-tooltip="Delete attribute" data-position="bottom">
+                <i class="material-icons">delete</i>
+              </button>
+            </div>
 
             <g:if test="${eMeta.mdVals.size() > 1}">
               <div class="input-field">
@@ -56,18 +54,18 @@
           </th>
         </g:if>
       </g:each>
-      <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
-        <th>
+      <th>
+        <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
           <a href="#" class="${experiment.expMetadatas.findAll { it.mdCategory == category }.visible.toString().contains('false') ? '' : 'hidden'}"
              onclick="showAllHidden(${experiment.id}, '${category?.id}');">Show All Hidden Attributes</a>
           <br/>
-          <g:if test="${category?.mdCategory != 'Reagents'}">
-            <a href="#add-new-attribute" class="modal-trigger tooltipped" data-tooltip="Add a new column" data-position="right">
-              <i class="material-icons">add</i>
-            </a>
-          </g:if>
-        </th>
-      </sec:ifAnyGranted>
+        </sec:ifAnyGranted>
+        <g:if test="${category?.mdCategory != 'Reagents'}">
+          <a href="#add-new-attribute" class="modal-trigger tooltipped" data-tooltip="Add a new column" data-position="right">
+            <i class="material-icons">add</i>
+          </a>
+        </g:if>
+      </th>
     </tr>
     </thead>
     <tbody id="fcsTbl">

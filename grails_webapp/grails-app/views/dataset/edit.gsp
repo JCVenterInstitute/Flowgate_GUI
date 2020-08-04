@@ -40,12 +40,12 @@
   <div class="row">
     <div class="input-field col s12">
       <input type="text" name="name" value="${this.dataset?.name}" required>
-      <label for="name">Name</label>
+      <label for="name">Name*</label>
     </div>
 
     <div class="input-field col s12">
       <textarea name="description" value="${this.description}" required class="materialize-textarea">${this.dataset?.description}</textarea>
-      <label for="description">Description</label>
+      <label for="description">Description*</label>
     </div>
 
     <div class="col s12">
@@ -55,7 +55,7 @@
     </div>
 
     <div class="col s12">
-      <label for="fcsFiles">Files</label>
+      <strong>Files</strong>
 
       <div id="fcsFiles" class="row">
         <g:render template="datasetTmpl/fcsFiles" model="[experiment: experiment, expFileCandidatesList: expFileCandidatesList, dataset: dataset]"/>

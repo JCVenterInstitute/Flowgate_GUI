@@ -1,5 +1,6 @@
 package flowgate
 
+import com.sun.jersey.api.client.ClientHandlerException
 import grails.converters.JSON
 import grails.core.GrailsApplication
 import grails.plugin.springsecurity.SpringSecurityUtils
@@ -469,8 +470,13 @@ class UtilsService {
     }
 
     def static receiveInputFileNameForJob(Analysis analysis, String invocationId) {
-        GalaxyService galaxyService = new GalaxyService(analysis.module.server)
-        return galaxyService.getFileNameFromInvocation(analysis.module.name, invocationId)
+        try {
+            GalaxyService galaxyService = new GalaxyService(analysis.module.server)
+            return galaxyService.getFileNameFromInvocation(analysis.module.name, invocationId)
+        } catch(ClientHandlerException e) {
+            println e
+            return "Cannot connect to " + analysis.module.server.name + " server to fetch fcs file name."
+        }
     }
 
     def createModuleParamsFromJson(def moduleParamsJson) {

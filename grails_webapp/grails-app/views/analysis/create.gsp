@@ -88,7 +88,7 @@
 
         <div class="input-field col s12">
           <button type="submit" class="btn waves-effect waves-light">${message(code: 'analysis.create.btn.label', default: 'Submit')}</button>
-          <a href="${createLink(controller: 'analysis', action: 'index', params: [eId: eId])}" class="btn-flat">Cancel</a>
+          <a href="${createLink(controller: 'analysis', action: 'index', params: [eId: eId])}" class="btn-flat">Return to Analysis List</a>
         </div>
       </div>
 
