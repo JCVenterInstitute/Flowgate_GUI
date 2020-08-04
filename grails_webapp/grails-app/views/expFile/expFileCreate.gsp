@@ -58,7 +58,7 @@
 
       <div class="input-field">
         <button type="button" class="btn waves-effect waves-light" id="uploadFilesBtn">${message(code: 'default.button.annotate.label', default: 'Upload')}</button>
-        <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="btn-flat">Cancel</a>
+        <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="btn-flat">Return to Experiment</a>
       </div>
     </div>
   </div>
