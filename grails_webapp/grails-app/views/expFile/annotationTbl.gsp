@@ -110,6 +110,7 @@
           <div class="file-path-wrapper">
             <input class="file-path validate" type="text" placeholder="Select a CSV or TSV file">
           </div>
+          <span class="helper-text">Uploading annotation file will override existing annotations for selected category.</span>
         </div>
       </div>
 
