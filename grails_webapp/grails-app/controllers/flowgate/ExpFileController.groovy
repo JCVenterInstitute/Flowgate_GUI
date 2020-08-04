@@ -214,43 +214,49 @@ class ExpFileController {
     }
 
     def addColumn(Experiment experiment){ //add metaData column in annotation table
-        params.experiment = experiment
-        params.dispOrder = utilsService.getLowestUniqueDispOrder(experiment)
-        ExperimentMetadata eMetaData = new ExperimentMetadata(params)
-        eMetaData.save(flush: true)
-        params.expMetaData = eMetaData
-        List<String> valueList = params.list('mdValue')
+        List<ExperimentMetadata> existingEMetaData = ExperimentMetadata.findAllByExperimentAndMdKey(experiment, params.mdKey)
+
+        if(existingEMetaData && existingEMetaData.size() > 0) {
+            flash.error = "Attribute " + params.mdKey + " exists for the experiment."
+        } else {
+
+            params.experiment = experiment
+            params.dispOrder = utilsService.getLowestUniqueDispOrder(experiment)
+            ExperimentMetadata eMetaData = new ExperimentMetadata(params)
+            eMetaData.save(flush: true)
+            params.expMetaData = eMetaData
+            List<String> valueList = params.list('mdValue')
 //        println "addColumn valueList ${valueList} size ${valueList.size()}"
-        Integer vListSize = valueList.size()
-        valueList.each{ pmdValue ->
-            ExperimentMetadataValue eMetaValue = new ExperimentMetadataValue(expMetaData:eMetaData, mdValue: pmdValue, mdType: vListSize>1 ? 'List' : 'String', dispOrder: 1)
-            eMetaValue.save(flush: true)
-            if(eMetaData?.mdVals){
-              eMetaData?.mdVals?.add(eMetaValue)
+            Integer vListSize = valueList.size()
+            valueList.each { pmdValue ->
+                ExperimentMetadataValue eMetaValue = new ExperimentMetadataValue(expMetaData: eMetaData, mdValue: pmdValue, mdType: vListSize > 1 ? 'List' : 'String', dispOrder: 1)
+                eMetaValue.save(flush: true)
+                if (eMetaData?.mdVals) {
+                    eMetaData?.mdVals?.add(eMetaValue)
+                } else {
+                    eMetaData?.mdVals = [eMetaValue]
+                }
             }
-            else{
-              eMetaData?.mdVals = [eMetaValue]
-            }
-        }
 
-        /*
-//      does not work 100%
-        params.mdValue.each{ mdValue ->
-            ExperimentMetadataValue eMetaValue = ExperimentMetadataValue.findOrSaveByExpMetaDataAndMdValue(eMetaData, mdValue)
-            params.mdType = params.mdType.size()>1 ? 'List' : 'String'
-            params.mdValue = mdValue
-            eMetaValue.properties = params
-            eMetaValue.save()
-            if(eMetaData?.mdVals){
-                eMetaData?.mdVals?.add(eMetaValue)
+            /*
+    //      does not work 100%
+            params.mdValue.each{ mdValue ->
+                ExperimentMetadataValue eMetaValue = ExperimentMetadataValue.findOrSaveByExpMetaDataAndMdValue(eMetaData, mdValue)
+                params.mdType = params.mdType.size()>1 ? 'List' : 'String'
+                params.mdValue = mdValue
+                eMetaValue.properties = params
+                eMetaValue.save()
+                if(eMetaData?.mdVals){
+                    eMetaData?.mdVals?.add(eMetaValue)
+                }
+                else{
+                    eMetaData?.mdVals = [eMetaValue]
+                }
             }
-            else{
-                eMetaData?.mdVals = [eMetaValue]
-            }
-        }
-        */
+            */
 
-        println "add metaData column  ${eMetaData?.mdVals}"
+            println "add metaData column  ${eMetaData?.mdVals}"
+        }
         redirect action: 'annotationTbl', id: experiment.id
     }
 
