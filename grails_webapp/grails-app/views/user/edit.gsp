@@ -25,31 +25,26 @@
       </g:eachError>
     </g:hasErrors>
 
-    <div class="row">
-      <div class="input-field col s8">
-        <input type="text" name="username" value="${user.username}" required>
-        <label for="username">Username</label>
-      </div>
+    <f:with bean="user">
+      <div class="col s8">
+        <div class="row">
+          <f:field property="username" label="Username" required="true" value="${user.username}"/>
+          <f:field property="email" email="true" required="true" value="${user.email}"/>
+          <f:field property="affiliation" required="true" value="${user.affiliation}"/>
 
-      <div class="input-field col s8">
-        <input type="email" name="email" value="${user.email}" required>
-        <label for="email">Email</label>
-      </div>
-
-      <div class="input-field col s8">
-        <input type="text" name="affiliation" value="${user.affiliation}" required>
-        <label for="affiliation">Affiliation</label>
-      </div>
-
-      <g:if test="${!user.authorities.authority.contains("ROLE_Admin") && !user.authorities.authority.contains("ROLE_Administrator")}">
-        <div class="col s8">
-          <label>
-            <input type="checkbox" name="_enabled" class="filled-in" <g:if test="${user.enabled}">checked</g:if>/>
-            <span>Active</span>
-          </label>
+          <g:if test="${!user.authorities.authority.contains("ROLE_Admin") && !user.authorities.authority.contains("ROLE_Administrator")}">
+            <div class="col s8">
+              <label>
+                <input type="checkbox" name="_enabled" class="filled-in" <g:if test="${user.enabled}">checked</g:if>/>
+                <span>Enabled</span>
+              </label>
+            </div>
+          </g:if>
         </div>
-      </g:if>
+      </div>
+    </f:with>
 
+    <div class="row">
       <div class="input-field col s8">
         <button type="submit" class="btn waves-effect waves-light">Update User</button>
         <g:link controller="user" action="list" class="btn-flat">Return to User List</g:link>
@@ -65,17 +60,17 @@
     <div class="row">
       <div class="input-field col s8">
         <input type="password" name="oldpass" required>
-        <label for="oldpass">Old Password</label>
+        <label for="oldpass">Old Password*</label>
       </div>
 
       <div class="input-field col s8">
         <input type="password" name="newpass" required>
-        <label for="newpass">New Password</label>
+        <label for="newpass">New Password*</label>
       </div>
 
       <div class="input-field col s8">
         <input type="password" name="confirmpass" required>
-        <label for="confirmpass">Confirm New Password</label>
+        <label for="confirmpass">Confirm New Password*</label>
 
         <div class="help-block"></div>
       </div>

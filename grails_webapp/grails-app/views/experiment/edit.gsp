@@ -21,27 +21,16 @@
   <g:form resource="${this.experiment}" method="PUT" class="col s12">
     <g:hiddenField name="version" value="${this.experiment?.version}"/>
 
+    <f:with bean="experiment">
+      <div class="row">
+        <f:field property="title" required="true" value="${experiment.title}"/>
+        <f:field property="description" type="textarea" required="true" value="${experiment.description}"/>
+        <f:field property="experimentHypothesis" type="textarea" value="${experiment.experimentHypothesis}"/>
+        <f:field property="experimentMeta" type="textarea" value="${experiment.experimentMeta}"/>
+      </div>
+    </f:with>
+
     <div class="row">
-      <div class="input-field col s12">
-        <input type="text" name="title" required value="${experiment.title}"/>
-        <label for="title">Title</label>
-      </div>
-
-      <div class="input-field col s12">
-        <textarea name="description" class="materialize-textarea" required>${experiment.description}</textarea>
-        <label for="description">Description</label>
-      </div>
-
-      <div class="input-field col s12">
-        <textarea name="experimentHypothesis" class="materialize-textarea" required>${experiment.experimentHypothesis}</textarea>
-        <label for="experimentHypothesis">Experiment Hypothesis</label>
-      </div>
-
-      <div class="input-field col s12">
-        <textarea name="experimentMeta" class="materialize-textarea">${experiment.experimentMeta}</textarea>
-        <label for="experimentMeta">Experiment Meta</label>
-      </div>
-
       <div class="input-field col s12">
         <button type="submit" class="btn waves-effect waves-light">Update Experiment</button>
         <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="btn-flat">Return to Experiment</a>

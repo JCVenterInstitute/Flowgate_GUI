@@ -25,8 +25,8 @@
   <g:form action="save" class="col s12">
     <f:with bean="project">
       <div class="row">
-        <f:field property="title"/>
-        <f:field property="description" type="textarea"/>
+        <f:field property="title" required="true"/>
+        <f:field property="description" type="textarea" required="true"/>
       </div>
     </f:with>
     <div class="row">

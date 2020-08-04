@@ -26,22 +26,16 @@
     <g:hiddenField name="datasets" value="${null}"/>
     <g:hiddenField name="experimentMeta" value=""/>
     <g:hiddenField name="pId" value="${pId}"/>
+
+    <f:with bean="experiment">
+      <div class="row">
+        <f:field property="title" required="true"/>
+        <f:field property="description" type="textarea" required="true"/>
+        <f:field property="experimentHypothesis" type="textarea"/>
+      </div>
+    </f:with>
+
     <div class="row">
-      <div class="input-field col s12">
-        <input type="text" name="title" required/>
-        <label for="title">Title</label>
-      </div>
-
-      <div class="input-field col s12">
-        <textarea name="description" class="materialize-textarea" required></textarea>
-        <label for="description">Description</label>
-      </div>
-
-      <div class="input-field col s12">
-        <textarea name="experimentHypothesis" class="materialize-textarea" required></textarea>
-        <label for="experimentHypothesis">Experiment Hypothesis</label>
-      </div>
-
       <div class="input-field col s12">
         <button type="submit" class="btn waves-effect waves-light">Create Experiment</button>
         <a href="${createLink(controller: 'project', action: 'index', params: [pId: pId])}" class="btn-flat">Return to Project</a>

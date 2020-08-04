@@ -25,46 +25,33 @@
 
 <div class="row">
   <g:form resource="${user}" action="save" class="col s6" onsubmit="return validatePass()">
+
+    <f:with bean="user">
+      <div class="row">
+        <f:field property="username" label="Username" required="true" value="${user.username}"/>
+        <f:field property="email" email="true" required="true" value="${user.email}"/>
+        <f:field property="affiliation" required="true" value="${user.affiliation}"/>
+        <f:field property="reason" required="true" value="${user.reason}"/>
+
+        <div class="col s12">
+          <label>
+            <input type="checkbox" name="_enabled" class="filled-in" <g:if test="${user.enabled}">checked</g:if>/>
+            <span>Enabled</span>
+          </label>
+        </div>
+
+        <f:field property="password" password="true" label="Password" required="true" value="${user.reason}"/>
+
+        <div class="input-field col s12">
+          <input type="password" name="confirmpass" required>
+          <label for="confirmpass">Confirm Password*</label>
+
+          <div class="help-block"></div>
+        </div>
+      </div>
+    </f:with>
+
     <div class="row">
-      <div class="input-field col s12">
-        <input type="text" name="username" value="${user.username}" required>
-        <label for="username">Username</label>
-      </div>
-
-      <div class="input-field col s12">
-        <input type="email" name="email" value="${user.email}" required>
-        <label for="email">Email</label>
-      </div>
-
-      <div class="input-field col s12">
-        <input type="text" name="affiliation" value="${user.affiliation}" required>
-        <label for="affiliation">Affiliation</label>
-      </div>
-
-      <div class="input-field col s12">
-        <input type="text" name="reason" value="${user.reason}" required>
-        <label for="reason">Reason</label>
-      </div>
-
-      <div class="col s12">
-        <label>
-          <input type="checkbox" name="_enabled" class="filled-in" <g:if test="${user.enabled}">checked</g:if>/>
-          <span>Enabled</span>
-        </label>
-      </div>
-
-      <div class="input-field col s12">
-        <input type="password" name="password" required>
-        <label for="password">Password</label>
-      </div>
-
-      <div class="input-field col s12">
-        <input type="password" name="confirmpass" required>
-        <label for="confirmpass">Confirm Password</label>
-
-        <div class="help-block"></div>
-      </div>
-
       <div class="input-field col s12">
         <button type="submit" class="btn waves-effect waves-light">Create User</button>
         <g:link action="list" class="btn-flat">Return to User List</g:link>

@@ -21,8 +21,15 @@
 <div class="row">
   <g:form action="update" resource="${this.project}" method="POST" class="col s12">
     <g:hiddenField name="version" value="${this.project?.version}"/>
+
+    <f:with bean="project">
+      <div class="row">
+        <f:field property="title" required="true" value="${project.title}"/>
+        <f:field property="description" type="textarea" required="true" value="${project.description}"/>
+      </div>
+    </f:with>
     <div class="row">
-      <div class="input-field col s12">
+      %{--<div class="input-field col s12">
         <input type="text" name="title" required value="${project.title}"/>
         <label for="title">Title</label>
       </div>
@@ -30,7 +37,7 @@
       <div class="input-field col s12">
         <textarea name="description" class="materialize-textarea" required>${project.description}</textarea>
         <label for="description">Description</label>
-      </div>
+      </div>--}%
 
       <div class="input-field col s12">
         <button type="submit" class="btn waves-effect waves-light">Update Project</button>
