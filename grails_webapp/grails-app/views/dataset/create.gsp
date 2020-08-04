@@ -52,7 +52,7 @@
       </div>
 
       <div class="col s12">
-        <label for="fcsFiles">Files</label>
+        <strong>Files</strong>
 
         <div id="fcsFiles" class="row">
           <g:render template="datasetTmpl/fcsFiles" model="[experiment: experiment, expFileCandidatesList: expFileCandidatesList, dataset: dataset]"/>
