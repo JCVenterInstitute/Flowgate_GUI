@@ -22,7 +22,7 @@
 <ul class="tabs">
   <li class="tab col s3"><a class="active" href="#description">Experiment Description</a></li>
   <li class="tab col s3"><a href="#fcs-files">FCS Files</a></li>
-  <li class="tab col s3"><a href="#manage-users">Users</a></li>
+  <li class="tab col s3"><a href="#manage-users">Experiment Users</a></li>
 </ul>
 
 <div id="description">
