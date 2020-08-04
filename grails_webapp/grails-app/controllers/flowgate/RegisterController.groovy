@@ -112,7 +112,7 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
 //    User user = User.findByUsername(forgotPasswordCommand.username) //does not work!!!
 //    def user = findUserByUsername(forgotPasswordCommand.username)
 //    def user = lookupUserClass().findWhere((usernameFieldName): forgotPasswordCommand.username)
-    def user = User.findByUsername(forgotPasswordCommand.username)
+    def user = User.findWhere((usernameFieldName): forgotPasswordCommand.username)
 
     if (!user) {
       forgotPasswordCommand.errors.rejectValue 'username',
