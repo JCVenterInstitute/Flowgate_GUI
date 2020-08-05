@@ -118,47 +118,32 @@ class UtilsService {
 
     def doManage(Experiment experiment, List<Long> cmpLst, String role) {
         List<Long> srcLst = ExperimentUser.findAllByExperimentAndExpRole(experiment, role)*.user.id
-        if (cmpLst == null) cmpLst = new ArrayList<>(0);
-        ((srcLst - cmpLst) + (cmpLst - srcLst)).each {
+        List<Long> newList = cmpLst == null ? srcLst : ((srcLst - cmpLst) + (cmpLst - srcLst));
+        newList.each{
             if (springSecurityService.currentUser.id != it.toLong()) { //you cannot remove yourself!
                 User experimentUser = User.get(it.toLong())
-                if (ExperimentUser.findAllByExperimentAndUserAndExpRole(experiment, experimentUser, role).size() == 0)
-                    addExperimentUser(experiment, experimentUser, role)
-                else
-                    removeExperimentUser(experiment, experimentUser, role)
-
+                if (ExperimentUser.findAllByExperimentAndUserAndExpRole(experiment, experimentUser, role).size() == 0) {
+                    ExperimentUser.create(experiment, experimentUser, role)
+                } else {
+                    ExperimentUser.remove(experiment, experimentUser, role)
+                }
             }
         }
-    }
-
-    def addExperimentUser(Experiment experiment, User user, String userType) {
-        ExperimentUser.create(experiment, user, userType)
-    }
-
-    def removeExperimentUser(Experiment experiment, User user, String userType) {
-        ExperimentUser.where { experiment == experiment && user == user && expRole == userType }.deleteAll()
     }
 
     def doManage(Project project, List<Long> cmpLst, String role) {
         List<Long> srcLst = ProjectUser.findAllByProjectAndProjRole(project, role)*.user.id
-        ((srcLst - cmpLst) + (cmpLst - srcLst)).each {
-            if (springSecurityService.currentUser.id != it.toLong()) { //you cannot remove yourself!
+        List<Long> newList = cmpLst == null ? srcLst : ((srcLst - cmpLst) + (cmpLst - srcLst));
+        newList.each{
+            if(springSecurityService.currentUser.id != it.toLong()) { //you cannot remove yourself!
                 User projectUser = User.get(it.toLong())
-                if (ProjectUser.findAllByProjectAndUserAndProjRole(project, projectUser, role).size() == 0)
-                    addProjectUser(project, projectUser, role)
-                else
-                    removeProjectUser(project, projectUser, role)
-
+                if (ProjectUser.findAllByProjectAndUserAndProjRole(project, projectUser, role).size() == 0) {
+                    ProjectUser.create(project, projectUser, role)
+                } else {
+                    ProjectUser.remove(project, projectUser, role)
+                }
             }
         }
-    }
-
-    def addProjectUser(Project project, User user, String userType) {
-        ProjectUser.create(project, user, userType)
-    }
-
-    def removeProjectUser(Project project, User user, String userType) {
-        ProjectUser.where { project == project && user == user && projRole == userType }.deleteAll()
     }
 
     String authEncoded(String username, String password) {
