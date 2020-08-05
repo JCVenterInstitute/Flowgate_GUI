@@ -1,46 +1,47 @@
-<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
-  <div class="fixed-action-btn" style="bottom: 163px;">
-    <g:if test="${experiment.analyses.size() > 0}">
-      <a href="${g.createLink(controller: 'analysis', action: 'index', params: [eId: experiment?.id])}" class="btn-floating btn-large waves-effect waves-light tooltipped"
-         data-tooltip="Show Analysis" data-position="left">
-        <b>A</b>
-      </a>
-    </g:if>
-    <g:else>
-      <a href="${g.createLink(controller: 'analysis', action: 'create', params: [eId: experiment?.id])}" class="btn-floating btn-large waves-effect waves-light tooltipped"
-         data-tooltip="Create a new analysis" data-position="left">
-        <i class="material-icons">add</i>
-      </a>
-    </g:else>
-  </div>
-</g:isOwnerOrRoles>
-<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_User">
-  <div class="fixed-action-btn" style="bottom: 93px;">
-    <a href="${g.createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" class="btn-floating btn-large waves-effect waves-light tooltipped"
-       data-tooltip="Manage Datasets" data-position="left">
-      <i class="material-icons">settings</i>
+<div class="fixed-action-btn" id="show-analysis-action-btn" style="bottom: 93px;">
+  <g:if test="${experiment.analyses.size() > 0}">
+    <a href="${g.createLink(controller: 'analysis', action: 'index', params: [eId: experiment?.id])}" class="btn-floating btn-large waves-effect waves-light tooltipped"
+       data-tooltip="Show Analysis" data-position="left">
+      <b>A</b>
     </a>
-  </div>
-</g:isOwnerOrRoles>
+  </g:if>
+  <g:else>
+    <a href="${g.createLink(controller: 'analysis', action: 'create', params: [eId: experiment?.id])}" class="btn-floating btn-large waves-effect waves-light tooltipped"
+       data-tooltip="Create a new analysis" data-position="left">
+      <i class="material-icons">add</i>
+    </a>
+  </g:else>
+</div>
 
-<div class="fixed-action-btn">
-  <a class="btn-floating click-to-toggle btn-large">
-    <i class="large material-icons">menu</i>
+<div class="fixed-action-btn" id="manage-datasets-action-btn">
+  <a href="${g.createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" class="btn-floating btn-large waves-effect waves-light tooltipped"
+     data-tooltip="Manage Datasets" data-position="left">
+    <i class="material-icons">settings</i>
   </a>
-  <ul>
-    <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentEdit">
+</div>
+
+<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin">
+  <div class="fixed-action-btn">
+    <a class="btn-floating click-to-toggle btn-large">
+      <i class="large material-icons">menu</i>
+    </a>
+    <ul>
       <li><a class="btn-floating tooltipped" href="${createLink(controller: 'experiment', action: 'edit', params: [id: experiment?.id])}"
              data-tooltip="Edit Experiment" data-position="top">
         <i class="material-icons">edit</i>
       </a></li>
-    </g:isOwnerOrRoles>
-    <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentDelete">
       <li><a class="btn-floating modal-trigger tooltipped" href="#delete-experiment-modal" data-tooltip="Delete Experiment" data-position="top">
         <i class="material-icons">delete</i>
       </a></li>
-    </g:isOwnerOrRoles>
-  </ul>
-</div>
+    </ul>
+  </div>
+  <script>
+    $(document).ready(function () {
+      $("#manage-datasets-action-btn").css("bottom", "93px");
+      $("#show-analysis-action-btn").css("bottom", "163px");
+    });
+  </script>
+</g:isOwnerOrRoles>
 
 <div id="delete-experiment-modal" class="modal modal-fixed-footer">
   <div class="modal-content">

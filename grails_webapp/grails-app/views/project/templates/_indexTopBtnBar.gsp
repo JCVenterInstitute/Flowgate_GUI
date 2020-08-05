@@ -1,35 +1,37 @@
-<div class="fixed-action-btn" style="bottom: 93px;">
+<div class="fixed-action-btn" id="add-experiment-action-btn">
   <a class="btn-floating btn-large waves-effect waves-light tooltipped" href="${createLink(controller: 'experiment', action: 'create', params: [pId: project?.id])}"
      data-tooltip="Create a new experiment" data-position="left">
     <i class="material-icons">add</i>
   </a>
 </div>
 
-<div class="fixed-action-btn">
-  <a class="btn-floating click-to-toggle btn-large">
-    <i class="large material-icons">menu</i>
-  </a>
-  <ul>
-    <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_ProjectEdit">
+<g:isOwnerOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin">
+  <div class="fixed-action-btn">
+    <a class="btn-floating click-to-toggle btn-large">
+      <i class="large material-icons">menu</i>
+    </a>
+    <ul>
       <li><a class="btn-floating tooltipped" href="${createLink(controller: 'project', action: 'edit', params: [id: project?.id])}"
              data-tooltip="Edit Project" data-position="top">
         <i class="material-icons">edit</i>
       </a></li>
-    </sec:ifAnyGranted>
-    <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_ProjectDelete">
       <li><a class="btn-floating modal-trigger tooltipped" href="#delete-project-modal"
              data-tooltip="Delete Project" data-position="top">
         <i class="material-icons">delete</i>
       </a></li>
-    </sec:ifAnyGranted>
-    <sec:ifAnyGranted roles="ROLE_SuperAdministrator,ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_ProjectErase">
       <li><a class="btn-floating modal-trigger tooltipped" href="#erase-project-modal"
              data-tooltip="Erase Project" data-position="top">
         <i class="material-icons">delete_forever</i>
       </a></li>
-    </sec:ifAnyGranted>
-  </ul>
-</div>
+    </ul>
+  </div>
+  <script>
+    $(document).ready(function () {
+      $("#add-experiment-action-btn").css("bottom", "93px");
+    });
+  </script>
+</g:isOwnerOrRoles>
+
 
 <div id="delete-project-modal" class="modal modal-fixed-footer">
   <div class="modal-content">

@@ -22,7 +22,9 @@
 <ul class="tabs">
   <li class="tab col s3"><a class="active" href="#description">Experiment Description</a></li>
   <li class="tab col s3"><a href="#fcs-files">FCS Files</a></li>
-  <li class="tab col s3"><a href="#manage-users">Experiment Users</a></li>
+  <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin">
+    <li class="tab col s3"><a href="#manage-users">Experiment Users</a></li>
+  </g:isOwnerOrRoles>
 </ul>
 
 <div id="description">
@@ -113,45 +115,47 @@
   </div>
 </div>
 
-<div id="manage-users">
-  <div class="row">
-    <g:form name="manageUsers" controller="experiment" action="manageUsers" id="${experiment?.id}">
-      <div class="col s12">
-        <div class="row">
-          <div class="input-field col s6">
-            <g:select id="owners-${experiment?.id}"
-                      name="owners"
-                      value="${ExperimentUser?.findAllByExperimentAndExpRole(experiment, 'owner')*.user*.id}"
-                      from="${User.list()}"
-                      optionKey="id"
-                      optionValue="username"
-                      multiple=""/>
-            <label>Owner(s)</label>
+<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin">
+  <div id="manage-users">
+    <div class="row">
+      <g:form name="manageUsers" controller="experiment" action="manageUsers" id="${experiment?.id}">
+        <div class="col s12">
+          <div class="row">
+            <div class="input-field col s6">
+              <g:select id="owners-${experiment?.id}"
+                        name="owners"
+                        value="${ExperimentUser?.findAllByExperimentAndExpRole(experiment, 'owner')*.user*.id}"
+                        from="${User.list()}"
+                        optionKey="id"
+                        optionValue="username"
+                        multiple=""/>
+              <label>Owner(s)</label>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="col s12">
-        <div class="row">
-          <div class="input-field col s6">
-            <g:select id="members-${experiment?.id}"
-                      name="members"
-                      value="${ExperimentUser?.findAllByExperimentAndExpRole(experiment, 'member')*.user*.id}"
-                      from="${User.list()}"
-                      optionKey="id"
-                      optionValue="username"
-                      multiple=""/>
-            <label>Member(s)</label>
+        <div class="col s12">
+          <div class="row">
+            <div class="input-field col s6">
+              <g:select id="members-${experiment?.id}"
+                        name="members"
+                        value="${ExperimentUser?.findAllByExperimentAndExpRole(experiment, 'member')*.user*.id}"
+                        from="${User.list()}"
+                        optionKey="id"
+                        optionValue="username"
+                        multiple=""/>
+              <label>Member(s)</label>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="input-field col s12">
-        <button type="submit" class="btn waves-effect waves-light">Save</button>
-      </div>
-    </g:form>
+        <div class="input-field col s12">
+          <button type="submit" class="btn waves-effect waves-light">Save</button>
+        </div>
+      </g:form>
+    </div>
   </div>
-</div>
+</g:isOwnerOrRoles>
 
 <script>
   var deleteFileModalInstance;

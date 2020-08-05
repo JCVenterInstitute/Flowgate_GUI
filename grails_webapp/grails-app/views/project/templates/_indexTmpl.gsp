@@ -1,5 +1,4 @@
 <%@ page import="flowgate.User; flowgate.ProjectUser" %>
-<% def utilsService = grailsApplication.mainContext.getBean("utilsService") %>
 <g:if test="${project}">
   <f:with bean="project">
     <h2><f:display property="title"/></h2>
@@ -9,7 +8,9 @@
         <ul class="tabs">
           <li class="tab col s3"><a href="#description">Project Description</a></li>
           <li class="tab col s3"><a class="active" href="#experiments">Experiments</a></li>
-          <li class="tab col s3"><a href="#manage-users">Project Users</a></li>
+          <g:isOwnerOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin">
+            <li class="tab col s3"><a href="#manage-users">Project Users</a></li>
+          </g:isOwnerOrRoles>
         </ul>
       </div>
 
@@ -30,45 +31,47 @@
   </div>
 </div>
 
-<div id="manage-users">
-  <div class="row">
-    <g:form name="manageUsers" controller="project" action="manageUsers" id="${project?.id}">
-      <div class="col s12">
-        <div class="row">
-          <div class="input-field col s6">
-            <g:select id="owners-${project?.id}"
-                      name="owners"
-                      value="${ProjectUser?.findAllByProjectAndProjRole(project, 'owner')*.user*.id}"
-                      from="${User.list()}"
-                      optionKey="id"
-                      optionValue="username"
-                      multiple=""/>
-            <label>Owner(s)</label>
+<g:isOwnerOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin">
+  <div id="manage-users">
+    <div class="row">
+      <g:form name="manageUsers" controller="project" action="manageUsers" id="${project?.id}">
+        <div class="col s12">
+          <div class="row">
+            <div class="input-field col s6">
+              <g:select id="owners-${project?.id}"
+                        name="owners"
+                        value="${ProjectUser?.findAllByProjectAndProjRole(project, 'owner')*.user*.id}"
+                        from="${User.list()}"
+                        optionKey="id"
+                        optionValue="username"
+                        multiple=""/>
+              <label>Owner(s)</label>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="col s12">
-        <div class="row">
-          <div class="input-field col s6">
-            <g:select id="members-${project?.id}"
-                      name="members"
-                      value="${ProjectUser?.findAllByProjectAndProjRole(project, 'member')*.user*.id}"
-                      from="${User.list()}"
-                      optionKey="id"
-                      optionValue="username"
-                      multiple=""/>
-            <label>Member(s)</label>
+        <div class="col s12">
+          <div class="row">
+            <div class="input-field col s6">
+              <g:select id="members-${project?.id}"
+                        name="members"
+                        value="${ProjectUser?.findAllByProjectAndProjRole(project, 'member')*.user*.id}"
+                        from="${User.list()}"
+                        optionKey="id"
+                        optionValue="username"
+                        multiple=""/>
+              <label>Member(s)</label>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="input-field col s12">
-        <button type="submit" class="btn waves-effect waves-light">Save</button>
-      </div>
-    </g:form>
+        <div class="input-field col s12">
+          <button type="submit" class="btn waves-effect waves-light">Save</button>
+        </div>
+      </g:form>
+    </div>
   </div>
-</div>
+</g:isOwnerOrRoles>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
