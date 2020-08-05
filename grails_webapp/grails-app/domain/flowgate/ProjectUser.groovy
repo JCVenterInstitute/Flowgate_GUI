@@ -71,7 +71,7 @@ class ProjectUser implements Serializable {
     }
 
     static mapping = {
-        id composite: ['project', 'user']
+        id composite: ['project', 'user', 'projRole']
         version false
     }
 }
