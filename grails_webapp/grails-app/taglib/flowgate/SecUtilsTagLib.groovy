@@ -1,79 +1,56 @@
 package flowgate
 
-//import grails.plugin.springsecurity.SpringSecurityUtils
-
 class SecUtilsTagLib {
-//    static defaultEncodeAs = [taglib:'html']
-//    static encodeAsForTags = [tagName: [taglib:'html'], otherTagName: [taglib:'none']]
 
-    def springSecurityService
+    def utilsService
 
     def isOwner = { attrs, body ->
-        String object = attrs?.object
-        Long objectId = attrs?.objectId?.toLong()
-        if(isOwnerMember(object, objectId, 'owner')) {
+        Object object = attrs?.object
+        if(utilsService.isOwnerMember(object, 'owner')) {
             out << body()
         }
     }
 
     def isOwnerOrRoles = { attrs, body ->
-        String object = attrs?.object
-        Long objectId = attrs?.objectId?.toLong()
+        Object object = attrs?.object
         String roles = attrs?.roles
-        if(isOwnerMember(object, objectId, 'owner') || grails.plugin.springsecurity.SpringSecurityUtils.ifAnyGranted(roles)) {
+        if(utilsService.isOwnerMember(object, 'owner') || grails.plugin.springsecurity.SpringSecurityUtils.ifAnyGranted(roles)) {
             out << body()
         }
     }
 
     def isMember = { attrs, body ->
         String object = attrs?.object
-        Long objectId = attrs?.objectId?.toLong()
-        if(isOwnerMember(object, objectId, 'member')) {
+        if(utilsService.isOwnerMember(object, 'member')) {
             out << body()
         }
     }
 
     def isMemberOrRoles = { attrs, body ->
-        String object = attrs?.object
-        Long objectId = attrs?.objectId?.toLong()
+        Object object = attrs?.object
         String roles = attrs?.roles
-        if(isOwnerMember(object, objectId, 'member') || grails.plugin.springsecurity.SpringSecurityUtils.ifAnyGranted(roles)) {
+        if(utilsService.isOwnerMember(object, 'member') || grails.plugin.springsecurity.SpringSecurityUtils.ifAnyGranted(roles)) {
             out << body()
         }
     }
 
     def isAffil = { attrs, body ->
-        String object = attrs?.object
-        Long objectId = attrs?.objectId?.toLong()
-        if(isOwnerMember(object, objectId, 'owner') || isOwnerMember(object, objectId, 'member')) out << body()
+        Object object = attrs?.object
+        if(utilsService.isAffil(object)) out << body()
     }
 
     def isAffilOrRoles = { attrs, body ->
-        String object = attrs?.object
-        Long objectId = attrs?.objectId?.toLong()
+        Object object = attrs?.object
         String roles = attrs?.roles
-        if(isOwnerMember(object, objectId, 'owner') || isOwnerMember(object, objectId, 'member') || grails.plugin.springsecurity.SpringSecurityUtils.ifAnyGranted(roles))
+        if(utilsService.isOwnerMember(object, 'owner') || utilsService.isOwnerMember(object, 'member') || grails.plugin.springsecurity.SpringSecurityUtils.ifAnyGranted(roles))
             out << body()
     }
 
     def isNotAffilOrRoles = { attrs, body ->
-        String object = attrs?.object
-        Long objectId = attrs?.objectId?.toLong()
+        Object object = attrs?.object
         String roles = attrs?.roles
-        if(!isOwnerMember(object, objectId, 'owner') && !isOwnerMember(object, objectId, 'member') && grails.plugin.springsecurity.SpringSecurityUtils.ifNotGranted(roles))
+        if(!utilsService.isOwnerMember(object, 'owner') && !utilsService.isOwnerMember(object, 'member') && grails.plugin.springsecurity.SpringSecurityUtils.ifNotGranted(roles))
             out << body()
-    }
-
-    def isOwnerMember (String object, Long objectId, String role){
-        if (object && objectId){
-            switch (object) {
-                case 'project': return (ProjectUser.findAllByProjectAndUser(Project.get(objectId), springSecurityService.currentUser)*.projRole).contains(role)
-                    break
-                case 'experiment': return (ExperimentUser.findAllByExperimentAndUser(Experiment.get(objectId), springSecurityService.currentUser)*.expRole).contains(role)
-                    break
-            }
-        }
-        return false
     }
 
 }

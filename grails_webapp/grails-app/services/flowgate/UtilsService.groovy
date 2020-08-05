@@ -60,7 +60,7 @@ class UtilsService {
         } else println "Error: no session!!!!"
     }
 
-    def isOwnerMember(String object, Long objectId, String role) {
+    def isOwnerMember(Object object, String role) {
         if (object) {
             switch (object) {
                 case 'project': return (ProjectUser.findAllByProjectAndUser(Project.get(objectId), springSecurityService.currentUser)*.projRole).contains(role)
@@ -72,8 +72,8 @@ class UtilsService {
         return false
     }
 
-    def isAffil(String object, Long objectId) {
-        return isOwnerMember(object, objectId, 'owner') || isOwnerMember(object, objectId, 'member')
+    def isAffil(Object object) {
+        return isOwnerMember(object, 'owner') || isOwnerMember(object, 'member')
     }
 
     def clone(String cloneType, def source, def parent, Boolean createChilds, String appendix) {
