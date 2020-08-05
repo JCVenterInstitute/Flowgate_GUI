@@ -10,10 +10,10 @@
             <div class="collapsible-header collection-header">
           </g:if>
           <i class="material-icons circle ${bean.analysisStatus == 1 ? 'init' : bean.analysisStatus == 2 ? 'orange' : bean.analysisStatus == 3 || bean.analysisStatus == 4 ? 'green' : bean.analysisStatus == -1 ? 'red' : 'done'}"></i>
-          <span class="title"><strong>${bean.analysisName}</strong></span>
+          <span class="title">Analysis Name: <strong>${bean.analysisName}</strong></span>
 
-          <p>${bean.user.username} <br>
-            <g:formatDate date="${bean.timestamp}" format="dd/MM/yyyy hh:mm:ss"/>
+          <p>Submitted by: <strong>${bean.user.username}</strong><br>
+            Submission date: <strong><g:formatDate date="${bean.timestamp}" format="dd/MM/yyyy hh:mm:ss"/></strong>
           </p>
           <g:if test="${bean.jobNumber.contains(',')}">
             <div class="secondary-content tooltipped" data-tooltip="Expand to see details" data-position="left">
