@@ -163,14 +163,34 @@
     var tabElems = document.querySelectorAll('.tabs');
     M.Tabs.init(tabElems);
 
-    var selectElems = document.querySelectorAll('select');
-    var instances = M.FormSelect.init(selectElems);
+    var ownersSelectElems = document.querySelectorAll('#owners-${experiment?.id}');
+    var membersSelectElems = document.querySelectorAll('#members-${experiment?.id}');
+    M.FormSelect.init(ownersSelectElems);
+    M.FormSelect.init(membersSelectElems);
 
     var elems = document.querySelectorAll('.collapsible');
     var instances = M.Collapsible.init(elems);
 
     var modalElem = document.querySelector('#delete-files-modal');
     deleteFileModalInstance = M.Modal.init(modalElem);
+
+    $('#owners-${experiment?.id}').change(function() {
+      const values = $(this).val();
+      if (values) {
+        values.map(value => $('#members-${experiment?.id} option[value=' + value + ']')
+            .removeAttr('selected'))
+        M.FormSelect.init(membersSelectElems);
+      }
+    });
+    $('#members-${experiment?.id}').change(function() {
+      const values = $(this).val();
+      if(values) {
+        values.map(value => $('#owners-${experiment?.id} option[value=' + value + ']')
+            .removeAttr('selected'))
+
+        M.FormSelect.init(ownersSelectElems);
+      }
+    });
 
     $("#confirm-file-deletion").click(function () {
       var fileIds = [];

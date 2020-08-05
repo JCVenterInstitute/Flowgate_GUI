@@ -78,7 +78,27 @@
     var elems = document.querySelectorAll('.tabs');
     M.Tabs.init(elems);
 
-    var selectElems = document.querySelectorAll('select');
-    var instances = M.FormSelect.init(selectElems);
+    var ownersSelectElems = document.querySelectorAll('#owners-${project?.id}');
+    var membersSelectElems = document.querySelectorAll('#members-${project?.id}');
+    M.FormSelect.init(ownersSelectElems);
+    M.FormSelect.init(membersSelectElems);
+
+    $('#owners-${project?.id}').change(function() {
+      const values = $(this).val();
+      if (values) {
+        values.map(value => $('#members-${project?.id} option[value=' + value + ']')
+            .removeAttr('selected'))
+        M.FormSelect.init(membersSelectElems);
+      }
+    });
+    $('#members-${project?.id}').change(function() {
+      const values = $(this).val();
+      if(values) {
+        values.map(value => $('#owners-${project?.id} option[value=' + value + ']')
+            .removeAttr('selected'))
+
+        M.FormSelect.init(ownersSelectElems);
+      }
+    });
   });
 </script>
