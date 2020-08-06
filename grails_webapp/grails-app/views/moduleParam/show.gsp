@@ -30,7 +30,7 @@
   <a href="${createLink(controller: 'module', action: 'edit', params: [id: moduleParam.module.id])}" class="btn-flat">Return to Module</a>
 </div>
 
-<div id="delete-moduleparam-modal" class="modal modal-fixed-footer">
+<div id="delete-moduleparam-modal" class="modal">
   <div class="modal-content">
     <h4>Confirm to delete module parameter</h4>
   </div>

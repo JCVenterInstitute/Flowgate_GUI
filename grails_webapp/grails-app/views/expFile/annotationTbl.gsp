@@ -81,7 +81,7 @@
     </div>
   </div>
 
-  <div id="upload-annotation-file" class="modal modal-fixed-footer">
+  <div id="upload-annotation-file" class="modal">
     <form id="upldForm" action="${g.createLink(controller: 'expFile', action: 'importAnnotation', id: experiment?.id)}" method="post" enctype="multipart/form-data">
       <g:hiddenField name="categoryId" id="categoryId" />
       <div class="modal-content">

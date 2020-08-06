@@ -1,5 +1,5 @@
 <%@ page import="flowgate.ExpFile; flowgate.ExperimentMetadataValue; flowgate.ExperimentMetadata; flowgate.ExperimentMetadataCategory" %>
-<div id="upload-annotation-file" class="modal modal-fixed-footer">
+<div id="upload-annotation-file" class="modal">
   <form id="upldForm" action="${g.createLink(controller: 'experiment', action: 'importMifcyt', id: experiment?.id)}" method="post" enctype="multipart/form-data">
     <div class="modal-content">
       <h4>Upload an MIFlowCyt file</h4>

@@ -27,7 +27,7 @@
   <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
 </div>
 
-<div id="import-paramaters-modal" class="modal modal-fixed-footer">
+<div id="import-paramaters-modal" class="modal">
   <div class="modal-content">
     <h4>Confirm to import module parameters for ${module.title}</h4>
 

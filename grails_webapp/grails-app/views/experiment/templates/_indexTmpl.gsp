@@ -104,7 +104,7 @@
   </div>
 </div>
 
-<div id="delete-files-modal" class="modal modal-fixed-footer">
+<div id="delete-files-modal" class="modal">
   <div class="modal-content">
     <h4>Confirm to delete selected experiment files?</h4>
   </div>

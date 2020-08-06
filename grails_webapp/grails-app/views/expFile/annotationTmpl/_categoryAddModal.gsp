@@ -1,5 +1,5 @@
 <%@ page import="flowgate.ExpFile; flowgate.ExperimentMetadataValue; flowgate.ExperimentMetadata" %>
-<div id="add-new-category" class="modal modal-fixed-footer">
+<div id="add-new-category" class="modal">
   <g:form controller="expFile" action="addCategory">
     <div class="modal-content">
       <g:hiddenField name="id" value="${experiment?.id}"/>

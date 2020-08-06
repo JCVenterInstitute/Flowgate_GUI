@@ -30,7 +30,7 @@
   </div>
 </div>
 
-<div id="delete-module-modal" class="modal modal-fixed-footer">
+<div id="delete-module-modal" class="modal">
   <div class="modal-content">
     <h4>Confirm to delete module</h4>
   </div>
