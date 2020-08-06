@@ -54,9 +54,21 @@
   <div class="input-field col s12">
     <button class="btn waves-effect waves-light" type="submit">${message(code: 'default.button.update.label', default: 'Update')}</button>
     <a href="${createLink(controller: 'moduleParam', action: 'create', params: ['module.id': module.id])}" class="btn-flat">Add Module Parameter</a>
+    <a class="btn-flat modal-trigger" href="#delete-module-modal">${message(code: 'default.button.delete.label', default: 'Delete')}</a>
     <g:link controller="module" action="index" class="btn-flat">Return to Module List</g:link>
   </div>
 </g:form>
+
+<div id="delete-module-modal" class="modal">
+  <div class="modal-content">
+    <h4>Confirm to delete module</h4>
+  </div>
+
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
+    <g:link action="delete" resource="${this.module}" class="modal-close waves-effect waves-light btn-flat">Confirm</g:link>
+  </div>
+</div>
 
 <div class="fixed-action-btn">
   <a class="btn-floating btn-large waves-effect waves-light tooltipped" href="javascript:fetchModuleParams();"
@@ -74,6 +86,9 @@
 
     var tooltipElems = document.querySelectorAll('.tooltipped');
     M.Tooltip.init(tooltipElems);
+
+    var modalElems = document.querySelectorAll('.modal');
+    M.Modal.init(modalElems);
   });
 
   function fetchModuleParams() {
