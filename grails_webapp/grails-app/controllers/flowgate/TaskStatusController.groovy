@@ -4,6 +4,8 @@ import grails.converters.JSON
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 
+import java.text.SimpleDateFormat
+
 //import grails.plugin.springsecurity.annotation.Secured
 
 //@Secured(['ROLE_Admin','ROLE_User'])
@@ -13,6 +15,7 @@ class TaskStatusController {
     static allowedMethods = [setStatus: ["GET","POST"]]
 
     def wsService
+    def utilsService
 
     def setStatus() {
 
@@ -23,24 +26,32 @@ class TaskStatusController {
                 if(analysis){
                     switch (params?.status){
                         case 'Finished':
-                            RestBuilder rest = new RestBuilder()
-                            RestResponse resp
-                            String serverApiUrl = analysis.module.server.url + "/gp/rest/v1/jobs/${analysis.jobNumber}/status.json"
                             try {
-                                resp = rest.get(serverApiUrl) {
-                                    contentType "application/json"
-                                    auth "Basic ${utilsService.authEncoded(analysis.module.server.userName, analysis.module.server.userPw)}"
+                                RestBuilder rest = new RestBuilder()
+                                RestResponse resp
+                                String serverApiUrl = analysis.module.server.url + "/gp/rest/v1/jobs/${analysis.jobNumber}/status.json"
+                                try {
+                                    resp = rest.get(serverApiUrl) {
+                                        contentType "application/json"
+                                        auth "Basic ${utilsService.authEncoded(analysis.module.server.userName, analysis.module.server.userPw)}"
+                                    }
+                                    println "GenePattern job ${analysis.jobNumber} status: ${resp.json}"
                                 }
-                                println "GenePattern job ${analysis.jobNumber} status: ${resp.json}"
+                                catch (all) {
+                                    println all?.message
+                                }
+
+                                if (resp.json && resp.json.completedInGp) {
+                                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+                                    Date parse = simpleDateFormat.parse(resp.json.completedInGp);
+                                    analysis.dateCompleted = parse
+                                }
                             }
                             catch (all) {
+                                println "Couldn't fetch job status from GenePattern"
                                 println all?.message
                             }
                             analysis.analysisStatus = 3
-
-                            if(resp.json && resp.json.completedInGp) {
-                                analysis.dateCompleted = resp.json && resp.json.completedInGp
-                            }
                             break
                         case 'Processing': analysis.analysisStatus = 2
                             break
