@@ -1,6 +1,9 @@
 package flowgate
 
 import grails.converters.JSON
+import grails.plugins.rest.client.RestBuilder
+import grails.plugins.rest.client.RestResponse
+
 //import grails.plugin.springsecurity.annotation.Secured
 
 //@Secured(['ROLE_Admin','ROLE_User'])
@@ -19,7 +22,25 @@ class TaskStatusController {
                 Analysis analysis = Analysis.findByJobNumber(params?.jobId?.toInteger())
                 if(analysis){
                     switch (params?.status){
-                        case 'Finished': analysis.analysisStatus = 3
+                        case 'Finished':
+                            RestBuilder rest = new RestBuilder()
+                            RestResponse resp
+                            String serverApiUrl = analysis.module.server.url + "/gp/rest/v1/jobs/${analysis.jobNumber}/status.json"
+                            try {
+                                resp = rest.get(serverApiUrl) {
+                                    contentType "application/json"
+                                    auth "Basic ${utilsService.authEncoded(analysis.module.server.userName, analysis.module.server.userPw)}"
+                                }
+                                println "GenePattern job ${analysis.jobNumber} status: ${resp.json}"
+                            }
+                            catch (all) {
+                                println all?.message
+                            }
+                            analysis.analysisStatus = 3
+
+                            if(resp.json && resp.json.completedInGp) {
+                                analysis.dateCompleted = resp.json && resp.json.completedInGp
+                            }
                             break
                         case 'Processing': analysis.analysisStatus = 2
                             break
@@ -28,13 +49,8 @@ class TaskStatusController {
                         default: analysis.analysisStatus = 2
                             break
                     }
-                       Boolean completed = params?.status == 'Finished' ?: false
-//                       Boolean completed = restUtilsService.isComplete(analysis)
-//                      if(completed){
-//                    analysis.analysisStatus = params?.jobId?.toInteger() > 0 ? completed ? 3 : 2 : params?.jobId?.toInteger()
                     analysis.save flush: true
                     wsService.tcMsg(params?.jobId?.toString())
-//                      }
                 }
             }
             println "got status! ${params?.jobId} ${params?.status}"

@@ -14,6 +14,9 @@
 
           <p>Submitted by: <strong>${bean.user.username}</strong><br>
             Submission date: <strong><g:formatDate date="${bean.timestamp}" format="dd/MM/yyyy hh:mm:ss"/></strong>
+            <g:if test="${bean.dateCompleted}">
+              | Completion date: <strong><g:formatDate date="${bean.dateCompleted}" format="dd/MM/yyyy hh:mm:ss"/></strong>
+            </g:if>
           </p>
           <g:if test="${bean.jobNumber.contains(',')}">
             <div class="secondary-content tooltipped" data-tooltip="Expand to see details" data-position="left">

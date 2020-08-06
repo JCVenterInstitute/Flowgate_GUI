@@ -15,6 +15,8 @@ class Analysis {
   Date timestamp
   @BindingFormat('yyyy-MM-dd hh:mm:ss')
   Date dateCreated
+  @BindingFormat('yyyy-MM-dd hh:mm:ss')
+  Date dateCompleted
   Integer analysisStatus
   String jobNumber
   // TODO check different types! currently using the result file path/name to render in the modal
@@ -26,6 +28,7 @@ class Analysis {
     analysisDescription nullable: true, blank: true, blankable: true
     jobNumber nullable: true, blank: true, blankable: true
     renderResult blank: true, nullable: true
+    dateCompleted blank: true, nullable: true
   }
 
   static mapping = {

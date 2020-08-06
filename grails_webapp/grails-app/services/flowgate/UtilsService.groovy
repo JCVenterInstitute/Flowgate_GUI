@@ -339,6 +339,7 @@ class UtilsService {
                             def filePath = saveResultFile(resultFile, analysis, jobIdArr[i])
                             updateDependencies(filePath, analysis.module.server.url, analysis.id, jobIdArr[i])
                             stringJoiner.add(filePath)
+                            analysis.dateCompleted = jobDetails.updated
                         }
                         analysis.analysisStatus = 3
                         analysis.renderResult = stringJoiner.toString()
