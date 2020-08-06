@@ -1,6 +1,7 @@
 package flowgate
 
 import grails.plugin.springsecurity.annotation.Secured
+import org.apache.commons.lang3.StringUtils
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -164,21 +165,29 @@ Instrument Details${separator}Electronic Configuration${separator}
     }
 
     def importMifcyt(Experiment experiment){
-        String separator = params.separator ?: ","
-
-        def miFcytCsvFile = request?.getFile("mifcytFile")
-        File fcytCsvFile = miFcytCsvFile?.part?.fileItem?.tempFile
-        if(fcytCsvFile.size()<1){
+        def requestedFile = request?.getFile("mifcytFile")
+        File fcytFile = requestedFile?.part?.fileItem?.tempFile
+        if(fcytFile.size()<1){
             println "error: no file selected"
             flash.msg = "Error: No file selected!"
             flash.messsage = "Error: No file selected!"
             redirect action: 'miFcytTbl', id: experiment.id
             return
         }
+        def lines = fcytFile.readLines();
+        def separatorCount = lines.stream()
+                .map({ l -> if (!l.trim().equals('')) return StringUtils.countMatches(l, ",") })
+                .filter({ l -> l != null })
+                .distinct()
+                .toArray();
+
+        //csv file if same count of comma and has comma
+        String separator = (separatorCount.length == 1 && separatorCount[0] > 0) ? "," : "\t"
+
         def headers = []
         def rows = []
         Integer lineCntr = 0
-        fcytCsvFile.splitEachLine("${separator}"){ fields ->
+        fcytFile.splitEachLine("${separator}"){ fields ->
             if(lineCntr == 0){
                 headers = fields
             }

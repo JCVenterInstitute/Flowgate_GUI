@@ -3,6 +3,7 @@ package flowgate
 import grails.converters.JSON
 import grails.core.GrailsApplication
 import grails.plugin.springsecurity.annotation.Secured
+import org.apache.commons.lang3.StringUtils
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -510,20 +511,28 @@ class ExpFileController {
 
 
     def importAnnotation(Experiment experiment){
-        String separator = params.separator ?: ","
-
-        def annotationCsvFile = request.getFile("annotationFile")
-        File annCsvFile = annotationCsvFile.part.fileItem.tempFile
-        if(annCsvFile.size()<1){
+        def requestedFile = request.getFile("annotationFile")
+        File annotationFile = requestedFile.part.fileItem.tempFile
+        if(annotationFile.size()<1){
             println "error: no file selected"
             flash.msg = "Error: No file selected!"
             doAnnotate(experiment)
             return
         }
+        def lines = annotationFile.readLines();
+        def separatorCount = lines.stream()
+                .map({ l -> return StringUtils.countMatches(l, ",") })
+                .filter({ l -> l != null })
+                .distinct()
+                .toArray();
+
+        //csv file if same count of comma and has comma
+        String separator = (separatorCount.length == 1 && separatorCount[0] > 0) ? "," : "\t"
+
         def headers = []
         def rows = []
         Integer lineCntr = 0
-        annCsvFile.splitEachLine("${separator}"){ fields ->
+        annotationFile.splitEachLine("${separator}"){ fields ->
             if(lineCntr == 0){
                 headers = fields
             }

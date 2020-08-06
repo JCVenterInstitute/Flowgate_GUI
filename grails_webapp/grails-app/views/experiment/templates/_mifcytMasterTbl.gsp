@@ -4,22 +4,13 @@
     <div class="modal-content">
       <h4>Upload an MIFlowCyt file</h4>
 
-      <g:radioGroup name="separator"
-                    labels="['CSV (Comma)', 'TSV (Tab)']"
-                    values="[',', '\t']"
-                    value=",">
-        <p>
-          <label>
-            ${it.radio}
-            <span>${it.label}</span>
-          </label>
-        </p>
-      </g:radioGroup>
+      <blockquote>You can upload a CSV or TSV file.<br>
+        Uploading annotation file will override existing annotations for selected category.</blockquote>
 
       <div class="file-field input-field">
         <div class="btn">
           <span>Select MIFlowCyt File</span>
-          <input type="file" name="mifcytFile" accept=".csv,.tsv" required="required">
+          <input type="file" name="mifcytFile" accept=".csv,.tsv,.txt" required="required">
         </div>
 
         <div class="file-path-wrapper">

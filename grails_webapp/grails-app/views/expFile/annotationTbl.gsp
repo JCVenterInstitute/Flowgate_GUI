@@ -87,28 +87,18 @@
       <div class="modal-content">
         <h4>Upload an Annotation file</h4>
 
-        <g:radioGroup name="separator"
-                      labels="['CSV (Comma)', 'TSV (Tab)']"
-                      values="[',', '\t']"
-                      value=",">
-          <p>
-            <label>
-              ${it.radio}
-              <span>${it.label}</span>
-            </label>
-          </p>
-        </g:radioGroup>
+      <blockquote>You can upload a CSV or TSV file.<br>
+        Uploading annotation file will override existing annotations for selected category.</blockquote>
 
         <div class="file-field input-field">
           <div class="btn">
             <span>Select Annotation File</span>
-            <input type="file" name="annotationFile" accept=".csv,.tsv" required="required">
+            <input type="file" name="annotationFile" accept=".csv,.tsv,.txt" required="required">
           </div>
 
           <div class="file-path-wrapper">
             <input class="file-path validate" type="text" placeholder="Select a CSV or TSV file">
           </div>
-          <span class="helper-text">Uploading annotation file will override existing annotations for selected category.</span>
         </div>
       </div>
 
