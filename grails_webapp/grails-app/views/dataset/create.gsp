@@ -62,6 +62,7 @@
       <div class="input-field col s8">
         <button type="submit" class="btn waves-effect waves-light">${message(code: 'default.button.create.label', default: 'Create')}</button>
         <button type="submit" class="btn-flat" onclick="$('#analyze').val(${true});">Create and Analyze</button>
+        <a href="${g.createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" class="btn-flat">Cancel</a>
       </div>
     </div>
   </g:form>

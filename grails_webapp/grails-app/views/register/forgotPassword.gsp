@@ -48,6 +48,7 @@
 
         <div class="input-field col s12">
           <button type="submit" class="btn waves-effect waves-light"><g:message code='spring.security.ui.forgotPassword.submit'/></button>
+          <a href="${createLink(uri: '/')}" class="btn-flat">Return to Login</a>
         </div>
       </s2ui:form>
     </s2ui:formContainer>
