@@ -10,23 +10,29 @@
             <div class="collapsible-header collection-header">
           </g:if>
           <i class="material-icons circle ${bean.analysisStatus == 1 ? 'init' : bean.analysisStatus == 2 ? 'orange' : bean.analysisStatus == 3 || bean.analysisStatus == 4 ? 'green' : bean.analysisStatus == -1 ? 'red' : 'done'}"></i>
-          <span class="title">Analysis Name: <strong>${bean.analysisName}</strong></span>
+          <span class="title"><strong>Analysis Name:</strong> ${bean.analysisName}</span>
 
-          <p>Submitted by: <strong>${bean.user.username}</strong><br>
-            Submission date: <strong><g:formatDate date="${bean.timestamp}" format="dd/MM/yyyy hh:mm:ss"/></strong>
-            <g:if test="${bean.dateCompleted}">
-              | Completion date: <strong><g:formatDate date="${bean.dateCompleted}" format="dd/MM/yyyy hh:mm:ss"/></strong>
-            </g:if>
+          <p><strong>Server: </strong>${bean.module.server.name}<br>
+            <strong>Module: </strong>${bean.module.label != null ? bean.module.label : bean.module.name}
           </p>
+
+          <div class="middle-content">
+            <p><strong>Submitted by: </strong>${bean.user.username}<br>
+              <strong>Submission date: </strong> <g:formatDate date="${bean.timestamp}" format="dd/MM/yyyy hh:mm:ss"/>
+              <g:if test="${bean.dateCompleted}">
+                <br><strong>Completion date: </strong><g:formatDate date="${bean.dateCompleted}" format="dd/MM/yyyy hh:mm:ss"/>
+              </g:if>
+            </p>
+          </div>
           <g:if test="${bean.jobNumber.contains(',')}">
-            <div class="secondary-content tooltipped" data-tooltip="Expand to see details" data-position="left">
+            <div class="secondary-content tooltipped" data-tooltip="Expand to see details" data-position="left" style="top: 10px;">
               <i class="material-icons">expand_more</i>
             </div>
           </g:if>
           <g:elseif test="${bean.analysisStatus == 3 || bean.analysisStatus == 4}">
             <g:if test="${bean.analysisStatus == 3}">
               <a href="#resultModal-${bean.jobNumber}" class="secondary-content tooltipped modal-trigger"
-                 data-tooltip="Display analysis result" data-position="left">
+                 data-tooltip="Display analysis result" data-position="left" style="top: 13px;">
                 <i class="material-icons">more</i>
               </a>
               <a href="${g.createLink(controller: 'analysis', action: 'downloadResultReport', params: [analysisId: bean?.id, jobNr: bean?.jobNumber, download: true])}"
@@ -65,7 +71,7 @@
             </div>
           </g:elseif>
           <g:elseif test="${bean.analysisStatus == -1}">
-            <span class="secondary-content black-text">This analysis has failed. <br>
+            <span class="secondary-content black-text" style="top: 10px;">This analysis has failed. <br>
               There is no result file available.
             </span>
           </g:elseif>
@@ -144,6 +150,16 @@
     </ul>
   </g:if>
 </div>
+
+<style>
+@media only screen and (min-width: 993px) {
+  .collection-item .middle-content {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+  }
+}
+</style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
