@@ -2,8 +2,13 @@ package flowgate
 
 class Dataset {
 
-    static belongsTo = [Experiment]
+    static belongsTo = [experiment: Experiment, analysis: Analysis]
     static hasMany = [expFiles: ExpFile]
+//
+    static mapping = {
+        analysis joinTable: [name: 'analysis_dataset', column: "dataset_id"]
+    }
+//
     Experiment experiment
     String name
     String description
@@ -11,4 +16,6 @@ class Dataset {
     static constraints = {
         description nullable: true
     }
+
+
 }

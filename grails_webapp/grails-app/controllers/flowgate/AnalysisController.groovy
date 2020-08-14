@@ -542,7 +542,7 @@ class AnalysisController {
         def thisRequest = request
         Module module = Module.get(params?.module?.id)
         Experiment experiment = Experiment.get(params?.eId?.toLong())
-        try {
+        Dataset dataset = Dataset.findByExperiment(experiment)
             analysis.experiment = experiment
             if (module.server.isGenePatternServer()) {
                 Map resultMap
@@ -562,6 +562,7 @@ class AnalysisController {
                 analysis.analysisStatus = 2
             }
             experiment.addToAnalyses(analysis)
+//            analysis.addToDatasets(dataset) // works but does not fire beforeInsert to set dsVersion
             analysis.validate()
             if (analysis == null) {
                 //transactionStatus.setRollbackOnly()
@@ -573,7 +574,14 @@ class AnalysisController {
                 respond analysis.errors, view: 'create', model: [eId: params.eId, experiment: experiment]
                 return
             }
+//        try {
             analysis.save flush: true
+            AnalysisDataset.create analysis, dataset
+//        } catch (ClientHandlerException e) {
+//            flash.error = "Server " + e.cause.message + " is not available."
+//            redirect action: 'create', model: [analysis: analysis], params: [eId: params?.eId]
+//            return
+//        }
             request.withFormat {
                 form multipartForm {
                     flash.message = message(code: 'default.created.message', args: [message(code: 'analysis.label', default: 'Analysis:'), analysis.analysisName])
@@ -582,11 +590,6 @@ class AnalysisController {
                 }
                 '*' { respond analysis, [status: CREATED] }
             }
-        } catch (ClientHandlerException e) {
-            flash.error = "Server " + e.cause.message + " is not available."
-            redirect action: 'create', model: [analysis: analysis], params: [eId: params?.eId]
-            return
-        }
     }
 
     def edit(Analysis analysis) {

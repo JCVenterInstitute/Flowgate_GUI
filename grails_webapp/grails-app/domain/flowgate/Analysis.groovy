@@ -7,6 +7,13 @@ class Analysis {
 
   static belongsTo = [experiment: Experiment]
   static hasMany = [datasets: Dataset]
+
+  static mapping = {
+    analysisName    sqlType: 'varchar(512)'
+    analysisDescription  sqlType: 'varchar(1024)'
+    datasets joinTable: [name: 'analysis_dataset', column: "analysis_id"]
+  }
+
   Module module
   String analysisName
   String analysisDescription
@@ -29,11 +36,6 @@ class Analysis {
     jobNumber nullable: true, blank: true, blankable: true
     renderResult blank: true, nullable: true
     dateCompleted blank: true, nullable: true
-  }
-
-  static mapping = {
-    analysisName    sqlType: 'varchar(512)'
-    analysisDescription  sqlType: 'varchar(1024)'
   }
 
   def isFailedOnSubmit() {
