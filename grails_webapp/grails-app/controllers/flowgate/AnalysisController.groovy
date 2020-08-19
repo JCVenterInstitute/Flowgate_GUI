@@ -562,7 +562,6 @@ class AnalysisController {
                 analysis.analysisStatus = 2
             }
             experiment.addToAnalyses(analysis)
-            analysis.addToDatasets(dataset) // works but does not fire beforeInsert to set dsVersion
             analysis.validate()
             if (analysis == null) {
                 //transactionStatus.setRollbackOnly()

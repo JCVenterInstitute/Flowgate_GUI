@@ -14,7 +14,7 @@ class Analysis implements Serializable {
     analysisDescription  sqlType: 'varchar(1024)'
   }
 
-  Set<Dataset> datasets
+//  Set<Dataset> datasets
   Module module
   String analysisName
   String analysisDescription
