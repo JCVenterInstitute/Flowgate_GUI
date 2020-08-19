@@ -3,17 +3,18 @@ package flowgate
 import grails.databinding.BindingFormat
 import org.apache.commons.lang3.math.NumberUtils
 
-class Analysis {
+class Analysis implements Serializable {
+
+  private static final long serialVersionUID = 1
 
   static belongsTo = [experiment: Experiment]
-  static hasMany = [datasets: Dataset]
 
   static mapping = {
     analysisName    sqlType: 'varchar(512)'
     analysisDescription  sqlType: 'varchar(1024)'
-    datasets joinTable: [name: 'analysis_dataset', column: "analysis_id"]
   }
 
+  Set<Dataset> datasets
   Module module
   String analysisName
   String analysisDescription
@@ -36,6 +37,10 @@ class Analysis {
     jobNumber nullable: true, blank: true, blankable: true
     renderResult blank: true, nullable: true
     dateCompleted blank: true, nullable: true
+  }
+
+  Set<Dataset> getDatasets() {
+    AnalysisDataset.findAllByAnalysis(this)*.dataset
   }
 
   def isFailedOnSubmit() {
