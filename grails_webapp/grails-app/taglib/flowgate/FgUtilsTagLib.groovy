@@ -148,9 +148,8 @@ class FgUtilsTagLib {
             max: max ?: 0,
             limitReachedMsg: attrs.limitReachedMsg,
             onComplete: attrs.onComplete,
-//            mdVals: attrs.mdVals.collect{"\"$it\""}
-            mdVals: attrs.mdVals
-//            mdVals: attrs.mdVals as
+            mdVals: attrs.mdVals,
+            dispOrders: attrs.dispOrders
         ])
 //        println "output ${output}"
         /*out << render(template: "/templates/dynamicBlock/add", model: [

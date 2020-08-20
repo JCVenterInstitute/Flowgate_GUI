@@ -1,7 +1,7 @@
 /*
    * Adds a new item.
    */
-function addItem(id, elem, min, max, onComplete, limitMessage, removeBtnLabel, mdVals) {
+function addItem(id, elem, min, max, onComplete, limitMessage, removeBtnLabel, mdVals, dispOrders) {
   // checks if we have reached maximum number of elements
   if (!max || $('[id^=' + id + ']').length < max) {
     // increments the item counter
@@ -10,8 +10,11 @@ function addItem(id, elem, min, max, onComplete, limitMessage, removeBtnLabel, m
     $countElem.html(num);
     var myArr = [mdVals.replace('[','').replace(']','').split(', ')];
     var myArrStr = myArr[0][num-1] ? myArr[0][num-1]+ '" ' : '' + '" ';
+    var dispOrderArr = [dispOrders.replace('[','').replace(']','').split(', ')];
+    var dispOrderArrStr = dispOrderArr[0][num-1] ? dispOrderArr[0][num-1]+ '" ' : '' + '" ';
     // console.log(elem);
     // console.log(myArrStr);
+    elem = elem.replace('id="dispOrder"','id="dispOrder" value="'+dispOrderArrStr);
     elem = elem.replace('id="mdValue"','id="mdValue" value="'+myArrStr);
     if(myArrStr && '"' !== myArrStr.trim()) {
       elem = elem.replace('for="mdValue"','for="mdValue" class="active"');

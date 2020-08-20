@@ -345,8 +345,10 @@ class ExpFileController {
         List<String> valueList = params.list('mdValue')
 //        println "addColumn valueList ${valueList} size ${valueList.size()}"
         Integer vListSize = valueList.size()
+        def dispOrder = params.dispOrder
+        int order = 1 //0 is used for experimentmetadata
         valueList.each{ pmdValue ->
-            ExperimentMetadataValue eMetaValue = new ExperimentMetadataValue(expMetaData:eMetaData, mdValue: pmdValue, mdType: vListSize>1 ? 'List' : 'String', dispOrder: 1)
+            ExperimentMetadataValue eMetaValue = new ExperimentMetadataValue(expMetaData:eMetaData, mdValue: pmdValue, mdType: vListSize>1 ? 'List' : 'String', dispOrder: dispOrder[order++])
             eMetaValue.save(flush: true)
             if(eMetaData?.mdVals){
                 eMetaData?.mdVals?.add(eMetaValue)

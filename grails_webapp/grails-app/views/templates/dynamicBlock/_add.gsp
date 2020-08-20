@@ -9,11 +9,11 @@
   </div>
 </g:if>
 <script>
-  function initializeTag(addButton, id, elem, min, max, onComplete, limitReachedMsg, removeBtnLabel, mdVals, ms) {
+  function initializeTag(addButton, id, elem, min, max, onComplete, limitReachedMsg, removeBtnLabel, mdVals, dispOrders, ms) {
     // binds event handler to the "click" JS event of the "Add" button
     addButton.click(function () {
       // alert('add clicked!');
-      addItem(id, elem, min, max, onComplete, limitReachedMsg, removeBtnLabel, mdVals);
+      addItem(id, elem, min, max, onComplete, limitReachedMsg, removeBtnLabel, mdVals, dispOrders);
     });
 
     // adds the initial number of items
@@ -31,11 +31,11 @@
         if (!window["addItem"]) {
           $.getScript("${resource(dir: "javascripts", file: "dynamicBlock.js")}", function () {
             initializeTag(addButton, "${id}", "${elem}", ${min}, ${max}, "${onComplete}",
-                "${limitReachedMsg}", "${removeBtnLabel}", "${mdVals}", ${mdVals.size()});
+                "${limitReachedMsg}", "${removeBtnLabel}", "${mdVals}", "${dispOrders}", ${mdVals.size()});
           });
         } else {
           initializeTag(addButton, "${id}", "${elem}", ${min}, ${max}, "${onComplete}",
-              "${limitReachedMsg}", "${removeBtnLabel}", "${mdVals}", ${mdVals.size()});
+              "${limitReachedMsg}", "${removeBtnLabel}", "${mdVals}", "${dispOrders}", ${mdVals.size()});
         }
       }
   );

@@ -34,12 +34,12 @@
           </div>
         </div>
       </f:with>
-      <fg:dynamicBlock itemId="eMetaValue" max="50" mdVals="${eMeta.mdVals*.mdValue}"
+      <fg:dynamicBlock itemId="eMetaValue" max="50" mdVals="${eMeta.mdVals.sort { it.dispOrder }*.mdValue}" dispOrders="${eMeta.mdVals.sort { it.dispOrder }*.dispOrder}"
                        limitReachedMsg="Sorry, you cannot specify more than 15 values"
                        removeBtnLabel="Delete">
         <g:hiddenField name="mdType" value="${expMetaDatVal?.mdType ?: 'String'}"/>
         <div class="input-field col s2">
-          <input type="text" id="dispOrder" name="dispOrder" required value="1">
+          <input type="text" id="dispOrder" name="dispOrder" required>
           <label class="active">Disp. Order *</label>
         </div>
 
