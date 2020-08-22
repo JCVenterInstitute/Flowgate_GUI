@@ -1,20 +1,17 @@
 package flowgate
 
 import grails.databinding.BindingFormat
+import grails.gorm.DetachedCriteria
 import org.apache.commons.lang3.math.NumberUtils
 
 class Analysis implements Serializable {
 
-  private static final long serialVersionUID = 1
+//  private static final long serialVersionUID = 1
 
   static belongsTo = [experiment: Experiment]
+//  static hasOne = [dataset: Dataset]
 
-  static mapping = {
-    analysisName    sqlType: 'varchar(512)'
-    analysisDescription  sqlType: 'varchar(1024)'
-  }
-
-//  Set<Dataset> datasets
+  Dataset ds
   Module module
   String analysisName
   String analysisDescription
@@ -30,6 +27,7 @@ class Analysis implements Serializable {
   // TODO check different types! currently using the result file path/name to render in the modal
   // TODO current default resultReportFileName = Reports/AutoReport.html; remove after testing
   String renderResult = 'Reports/AutoReport.html'
+  Long dsVersion
 
   static constraints = {
     analysisName blank: false
@@ -39,8 +37,25 @@ class Analysis implements Serializable {
     dateCompleted blank: true, nullable: true
   }
 
-  Set<Dataset> getDatasets() {
-    AnalysisDataset.findAllByAnalysis(this)*.dataset
+  static mapping = {
+    analysisName    sqlType: 'varchar(512)'
+    analysisDescription  sqlType: 'varchar(1024)'
+  }
+
+ def getDataset() {
+    if (dsVersion == ds?.version?.toLong()) {
+        return this?.ds
+    } else {
+      if(ds){
+        return DatasetHistory.findByDidAndVersion(this.ds.id, this.dsVersion)
+      }
+    }
+  }
+
+  private static DetachedCriteria criteriaForDsHist(long dsId, long dsVersion) {
+    DatasetHistory.where {
+      did == dsId && version == dsVersion
+    }
   }
 
   def isFailedOnSubmit() {
