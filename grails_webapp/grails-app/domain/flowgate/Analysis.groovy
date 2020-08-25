@@ -9,7 +9,6 @@ class Analysis implements Serializable {
 //  private static final long serialVersionUID = 1
 
   static belongsTo = [experiment: Experiment]
-//  static hasOne = [dataset: Dataset]
 
   Dataset ds
   Module module

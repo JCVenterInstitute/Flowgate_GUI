@@ -619,7 +619,8 @@ class AnalysisController {
             analysis.analysisStatus = 2
         }
         experiment.addToAnalyses(analysis)
-        analysis.dataset = dataset
+        analysis.ds = dataset
+        analysis.dsVersion = dataset.version
         analysis.validate()
         if (analysis == null) {
             //transactionStatus.setRollbackOnly()

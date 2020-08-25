@@ -16,7 +16,4 @@ class DatasetHistory implements Serializable {
         description nullable: true
     }
 
-//    static mapping = {
-//        version true
-//    }
 }

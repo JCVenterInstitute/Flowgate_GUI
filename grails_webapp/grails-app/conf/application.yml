@@ -328,7 +328,7 @@ hibernate:
 dataSource:
     pooled: true
     jmxExport: true
-    driverClassName: com.mysql.jdbc.Driver
+    driverClassName: ${MYSQL_DRIVER}
     dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
@@ -338,11 +338,11 @@ environments:
         dataSource:
 #            dbCreate: create-drop
             dbCreate: update
-            url: ${MYSQL_DEV_URL}
+            url: ${MYSQL_URL}
     test:
         dataSource:
             dbCreate: update
-            url: ${MYSQL_TEST_URL}
+            url: ${MYSQL_URL}
     production:
         dataSource:
             dbCreate: update

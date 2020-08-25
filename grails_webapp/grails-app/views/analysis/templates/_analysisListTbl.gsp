@@ -10,19 +10,15 @@
             <div class="collapsible-header collection-header">
           </g:if>
           <i class="material-icons circle ${bean.analysisStatus == 1 ? 'init' : bean.analysisStatus == 2 ? 'orange' : bean.analysisStatus == 3 || bean.analysisStatus == 4 ? 'green' : bean.analysisStatus == -1 ? 'red' : 'done'}"></i>
-          <span class="title"><strong>Analysis Name:</strong> ${bean.analysisName}(${bean.id})</span>
-
-%{--          <p><strong>Server: </strong>${bean.module.server.name}<br>--}%
-%{--            <strong>Module: </strong>${bean.module.label != null ? bean.module.label : bean.module.name}--}%
-%{--          </p>--}%
+          <span class="title"><strong>Analysis Name:</strong> ${bean.analysisName}
+          <g:if env="development">(${bean.id})</g:if>
+          </span>
           <p><strong>Server: </strong>${bean.module.server.name}<br>
             <strong>Module: </strong>${bean.module.label != null ? bean.module.label : bean.module.name}
-            <g:if test="${bean.datasets}">
-              <br><strong>Dataset: </strong>${bean.datasets[0].name}
+            <g:if test="${bean?.dataset}">
+              <br><strong>Dataset: </strong>${bean?.dataset?.name}
+              <g:if env="development">(${bean?.dsVersion} : ${bean?.dataset?.version})</g:if>
             </g:if>
-            <g:else>
-              <br>no dataset assigned
-            </g:else>
           </p>
 
           <div class="middle-content">
