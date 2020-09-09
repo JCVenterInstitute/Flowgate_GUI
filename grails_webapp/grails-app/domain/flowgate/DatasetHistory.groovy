@@ -7,7 +7,7 @@ class DatasetHistory implements Serializable {
     static belongsTo = [Experiment]
 
     Experiment experiment
-    Long did
+    Long datasetId
     Long version
     String name
     String description

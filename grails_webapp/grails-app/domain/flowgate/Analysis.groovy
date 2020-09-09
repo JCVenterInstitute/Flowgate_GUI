@@ -29,6 +29,8 @@ class Analysis implements Serializable {
   Long dsVersion
 
   static constraints = {
+    ds nullable: true
+    dsVersion nullable: true
     analysisName blank: false
     analysisDescription nullable: true, blank: true, blankable: true
     jobNumber nullable: true, blank: true, blankable: true
@@ -41,19 +43,19 @@ class Analysis implements Serializable {
     analysisDescription  sqlType: 'varchar(1024)'
   }
 
- def getDataset() {
-    if (dsVersion == ds?.version?.toLong()) {
-        return this?.ds
-    } else {
-      if(ds){
-        return DatasetHistory.findByDidAndVersion(this.ds.id, this.dsVersion)
-      }
+    def getDataset() {
+        if (ds) {
+            if (dsVersion == ds?.version?.toLong()) {
+                return this?.ds
+            } else {
+                return DatasetHistory.findByDatasetIdAndVersion(this.ds.id, this.dsVersion)
+            }
+        }
     }
-  }
 
   private static DetachedCriteria criteriaForDsHist(long dsId, long dsVersion) {
     DatasetHistory.where {
-      did == dsId && version == dsVersion
+      datasetId == dsId && version == dsVersion
     }
   }
 
