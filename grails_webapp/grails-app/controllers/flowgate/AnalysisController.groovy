@@ -270,7 +270,12 @@ class AnalysisController {
                 flash.resultMsg = jobResult?.statusCode?.toString() + " - " + jobResult?.statusCode?.reasonPhrase
                 render "<p><strong style='color:red;'>Error:</strong> No result file found to download!</p>"
             } else {
-                def outputFile = jobResult.outputFiles.find { it.path == analysis?.renderResult }  // 'Reports/AutoReport.html'
+                def configValue = params?.config
+                def outputFileName = configValue.equals('percentages') ? 'Gated/Batch_percentages.txt'
+                        : configValue.equals('events') ? 'Gated/Batch_events.txt'
+                        : analysis?.renderResult
+
+                def outputFile = jobResult.outputFiles.find { it.path == outputFileName }
                 if (outputFile) {
                     def fileUrl = new URL(outputFile.link.href)
                     def connection = fileUrl.openConnection()

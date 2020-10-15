@@ -5,7 +5,7 @@
 
     <ul id="issues-collection" class="collection collapsible">
       <g:each in="${analysisList}" var="bean" status="i">
-        <li class="collection-item collapsible-item avatar">
+        <li class="collection-item collapsible-item avatar" <g:if test="${bean.analysisStatus == 3 && bean.module.server.isGenePatternServer()}">style="min-height: 125px;"</g:if>>
           <g:if test="${bean.jobNumber.contains(',')}">
             <div class="collapsible-header collection-header">
           </g:if>
@@ -31,15 +31,33 @@
           </g:if>
           <g:elseif test="${bean.analysisStatus == 3 || bean.analysisStatus == 4}">
             <g:if test="${bean.analysisStatus == 3}">
-              <a href="#resultModal-${bean.jobNumber}" class="secondary-content tooltipped modal-trigger"
-                 data-tooltip="Display analysis result" data-position="left" style="top: 13px;">
-                <i class="material-icons">more</i>
-              </a>
-              <a href="${g.createLink(controller: 'analysis', action: 'downloadResultReport', params: [analysisId: bean?.id, jobNr: bean?.jobNumber, download: true])}"
-                 class="secondary-content tooltipped"
-                 data-tooltip="Download analysis result file" data-position="left" style="top: 52px;">
-                <i class="material-icons">file_download</i>
-              </a>
+              <g:if test="${bean.module.server.isGenePatternServer()}">
+                <div class="secondary-content-with-links">
+                  <a href="#resultModal-${bean.jobNumber}" class="modal-trigger">
+                    <i class="material-icons">more</i> Display Analysis Result
+                  </a><br>
+                  <a href="${g.createLink(controller: 'analysis', action: 'downloadResultReport', params: [analysisId: bean?.id, jobNr: bean?.jobNumber, download: true])}">
+                    <i class="material-icons">file_download</i> Report File
+                  </a><br>
+                  <a href="${g.createLink(controller: 'analysis', action: 'downloadResultReport', params: [analysisId: bean?.id, jobNr: bean?.jobNumber, config: 'events', download: true])}">
+                    <i class="material-icons">file_download</i> Events File
+                  </a><br>
+                  <a href="${g.createLink(controller: 'analysis', action: 'downloadResultReport', params: [analysisId: bean?.id, jobNr: bean?.jobNumber, config: 'percentages', download: true])}">
+                    <i class="material-icons">file_download</i> Percentages File
+                  </a>
+                </div>
+              </g:if>
+              <g:else>
+                <a href="#resultModal-${bean.jobNumber}" class="secondary-content tooltipped modal-trigger"
+                   data-tooltip="Display analysis result" data-position="left" style="top: 13px;">
+                  <i class="material-icons">more</i>
+                </a>
+                <a href="${g.createLink(controller: 'analysis', action: 'downloadResultReport', params: [analysisId: bean?.id, jobNr: bean?.jobNumber, download: true])}"
+                   class="secondary-content tooltipped"
+                   data-tooltip="Download analysis result file" data-position="left" style="top: 52px;">
+                  <i class="material-icons">file_download</i>
+                </a>
+              </g:else>
             </g:if>
             <g:elseif test="${bean.analysisStatus == 4}">
               <span class="secondary-content black-text">This analysis has been completed but there is no report file detected. Please check error file for the details.</span>
@@ -158,6 +176,26 @@
     top: 10px;
     left: 50%;
   }
+}
+
+.secondary-content-with-links {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.secondary-content-with-links a {
+  color: #26a69a;
+  padding: 2px 5px;
+}
+
+.secondary-content-with-links > a > i {
+  vertical-align: bottom;
+}
+
+.secondary-content-with-links a:hover {
+  box-shadow: none;
+  background-color: #f1f3f4;
 }
 </style>
 
