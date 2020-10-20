@@ -66,3 +66,30 @@ function updatePaginationToMaterial(pagination) {
     $('#pagination').prepend('<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>');
   }
 }
+
+var offset = 250;
+var duration = 300;
+
+$(window).scroll(function () {
+  if ($(this).scrollTop() > offset) {
+    $('#scrollToTop').fadeIn(duration);
+  } else {
+    $('#scrollToTop').fadeOut(duration);
+  }
+
+  if ((($(document).height() - $(this).height()) - $(this).scrollTop()) > offset) {
+    $('#scrollToBottom').fadeIn(duration);
+  } else {
+    $('#scrollToBottom').fadeOut(duration);
+  }
+});
+
+$('#scrollToTop').click(function (event) {
+  $('html, body').animate({scrollTop: 0}, duration);
+  return false;
+});
+
+$('#scrollToBottom').click(function (event) {
+  $('html, body').animate({scrollTop: $(document).height()}, duration);
+  return false;
+});

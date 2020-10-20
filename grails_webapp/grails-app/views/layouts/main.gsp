@@ -10,10 +10,28 @@
   <asset:stylesheet src="application.css"/>
   <asset:javascript src="jquery-2.2.0.min.js"/>
   <g:layoutHead/>
+
+  <style>
+  .scrollButton {
+    position: fixed;
+    right: 23px;
+    background: #3f51b5;
+    border-radius: 30%;
+    display: none;
+  }
+
+  .scrollButton:hover, .scrollButton:active, .scrollButton:focus {
+    background-color: rgb(51 66 146);
+  }
+  </style>
 </head>
 
 <body>
 <g:render template="/layouts/navBar"/>
+
+<a href="#" class="scrollButton btn-floating" id="scrollToTop" style="top:75px;"><i class="material-icons">arrow_drop_up</i></a>
+<a href="#" class="scrollButton btn-floating" id="scrollToBottom" style="top:125px;"><i class="material-icons">arrow_drop_down</i></a>
+
 <g:if test="${flash.success}">
   <script>
     document.addEventListener('DOMContentLoaded', function () {
