@@ -80,12 +80,7 @@ class DatasetController {
                 }
             }
         } else {
-            expFileCandidatesList = ExpFileMetadata.findAll { expFile.experiment == experiment }*.expFile
-            //TODO check this
-            //  if there is no annotation done??? expect empty list here, fill with experiment expfiles
-            if (expFileCandidatesList.size() < 1) {
-                expFileCandidatesList = experiment?.expFiles
-            }
+            expFileCandidatesList = experiment?.expFiles
         }
         return expFileCandidatesList?.unique()
     }
