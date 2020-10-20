@@ -4,6 +4,15 @@
       <i class="material-icons prefix" style="line-height: 2.96;">search</i>
       <input type="text" id="filterInput" placeholder="Search in projects" onchange="setFilter()" value="${filterString}">
     </div>
+
+    <div class="input-field h2-right">
+      <select name="orderBy" id="orderBy" onchange="setFilter()">
+        <option value="newest" <g:if test="${params?.order == null || params?.order == 'newest'}">selected</g:if>>Newest</option>
+        <option value="oldest" <g:if test="${params?.order == 'oldest'}">selected</g:if>>Oldest</option>
+        <option value="name" <g:if test="${params?.order == 'name'}">selected</g:if>>Name</option>
+      </select>
+      <label>Order projects by</label>
+    </div>
   </g:isAffilOrRoles>
 
 %{--<sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_ProjectShowActive">
@@ -33,15 +42,20 @@
 
 <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ProjectCreate">
   <div class="fixed-action-btn">
-    <a class="btn-floating btn-large waves-effect waves-light tooltipped" href="${createLink(controller: 'project', action: 'create')}" data-tooltip="Create a new project" data-position="left">
+    <a class="btn-floating btn-large waves-effect waves-light tooltipped" href="${createLink(controller: 'project', action: 'create')}" data-tooltip="Create a new project"
+       data-position="left">
       <i class="material-icons">add</i>
     </a>
   </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var tooltipElems = document.querySelectorAll('.tooltipped');
-      M.Tooltip.init(tooltipElems);
-    });
-  </script>
 </sec:ifAnyGranted>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var tooltipElems = document.querySelectorAll('.tooltipped');
+    M.Tooltip.init(tooltipElems);
+
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems);
+  });
+</script>

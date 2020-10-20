@@ -56,13 +56,16 @@
 
   function setFilter() {
     var filterString = document.getElementById("filterInput").value;
+    var orderByValue = document.getElementById("orderBy").value;
     $.ajax({
       url: "${createLink(controller: 'project', action: 'axSearch')}",
       dataType: "json",
       type: "get",
-      data: {filterString: filterString},
+      data: {filterString: filterString, order: orderByValue},
       success: function (data) {
         $("#pageContent").html(data.contentPage);
+        var elems = document.querySelectorAll('select');
+        M.FormSelect.init(elems);
       },
 //    error: function (request, status, error) {
       error: function (data) {

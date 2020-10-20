@@ -55,11 +55,18 @@ class ProjectController {
     }
 
     def axSearch(){
-        def project = Project.findByIdAndIsActive(session?.projectOpenId?.toLong(), true)
-        ArrayList<Experiment> experimentList = Experiment.findAllByProjectAndIsActive(project, true)
         User user = springSecurityService.currentUser
         def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
         def searchLst =  projectList.findAll{it.title.toLowerCase().contains(params?.filterString.toLowerCase()) || it.description.toLowerCase().contains(params?.filterString.toLowerCase())}
+
+        def orderValue = params?.order;
+        if (orderValue.equals('oldest')) {
+            searchLst.sort { it.id }
+        } else if (orderValue.equals('newest')) {
+            searchLst.sort { -it.id }
+        } else { //orderValue is name
+            searchLst.sort { it.title }
+        }
         /*if(params?.filterString != ''){
             session.filterString = params?.filterString
             session.searchLst = searchLst
@@ -209,6 +216,7 @@ class ProjectController {
         params.max = Math.min(max ?: 10, 100)
         User user = springSecurityService.currentUser
         def projectList = utilsService.getProjectListForUser(user, params, session?.showInactive ?: false)
+        projectList.sort{-it.id}
 
         //Redirect user to create page if there is no project to be listed
         if (projectList) {
