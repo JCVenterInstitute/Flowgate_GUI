@@ -1,6 +1,8 @@
 server:
     contextPath: /
     port: ${PORT}
+    session:
+      timeout: 7200
 
 fcsFileStoreLocation:
     path: ${FILE_PATH}
