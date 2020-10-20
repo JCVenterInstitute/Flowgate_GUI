@@ -15,13 +15,8 @@
   .scrollButton {
     position: fixed;
     right: 23px;
-    background: #3f51b5;
     border-radius: 30%;
     display: none;
-  }
-
-  .scrollButton:hover, .scrollButton:active, .scrollButton:focus {
-    background-color: rgb(51 66 146);
   }
   </style>
 </head>
@@ -29,8 +24,8 @@
 <body>
 <g:render template="/layouts/navBar"/>
 
-<a href="#" class="scrollButton btn-floating" id="scrollToTop" style="top:75px;"><i class="material-icons">arrow_drop_up</i></a>
-<a href="#" class="scrollButton btn-floating" id="scrollToBottom" style="top:125px;"><i class="material-icons">arrow_drop_down</i></a>
+<a href="#" class="scrollButton btn-floating waves-effect waves-light " id="scrollToTop" style="top:75px;"><i class="material-icons">arrow_drop_up</i></a>
+<a href="#" class="scrollButton btn-floating waves-effect waves-light " id="scrollToBottom" style="top:125px;"><i class="material-icons">arrow_drop_down</i></a>
 
 <g:if test="${flash.success}">
   <script>
