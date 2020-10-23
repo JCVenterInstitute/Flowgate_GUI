@@ -59,17 +59,17 @@
 
     <div class="row">
       <div class="input-field col s8">
-        <input type="password" name="oldpass" required>
+        <input type="password" name="oldpass" id="oldpass" required>
         <label for="oldpass">Old Password*</label>
       </div>
 
       <div class="input-field col s8">
-        <input type="password" name="newpass" required>
+        <input type="password" name="newpass" id="newpass" required>
         <label for="newpass">New Password*</label>
       </div>
 
       <div class="input-field col s8">
-        <input type="password" name="confirmpass" required>
+        <input type="password" name="confirmpass" id="confirmpass" required>
         <label for="confirmpass">Confirm New Password*</label>
 
         <div class="help-block"></div>

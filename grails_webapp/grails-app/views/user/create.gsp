@@ -43,7 +43,7 @@
         <f:field property="password" password="true" label="Password" required="true" value="${user.reason}"/>
 
         <div class="input-field col s12">
-          <input type="password" name="confirmpass" required>
+          <input type="password" name="confirmpass" id="confirmpass" required>
           <label for="confirmpass">Confirm Password*</label>
 
           <div class="help-block"></div>

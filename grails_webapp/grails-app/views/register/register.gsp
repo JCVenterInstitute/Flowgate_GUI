@@ -30,17 +30,17 @@
     <s2ui:formContainer type='register' focus='username'>
       <s2ui:form beanName='registerCommand'>
         <div class="input-field col s12">
-          <input type="text" name="username" required>
+          <input type="text" name="username" id="username" required>
           <label for="username">Full name</label>
         </div>
 
         <div class="input-field col s12">
-          <input type="email" name="email" required>
+          <input type="email" name="email" id="email" required>
           <label for="email">Email</label>
         </div>
 
         <div class="input-field col s12">
-          <textarea name="reason" class="materialize-textarea"></textarea>
+          <textarea name="reason" id="reason" class="materialize-textarea"></textarea>
           <label for="reason">Comments for us</label>
         </div>
 

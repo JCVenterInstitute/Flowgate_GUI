@@ -6,7 +6,7 @@
       <h4>Add a new annotation category</h4>
 
       <div class="input-field">
-        <g:textField name="mdCategory" required=""/>
+        <g:textField name="mdCategory" id="mdCategory" required=""/>
         <label for="mdCategory">Attribute Category</label>
       </div>
     </div>

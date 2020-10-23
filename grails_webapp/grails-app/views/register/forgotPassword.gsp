@@ -42,7 +42,7 @@
     <s2ui:formContainer type='forgotPassword' focus='username'>
       <s2ui:form beanName='forgotPasswordCommand'>
         <div class="input-field col s6">
-          <input type="text" name="username" required>
+          <input type="text" name="username" id="username" required>
           <label for="username">Username</label>
         </div>
 

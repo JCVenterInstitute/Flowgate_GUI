@@ -42,8 +42,8 @@
             <g:each in="${mFDats}" var="miFlowDat">
               <g:set var="mValue" value="${ExperimentMetadataValue.findByExpMetaData(ExperimentMetadata.get(miFlowDat.id))?.mdValue}"/>
               <div class="input-field">
-                <g:textField name="expMetaData-${miFlowDat.id}" value="${mValue}"/>
-                <label>${miFlowDat?.mdKey}</label>
+                <g:textField name="expMetaData-${miFlowDat.id}" id="expMetaData-${miFlowDat.id}" value="${mValue}"/>
+                <label for="expMetaData-${miFlowDat.id}">${miFlowDat?.mdKey}</label>
               </div>
             </g:each>
           </td>

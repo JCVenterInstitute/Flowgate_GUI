@@ -27,8 +27,8 @@
       <f:with bean="moduleParam">
         <g:hiddenField name="module.id" value="${moduleParam.module.id}"/>
         <div class="input-field col s12">
-          <input type="text" value="${moduleParam.module.title}" disabled>
-          <label>Module *</label>
+          <input type="text" id="module" value="${moduleParam.module.title}" disabled>
+          <label for="module">Module *</label>
         </div>
         <f:field property="pKey"/>
         <div class="col s12">

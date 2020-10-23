@@ -40,7 +40,7 @@
       <div class="col s8">
         <div class="input-field">
           <label for="descript">Description</label>
-          <g:textArea name="descript" class="materialize-textarea" style="height: 300px"/>
+          <g:textArea name="descript" id="descript" class="materialize-textarea" style="height: 300px"/>
         </div>
       </div>
     </f:with>

@@ -36,12 +36,12 @@
 
     <div class="row">
       <div class="input-field col s12">
-        <input type="text" name="name" value="${this.name}" required>
+        <input type="text" name="name" id="name" value="${this.name}" required>
         <label for="name">Name*</label>
       </div>
 
       <div class="input-field col s12">
-        <textarea name="description" value="${this.description}" required class="materialize-textarea"></textarea>
+        <textarea name="description" id="description" value="${this.description}" required class="materialize-textarea"></textarea>
         <label for="description">Description*</label>
       </div>
 

@@ -68,8 +68,12 @@ function removeItem(id, num, min) {
 function indexItem($elem, num) {
   $elem.children().each(function() {
     var nodeId = $(this).attr('id');
+    var nodeFor = $(this).attr('for');
     if (nodeId) {
       $(this).attr('id', nodeId + num);
+    }
+    if (nodeFor) {
+      $(this).attr('for', nodeFor + num);
     }
     indexItem($(this), num);
   });

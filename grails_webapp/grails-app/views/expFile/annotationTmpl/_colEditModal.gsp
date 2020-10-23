@@ -16,12 +16,12 @@
         <div class="row">
           <div class="input-field col s2">
             <input type="text" id="dispOrder" name="dispOrder" value="<f:display property="dispOrder"/>">
-            <label class="active">Position *</label>
+            <label for="dispOrder" class="active">Position *</label>
           </div>
 
           <div class="input-field col s10">
             <input type="text" id="mdKey" name="mdKey" value="<f:display property="mdKey"/>">
-            <label class="active">Attribute Name *</label>
+            <label for="mdKey" class="active">Attribute Name *</label>
           </div>
 
           <div class="input-field col s12">
@@ -40,7 +40,7 @@
         <g:hiddenField name="mdType" value="${expMetaDatVal?.mdType ?: 'String'}"/>
         <div class="input-field col s2">
           <input type="text" id="dispOrder" name="dispOrder" required>
-          <label class="active">Disp. Order *</label>
+          <label for="dispOrder" class="active">Disp. Order *</label>
         </div>
 
         <div class="input-field col s8">

@@ -18,7 +18,7 @@
       <f:with bean="${new ExperimentMetadata()}">
         <div class="row">
           <div class="input-field col s12">
-            <input type="text" name="mdKey">
+            <input type="text" name="mdKey" id="mdKey">
             <label for="mdKey">Attribute Name *</label>
           </div>
 
@@ -38,12 +38,12 @@
         <g:hiddenField name="mdType" value="${expMetaDatVal?.mdType ?: 'String'}"/>
         <div class="input-field col s2">
           <input type="text" id="dispOrder" name="dispOrder" required value="1">
-          <label class="active">Disp. Order *</label>
+          <label for="dispOrder" class="active">Disp. Order *</label>
         </div>
 
         <div class="input-field col s8">
           <input type="text" id="mdValue" name="mdValue" required>
-          <label>Attribute Value</label>
+          <label for="mdValue">Attribute Value</label>
         </div>
       </fg:dynamicBlock>
     </div>
