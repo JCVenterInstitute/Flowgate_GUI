@@ -96,8 +96,8 @@ $('#scrollToBottom').click(function (event) {
 
 $("#breadcrumbs_unfold").click(function () {
   $('.breadcrumb.tooltipped').each(function (i, obj) {
-    const tooltip = $(obj).attr('data-tooltip');
-    const text = $(obj).text();
+    var tooltip = $(obj).attr('data-tooltip');
+    var text = $(obj).text();
     $(obj).attr('data-tooltip', text);
     $(obj).text(tooltip);
   });
