@@ -13,7 +13,7 @@
           <span class="title"><strong>Analysis Name:</strong> ${bean.analysisName}</span>
 
           <p><strong>Server: </strong>${bean.module.server.name}<br>
-            <strong>Module: </strong>${bean.module.label != null ? bean.module.label : bean.module.name}
+            <strong>Pipeline: </strong>${bean.module.label != null ? bean.module.label : bean.module.title != null ? bean.module.title : bean.module.name}
           </p>
 
           <div class="middle-content">
