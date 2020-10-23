@@ -34,6 +34,12 @@
 <g:isOwnerOrRoles object="project" objectId="${project?.id}" roles="ROLE_Administrator,ROLE_Admin">
   <div id="manage-users">
     <div class="row">
+      <div class="col s12">
+        <p><b>Owners: </b>Project owners have read, edit and delete privilige for the project and all experiments under the project.</p>
+        <p><b>Members: </b>Project members have only read privilige for the project. Members can create their own experiments in the project but they cannot access other experiments.</p>
+      </div>
+    </div>
+    <div class="row">
       <g:form name="manageUsers" controller="project" action="manageUsers" id="${project?.id}">
         <div class="col s12">
           <div class="row">

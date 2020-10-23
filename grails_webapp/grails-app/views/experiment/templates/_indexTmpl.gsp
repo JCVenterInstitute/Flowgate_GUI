@@ -118,6 +118,12 @@
 <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin">
   <div id="manage-users">
     <div class="row">
+      <div class="col s12">
+        <p><b>Owners: </b>Experiment owners have read, edit, and delete privilege for all data and data analysis results under the experiment.</p>
+        <p><b>Members: </b>Experiment members have only read privilige for the experiment.</p>
+      </div>
+    </div>
+    <div class="row">
       <g:form name="manageUsers" controller="experiment" action="manageUsers" id="${experiment?.id}">
         <div class="col s12">
           <div class="row">
