@@ -259,6 +259,11 @@ video.responsive-video {
     display: none;
   }
 
+  //Remove '>' after expand icon
+  &:nth-child(2):before {
+    display: none;
+  }
+
   &:last-child {
     color: #fff;
   }

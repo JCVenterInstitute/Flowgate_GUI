@@ -93,3 +93,18 @@ $('#scrollToBottom').click(function (event) {
   $('html, body').animate({scrollTop: $(document).height()}, duration);
   return false;
 });
+
+$("#breadcrumbs_unfold").click(function () {
+  $('.breadcrumb.tooltipped').each(function (i, obj) {
+    const tooltip = $(obj).attr('data-tooltip');
+    const text = $(obj).text();
+    $(obj).attr('data-tooltip', text);
+    $(obj).text(tooltip);
+  });
+
+  if ($(this).text() === 'unfold_more') {
+    $(this).text('unfold_less');
+  } else {
+    $(this).text('unfold_more');
+  }
+});

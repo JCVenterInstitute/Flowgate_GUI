@@ -11,6 +11,7 @@
 
 <div class="navigation nav-wrapper">
   <div class="col s12">
+    <span class="breadcrumb dark" style="cursor: pointer;"><i id="breadcrumbs_unfold" class="material-icons" style="margin-left: -15px;">unfold_more</i></span>
     <a href="${createLink(controller: 'project', action: 'index', params: [pId: experiment?.project?.id])}" class="breadcrumb dark tooltipped" data-position="bottom"
        data-tooltip="${experiment?.project?.title}">Project</a>
     <a href="#!" class="breadcrumb dark">${experiment?.title}</a>
