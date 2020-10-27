@@ -3,6 +3,8 @@ package flowgate
 import grails.plugin.springsecurity.annotation.Secured
 import groovy.json.JsonSlurper
 
+import static org.springframework.http.HttpStatus.NOT_FOUND
+
 @Secured(["IS_AUTHENTICATED_FULLY"])
 class DatasetController {
 
@@ -123,7 +125,7 @@ class DatasetController {
 
     def index() {
         Experiment experiment = Experiment.findById(params?.eId)
-        def datasetList = Dataset.findAllByExperiment(experiment)
+        def datasetList = Dataset.findAllByExperimentAndIsActive(experiment, true)
         respond datasetList, model: [datasetCount: datasetList.size(), eId: params?.eId, experiment: experiment]
     }
 
@@ -133,6 +135,19 @@ class DatasetController {
         Experiment experiment = Experiment.findById(params.eId)
         def expFileCandidatesList = getFilteredList(experiment)
         respond dataset, model: [eId: params.eId, experiment: experiment, expFileCandidatesList: expFileCandidatesList, name: params.name, description: params.description]
+    }
+
+    def delete(Dataset dataset) {
+        if (dataset == null) {
+            notFound()
+            return
+        }
+
+        dataset.isActive = false
+        dataset.save flush:true
+
+        flash.message = "Dataset deleted!"
+        redirect action: 'index', params: [eId: dataset?.experiment?.id]
     }
 
     def edit(Dataset ds) {
@@ -238,7 +253,7 @@ class DatasetController {
 
     def save(params) {
         Experiment experiment = Experiment.findById(params.eId)
-        Dataset exist = Dataset.findByNameAndExperiment(params.name, experiment)
+        Dataset exist = Dataset.findByNameAndExperimentAndIsActive(params.name, experiment, true)
         if(exist != null) {
             flash.error = "Dataset with " + params.name + " is already exist in this experiment"
         } else if(params.name == null || params.name.toString().equals("")) {
@@ -310,4 +325,13 @@ class DatasetController {
         redirect controller: 'experiment', action: 'index', params: [eId: params.expId] //, params: params
     }
 
+    protected void notFound() {
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'dataset.name', default: 'Dataset'), params.id])
+                redirect action: "index", method: "GET"
+            }
+            '*'{ render status: NOT_FOUND }
+        }
+    }
 }

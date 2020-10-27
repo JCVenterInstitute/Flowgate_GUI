@@ -65,12 +65,29 @@
 
     <div class="input-field col s8">
       <button type="submit" class="btn waves-effect waves-light">${message(code: 'default.button.update.label', default: 'Update')}</button>
+      <a href="#delete-dataset-modal" class="btn-flat modal-trigger">Delete</a>
       <a href="${createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" class="btn-flat">Return to Datasets</a>
     </div>
   </div>
 </g:form>
 
+<div id="delete-dataset-modal" class="modal">
+  <div class="modal-content">
+    <h4>Confirm to delete dataset</h4>
+  </div>
+
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
+    <g:link action="delete" resource="${this.dataset}" class="modal-close waves-effect waves-light btn-flat">Confirm</g:link>
+  </div>
+</div>
+
 <script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function () {
+    var modalElems = document.querySelectorAll('#delete-dataset-modal');
+    M.Modal.init(modalElems);
+  });
+
   function setFilter() {
     var eId = ${experiment.id};
     var dsId = ${dataset.id};
