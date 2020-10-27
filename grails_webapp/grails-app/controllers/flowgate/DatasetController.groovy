@@ -310,6 +310,7 @@ class DatasetController {
                 }
             }
 
+            ds.markDirty()
             ds.save(flush: true)
             flash.message = "Dataset is successfully updated"
         } else {
