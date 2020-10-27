@@ -296,7 +296,7 @@ class DatasetController {
 
     def update(params) {
         Experiment experiment = Experiment.findById(params.eId)
-        Dataset exist = Dataset.findByNameAndExperiment(params.name, experiment)
+        Dataset exist = Dataset.findByNameAndExperimentAndIsActive(params.name, experiment, true)
         if(exist == null || exist.id == params.id.toLong()) {
             Dataset ds = Dataset.get(params.id.toLong())
             ds.name = params.name
