@@ -466,6 +466,12 @@ class ExpFileController {
             return
         }
 
+        def datasets = Dataset.withCriteria { expFiles { eq('id', expFile.id) } }
+        for (Dataset dataset : datasets) {
+            dataset.expFiles.removeElement(expFile)
+            dataset.save flush: true
+        }
+
         expFile.delete flush:true
 
         /*request.withFormat {
