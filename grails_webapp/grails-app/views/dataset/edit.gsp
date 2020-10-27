@@ -15,7 +15,7 @@
     <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}" class="breadcrumb dark tooltipped" data-position="bottom"
        data-tooltip="${experiment?.title}">Experiment</a>
     <a href="${g.createLink(controller: 'dataset', action: 'index', params: [eId: experiment?.id])}" class="breadcrumb dark">Datasets</a>
-    <a href="#!" class="breadcrumb dark">Create Dataset</a>
+    <a href="#!" class="breadcrumb dark">Edit Dataset</a>
   </div>
 </div>
 
