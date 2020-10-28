@@ -2,6 +2,9 @@
   <ul id="dropdown-user-menu" class="dropdown-content">
     <li><g:link controller="logout">Logout</g:link></li>
   </ul>
+  <ul id="dropdown-user-menu-mobile" class="dropdown-content">
+    <li><g:link controller="logout">Logout</g:link></li>
+  </ul>
 
   <div class="nav-wrapper row">
     <div class="col s12">
@@ -38,7 +41,7 @@
       </sec:ifAnyGranted>
     </sec:ifAnyGranted>
     <li id="nav-about"><a href="${createLink(uri: '/about')}">About</a></li>
-    <li><a class="dropdown-trigger" href="#!" data-target="dropdown-user-menu">
+    <li><a class="dropdown-trigger" href="#!" data-target="dropdown-user-menu-mobile">
       <sec:username/><i class="material-icons right">arrow_drop_down</i>
     </a></li>
   </sec:ifLoggedIn>
