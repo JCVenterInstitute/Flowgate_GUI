@@ -9,6 +9,18 @@
 </head>
 
 <body>
+<g:if test="${flash.error}">
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      M.toast({
+        html: '<span>${flash.error}</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+        displayLength: Infinity,
+        classes: 'red'
+      });
+    });
+  </script>
+</g:if>
+${message}
 <div class="container">
   <div class="row valign-wrapper">
     <div class="col l8 m8 s12">

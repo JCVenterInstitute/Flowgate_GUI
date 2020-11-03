@@ -23,6 +23,7 @@ class UrlMappings {
 //    "/api/projects"(resources: 'project') //carefull! manipulates createLink command controller/index -> api/controller
     //        "/api/experiments/"(resources: 'experiment')
     //        "/api/experiments/$id"(controller: 'experiment', action: 'index')
+    "401"(controller: 'error', action: 'unauthorized')
     "500"(view: '/error')
     "404"(view: '/notFound')
     delete "/$controller/$id(.$format)?"(action: "delete")
