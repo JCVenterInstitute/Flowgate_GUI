@@ -100,7 +100,7 @@
           </g:if>
           <g:else>
             <g:if test="${p == 'timestamp'}">
-              <g:formatDate date="${bean.timestamp}" format="dd/MM/yyyy hh:mm:ss"/>
+              <g:formatDate date="${bean.timestamp}" format="dd MMM yyyy hh:mm:ss"/>
             </g:if>
             <g:else>
               <f:display bean="${bean}" property="${p}" displayStyle="${displayStyle ?: 'table'}"/>
