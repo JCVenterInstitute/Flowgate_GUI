@@ -411,6 +411,7 @@ class ExpFileController {
 
         render (contentType:"text/json") {
             success true
+            fileCount ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(params.expId.toLong(), true), true).size()
             msg "Files have been deleted!"
         }
     }

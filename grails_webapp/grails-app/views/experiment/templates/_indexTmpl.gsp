@@ -41,7 +41,7 @@
     <div class="input-field col s12">
     <p>
       <g:if test="${experiment && ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment?.id?.toLong(), true), true)}">
-        This experiment currently contains <b>${ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment.id.toLong(), true), true).size()}</b> FCS file(s).
+        This experiment currently contains <b id="fileCount">${ExpFile?.findAllByExperimentAndIsActive(Experiment.findByIdAndIsActive(experiment.id.toLong(), true), true).size()}</b> FCS file(s).
         <sec:ifAnyGranted roles="ROLE_SuperAdmin,ROLE_Administrator,ROLE_Admin,ROLE_User,ROLE_ExperimentEdit">
           You can <a href="${g.createLink(controller: 'expFile', action: 'expFileCreate', params: [eId: experiment?.id])}">upload FCS File(s)</a>
         </sec:ifAnyGranted>
@@ -216,9 +216,16 @@
               displayLength: Infinity
             });
 
+            if (data.fileCount === 0) {
+              window.location.href = window.location.href.replace(/\!$/, '').replace(/\#$/, '') + '#fcs-files';
+              location.reload();
+            }
+
             for(id of fileIds) {
               $("#file-box-"+id).remove();
             }
+
+            $("#fileCount").text(data.fileCount);
           } else {
             M.toast({
               html: '<span>Deletion failed! - ' + data.msg + '</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
