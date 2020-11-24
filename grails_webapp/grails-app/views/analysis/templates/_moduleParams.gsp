@@ -51,7 +51,7 @@
           <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="right">info</i>
         </g:if>
         <g:select id="mp-${moduleParam?.id}-ds"
-                  from="${Dataset.findAllByExperiment(Experiment.get(params.eId))}" name="mp-${moduleParam?.id}-ds"
+                  from="${Dataset.findAllByExperimentAndIsActive(Experiment.get(params.eId), true)}" name="mp-${moduleParam?.id}-ds"
                   optionKey="id" optionValue="name" value="${moduleParam?.defaultVal}" required="required"/>
         <label>${moduleParam?.pLabel ? moduleParam?.pLabel : moduleParam?.pKey}</label>
       </div>

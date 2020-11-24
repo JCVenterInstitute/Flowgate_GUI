@@ -489,7 +489,7 @@ class AnalysisController {
     def create() {
         Analysis analysis = new Analysis(params)
         Experiment experiment = Experiment.findById(params.eId)
-        def dsList = Dataset.findAllByExperiment(experiment)
+        def dsList = Dataset.findAllByExperimentAndIsActive(experiment, true)
         respond analysis, model: [eId: params.eId, experiment: experiment, dsCount: dsList.size()]
     }
 
