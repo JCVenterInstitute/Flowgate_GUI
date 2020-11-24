@@ -228,7 +228,7 @@ class RestUtilsService {
       return [code: 500, location: '']
     }
     //    TODO put gp data upload url in config
-    String uploadApiPath = server.url + "/gp/rest/v1/data/upload/job_input?name=${fName}"
+    String uploadApiPath = server.url + "/gp/rest/v1/data/upload/job_input?name=${fName.replaceAll(" ", "_")}"
     RestBuilder rest = new RestBuilder()
     RestResponse resp
     String authStr = "Basic ${utilsService.authEncoded(server.userName, server.userPw)}"
