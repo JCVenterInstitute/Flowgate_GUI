@@ -20,8 +20,16 @@ class SecUtilsTagLib {
         String object = attrs?.object
         Long objectId = attrs?.objectId?.toLong()
         String roles = attrs?.roles
-        if(isOwnerMember(object, objectId, 'owner') || grails.plugin.springsecurity.SpringSecurityUtils.ifAnyGranted(roles)) {
+        if (isOwnerMember(object, objectId, 'owner') || grails.plugin.springsecurity.SpringSecurityUtils.ifAnyGranted(roles)) {
             out << body()
+        } else {
+            String parentObject = attrs?.parentObject
+            Long parentObjectId = attrs?.parentObjectId?.toLong()
+
+            if (parentObject && parentObjectId) {
+                if (isOwnerMember(parentObject, parentObjectId, 'owner'))
+                    out << body()
+            }
         }
     }
 
@@ -52,8 +60,17 @@ class SecUtilsTagLib {
         String object = attrs?.object
         Long objectId = attrs?.objectId?.toLong()
         String roles = attrs?.roles
-        if(isOwnerMember(object, objectId, 'owner') || isOwnerMember(object, objectId, 'member') || grails.plugin.springsecurity.SpringSecurityUtils.ifAnyGranted(roles))
+        if (isOwnerMember(object, objectId, 'owner') || isOwnerMember(object, objectId, 'member') || grails.plugin.springsecurity.SpringSecurityUtils.ifAnyGranted(roles)) {
             out << body()
+        } else {
+            String parentObject = attrs?.parentObject
+            Long parentObjectId = attrs?.parentObjectId?.toLong()
+
+            if (parentObject && parentObjectId) {
+                if (isOwnerMember(parentObject, parentObjectId, 'owner'))
+                    out << body()
+            }
+        }
     }
 
     def isNotAffilOrRoles = { attrs, body ->
