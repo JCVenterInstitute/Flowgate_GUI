@@ -18,7 +18,7 @@
 
           <div class="middle-content">
             <p><strong>Submitted by: </strong>${bean.user.username}<br>
-              <strong>Submission date: </strong> <g:formatDate date="${bean.timestamp}" format="dd MMM yyyy hh:mm:ss"/>
+              <strong>Submission date: </strong> <g:formatDate date="${bean.dateCreated}" format="dd MMM yyyy hh:mm:ss"/>
               <g:if test="${bean.dateCompleted}">
                 <br><strong>Completion date: </strong><g:formatDate date="${bean.dateCompleted}" format="dd MMM yyyy hh:mm:ss"/>
               </g:if>
