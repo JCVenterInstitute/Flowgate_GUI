@@ -23,7 +23,7 @@
 <ul class="tabs">
   <li class="tab col s3"><a class="active" href="#description">Experiment Description</a></li>
   <li class="tab col s3"><a href="#fcs-files">FCS Files</a></li>
-  <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin">
+  <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" parentObject="project" parentObjectId="${experiment?.project?.id}" roles="ROLE_Administrator,ROLE_Admin">
     <li class="tab col s3"><a href="#manage-users">Experiment Users</a></li>
   </g:isOwnerOrRoles>
 </ul>
@@ -116,7 +116,7 @@
   </div>
 </div>
 
-<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin">
+<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" parentObject="project" parentObjectId="${experiment?.project?.id}" roles="ROLE_Administrator,ROLE_Admin">
   <div id="manage-users">
     <div class="row">
       <div class="col s12">

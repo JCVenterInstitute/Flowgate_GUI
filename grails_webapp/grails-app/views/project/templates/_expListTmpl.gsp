@@ -12,7 +12,7 @@
             <p>${experiment?.description}</p>
           </div>
 
-          <g:isAffilOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin">
+          <g:isAffilOrRoles object="experiment" objectId="${experiment?.id}" parentObject="project" parentObjectId="${experiment?.project?.id}" roles="ROLE_Administrator,ROLE_Admin">
             <div class="card-action">
               <a href="${createLink(controller: 'experiment', action: 'index', params: [eId: experiment?.id])}">Go to Experiment</a>
             </div>

@@ -20,7 +20,7 @@
   </a>
 </div>
 
-<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin">
+<g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" parentObject="project" parentObjectId="${experiment?.project?.id}" roles="ROLE_Administrator,ROLE_Admin">
   <div class="fixed-action-btn">
     <a class="btn-floating click-to-toggle btn-large">
       <i class="large material-icons">menu</i>

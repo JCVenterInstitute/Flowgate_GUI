@@ -153,7 +153,7 @@
     --}%
 
 
-    <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentEdit,ROLE_ExperimentManageUsers">
+    <g:isOwnerOrRoles object="experiment" objectId="${experiment?.id}" parentObject="project" parentObjectId="${experiment?.project?.id}" roles="ROLE_Administrator,ROLE_Admin,ROLE_ExperimentEdit,ROLE_ExperimentManageUsers">
       <span data-toggle="tooltip" title="Manage Users">
         %{--
         <div class="btn btn-info" onclick="toggleExpEditMode(${experiment?.id})">
