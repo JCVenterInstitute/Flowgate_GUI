@@ -50,10 +50,6 @@
 
   <g:form resource="${analysisServer}" method="PUT" action="updatePassword" class="col s6" onsubmit="return validatePass()">
     <div class="row">
-      <g:if test="${flash.passError}">
-        <div class="alert alert-danger">${flash.passError}</div>
-      </g:if>
-
       <div class="input-field col s8">
         <input type="password" name="oldpass" id="oldpass" required>
         <label for="oldpass">Old Password*</label>
