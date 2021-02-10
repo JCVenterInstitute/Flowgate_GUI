@@ -15,6 +15,10 @@ class AnalysisServer {
         user nullable: true, blank: true
     }
 
+    def isClinicalSiteDrupalServer() {
+        return platform == 3
+    }
+
     def isImmportGalaxyServer() {
         return platform == 2
     }

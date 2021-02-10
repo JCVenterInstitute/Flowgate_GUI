@@ -31,6 +31,7 @@
               <select name="platform" id="platform">
                 <option value="1">GenePattern</option>
                 <option value="2">ImmportGalaxy</option>
+                <option value="3">Clinical Site (Drupal)</option>
               </select>
               <label>Select a Platform</label>
             </div>
