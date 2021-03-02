@@ -113,6 +113,8 @@
 
               var tooltipElems = document.querySelectorAll('.tooltipped');
               M.Tooltip.init(tooltipElems);
+
+              $('ul.tabs').tabs('select', 'basic');
             },
             error: function (request, status, error) {
               console.log('E: ' + error);
