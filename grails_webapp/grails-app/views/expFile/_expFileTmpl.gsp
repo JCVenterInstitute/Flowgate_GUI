@@ -6,6 +6,7 @@
       <span></span>
     </label>
     ${expFile?.title}
+    <a href="#!" onclick="renderFCSFileInfo(${expFile?.id})" class="not-collapse" style="right: 20px;position: absolute;">Draw Gating Tree</a>
   </div>
 
   <div class="collapsible-body">

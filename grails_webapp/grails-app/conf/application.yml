@@ -14,6 +14,15 @@ callbackUrl: ${GP_IP}:${GP_PORT}/taskStatus
 
 adminEmailAddr: ${ADMIN_MAIL}
 
+clinical:
+  php: ${PHP}
+  foldershare: ${FOLDERSHARE}
+  dir: ${FOLDERSHARE_DIR}
+  inclusion: inclusion.config
+  exclusion: exclusion.config
+  headerMap: header_mapping.txt
+  header: header.txt
+
 UCI:
   workflow: Asthma_DAFI_FLOCK
   libraryFolder: Asthma

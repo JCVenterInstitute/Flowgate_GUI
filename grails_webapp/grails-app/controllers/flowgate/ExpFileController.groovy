@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
+import java.util.concurrent.TimeUnit
+
 @Secured(['ROLE_Admin','ROLE_User'])
 //@Transactional(readOnly = true)
 class ExpFileController {
@@ -780,4 +782,175 @@ class ExpFileController {
         render template: 'annMasterTbl', [experiment: experiment]
     }
 
+    def renderFCSFileInfo(ExpFile expFile) {
+        def fcsFilePath = expFile.filePath + File.separator + expFile.fileName
+
+        def fcsFile = new File(fcsFilePath)
+
+        if (fcsFile.isFile()) {
+            fcsService.readFile(fcsFile, false)
+
+            render(contentType: "text/json") {
+                success true
+                modelContent "${g.render(template: 'fcsFileParamTmpl', model: [id: expFile.id, name: fcsService.sampleName, parameters: fcsService.channelShortname, labels: fcsService.channelName])}"
+            }
+        } else {
+            render(contentType: "text/json") {
+                success false
+                msg "FCS file does not exist!"
+            }
+        }
+    }
+
+    def processGateDrawing(ExpFile expFile) {
+        if (expFile == null) {
+            notFound()
+            return
+        }
+
+        //It doesn't work if you use this and render in related if statement
+        def fcsDrupalId
+
+        //TODO: handle if there are multiple clinical sites
+        def drupalServer = AnalysisServer.findByPlatform(3);
+        def experiment = expFile.experiment;
+        def fcsFilePath = expFile.filePath + File.separator + expFile.fileName;
+
+        def dirLocation = grailsApplication.config.getProperty('clinical.dir', String)
+        def foldershareScriptPath = grailsApplication.config.getProperty('clinical.foldershare', String)
+        def phpLocation = grailsApplication.config.getProperty('clinical.php', String)
+
+        def lsCommand = "$phpLocation $foldershareScriptPath --host $drupalServer.url --username $drupalServer.userName --password $drupalServer.userPw ls "
+        def mkdirCommand = "$phpLocation $foldershareScriptPath --host $drupalServer.url --username $drupalServer.userName --password $drupalServer.userPw --format auto mkdir "
+        def uploadCommand = "$phpLocation $foldershareScriptPath --host $drupalServer.url --username $drupalServer.userName --password $drupalServer.userPw --format auto upload $fcsFilePath /$experiment.project.id/$experiment.id"
+        def statCommand = "$phpLocation $foldershareScriptPath --host $drupalServer.url --username $drupalServer.userName --password $drupalServer.userPw stat /$experiment.project.id/$experiment.id/$expFile.fileName"
+
+        File dir = new File(dirLocation)
+
+        //Check if FCS file exists in drupal site
+        Process process = Runtime.getRuntime().exec(statCommand, null, dir)
+        def out = new StringBuffer()
+        def err = new StringBuffer()
+        process.consumeProcessOutput(out, err)
+        process.waitFor(10, TimeUnit.SECONDS)
+
+        //Create FCS file if doesnt exist
+        if (err.size() > 0) {
+            println "Upload FCS File Error: $err"
+            err.setLength(0);
+
+            process = Runtime.getRuntime().exec(lsCommand + "/$experiment.project.id", null, dir)
+            process.consumeProcessOutput(out, err)
+            process.waitFor(10, TimeUnit.SECONDS)
+
+            if (out.size() > 0) {
+                println "LS Project Folder Output: $out"
+                out.setLength(0);
+            }
+
+            //Create project folder if not exist
+            if (err.size() > 0) {
+                println "LS Project Folder Error: $err"
+                err.setLength(0);
+
+                process = Runtime.getRuntime().exec(mkdirCommand + "/$experiment.project.id", null, dir)
+                process.consumeProcessOutput(out, err)
+                process.waitFor(10, TimeUnit.SECONDS)
+
+                if (out.size() > 0) {
+                    println "MKDIR Project Folder Output: $out"
+                    out.setLength(0);
+                }
+
+                if (err.size() > 0) {
+                    println "MKDIR Project Folder Error: $err"
+                    err.setLength(0);
+                }
+            }
+
+            process = Runtime.getRuntime().exec(lsCommand + "/$experiment.project.id/$experiment.id", null, dir)
+            process.consumeProcessOutput(out, err)
+            process.waitFor(10, TimeUnit.SECONDS)
+
+            if (out.size() > 0) {
+                println "LS Experiment Folder Output: $out"
+                out.setLength(0);
+            }
+
+            //Create experiment folder if not exist
+            if (err.size() > 0) {
+                println "LS Experiment Folder Error: $err"
+                err.setLength(0);
+
+                process = Runtime.getRuntime().exec(mkdirCommand + "/$experiment.project.id/$experiment.id", null, dir)
+                process.consumeProcessOutput(out, err)
+                process.waitFor(10, TimeUnit.SECONDS)
+
+                if (out.size() > 0) {
+                    println "MKDIR Experiment Folder Output: $out"
+                    out.setLength(0);
+                }
+
+                if (err.size() > 0) {
+                    println "MKDIR Experiment Folder Error: $err"
+                    err.setLength(0);
+                }
+            }
+
+            process = Runtime.getRuntime().exec(uploadCommand, null, dir)
+            process.consumeProcessOutput(out, err)
+            process.waitFor(10, TimeUnit.SECONDS)
+
+            if (out.size() > 0) {
+                println "Upload FCS File Output: $out"
+                out.setLength(0);
+
+                process = Runtime.getRuntime().exec(statCommand, null, dir)
+                process.consumeProcessOutput(out, err)
+                process.waitFor(10, TimeUnit.SECONDS)
+            }
+            if (err.size() > 0) println "Upload FCS File Error: $err"
+        }
+
+        if (out.size() > 0) {
+            println "Stat FCS File Output: $out"
+            //TODO Find a better way
+            fcsDrupalId = out.substring(out.indexOf("ID: ") + 4);
+            fcsDrupalId = fcsDrupalId.substring(0, fcsDrupalId.indexOf("ParentID"))
+            fcsDrupalId = fcsDrupalId.trim()
+            println "FCS file id in drupal: $fcsDrupalId"
+
+            //Generate map file
+            def transformation = JSON.parse(params?.transformation);
+
+            def builder = new groovy.json.JsonBuilder()
+            builder {
+                version "FlowGateJsonParameterMap_1.0"
+                name "parameter_flowgate"
+                creatorSoftware "FlowGate Parameter Map version 1.0.0"
+                parameters transformation
+            }
+
+            def mapFileLocation = "${dirLocation}/${expFile.fileName.split(".fcs")[0]}_parameter.map"
+            new File(mapFileLocation).write(builder.toPrettyString())
+            def mapUploadCommand = "$phpLocation $foldershareScriptPath --host $drupalServer.url --username $drupalServer.userName --password $drupalServer.userPw --format auto upload $mapFileLocation /$experiment.project.id/$experiment.id"
+
+            process = Runtime.getRuntime().exec(mapUploadCommand, null, dir)
+            process.consumeProcessOutput(out, err)
+            process.waitFor(10, TimeUnit.SECONDS)
+
+            if (out.size() > 0) println "Upload FCS File Output: $out"
+            if (err.size() > 0) println "Upload FCS File Error: $err"
+
+            render(contentType: "text/json") {
+                success true
+                url "http://$drupalServer.url/flowgate_clinical/$fcsDrupalId/editgating"
+            }
+        } else {
+            render(contentType: "text/json") {
+                success false
+                msg "Error occured!"
+            }
+        }
+    }
 }
