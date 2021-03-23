@@ -24,9 +24,17 @@
   </g:else>
 </g:if>
 <g:else>
-  <ul class="errors">
-    <li>An error has occurred</li>
-  </ul>
+  <div class="center-align">
+    <h2>${request.getAttribute('javax.servlet.error.status_code')}</h2>
+
+    <h6>
+      An error has occurred
+    </h6>
+
+    <div class="input-field col s12">
+      <a class="btn" href="${createLink(uri: '/')}">Go to homepage</a>
+    </div>
+  </div>
 </g:else>
 </body>
 </html>
