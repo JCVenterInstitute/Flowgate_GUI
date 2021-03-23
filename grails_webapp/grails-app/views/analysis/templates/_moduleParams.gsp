@@ -17,6 +17,9 @@
       <a href="#!" class="modal-close waves-effect waves-light btn-flat">Close</a>
     </div>
   </div>
+  <div id="experimentDatasetDiv"></div>
+  <div id="basic">
+  %{--BASIC OPTIONS--}%
   <g:each in="${module.moduleParams.sort { (it.pOrder ?: it.id) + (it.pKey ?: it.id) }.findAll { it.pBasic == true }}" var="moduleParam">
     <g:if test="${moduleParam?.pType == 'aux'}">
       <div class="col s12">
@@ -45,7 +48,7 @@
       </div>
     </g:if>
     <g:if test="${moduleParam?.pType == 'ds'}">
-      <div class="input-field col s12">
+      <div id="experimentDataset" class="input-field col s12">
         <g:hiddenField name="mp-meta" value="${moduleParam?.id}"/>
         <g:if test="${moduleParam?.descr != null && !moduleParam?.descr.isEmpty()}">
           <i class="material-icons prefix tooltipped" style="cursor: pointer;" data-tooltip="${moduleParam?.descr}" data-position="right">info</i>
@@ -117,12 +120,9 @@
       </div>
     </g:if>
   </g:each>
-  <div id="basic">
-    %{--BASIC OPTIONS--}%
-    %{-- Always displayed ! --}%
   </div>
 %{--******************************************************************************************************************************************************************************--}%
-  <div id="advanced" style="display: none;">
+  <div id="advanced" style="display: none">
   %{--ADVANCED OPTIONS--}%
     <g:each in="${module.moduleParams.sort { it.pOrder ?: it.id }.findAll { it.pBasic == false }}" var="moduleParam">
     %{-- aux --}%
@@ -201,4 +201,64 @@
       </g:if>
     </g:each>
   </div>
+
+  <div id="gml" class="row">
+    <div class="col s12">
+      <g:if test="${hasDafiConfig}">
+        <div class="col s12 mb-3">
+          <label>
+            <input name="gmlFileOption" type="radio" value="clinical" checked/>
+            <span>Clinical Site</span>
+          </label>
+          <label>
+            <input name="gmlFileOption" type="radio" value="user"/>
+            <span>Custom</span>
+          </label>
+        </div>
+        <g:if test="${gmlFiles == null}">
+          <div id="clinicalSiteGml" class="col s6">
+            <p>We are not able to check GML files. Please make sure clinical site is up and accessible.</p>
+          </div>
+        </g:if>
+        <g:elseif test="${gmlFiles.size() > 0}">
+          <div id="clinicalSiteGml" class="input-field col s6">
+            <g:select name="gmlFile" from="${gmlFiles}" noSelection="${['': 'Select a Gml file']}"/>
+            <label>GML Files</label>
+          </div>
+        </g:elseif>
+        <g:else>
+          <div id="clinicalSiteGml" class="col s6">
+            <p>No GML File generated in clinical site.</p>
+          </div>
+        </g:else>
+
+        <div id="userCustomGml" class="file-field input-field col s6" style="display: none">
+          <div class="btn">
+            <span>Select GML File</span>
+            <input type="file" id="gmFileUpload" name="gmFileUpload" accept=".gml"/>
+          </div>
+
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Upload a gml file">
+          </div>
+        </div>
+
+        <script>
+          $('input[type=radio][name="gmlFileOption"]').change(function () {
+            if(this.value === "clinical") {
+              $("#clinicalSiteGml").show();
+              $("#userCustomGml").hide();
+            } else {
+              $("#userCustomGml").show();
+              $("#clinicalSiteGml").hide();
+            }
+          });
+        </script>
+      </g:if>
+    </div>
+  </div>
+
+  <script>
+    $("#experimentDataset").appendTo("#experimentDatasetDiv");
+  </script>
 </g:if>

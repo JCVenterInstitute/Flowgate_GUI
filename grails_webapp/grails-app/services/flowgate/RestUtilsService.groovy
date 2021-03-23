@@ -2,6 +2,7 @@ package flowgate
 
 import com.github.jmchilton.blend4j.galaxy.beans.Workflow
 import com.google.gson.Gson
+import flowgate.transform.GMLInfo
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 import grails.transaction.Transactional
@@ -14,6 +15,9 @@ import grails.web.servlet.mvc.GrailsParameterMap
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import org.grails.web.util.WebUtils
+
+import java.util.concurrent.TimeUnit
+
 //import grails.async.*
 //import java.io.File
 
@@ -25,6 +29,7 @@ class RestUtilsService {
 
   def springSecurityService
   def utilsService
+  def fcsService
   def grailsApplication
 
   def getSession() {
@@ -129,79 +134,285 @@ class RestUtilsService {
     return bodyStr
   }
 
-  ArrayList setModParamsRest(Module module, GrailsParameterMap params, def request) {
+  ArrayList setModParamsRest(Module module, GrailsParameterMap params, def request, boolean isGmlSelected, def experiment) {
 // TODO compare result vs module parameters; result is empty on upload errors!
     ArrayList paramVars = []
-    module.moduleParams.each {
-      switch (it.pType) {
-        case 'ds':
-          def dsId = params["mp-${it.id}-ds"]
-          Dataset ds = Dataset.get(dsId.toLong())
-          if (ds) {
-            ds.expFiles.each { expFile ->
-              File fileToUpload = new File(expFile.filePath + expFile.fileName)
-              def fileLocation = uploadFileOrDirParams(module, fileToUpload, expFile.fileName)
-              paramVars.push(['name': it.pKey, 'values': fileLocation])
+    if (isGmlSelected) {
+      def dsParam = module.moduleParams.find { it.pType.equals('ds')}
+      def dsId = params["mp-${dsParam.id}-ds"]
+
+      Dataset ds = Dataset.get(dsId.toLong())
+      if (ds) {
+        def fcsFilePath;
+
+        ds.expFiles.each { expFile ->
+          File fileToUpload = new File(expFile.filePath + expFile.fileName)
+          def fileLocation = uploadFileOrDirParams(module, fileToUpload, expFile.fileName)
+          paramVars.push(['name': dsParam.pKey, 'values': fileLocation])
+
+          if(!fcsFilePath) {
+            fcsFilePath = expFile.filePath + expFile.fileName
+          }
+        }
+
+        def dirLocation = grailsApplication.config.getProperty('clinical.dir', String)
+        def foldershareScriptPath = grailsApplication.config.getProperty('clinical.foldershare', String)
+        def phpLocation = grailsApplication.config.getProperty('clinical.php', String)
+        def inclusionFile = grailsApplication.config.getProperty('clinical.inclusion', String)
+        def exclusionFile = grailsApplication.config.getProperty('clinical.exclusion', String)
+        def headerFile = grailsApplication.config.getProperty('clinical.headerMap', String)
+        def headerMapFile = grailsApplication.config.getProperty('clinical.header', String)
+
+        String gmlFileOption = params?.gmlFileOption
+
+        File gmlFile;
+        if(gmlFileOption.equals("clinical")) {
+          File dir = new File(dirLocation)
+          def drupalServer = AnalysisServer.findByPlatform(3);
+          def gmlFileName = params?.gmlFile
+          def downloadCommand = "$phpLocation $foldershareScriptPath --host $drupalServer.url --username $drupalServer.userName --password $drupalServer.userPw download \"/$experiment.project.id/$experiment.id/$gmlFileName\""
+
+          Process process = Runtime.getRuntime().exec(downloadCommand, null, dir)
+          def out = new StringBuffer()
+          def err = new StringBuffer()
+          process.consumeProcessOutput(out, err)
+          process.waitFor(10, TimeUnit.SECONDS)
+
+          if (out.size() > 0) {
+            println "LS Project Folder Output: $out"
+            out.setLength(0);
+          }
+
+          if (err.size() > 0) {
+            println "LS Project Folder Error: $err"
+            err.setLength(0);
+          }
+
+          gmlFile = new File(dir.getPath() + File.separator + gmlFileName)
+        } else {
+          def partFile = request.getFile("gmFileUpload");
+          gmlFile = partFile.part.fileItem.tempFile
+        }
+
+        def info = new GMLInfo(gmlFile)
+        def fcsFile = new File(fcsFilePath)
+        fcsService.readFile(fcsFile, false)
+
+        def inclusionFilePath = dirLocation + File.separator + inclusionFile
+        def headerMapFilePath = dirLocation + File.separator + headerMapFile
+        def headerFilePath = dirLocation + File.separator + headerFile
+        def exclusionFilePath = dirLocation + File.separator + exclusionFile
+
+        def fosInclusion = new FileWriter(inclusionFilePath)
+        def dosInclusion = new PrintWriter(fosInclusion)
+        def fosHeaderMapping = new FileWriter(headerMapFilePath)
+        def dosHeaderMapping = new PrintWriter(fosHeaderMapping)
+
+        def gateId = 1;
+        def gateNames = []
+        for (gate in info.gates) {
+          def sb = new StringBuilder()
+          sb.append(gateId) //Pop_ID
+
+          def name = gate.key
+          def value = gate.value
+
+          def gateName = "";
+          def index = 0;
+          for (child in value.children) {
+            if(child.markerLabel) {
+              gateName += child.markerLabel + "x"
+              gateNames.push(child.markerLabel)
+              dosHeaderMapping.println("$child.markerName\t$child.markerLabel")
+            } else {
+              def editedMarkerName = child.markerName.replaceAll(" ", "_")
+              gateName += editedMarkerName + "x"
+
+              gateNames.push(editedMarkerName)
+              dosHeaderMapping.println("$child.markerName\t$editedMarkerName")
             }
+
+            def markerIndex = fcsService.channelShortname.findIndexOf { it.equals(child.markerName)}
+            def dimensionIndex = markerIndex + 1
+            if (index == 0) {
+              sb.append("\t$dimensionIndex") //DimensionX
+            } else {
+              //sb.insert((int) (Math.log10(gateId) + 1) + 2, "\t$dimensionIndex") //DimensionY (get number of digits in gateId to find correct offset)
+              def indexOfDimensionX = sb.indexOf("\t", 2)
+              sb.insert(indexOfDimensionX, "\t$dimensionIndex") //DimensionY
+            }
+
+            def channelRange = fcsService.channelRange[markerIndex]
+            def ampValue = fcsService.ampValue[markerIndex]
+
+            if(child.transformationRef != null) {
+              def transformation = info.transforms[child.transformationRef]
+
+              def max = transformation.transformInternal(channelRange)
+              def min = transformation.transformInternal(ampValue)
+
+              //for linear transformation in FCSTrans, the range will be normalized to 0-1023
+              if(max < 1023)
+                max = 1023
+
+              def ratio = 200 / max
+              def dafiMax = (int) (ratio * child.maxByDimension)
+              def dafiMin = (int) (ratio * child.minByDimension)
+
+              if(dafiMin < 0)
+                dafiMin = 0
+
+              sb.append("\t$dafiMin\t$dafiMax") //MinX or MaxY
+            } else {
+              def max = channelRange
+              def min = ampValue
+
+              //for linear transformation in FCSTrans, the range will be normalized to 0-1023
+              if(max < 1023)
+                max = 1023
+
+              def ratio = 200 / max
+              def dafiMax = (int) (ratio * child.maxByDimension)
+              def dafiMin = (int) (ratio * child.minByDimension)
+
+              if(dafiMin < 0)
+                dafiMin = 0
+
+              sb.append("\t$dafiMin\t$dafiMax") //MinX or MaxY
+            }
+
+            index++
+          }
+
+          //Parent_ID, 0 if gateId = 1
+          if(gateId != 1 && value.parentId) {
+            def parentGate = info.gates[value.parentId]
+            sb.append("\t$parentGate.order")
           } else {
-            println "E: no Dataset!"
+            sb.append("\t0")
           }
-          break
+          sb.append("\t0") //Cluster_Type
+          sb.append("\t0") //Visualize_or_Not
+          sb.append("\t1") //Recluster_or_Not
+          sb.append("\t").append(gateName.substring(0, gateName.length() - 1)) //Cell_Phenotype
+          sb.append("\n") //End of line
 
-        case 'dir':
-          def dir = request.getFiles("mp-${it.id}")
-          dir.each { dirFile ->
-            if (!dirFile.filename.contains('/.')) {
-              String filename = dirFile.filename.replaceAll(/^.*\//, "")
-              def fileLocation = uploadFileOrDirParams(module, dirFile.part.fileItem.tempFile, filename)
+          dosInclusion.print(sb.toString())
+          gateId++
+        }
+        dosInclusion.close()
+        fosInclusion.close()
+        dosHeaderMapping.close()
+        fosHeaderMapping.close()
+
+        def fosHeader = new FileWriter(headerFilePath)
+        def dosHeader = new PrintWriter(fosHeader)
+        dosHeader.print(gateNames.join(","))
+        dosHeader.close()
+        fosHeader.close()
+
+        def fosExclusion = new FileWriter(exclusionFilePath)
+        def dosExclusion = new PrintWriter(fosExclusion)
+        dosExclusion.print("1\t0\t0\t0\t0\t0\t0\t0\t0\t0")
+        dosExclusion.close()
+        fosExclusion.close()
+
+        gmlFile.delete()
+
+        def inc = new File(inclusionFilePath)
+        def incLocation = uploadFileOrDirParams(module, inc, inclusionFile)
+        paramVars.push(['name': 'config.file', 'values': incLocation])
+        inc.delete()
+
+        def exc = new File(exclusionFilePath)
+        def excLocation = uploadFileOrDirParams(module, exc, exclusionFile)
+        paramVars.push(['name': 'rev.config.file', 'values': excLocation])
+        exc.delete()
+
+        def hMap = new File(headerMapFilePath)
+        def hMapLocation = uploadFileOrDirParams(module, hMap, headerMapFile)
+        paramVars.push(['name': 'header_replace.txt', 'values': hMapLocation])
+        hMap.delete()
+
+        def h = new File(headerFilePath)
+        def hLocation = uploadFileOrDirParams(module, h, headerFile)
+        paramVars.push(['name': 'header.list', 'values': hLocation])
+        h.delete()
+      } else {
+        println "E: no Dataset!"
+      }
+    } else {
+      module.moduleParams.each {
+        switch (it.pType) {
+          case 'ds':
+            def dsId = params["mp-${it.id}-ds"]
+            Dataset ds = Dataset.get(dsId.toLong())
+            if (ds) {
+              ds.expFiles.each { expFile ->
+                File fileToUpload = new File(expFile.filePath + expFile.fileName)
+                def fileLocation = uploadFileOrDirParams(module, fileToUpload, expFile.fileName)
+                paramVars.push(['name': it.pKey, 'values': fileLocation])
+              }
+            } else {
+              println "E: no Dataset!"
+            }
+            break
+
+          case 'dir':
+            def dir = request.getFiles("mp-${it.id}")
+            dir.each { dirFile ->
+              if (!dirFile.filename.contains('/.')) {
+                String filename = dirFile.filename.replaceAll(/^.*\//, "")
+                def fileLocation = uploadFileOrDirParams(module, dirFile.part.fileItem.tempFile, filename)
+                paramVars.push(['name': it.pKey, 'values': fileLocation])
+              }
+            }
+            break
+
+          case 'file':
+            def partFile = request.getFile("mp-${it.id}")
+            if (!partFile.filename.startsWith('.')) {
+              def fileLocation = uploadFileOrDirParams(module, partFile.part.fileItem.tempFile, partFile.filename)
               paramVars.push(['name': it.pKey, 'values': fileLocation])
             }
-          }
-          break
+            break
 
-        case 'file':
-          def partFile = request.getFile("mp-${it.id}")
-          if (!partFile.filename.startsWith('.')) {
-            def fileLocation = uploadFileOrDirParams(module, partFile.part.fileItem.tempFile, partFile.filename)
-            paramVars.push(['name': it.pKey, 'values': fileLocation])
-          }
-          break
+          case 'meta': //upload metadata.txt
+            String tabSep = "\t"
+            def dsParamId = params["mp-meta"]
+            def dsId = params["mp-${dsParamId}-ds"]
 
-        case 'meta': //upload metadata.txt
-          String tabSep = "\t"
-          def dsParamId = params["mp-meta"]
-          def dsId = params["mp-${dsParamId}-ds"]
-
-          Dataset ds = Dataset.get(dsId.toLong())
-          String metaDataFilePrefix = 'metadata'
-          String metaDataFileSuffix = '.txt'
-          File metaDataFile = File.createTempFile(metaDataFilePrefix, metaDataFileSuffix)
-          //TODO sort fields by display order!!!
-          metaDataFile.write(getAnnotationHeaderStr(ds, '\t') + '\n' + getAnnotationBody(ds, '\t'))
-          def fileLocation = uploadFileOrDirParams(module, metaDataFile, metaDataFilePrefix + metaDataFileSuffix)
-          metaDataFile.delete()
-          paramVars.push(['name': it.pKey, 'values': fileLocation])
-          break
-
-        case 'field': //upload description.txt
-          String descrFilePrefix = 'description'
-          String descrFileSuffix = '.txt'
-          File descrFile = File.createTempFile(descrFilePrefix, descrFileSuffix)
-          descrFile.write(params.analysisName + System.lineSeparator() + params.analysisDescription)
-          def dsParamId = params["mp-meta"]
-          def dsId = params["mp-${dsParamId}-ds"]
-          if (dsId != null) {
             Dataset ds = Dataset.get(dsId.toLong())
-            descrFile.append(System.lineSeparator() + ds.name)
-          }
-          def fileLocation = uploadFileOrDirParams(module, descrFile, descrFilePrefix + descrFileSuffix)
-          descrFile.delete()
-          paramVars.push(['name': it.pKey, 'values': fileLocation])
-          break
+            String metaDataFilePrefix = 'metadata'
+            String metaDataFileSuffix = '.txt'
+            File metaDataFile = File.createTempFile(metaDataFilePrefix, metaDataFileSuffix)
+            //TODO sort fields by display order!!!
+            metaDataFile.write(getAnnotationHeaderStr(ds, '\t') + '\n' + getAnnotationBody(ds, '\t'))
+            def fileLocation = uploadFileOrDirParams(module, metaDataFile, metaDataFilePrefix + metaDataFileSuffix)
+            metaDataFile.delete()
+            paramVars.push(['name': it.pKey, 'values': fileLocation])
+            break
 
-        default:
-          paramVars.push(['name': it.pKey, 'values': [params["mp-${it.id}"].toString()]])
-          break
+          case 'field': //upload description.txt
+            String descrFilePrefix = 'description'
+            String descrFileSuffix = '.txt'
+            File descrFile = File.createTempFile(descrFilePrefix, descrFileSuffix)
+            descrFile.write(params.analysisName + System.lineSeparator() + params.analysisDescription)
+            def dsParamId = params["mp-meta"]
+            def dsId = params["mp-${dsParamId}-ds"]
+            if (dsId != null) {
+              Dataset ds = Dataset.get(dsId.toLong())
+              descrFile.append(System.lineSeparator() + ds.name)
+            }
+            def fileLocation = uploadFileOrDirParams(module, descrFile, descrFilePrefix + descrFileSuffix)
+            descrFile.delete()
+            paramVars.push(['name': it.pKey, 'values': fileLocation])
+            break
+
+          default:
+            paramVars.push(['name': it.pKey, 'values': [params["mp-${it.id}"].toString()]])
+            break
+        }
       }
     }
     paramVars

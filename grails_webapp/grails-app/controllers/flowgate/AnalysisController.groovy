@@ -10,6 +10,7 @@ import org.apache.commons.io.IOUtils
 import org.genepattern.webservice.Parameter
 import org.grails.core.io.ResourceLocator
 
+import java.util.concurrent.TimeUnit
 import java.util.zip.ZipOutputStream
 import java.util.zip.ZipEntry
 import java.awt.image.BufferedImage
@@ -59,9 +60,44 @@ class AnalysisController {
             Module module = Module.get(params.modId.toLong())
             if(params.dsId)
                 (module.moduleParams.find { it -> it.pType.equals("ds")}).defaultVal = params.dsId
+
+            def hasDafiConfig = module.moduleParams.stream().anyMatch({ it.pKey.equals("config.file") })
+            def hasAdvancedParams = module.moduleParams.stream().anyMatch { it.pBasic == false };
+
+            def gmlFiles
+            if (hasDafiConfig) {
+                def drupalServer = AnalysisServer.findByPlatform(3);
+                def experiment = Experiment.findById(params.eId.toLong());
+
+                def dirLocation = grailsApplication.config.getProperty('clinical.dir', String)
+                def foldershareScriptPath = grailsApplication.config.getProperty('clinical.foldershare', String)
+                def phpLocation = grailsApplication.config.getProperty('clinical.php', String)
+
+                File dir = new File(dirLocation)
+                def lsCommand = "$phpLocation $foldershareScriptPath --host $drupalServer.url --username $drupalServer.userName --password $drupalServer.userPw ls "
+
+                Process process = Runtime.getRuntime().exec(lsCommand + "/$experiment.project.id/$experiment.id", null, dir)
+                def out = new StringBuffer()
+                def err = new StringBuffer()
+                process.consumeProcessOutput(out, err)
+                process.waitFor(10, TimeUnit.SECONDS)
+
+                if (out.size() > 0) {
+                    def fileArr = out.toString().trim().replaceAll("\\s{2,}", ",").split(",")
+                    gmlFiles = fileArr.findAll { it.endsWith(".gml") }
+                    println "LS Experiment Folder Output: $gmlFiles"
+                }
+
+                if (err.size() > 0) {
+                    println "LS Experiment Folder Error: $err"
+                }
+            }
+
             render(contentType: 'text/json') {
                 success true
-                modParams "${g.render(template: 'templates/moduleParams', model: [module: module])}"
+                isAdvancedParams hasAdvancedParams
+                isDafiConfig hasDafiConfig
+                modParams "${g.render(template: 'templates/moduleParams', model: [module: module, gmlFiles: gmlFiles, hasDafiConfig: hasDafiConfig])}"
             }
         }
         else{
@@ -550,12 +586,14 @@ class AnalysisController {
         try {
             analysis.experiment = experiment
             if (module.server.isGenePatternServer()) {
+                def selectedOption = params?.selectedOption
+
                 Map resultMap
                 if (module.server.url.startsWith('https')) {
                     Parameter[] parameters = genePatternService.setModParams(module, params)
                     resultMap = genePatternService.getJobNo(module, parameters)
                 } else {
-                    def parameters = restUtilsService.setModParamsRest(module, params, thisRequest)
+                    def parameters = restUtilsService.setModParamsRest(module, params, thisRequest, selectedOption.equals("gmlTab"), experiment)
                     resultMap = restUtilsService.getJobNo(module, parameters)
                 }
                 analysis.jobNumber = resultMap.jobNo

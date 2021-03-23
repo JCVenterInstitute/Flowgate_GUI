@@ -58,11 +58,13 @@
     <g:hiddenField name="analysisStatus" value="${1}"/>
     <g:hiddenField name="eId" value="${params?.eId}"/>
     <g:hiddenField name="timestamp" value="${new Date().format('yyyy-MM-dd hh:mm:ss')}"/>
+    <g:hiddenField id="selectedOption" name="selectedOption" value="basicTab"/>
 
     <f:with bean="analysis">
       <ul class="tabs">
-        <li class="tab col s2"><a class="active" href="#basic">Basic</a></li>
-        <li class="tab col s2"><a href="#advanced">Advanced</a></li>
+        <li class="tab col s2"><a class="active" href="#basic" id="basicTab">Basic</a></li>
+        <li class="tab col s2 disabled"><a href="#basic" id="advancedTab">Advanced</a></li>
+        <li class="tab col s2 disabled"><a href="#gml" id="gmlTab">GML</a></li>
       </ul>
 
       <div class="row">
@@ -88,13 +90,15 @@
         </div>
 
         <div class="input-field col s12">
-          <button type="submit" class="btn waves-effect waves-light">${message(code: 'analysis.create.btn.label', default: 'Submit')}</button>
+          <button id="submitButton" type="submit" class="btn waves-effect waves-light">${message(code: 'analysis.create.btn.label', default: 'Submit')}</button>
           <a href="${createLink(controller: 'analysis', action: 'index', params: [eId: eId])}" class="btn-flat">Return to Analysis List</a>
         </div>
       </div>
 
       <script>
         function moduleChange(moduleId) {
+          var tabs = $('ul.tabs .tab');
+          tabs.removeClass("disabled");
           var _data = {eId: ${params?.eId}, modId: moduleId <g:if test="${params?.dsId != null && !params?.dsId.isEmpty()}">, dsId: ${params?.dsId}</g:if>}
           $.ajax({
             url: "${createLink(controller: 'analysis', action: 'axModulChange')}",
@@ -114,7 +118,18 @@
               var tooltipElems = document.querySelectorAll('.tooltipped');
               M.Tooltip.init(tooltipElems);
 
-              $('ul.tabs').tabs('select', 'basic');
+              if (!data.isAdvancedParams) {
+                tabs.eq(1).addClass("disabled");
+              }
+
+              if (!data.isDafiConfig) {
+                tabs.eq(2).addClass("disabled");
+              }
+
+              var tabElems = document.querySelectorAll('.tabs');
+              M.Tabs.init(tabElems);
+              //$('.tabs').tabs("select", "basic");
+              $('#basicTab')[0].click();
             },
             error: function (request, status, error) {
               console.log('E: ' + error);
@@ -147,6 +162,21 @@
 
     var tooltipElems = document.querySelectorAll('.tooltipped');
     M.Tooltip.init(tooltipElems);
+
+    $(".tabs > .tab > a").click(function () {
+      var id = $(this).attr('id');
+
+      if (id === 'advancedTab') {
+        $("#advanced").show();
+      } else {
+        $("#advanced").hide();
+      }
+    });
+
+    $('#submitButton').click(function(){
+      var tab = $(".tabs > .tab > a.active").attr('id');
+      $('#selectedOption').val(tab);
+    });
   });
 
   function enablePreloadOverlay() {
