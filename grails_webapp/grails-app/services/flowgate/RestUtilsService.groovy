@@ -160,8 +160,8 @@ class RestUtilsService {
         def phpLocation = grailsApplication.config.getProperty('clinical.php', String)
         def inclusionFile = grailsApplication.config.getProperty('clinical.inclusion', String)
         def exclusionFile = grailsApplication.config.getProperty('clinical.exclusion', String)
-        def headerFile = grailsApplication.config.getProperty('clinical.headerMap', String)
-        def headerMapFile = grailsApplication.config.getProperty('clinical.header', String)
+        def headerFile = grailsApplication.config.getProperty('clinical.header', String)
+        def headerMapFile = grailsApplication.config.getProperty('clinical.headerMap', String)
 
         String gmlFileOption = params?.gmlFileOption
 
