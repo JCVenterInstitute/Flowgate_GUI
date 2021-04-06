@@ -209,76 +209,195 @@ class RestUtilsService {
         def dosHeaderMapping = new PrintWriter(fosHeaderMapping)
 
         def gateId = 1;
-        def gateNames = []
+        def gateNames = new ArrayList<String>()
         for (gate in info.gates) {
           def sb = new StringBuilder()
           sb.append(gateId) //Pop_ID
 
           def name = gate.key
           def value = gate.value
+          def isPolygonGate = value.type.equals("PolygonGate")
 
           def gateName = "";
           def index = 0;
           for (child in value.children) {
-            if(child.markerLabel) {
-              gateName += child.markerLabel + "x"
-              gateNames.push(child.markerLabel)
-              dosHeaderMapping.println("$child.markerName\t$child.markerLabel")
+            if(!isPolygonGate) {
+              def dimensionIndex = 1
+              if (child.markerLabel) {
+                gateName += child.markerLabel + "x"
+
+                if(!gateNames.contains(child.markerLabel)) {
+                  gateNames.add(child.markerLabel)
+                  dosHeaderMapping.println("$child.markerName\t$child.markerLabel")
+                }
+
+                dimensionIndex += gateNames.indexOf(child.markerLabel)
+              } else {
+                def editedMarkerName = child.markerName.replaceAll(" ", "_")
+                gateName += editedMarkerName + "x"
+
+                if(!gateNames.contains(editedMarkerName)) {
+                  gateNames.add(editedMarkerName)
+                  dosHeaderMapping.println("$child.markerName\t$editedMarkerName")
+                }
+
+                dimensionIndex += gateNames.indexOf(editedMarkerName)
+              }
+
+              def markerIndex = fcsService.channelShortname.findIndexOf { it.equals(child.markerName) }
+              //def dimensionIndex = markerIndex + 1
+              if (index == 0) {
+                sb.append("\t$dimensionIndex") //DimensionX
+              } else {
+                //sb.insert((int) (Math.log10(gateId) + 1) + 2, "\t$dimensionIndex") //DimensionY (get number of digits in gateId to find correct offset)
+                def indexOfDimensionX = sb.indexOf("\t", 2)
+                sb.insert(indexOfDimensionX, "\t$dimensionIndex") //DimensionY
+              }
+
+              def channelRange = fcsService.channelRange[markerIndex]
+              def ampValue = fcsService.ampValue[markerIndex]
+
+              if (child.transformationRef != null) {
+                def transformation = info.transforms[child.transformationRef]
+
+                def max = transformation.transformInternal(channelRange)
+                def min = transformation.transformInternal(ampValue)
+
+                //for linear transformation in FCSTrans, the range will be normalized to 0-1023
+                if (transformation.transformType.equals("flin") && max < 1023)
+                  max = 1023
+
+                def ratio = 200 / max
+                def dafiMax = (int) (ratio * child.maxByDimension)
+                def dafiMin = (int) (ratio * child.minByDimension)
+
+                if (dafiMin < 0)
+                  dafiMin = 0
+
+                sb.append("\t$dafiMin\t$dafiMax") //MinX or MaxY
+              } else {
+                def max = channelRange
+                def min = ampValue
+
+                //for linear transformation in FCSTrans, the range will be normalized to 0-1023
+                if (max < 1023)
+                  max = 1023
+
+                def ratio = 200 / max
+                def dafiMax = (int) (ratio * child.maxByDimension)
+                def dafiMin = (int) (ratio * child.minByDimension)
+
+                if (dafiMin < 0)
+                  dafiMin = 0
+
+                sb.append("\t$dafiMin\t$dafiMax") //MinX or MaxY
+              }
             } else {
-              def editedMarkerName = child.markerName.replaceAll(" ", "_")
-              gateName += editedMarkerName + "x"
+              //Calculate points for slope
+              def firstXCoordinate = child.xCoordinates[0]
+              def firstYCoordinate = child.yCoordinates[0]
 
-              gateNames.push(editedMarkerName)
-              dosHeaderMapping.println("$child.markerName\t$editedMarkerName")
-            }
+              def xMin = firstXCoordinate
+              def xMax = firstXCoordinate
+              def yMin = firstYCoordinate
+              def yMax = firstYCoordinate
+              def rMin = firstYCoordinate / firstXCoordinate
+              def rMax = firstYCoordinate / firstXCoordinate
+              for (int i = 1; i < child.xCoordinates.size(); i++) {
+                def xCoordinate = child.xCoordinates[i]
+                def yCoordinate = child.yCoordinates[i]
 
-            def markerIndex = fcsService.channelShortname.findIndexOf { it.equals(child.markerName)}
-            def dimensionIndex = markerIndex + 1
-            if (index == 0) {
-              sb.append("\t$dimensionIndex") //DimensionX
-            } else {
-              //sb.insert((int) (Math.log10(gateId) + 1) + 2, "\t$dimensionIndex") //DimensionY (get number of digits in gateId to find correct offset)
-              def indexOfDimensionX = sb.indexOf("\t", 2)
-              sb.insert(indexOfDimensionX, "\t$dimensionIndex") //DimensionY
-            }
+                def r = yCoordinate / xCoordinate
 
-            def channelRange = fcsService.channelRange[markerIndex]
-            def ampValue = fcsService.ampValue[markerIndex]
+                if (r > rMax) {
+                  rMax = r
+                  xMax = xCoordinate
+                  yMax = yCoordinate
+                }
 
-            if(child.transformationRef != null) {
-              def transformation = info.transforms[child.transformationRef]
+                if (r < rMin) {
+                  rMin = r
+                  xMin = xCoordinate
+                  yMin = yCoordinate
+                }
+              }
 
-              def max = transformation.transformInternal(channelRange)
-              def min = transformation.transformInternal(ampValue)
+              //0 -> x, 1 -> y
+              for (int i = 0; i < 2; i++) {
+                def markerLabel = child.markerLabels[i];
+                def markerName = child.markerNames[i];
 
-              //for linear transformation in FCSTrans, the range will be normalized to 0-1023
-              if(max < 1023)
-                max = 1023
+                def dimensionIndex = 1
+                if (markerLabel) {
+                  gateName += markerLabel + "x"
 
-              def ratio = 200 / max
-              def dafiMax = (int) (ratio * child.maxByDimension)
-              def dafiMin = (int) (ratio * child.minByDimension)
+                  if (!gateNames.contains(child.markerLabel)) {
+                    gateNames.add(markerLabel)
+                    dosHeaderMapping.println("$markerName\t$markerLabel")
+                  }
 
-              if(dafiMin < 0)
-                dafiMin = 0
+                  dimensionIndex += gateNames.indexOf(markerLabel)
+                } else {
+                  def editedMarkerName = markerName.replaceAll(" ", "_")
+                  gateName += editedMarkerName + "x"
 
-              sb.append("\t$dafiMin\t$dafiMax") //MinX or MaxY
-            } else {
-              def max = channelRange
-              def min = ampValue
+                  if (!gateNames.contains(editedMarkerName)) {
+                    gateNames.add(editedMarkerName)
+                    dosHeaderMapping.println("$markerName\t$editedMarkerName")
+                  }
 
-              //for linear transformation in FCSTrans, the range will be normalized to 0-1023
-              if(max < 1023)
-                max = 1023
+                  dimensionIndex += gateNames.indexOf(editedMarkerName)
+                }
 
-              def ratio = 200 / max
-              def dafiMax = (int) (ratio * child.maxByDimension)
-              def dafiMin = (int) (ratio * child.minByDimension)
+                def markerIndex = fcsService.channelShortname.findIndexOf { it.equals(markerName) }
+                //def dimensionIndex = markerIndex + 1
+                if (i == 0) {
+                  sb.append("\t$dimensionIndex") //DimensionX
+                } else {
+                  //sb.insert((int) (Math.log10(gateId) + 1) + 2, "\t$dimensionIndex") //DimensionY (get number of digits in gateId to find correct offset)
+                  def indexOfDimensionX = sb.indexOf("\t", 2)
+                  sb.insert(indexOfDimensionX, "\t$dimensionIndex") //DimensionY
+                }
 
-              if(dafiMin < 0)
-                dafiMin = 0
+                def channelRange = fcsService.channelRange[markerIndex]
+                def ampValue = fcsService.ampValue[markerIndex]
 
-              sb.append("\t$dafiMin\t$dafiMax") //MinX or MaxY
+                if (child.transformationRefs.size() > 0 && child.transformationRefs[i]) {
+                  def transformation = info.transforms[child.transformationRefs[i]]
+
+                  def max = transformation.transformInternal(channelRange)
+                  def min = transformation.transformInternal(ampValue)
+
+                  //for linear transformation in FCSTrans, the range will be normalized to 0-1023
+                  if (transformation.transformType.equals("flin") && max < 1023)
+                    max = 1023
+
+                  def ratio = 200 / max
+                  def dafiMax = (int) (ratio * (i == 0 ? xMax : yMax))
+                  def dafiMin = (int) (ratio * (i == 0 ? xMin : yMin))
+
+                  if (dafiMin < 0)
+                    dafiMin = 0
+
+                  sb.append("\t$dafiMin\t$dafiMax") //MinX MaxX
+                } else {
+                  def max = channelRange
+                  def min = ampValue
+
+                  //for linear transformation in FCSTrans, the range will be normalized to 0-1023
+                  if (max < 1023)
+                    max = 1023
+
+                  def ratio = 200 / max
+                  def dafiMax = (int) (ratio * (i == 0 ? xMax : yMax))
+                  def dafiMin = (int) (ratio * (i == 0 ? xMin : yMin))
+
+                  if (dafiMin < 0)
+                    dafiMin = 0
+
+                  sb.append("\t$dafiMin\t$dafiMax") //MinY MaxY
+                }
+              }
             }
 
             index++
@@ -291,8 +410,8 @@ class RestUtilsService {
           } else {
             sb.append("\t0")
           }
-          sb.append("\t0") //Cluster_Type
-          sb.append("\t0") //Visualize_or_Not
+          sb.append(isPolygonGate ? "\t2" : "\t0") //Cluster_Type TODO: if polygon then set to 2 (slope value)
+          sb.append(isPolygonGate ? "\t1" : "\t0") //Visualize_or_Not
           sb.append("\t1") //Recluster_or_Not
           sb.append("\t").append(gateName.substring(0, gateName.length() - 1)) //Cell_Phenotype
           sb.append("\n") //End of line
