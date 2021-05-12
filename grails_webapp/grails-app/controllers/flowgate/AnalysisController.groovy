@@ -672,19 +672,18 @@ class AnalysisController {
     def delete(Analysis analysis) {
 
         if (analysis == null) {
-            //transactionStatus.setRollbackOnly()
-            notFound()
+            render (contentType:"text/json") {
+                success false
+                msg "Analysis not found!"
+            }
+
             return
         }
 
         analysis.delete flush:true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'analysis.label', default: 'Analysis'), analysis.id])
-                redirect action:"index", method:"GET", params: [eId: analysis?.experiment?.id]
-            }
-            '*'{ render status: NO_CONTENT }
+        render (contentType:"text/json") {
+            success true
         }
     }
 

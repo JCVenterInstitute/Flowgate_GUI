@@ -5,7 +5,7 @@
 
     <ul id="issues-collection" class="collection collapsible">
       <g:each in="${analysisList}" var="bean" status="i">
-        <li class="collection-item collapsible-item avatar" <g:if test="${bean.analysisStatus == 3 && bean.module.server.isGenePatternServer()}">style="min-height: 125px;"</g:if>>
+        <li id="analysis-${bean.id}"class="collection-item collapsible-item avatar" <g:if test="${bean.analysisStatus == 3 && bean.module.server.isGenePatternServer()}">style="min-height: 125px;"</g:if>>
           <g:if test="${bean.jobNumber.contains(',')}">
             <div class="collapsible-header collection-header">
           </g:if>
@@ -157,9 +157,30 @@
               </g:elseif>
             </div>
           </g:if>
+
+        <g:isOwnerOrRoles object="experiment" objectId="${bean.experiment?.id}" parentObject="project" parentObjectId="${bean.experiment?.project?.id}" roles="ROLE_Administrator,ROLE_Admin">
+          <a href="#delete-analysis-modal" class="tooltipped modal-trigger"
+             style="position: absolute;top: 0;right: 0;" data-position="top"
+             data-tooltip="Delete analysis"
+             data-id="${bean.id}">
+            <i class="material-icons red-text tiny">delete_forever</i>
+          </a>
+        </g:isOwnerOrRoles>
         </li>
       </g:each>
     </ul>
+  </div>
+
+  <div id="delete-analysis-modal" class="modal">
+    <input type="hidden" id="delete-analysis-id" />
+    <div class="modal-content">
+      <h4>Confirm to delete selected analysis?</h4>
+    </div>
+
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
+      <button type="button" class="modal-close waves-effect waves-green btn-flat" id="confirm-analysis-deletion">Confirm</button>
+    </div>
   </div>
 
   <g:if test="${analysisCount > 10}">
@@ -203,7 +224,12 @@
   document.addEventListener('DOMContentLoaded', function () {
     var modalElems = document.querySelectorAll('.modal');
     M.Modal.init(modalElems, {
-      endingTop: '7%'
+      endingTop: '7%',
+      onOpenStart: function (modal, trigger) {
+        if(modal.id === 'delete-analysis-modal') {
+          $("#delete-analysis-id").val(trigger.dataset.id);
+        }
+      }
     });
 
     var tooltipElems = document.querySelectorAll('.tooltipped');
@@ -214,4 +240,30 @@
 
     updatePaginationToMaterial($('#pagination'));
   });
+
+
+
+  $("#confirm-analysis-deletion").click(function () {
+    var analysisId = $("#delete-analysis-id").val();
+    $.ajax({
+      url: "${createLink(controller: 'analysis', action: 'delete')}?id=" + analysisId,
+      type: "DELETE",
+      success: function (data) {
+        if(data.success) {
+          M.toast({
+            html: '<span>Analysis is successfully deleted!</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+            displayLength: Infinity
+          });
+
+            $("#analysis-"+analysisId).remove();
+        } else {
+          M.toast({
+            html: '<span>Deletion failed! - ' + data.msg + '</span><button class="btn-flat btn-small toast-action" onclick="$(this).parent().remove()"><i class="material-icons">close</i></button>',
+            displayLength: Infinity,
+            classes: 'red'
+          });
+        }
+      }
+    });
+  })
 </script>
