@@ -271,8 +271,16 @@ class RestUtilsService {
                 def dafiMax = (int) (ratio * child.maxByDimension)
                 def dafiMin = (int) (ratio * child.minByDimension)
 
-                if (dafiMin < 0)
-                  dafiMin = 0
+                if (dafiMin < 0) {
+                  if (transformation.transformType.equals("flin")) {
+                    while (dafiMin < 0) {
+                      dafiMin += 10
+                      dafiMax += 10
+                    }
+                  } else {
+                    dafiMin = 0
+                  }
+                }
 
                 sb.append("\t$dafiMin\t$dafiMax") //MinX or MaxY
               } else {
@@ -287,38 +295,34 @@ class RestUtilsService {
                 def dafiMax = (int) (ratio * child.maxByDimension)
                 def dafiMin = (int) (ratio * child.minByDimension)
 
-                if (dafiMin < 0)
-                  dafiMin = 0
+                if (dafiMin < 0) {
+                  if (transformation.transformType.equals("flin")) {
+                    while (dafiMin < 0) {
+                      dafiMin += 10
+                      dafiMax += 10
+                    }
+                  } else {
+                    dafiMin = 0
+                  }
+                }
 
                 sb.append("\t$dafiMin\t$dafiMax") //MinX or MaxY
               }
             } else {
               //Calculate points for slope
-              def firstXCoordinate = child.xCoordinates[0]
-              def firstYCoordinate = child.yCoordinates[0]
-
-              def xMin = firstXCoordinate
-              def xMax = firstXCoordinate
-              def yMin = firstYCoordinate
-              def yMax = firstYCoordinate
-              def rMin = firstYCoordinate / firstXCoordinate
-              def rMax = firstYCoordinate / firstXCoordinate
+              def xMin = child.xCoordinates[0]
+              def xMax = child.xCoordinates[0]
+              def yMin = child.yCoordinates[0]
+              def yMax = child.yCoordinates[0]
               for (int i = 1; i < child.xCoordinates.size(); i++) {
-                def xCoordinate = child.xCoordinates[i]
-                def yCoordinate = child.yCoordinates[i]
-
-                def r = yCoordinate / xCoordinate
-
-                if (r > rMax) {
-                  rMax = r
-                  xMax = xCoordinate
-                  yMax = yCoordinate
+                if (child.xCoordinates[i] > xMin) {
+                  xMin = child.xCoordinates[i]
+                  yMin = child.yCoordinates[i]
                 }
 
-                if (r < rMin) {
-                  rMin = r
-                  xMin = xCoordinate
-                  yMin = yCoordinate
+                if (child.yCoordinates[i] > yMax) {
+                  xMax = child.xCoordinates[i]
+                  yMax = child.yCoordinates[i]
                 }
               }
 
@@ -376,8 +380,16 @@ class RestUtilsService {
                   def dafiMax = (int) (ratio * (i == 0 ? xMax : yMax))
                   def dafiMin = (int) (ratio * (i == 0 ? xMin : yMin))
 
-                  if (dafiMin < 0)
-                    dafiMin = 0
+                  if (dafiMin < 0) {
+                    if (transformation.transformType.equals("flin")) {
+                      while (dafiMin < 0) {
+                        dafiMin += 10
+                        dafiMax += 10
+                      }
+                    } else {
+                      dafiMin = 0
+                    }
+                  }
 
                   sb.append("\t$dafiMin\t$dafiMax") //MinX MaxX
                 } else {
@@ -392,8 +404,16 @@ class RestUtilsService {
                   def dafiMax = (int) (ratio * (i == 0 ? xMax : yMax))
                   def dafiMin = (int) (ratio * (i == 0 ? xMin : yMin))
 
-                  if (dafiMin < 0)
-                    dafiMin = 0
+                  if (dafiMin < 0) {
+                    if (transformation.transformType.equals("flin")) {
+                      while (dafiMin < 0) {
+                        dafiMin += 10
+                        dafiMax += 10
+                      }
+                    } else {
+                      dafiMin = 0
+                    }
+                  }
 
                   sb.append("\t$dafiMin\t$dafiMax") //MinY MaxY
                 }
@@ -411,10 +431,10 @@ class RestUtilsService {
             sb.append("\t0")
           }
           sb.append(isPolygonGate ? "\t2" : "\t0") //Cluster_Type TODO: if polygon then set to 2 (slope value)
-          sb.append(isPolygonGate ? "\t1" : "\t0") //Visualize_or_Not
+          sb.append("\t0") //Visualize_or_Not
           sb.append("\t1") //Recluster_or_Not
           sb.append("\t").append(gateName.substring(0, gateName.length() - 1)) //Cell_Phenotype
-          sb.append("\n") //End of line
+          sb.append("\r\n") //End of line
 
           dosInclusion.print(sb.toString())
           gateId++
@@ -426,13 +446,13 @@ class RestUtilsService {
 
         def fosHeader = new FileWriter(headerFilePath)
         def dosHeader = new PrintWriter(fosHeader)
-        dosHeader.print(gateNames.join(","))
+        dosHeader.print(gateNames.join(",") + "\r\n")
         dosHeader.close()
         fosHeader.close()
 
         def fosExclusion = new FileWriter(exclusionFilePath)
         def dosExclusion = new PrintWriter(fosExclusion)
-        dosExclusion.print("1\t0\t0\t0\t0\t0\t0\t0\t0\t0")
+        dosExclusion.print("1\t1\t2\t0\t0\t0\t0\t0\t0\t0\r\n")
         dosExclusion.close()
         fosExclusion.close()
 
