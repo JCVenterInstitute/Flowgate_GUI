@@ -250,7 +250,7 @@ class RestUtilsService {
                 sb.append("\t$dimensionIndex") //DimensionX
               } else {
                 //sb.insert((int) (Math.log10(gateId) + 1) + 2, "\t$dimensionIndex") //DimensionY (get number of digits in gateId to find correct offset)
-                def indexOfDimensionX = sb.indexOf("\t", 2)
+                def indexOfDimensionX = sb.indexOf("\t", gateId < 10 ? 2 : 3)
                 sb.insert(indexOfDimensionX, "\t$dimensionIndex") //DimensionY
               }
 
@@ -355,7 +355,7 @@ class RestUtilsService {
                   sb.append("\t$dimensionIndex") //DimensionX
                 } else {
                   //sb.insert((int) (Math.log10(gateId) + 1) + 2, "\t$dimensionIndex") //DimensionY (get number of digits in gateId to find correct offset)
-                  def indexOfDimensionX = sb.indexOf("\t", 2)
+                  def indexOfDimensionX = sb.indexOf("\t", gateId < 10 ? 2 : 3)
                   sb.insert(indexOfDimensionX, "\t$dimensionIndex") //DimensionY
                 }
 
