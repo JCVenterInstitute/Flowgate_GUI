@@ -3,6 +3,8 @@ package flowgate
 import grails.converters.JSON
 import grails.core.GrailsApplication
 import grails.plugin.springsecurity.annotation.Secured
+import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
 import org.apache.commons.lang3.StringUtils
 
 import static org.springframework.http.HttpStatus.*
@@ -783,21 +785,89 @@ class ExpFileController {
     }
 
     def renderFCSFileInfo(ExpFile expFile) {
-        def fcsFilePath = expFile.filePath + File.separator + expFile.fileName
+        if (expFile.reagentPanel == null) {
+            def fcsFilePath = expFile.filePath + File.separator + expFile.fileName
 
-        def fcsFile = new File(fcsFilePath)
+            def fcsFile = new File(fcsFilePath)
 
-        if (fcsFile.isFile()) {
-            fcsService.readFile(fcsFile, false)
+            if (fcsFile.isFile()) {
+                fcsService.readFile(fcsFile, false)
+
+                def reagentPanel = new ReagentPanel()
+                reagentPanel.reagentPanelName = "${expFile.fileName}-reagentPanel"
+                def channelIds = []
+                def transforms = []
+
+                for (def i = 0; i < fcsService.channelShortname.length; i++) {
+                    def channelShortname = fcsService.channelShortname[i]
+                    def channelName = fcsService.channelName[i]
+                    def channelId = fcsService.settings.find { it.value == channelShortname }?.key
+                    channelId = channelId.substring(1, channelId.length() - 1);
+                    channelIds.add(channelId)
+                    transforms.add("")
+
+                    def reagent = new Reagent()
+                    reagent.dispOrder = i + 1
+                    reagent.channel = channelShortname
+                    reagent.marker = channelName
+                    reagent.alias = channelId
+
+                    reagentPanel.addToReagents(reagent)
+                }
+
+                User user = springSecurityService.currentUser
+                reagentPanel.user = user
+
+                expFile.reagentPanel = reagentPanel
+
+                reagentPanel.validate()
+                if (reagentPanel.hasErrors()) {
+                    log.warn "Failed to save expFile $reagentPanel: $reagentPanel.errors"
+                }
+
+                expFile.save flush: true
+
+                def transformationParameterList = TransformationParameter.findAllByIsPredefined(true)
+
+                render(contentType: "text/json") {
+                    success true
+                    modelContent "${g.render(template: 'fcsFileParamTmpl', model: [id: expFile.id, name: fcsService.sampleName, parameters: fcsService.channelShortname, labels: fcsService.channelName, channelIds: channelIds, transforms: transforms, predefinedList: transformationParameterList])}"
+                }
+            } else {
+                render(contentType: "text/json") {
+                    success false
+                    msg "FCS file does not exist!"
+                }
+            }
+        } else {
+            def reagents = expFile.reagentPanel.reagents
+
+            def channelShortnames = []
+            def channelNames = []
+            def channelIds = []
+            def transforms = []
+            for (def reagent : reagents) {
+                channelShortnames.add(reagent.channel)
+                channelNames.add(reagent.marker)
+                channelIds.add(reagent.alias)
+
+                if(reagent.transformationParameter == null) {
+                    transforms.add(new TransformationParameter())
+                } else {
+                    def jsonObj = "{\"transformName\": ${reagent.transformationParameter.transformName}," +
+                            "\"transformType\": ${reagent.transformationParameter.transformType}," +
+                            "\"parameterValues\": ${reagent.transformationParameter.parameterValues}," +
+                            "\"isPredefined\": ${reagent.transformationParameter.isPredefined}}"
+                    transforms.add(JSON.parse(jsonObj))
+                }
+                //transforms.add(reagent.transformationParameter == null ? new TransformationParameter() : reagent.transformationParameter)
+            }
+
+            def transformationParameterList = TransformationParameter.findAllByIsPredefined(true)
 
             render(contentType: "text/json") {
                 success true
-                modelContent "${g.render(template: 'fcsFileParamTmpl', model: [id: expFile.id, name: fcsService.sampleName, parameters: fcsService.channelShortname, labels: fcsService.channelName])}"
-            }
-        } else {
-            render(contentType: "text/json") {
-                success false
-                msg "FCS file does not exist!"
+                modelContent "${g.render(template: 'fcsFileParamTmpl', model: [id: expFile.id, name: expFile.fileName, parameters: channelShortnames, labels: channelNames, channelIds: channelIds, transforms: transforms, predefinedList: transformationParameterList])}"
             }
         }
     }
@@ -922,6 +992,73 @@ class ExpFileController {
 
             //Generate map file
             def transformation = JSON.parse(params?.transformation);
+            def updateData = params?.updateData;
+
+            if (updateData) {
+                log.info"Updating parameter map data for $expFile.fileName"
+
+                def reagents = expFile.reagentPanel.reagents
+
+                for (def i = 0; i < reagents.size(); i++) {
+                    def reagent = reagents[i]
+                    def parameterName = reagent.channel
+                    def markerName = reagent.marker
+
+                    def transformationData = transformation.find { it -> it.name.equals(parameterName) }
+                    reagent.marker = transformationData.longName
+
+                    def defaultTransform = transformationData.defaultTransform
+                    if (defaultTransform) {
+                        def transformationParameter = reagent.transformationParameter == null ? new TransformationParameter() : reagent.transformationParameter
+
+                        switch (defaultTransform.transformType) {
+                            case "linear":
+                                def a = defaultTransform.a
+                                def t = defaultTransform.t
+                                transformationParameter.parameterValues = "{\"a\":$a,\"t\":$t}"
+                                transformationParameter.isPredefined = false
+                                break;
+                            case "log":
+                                def m = defaultTransform.m
+                                def t = defaultTransform.t
+                                transformationParameter.parameterValues = "{\"m\":$m,\"t\":$t}"
+                                transformationParameter.isPredefined = false
+                                break;
+                            case "logicle":
+                                def a = defaultTransform.a
+                                def t = defaultTransform.t
+                                def m = defaultTransform.m
+                                def w = defaultTransform.w
+                                transformationParameter.parameterValues = "{\"a\":$a,\"t\":$t,\"m\":$m,\"w\":$w}"
+                                transformationParameter.isPredefined = false
+                                break;
+                            case "predefined" :
+                                reagent.transformationParameter = TransformationParameter.findByTransformName(defaultTransform.name)
+                                //Add predefined parameter values to parameter mapping file
+                                def values = new JsonSlurper().parseText(reagent.transformationParameter.parameterValues)
+                                values.each { key, value ->
+                                    transformationData.defaultTransform[key] = value
+                                }
+
+                                break;
+                        }
+
+                        if (!defaultTransform.transformType.equals("predefined")) {
+                            transformationParameter.transformName = "${expFile.fileName}-tp"
+                            transformationParameter.transformType = defaultTransform.transformType
+                            transformationParameter.save flush: true
+                            reagent.transformationParameter = transformationParameter
+                        } else {
+                            defaultTransform.transformType = reagent.transformationParameter.transformType
+                            defaultTransform.remove("name")
+                        }
+
+                        reagent.transformName = defaultTransform.transformType
+                    }
+                }
+
+                expFile.save flush: true
+            }
 
             def builder = new groovy.json.JsonBuilder()
             builder {

@@ -114,10 +114,16 @@
   </div>
 </div>
 
-<div id="fcs-info-modal" class="modal">
+<div id="fcs-info-modal" class="modal" style="width: 75% !important;">
   <div class="modal-content"></div>
 
   <div class="modal-footer">
+    <div class="col s12">
+      <label>
+        <input type="checkbox" class="filled-in" checked="checked" id="updateData">
+        <span>Update default values</span>
+      </label>
+    </div>
     <div id="gate-drawing-error" class="col s4 offset-s8" style="display: none"><span class="red-text">Please fix error(s)!</span></div>
     <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cancel</a>
     <button type="button" class="modal-close waves-effect waves-green btn-flat" id="confirm-gate-drawing">Confirm</button>
@@ -191,7 +197,11 @@
     deleteFileModalInstance = M.Modal.init(modalElem);
 
     var fcsInfoModalElem = document.querySelector('#fcs-info-modal');
-    fcsInfoModalInstance = M.Modal.init(fcsInfoModalElem);
+    fcsInfoModalInstance = M.Modal.init(fcsInfoModalElem, {
+      onOpenEnd: function (modal, trigger) {
+        $("#fcs-info-modal").scrollTop(0);
+      }
+    });
 
     $(".not-collapse").on("click", function(e) { e.stopPropagation(); });
 
@@ -203,9 +213,9 @@
         M.FormSelect.init(membersSelectElems);
       }
     });
-    $('#members-${experiment?.id}').change(function() {
+    $('#members-${experiment?.id}').change(function () {
       const values = $(this).val();
-      if(values) {
+      if (values) {
         values.map(value => $('#owners-${experiment?.id} option[value=' + value + ']')
             .removeAttr('selected'))
 
@@ -279,11 +289,11 @@
         $cells.each(function (cellIndex) {
           if (cellIndex === 0) {
             transformation[index]["visibleForGating"] = $(this).find('input[type="checkbox"]').is(':checked') ? 1 : 0;
-          } else if (cellIndex === 1) {
-            transformation[index]["name"] = $(this).text();
           } else if (cellIndex === 2) {
-            transformation[index]["longName"] = $(this).children('input[type="text"]').val();
+            transformation[index]["name"] = $(this).text();
           } else if (cellIndex === 3) {
+            transformation[index]["longName"] = $(this).children('input[type="text"]').val();
+          } else if (cellIndex === 4) {
             var selectedTransform = $(this).find('input[type=radio]:checked').val();
 
             //No need to add additional data for none
@@ -294,7 +304,11 @@
               transformation[index]["defaultTransform"] = null;
             }
 
-            if (selectedTransform === 'linear') {
+            if (selectedTransform === 'predefined') {
+              var select = $(this).find('select[id$="transform_predefined"]');
+
+              transformation[index]["defaultTransform"]["name"] = select.val();
+            } else if (selectedTransform === 'linear') {
               var linearA = $(this).find('input[type="number"][id$="linear_a"]');
               var linearT = $(this).find('input[type="number"][id$="linear_t"]');
 
@@ -376,7 +390,7 @@
         url: "${createLink(controller: 'expFile', action: 'processGateDrawing')}/" + id,
         dataType: 'json',
         type: "POST",
-        data: {"transformation": JSON.stringify(transformation)},
+        data: {"transformation": JSON.stringify(transformation), "updateData": document.getElementById('updateData').checked},
         success: function (data) {
           if (data.success) {
             window.open(data.url, '_blank');
@@ -410,6 +424,8 @@
   }
 
   function renderFCSFileInfo(id) {
+    $("#updateData").prop("checked", true); //check update data option as default
+
     $.ajax({
       url: "${createLink(controller: 'expFile', action: 'renderFCSFileInfo')}/" + id,
       dataType: 'json',

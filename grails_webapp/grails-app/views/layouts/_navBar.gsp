@@ -14,6 +14,7 @@
         <sec:ifLoggedIn>
           <li id="nav-projects"><a href="${createLink(uri: '/project/list')}">Projects</a></li>
           <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
+            <li id="nav-transformation"><g:link controller="transformation" action="index">Transformation</g:link></li>
             <li id="nav-analysis"><g:link controller="analysisServer" action="index">Analysis Servers</g:link></li>
             <li id="nav-modules"><g:link controller="module" action="index">Modules</g:link></li>
             <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_UsersList">
@@ -34,6 +35,7 @@
   <sec:ifLoggedIn>
     <li id="nav-projects"><a href="${createLink(uri: '/project/list')}">Projects</a></li>
     <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin">
+      <li id="nav-transformation"><g:link controller="transformation" action="index">Transformation</g:link></li>
       <li id="nav-analysis"><g:link controller="analysisServer" action="index">Analysis Servers</g:link></li>
       <li id="nav-modules"><g:link controller="module" action="index">Modules</g:link></li>
       <sec:ifAnyGranted roles="ROLE_Administrator,ROLE_Admin,ROLE_UsersList">
