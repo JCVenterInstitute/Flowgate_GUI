@@ -8,7 +8,7 @@ import grails.transaction.Transactional
 import static org.springframework.http.HttpStatus.*
 
 @Secured(["IS_AUTHENTICATED_FULLY"])
-class TransformationController {
+class TransformationParameterController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", axSelectAllFcs: "GET", axUnselectAllFcs: "GET", d3data: "GET", del: ["DELETE", "GET"]]
 
