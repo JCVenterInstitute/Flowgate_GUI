@@ -1,6 +1,8 @@
 # Flowgate_GUI
 
-mockups, sourcees and docker images for FlowGate’s customized clinical and/or translational research GUI portal
+To realize data-driven reproducible cytometry analysis and accelerate the adoption of computational analysis methods by both translational and clinical researchers, we have developed a web-based computational infrastructure – FlowGate – to improve the accessibility and usability of the cutting-edge data analytical approaches to cytometry data processing and analysis.
+
+Here you can find the source code and docker images for FlowGate’s front-end GUI. Installation instrucutions include:
 
 runing the webapp directly or via docker image
 (terminal commands in italics)
@@ -48,3 +50,10 @@ the app can be closed using the ctrl + c key combination
 to create a docker image:  (you must be located in the grails_webapp folder)
 execute command: 
 _./gradlew assemble buildImage_
+
+Key Developers: Mehmet Kuscuoglu (JCVI), Peter Acs (Stanford), and David Nadeau (UCSD/SDSC)
+
+DAFi algorithm can be found at: https://github.com/JCVenterInstitute/DAFi-gating
+
+Contact: Yu "Max" Qian, Ph.D., mqian@jcvi.org or qianyu.cs@gmail.com, J. Craig Venter Institute
+
