@@ -2,7 +2,7 @@
 
 To realize data-driven reproducible cytometry analysis and accelerate the adoption of computational analysis methods by both translational and clinical researchers, we have developed a web-based computational infrastructure – FlowGate – to improve the accessibility and usability of the cutting-edge data analytical approaches to cytometry data processing and analysis.
 
-In the grails_webapp folder you can find the source code for FlowGate’s front-end GUI. Installation instrucutions include:
+In the grails_webapp folder you can find the source code for FlowGate’s front-end GUI. Installation instrucutions can be found in below. Also the docker images can be found at: https://hub.docker.com/r/jcvifg/flowgate 
 
 runing the webapp directly or via docker image
 (terminal commands in italics)
