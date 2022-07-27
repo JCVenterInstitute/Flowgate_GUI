@@ -2,7 +2,7 @@
 
 To realize data-driven reproducible cytometry analysis and accelerate the adoption of computational analysis methods by both translational and clinical researchers, we have developed a web-based computational infrastructure – FlowGate – to improve the accessibility and usability of the cutting-edge data analytical approaches to cytometry data processing and analysis.
 
-Here you can find the source code and docker images for FlowGate’s front-end GUI. Installation instrucutions include:
+In the grails_webapp folder you can find the source code for FlowGate’s front-end GUI. Installation instrucutions include:
 
 runing the webapp directly or via docker image
 (terminal commands in italics)
@@ -56,4 +56,6 @@ Key Developers: Mehmet Kuscuoglu (JCVI), Peter Acs (Stanford), and David Nadeau 
 DAFi algorithm can be found at: https://github.com/JCVenterInstitute/DAFi-gating
 
 Contact: Yu "Max" Qian, Ph.D., mqian@jcvi.org or qianyu.cs@gmail.com, J. Craig Venter Institute
+
+Funding: NIH/NIAID U01TR001801
 
